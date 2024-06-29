@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue',
+    Helvetica, Arial, 'Lucida Grande', sans-serif;
+}
+
+a:not(.btn):hover {
+  /* text-decoration: underline; */
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .three-line-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    /* Adjust the number of lines */
+  }
+}
+
+.is-pinned {
+  height: auto;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  opacity: 1;
+}

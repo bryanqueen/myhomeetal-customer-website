@@ -1,6 +1,6 @@
 const TopBanner = () => {
   return (
-    <div className='hidden bg-primary py-2 text-center text-sm text-white lg:block'>
+    <div className='hidden bg-primaryBg h-[43px] text-center text-sm text-white lg:flex items-center justify-center font-normal'>
       <p>
         Myhomeetal.com.ng is absolutely your one-stop store for genuine and
         affordable products! -{' '}

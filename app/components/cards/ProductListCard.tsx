@@ -5,44 +5,59 @@ import { Rating } from 'react-simple-star-rating';
 
 import Button from '@components/Button';
 
-const ProductListCard = () => {
+interface Product {
+  _id: string;
+  productTitle: string;
+  price: number;
+  images: string[];
+  reviewsCount: number;
+  rating: number;
+  isProductNew: boolean;
+}
+
+interface ProductCardProps {
+  product: Product;
+}
+
+const ProductListCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <div className='mb-5 flex gap-5 rounded-3xl border p-5 lg:max-w-3xl'>
+    <div className='mb-5 flex items-center gap-5 rounded-3xl border border-[#E4E7EC] p-5 lg:max-w-3xl'>
       <Image
-        className='h-32 w-24 object-cover'
-        src='/images/product/samsung-galaxy.png'
+        className='h-40 w-40 object-contain'
+        src={product.images[0]}
         alt='Product'
         width='200'
         height='200'
       />
-      <div className='w-full'>
-        <div className='mb-3 grid items-center gap-2'>
-          <p>
-            Samsung Galaxy A14 6.6 4GB RAM/64GB ROM Android 13 - Light Green
-          </p>
+      <div className='w-full flex items-center'>
+        <div className='grid w-full h-fit items-center gap-2'>
+          <p className='text-sm font-medium'>{product.productTitle}</p>
           <div className='flex items-center'>
-            <div className='hidden font-medium sm:block'>4.4</div>
+            <p className='hidden text-sm sm:block'>{product.rating || 4.4}</p>
             <Rating
-              initialValue={4.4}
+              initialValue={product.rating}
               readonly={true}
               allowFraction={true}
-              size={20}
+              size={14}
               fillColor=''
-              className='ml-2 text-primary'
+              className='ml-2 mt-[-7px] text-primary'
               SVGclassName='inline'
             />
-            <span className='px-3' />
-            <span className='hidden text-xs sm:block'>100+ Reviews</span>
+            <p className='ml-2 hidden text-xs sm:block'>
+              {product.reviewsCount || 100} Reviews
+            </p>
           </div>
-          <p className='flex items-center gap-5 text-xl sm:text-2xl'>
-            <span className='font-bold'>₦145,600</span>
-            <span className='text-sm text-gray-500 line-through sm:text-lg'>
-              ₦145,600
-            </span>
-          </p>
-        </div>
-        <div className='flex justify-end'>
-          <Button className='w-auto rounded-full px-10'>Buy now</Button>
+          <div className='flex items-center justify-between'>
+            <p className='flex items-center gap-5 sm:text-2xl'>
+              <span className='font-semibold  text-lg'>{product.price}</span>
+              <span className='text-sm text-gray-500 line-through sm:text-lg'>
+                {product.price}
+              </span>
+            </p>
+            
+              <Button className='w-auto rounded-full px-10'>Buy now</Button>
+           
+          </div>
         </div>
       </div>
     </div>

@@ -5,8 +5,8 @@ import Input from './Input';
 
 const Newsletter = () => {
   return (
-    <div className='bg-black py-10'>
-      <div className='relative isolate m-4 overflow-hidden rounded-md bg-red-600 px-4 py-10 text-center text-white md:rounded-2xl'>
+    <div className='bg-black py-10 px-[3%]'>
+      <div className='relative isolate overflow-hidden rounded-md bg-red-600 px-4 py-10 text-center text-white md:rounded-2xl'>
         <div className='absolute inset-0 -z-10 flex items-center justify-center'>
           <Image
             className='w-4/5 max-w-3xl object-cover p-3'
@@ -45,7 +45,7 @@ const Newsletter = () => {
               variant='outline'
               inputClassName='px-5 py-2 rounded-full'
             />
-            <Button className='absolute right-0 top-1/2 -translate-y-1/2 rounded-full px-3 py-2'>
+            <Button className='absolute right-1 top-1/2 -translate-y-1/2 rounded-full px-3 py-2'>
               Subscribe
             </Button>
           </div>

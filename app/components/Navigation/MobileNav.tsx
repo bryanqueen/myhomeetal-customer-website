@@ -29,12 +29,12 @@ const MobileNav = () => {
 
   return (
     <>
-      <div className='block px-3 pb-1 lg:hidden'>
-        <div className='flex items-center justify-between pb-3'>
+      <div className='block pb-1 lg:hidden'>
+        <div className='flex h-[83px] items-center justify-between bg-black px-[3%]'>
           <Link href='/' onClick={() => setActiveNav(null)}>
             <Logo variant={3} />
           </Link>
-          <div className='flex gap-3'>
+          <div className='flex items-center gap-4'>
             <Button
               noPadding
               variant='ghost'
@@ -42,9 +42,13 @@ const MobileNav = () => {
               ariaLabel='My Account'
             >
               <Profile
-                size={30}
+                size={24}
                 variant='Bulk'
-                className={isNavActive('myAccount') ? 'text-primary' : ''}
+                className={
+                  isNavActive('myAccount')
+                    ? 'icon-mobile text-primary'
+                    : 'icon-mobile'
+                }
               />
             </Button>
             <Button
@@ -54,9 +58,13 @@ const MobileNav = () => {
               ariaLabel='Cart'
             >
               <ShoppingCart
-                size={30}
+                size={24}
                 variant='Bulk'
-                className={isNavActive('cart') ? 'text-primary' : ''}
+                className={
+                  isNavActive('cart')
+                    ? 'icon-mobile text-primary'
+                    : 'icon-mobile'
+                }
               />
             </Button>
             <Button
@@ -66,14 +74,20 @@ const MobileNav = () => {
               ariaLabel='Menu'
             >
               <HambergerMenu
-                size={30}
-                className={isNavActive('main') ? 'text-primary' : ''}
+                size={24}
+                className={
+                  isNavActive('main')
+                    ? 'icon-mobile text-primary'
+                    : 'icon-mobile'
+                }
               />
             </Button>
           </div>
         </div>
         <Suspense>
-          <SearchForm />
+          <div className='bg-white px-[3%] py-4'>
+            <SearchForm />
+          </div>
         </Suspense>
       </div>
 

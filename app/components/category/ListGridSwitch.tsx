@@ -60,7 +60,7 @@ const GridIcon = ({ isActive }: { isActive?: boolean }) => {
   const color = isActive ? 'black' : 'lightgray';
 
   return (
-    <svg width='25' height='25' viewBox='0 0 25 25' fill='none'>
+    <svg width='20' height='25' viewBox='0 0 25 25' fill='none'>
       <rect width='10' height='10' fill={color} />
       <rect x='15' width='10' height='10' fill={color} />
       <rect y='15' width='10' height='10' fill={color} />
@@ -74,7 +74,7 @@ const ListIcon = ({ isActive }: { isActive?: boolean }) => {
 
   return (
     <svg
-      width='26'
+      width='20'
       height='24'
       viewBox='0 0 26 24'
       fill='none'

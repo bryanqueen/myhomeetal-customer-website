@@ -21,7 +21,7 @@ a:not(.btn):hover {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     /* Adjust the number of lines */
   }
 }
@@ -30,4 +30,11 @@ a:not(.btn):hover {
   height: auto;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   opacity: 1;
+}
+
+@media (max-width: 768px) {
+  /* For mobile screens */
+  .icon-mobile {
+    color: white; /* Example mobile color */
+  }
 }

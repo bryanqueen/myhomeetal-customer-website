@@ -1,8 +1,22 @@
-const contents = [
+import Link from 'next/link';
+import React from 'react';
+import {
+  FaFacebook,
+  FaInstagram,
+  FaXTwitter,
+  FaYoutube,
+} from 'react-icons/fa6';
+import Logo from './Logo';
+
+interface Content {
+  title: string;
+  items: string[];
+}
+
+const contents: Content[] = [
   {
-    title: 'Information',
+    title: 'INFORMATION',
     items: [
-      'Information',
       'About Us',
       'About Zip',
       'Privacy Policy',
@@ -15,25 +29,26 @@ const contents = [
     ],
   },
   {
-    title: 'Information',
+    title: 'HELP & LINKS',
     items: [
-      'Information',
-      'About Us',
-      'About Zip',
-      'Privacy Policy',
-      'Search',
-      'Terms',
-      'Orders and Returns',
+      'Chat with us',
+      'Help Center',
       'Contact Us',
-      'Advanced Search',
-      'Newsletter Subscription',
+      'Service Center',
+      'How to shop on Myhomeetal?',
+      'Delivery options and timelines',
+      'How to return a product on Myhomeetal?',
+      'Corporate and bulk purchases',
+      'Report a Product',
+      'Dispute Resolution Policy',
+      'Returns & Refund Timeline',
+      'Return Policy',
     ],
   },
   {
-    title: 'PC Parts',
+    title: 'PC PARTS',
     items: [
-      'PC Parts',
-      'CPUS',
+      'CPUs',
       'Add On Cards',
       'Hard Drives (Internal)',
       'Graphic Cards',
@@ -46,34 +61,9 @@ const contents = [
     ],
   },
   {
-    title: 'Desktop PCs',
+    title: 'PC PARTS',
     items: [
-      'Desktop PCs',
-      'Custom PCs',
-      'Servers',
-      'MSI All-In-One PCs',
-      'HP/Compaq PCs',
-      'ASUS PCs',
-      'Tecs PCs',
-    ],
-  },
-  {
-    title: 'Laptops',
-    items: [
-      'Laptops',
-      'Evryday Use Notebooks',
-      'MSI Workstation Series',
-      'MSI Prestige Series',
-      'Tablets and Pads',
-      'Netbooks',
-      'Infinity Gaming Notebooks',
-    ],
-  },
-  {
-    title: 'Laptops',
-    items: [
-      'Laptops',
-      'Evryday Use Notebooks',
+      'Everyday Use Notebooks',
       'MSI Workstation Series',
       'MSI Prestige Series',
       'Tablets and Pads',
@@ -83,21 +73,69 @@ const contents = [
   },
 ];
 
-const MainFooter = () => {
+const MainFooter: React.FC = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <div className='bg-black p-3'>
-      <footer className='flex flex-wrap bg-white py-10 md:justify-center md:gap-4 md:py-16'>
-        {contents.map((content, index) => (
-          <div key={index} className='p-4'>
-            <p className='mb-8 font-medium text-gray-500'>{content.title}</p>
+    <div className='bg-white'>     
+      <footer className='flex flex-wrap justify-center py-10 pt-16 px-[3%]'>
+      <div className='basis-[10%]'>
+      <Link href='/'>
+          <Logo variant={3} />
+        </Link>
+      </div>
+      <div className='flex flex-wrap'>
+      {contents.map((content, index) => (
+          <div key={index} className='w-1/2 px-4 md:w-1/5'>
+            <p className='mb-4 font-bold text-black/50 text-sm'>{content.title}</p>
             <ul>
-              {content.items.map((item, index) => (
-                <li key={index}>{item}</li>
+              {content.items.map((item, itemIndex) => (
+                <li key={itemIndex} className='mb-2 text-black text-[13px]'>
+                  {item}
+                </li>
               ))}
             </ul>
           </div>
         ))}
+      </div>
+        
       </footer>
+      <div className='px-[3%] pb-5'>
+        <p className='text-black/50 text-sm font-bold mb-3'>JOIN US</p>
+        <div className='flex space-x-4'>
+          <a href='#' aria-label='Facebook'>
+            <FaFacebook />
+          </a>
+          <a href='#' aria-label='Instagram'>
+            <FaInstagram />
+          </a>
+          <a href='#' aria-label='YouTube'>
+            <FaYoutube />
+          </a>
+          <a href='#' aria-label='X'>
+            <FaXTwitter />
+          </a>
+        </div>
+      </div>
+
+      <div className='px-[3%] py-4'>
+        <div className='flex items-center justify-between'>
+          <div className='text-xs'>
+            &copy; {currentYear} - MyHomeetal | All Rights Reserved
+          </div>
+          <div className='flex space-x-4'>
+            <Link href='#' className='text-xs'>
+              Privacy Policy
+            </Link>
+            <Link href='#' className='text-xs'>
+              Term Of Use
+            </Link>
+            <Link href='#' className='text-xs'>
+              Cookie Settings
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

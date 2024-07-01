@@ -42,7 +42,7 @@ const AdBanner = () => {
           ))}
         </Carousel>
       </div>
-      <div className='py-4 lg:hidden'>
+      <div className='pt-10 lg:hidden'>
         <Carousel
           responsive={responsive}
           infinite={true}

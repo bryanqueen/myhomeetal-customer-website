@@ -46,8 +46,8 @@ const DesktopNav = () => {
     
   },[])
   return (
-    <div className='m-0 hidden items-center justify-between rounded-[6px] bg-white p-1 px-5 text-sm lg:flex'>
-      <div className='flex items-center gap-5 font-medium'>
+    <div className='my-3 hidden items-center justify-between rounded-[6px] bg-white h-[83px] px-[3%] text-sm lg:flex'>
+      <div className='flex items-center gap-5'>
         <Link href='/'>
           <Logo variant={3} />
         </Link>
@@ -60,8 +60,8 @@ const DesktopNav = () => {
           }))}
           contentClassName='grid list-none gap-x-3 sm:grid-cols-[1fr_1fr_1fr] w-[50vw]'
         />
-        <Link href=''>Shop</Link>
-        <Link href=''>Deals</Link>
+        <Link href='' className='text-myGray font-semibold'>Shop</Link>
+        <Link href='' className='text-myGray font-semibold'>Deals</Link>
       </div>
 
       <div className='w-[25rem] xl:w-[30rem]'>
@@ -75,7 +75,7 @@ const DesktopNav = () => {
           id='account-dropdown'
           target={
             <>
-              <Profile size={20} variant='Bulk' />
+              <Profile size={20} variant='Bulk' color='#464646' />
               <ClientOnly>
                 {authUtils.checkAuthClient() ? 'Hi, User' : 'My Account'}
               </ClientOnly>
@@ -112,7 +112,7 @@ const DesktopNav = () => {
             </>
           )}
         </NavDropdown>
-        <Link href='' className='flex gap-1'>
+        <Link href='' className='flex gap-1 font-semibold text-myGray'>
           <Image
             src='/icons/help-circle.svg'
             alt='Help'
@@ -125,7 +125,7 @@ const DesktopNav = () => {
           id='cart-dropdown'
           target={
             <>
-              <ShoppingCart size={20} variant='Bulk' />
+              <ShoppingCart size={20} variant='Bulk' color='#464646' />
               Cart
             </>
           }

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const images = [
-  '/images/long-ad-banner.svg',
+  '/images/ad-banner.svg',
   '/images/ad-banner-2.svg',
   '/images/ad-banner-3.svg',
 ];
@@ -28,7 +28,7 @@ const AdBanner2 = () => {
   }, []);
 
   return (
-    <div className='relative mx-4 my-5 mt-8 h-40 overflow-hidden rounded-2xl px-5 md:h-72'>
+    <div className='relative mx-[3%] my-5 mt-8 h-40 overflow-hidden rounded-2xl md:h-72'>
       {images.map((src, index) => (
         <Image
           key={index}
@@ -36,8 +36,8 @@ const AdBanner2 = () => {
           style={{ zIndex: currentSlide === index ? 1 : 0 }}
           src={src}
           alt={`Advert ${currentSlide + 1}`}
-          width='1000'
-          height='200'
+          width={1500}
+          height={500}
         />
       ))}
       <div className='absolute bottom-0 right-0 z-10 flex space-x-2 p-4'>

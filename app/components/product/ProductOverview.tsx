@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft } from 'iconsax-react';
+import { ArrowLeft, ShoppingCart } from 'iconsax-react';
 import Link from 'next/link';
 import { Rating } from 'react-simple-star-rating';
 import * as Radio from '@radix-ui/react-radio-group';
@@ -14,85 +14,60 @@ import AddToCartButton from '@components/cart/AddToCartButton';
 
 const ProductOverview = ({ data }: any) => {
   return (
-    <div className='lg:px-5'>
-      <div className='mb-5 hidden items-center lg:flex'>
+    <div className='lg:px-[3%]'>
+      <div className='mb-5 hidden items-center gap-5 lg:flex'>
         <Button variant='ghost'>
-          <ArrowLeft className='pr-2' />
+          <ArrowLeft className='pr-1 ' />
           Back
         </Button>
         <ul className='flex items-center gap-2'>
           {['Home', 'Wearables', 'Sneakers', 'Adidas'].map((item, i, items) => (
             <li key={i} className='flex items-center gap-2'>
-              <Link href='/'>{item} </Link>
+              <Link href='/' className='text-sm text-myGray'>
+                {item}{' '}
+              </Link>
               {i < items.length - 1 && (
-                <span className='inline-block h-1 w-1 rounded-full bg-gray-300 p-[0.2rem]'></span>
+                <span className='inline-block h-1 w-1 rounded-full bg-[#d9d9d9] p-[0.2rem]'></span>
               )}
             </li>
           ))}
         </ul>
       </div>
       <div className='grid lg:grid-cols-2 lg:gap-5 2xl:px-20'>
-        <div className='w-full overflow-hidden'>
+        <div className='w-full overflow-hidden pl-10'>
           <ProductCarousel />
           <ProductGallery />
         </div>
         <div className='p-5 '>
-          <div className='hidden lg:block'>
+          <div className='hidden text-sm lg:block'>
             Brand:{' '}
-            <span className='inline-block rounded-full bg-primary/20 px-10 py-2'>
-              Samsung
+            <span className='text-sm font-semibold text-[#ED2224]'>
+              {data.brand}
             </span>
           </div>
-          <p className='hidden py-5 text-3xl font-bold lg:block'>
-            {data.title}
+          <p className='hidden pt-4 text-xl font-bold lg:block'>
+            {data.productTitle}
           </p>
-          <div className='flex items-center pb-5'>
-            <div>Ratings {data.rating.rate}</div>
+          <div className='flex items-center pt-3'>
+            <p className='text-sm'>Ratings {data.rating?.rate || 4.4}</p>
             <Rating
-              initialValue={data.rating.rate}
+              initialValue={data.rating?.rate}
               readonly={true}
               allowFraction={true}
-              size={20}
+              size={15}
               fillColor=''
-              className='ml-2 text-primary'
+              className='ml-2 mt-[-7px] text-primary'
               SVGclassName='inline'
             />
             <span className='px-3' />
-            <span>{data.rating.count} Reviews</span>
+            <span className='text-sm'>{data.rating?.count || 100} Reviews</span>
           </div>
-          <p className='pb-5 text-xl lg:hidden'>{data.title}</p>
-          <p className='hidden lg:block'>{data.description}</p>
-          <Radio.Root className='flex gap-1 py-3' defaultValue='black'>
-            <ColorRadioItem id='color1' value='black' />
-            <ColorRadioItem id='color2' value='yellow' color='yellow' />
-            <ColorRadioItem id='color3' value='green' color='green' />
-          </Radio.Root>
-          <div className='flex justify-between pb-5'>
-            <p className='lg:hidden'>Price: ${data.price} </p>
-            <p className='hidden items-center gap-5 pb-7 pt-10 text-5xl lg:flex'>
-              <span className='font-bold'>${data.price}</span>
-              <span className='text-2xl text-gray-500 line-through'>
-                ₦145,600
-              </span>
-            </p>
-            <div className='lg:hidden'>
-              <QuantityInput variant='2' />
-            </div>
-          </div>
-          <div className='grid-cols-[100px_1fr] gap-3 lg:grid'>
-            <div className='hidden lg:block'>
-              <span>Quantity</span>
-              <QuantityInput />
-            </div>
-            <div>
-              <AddToCartButton item={data} />
-              <Button
-                variant='ghost'
-                className='hidden w-full rounded-full p-5 text-primary lg:block'
-              >
-                Save item
-              </Button>
-            </div>
+          <p className='pt-3 text-4xl font-semibold'>₦{data.price}</p>
+          <div>
+            <button className='bg-primary w-full flex items-center py-3 rounded-full'>
+              <ShoppingCart size={24} variant='Bulk' color='white' />
+              <div>Add to Cart</div>
+            </button>
           </div>
         </div>
       </div>

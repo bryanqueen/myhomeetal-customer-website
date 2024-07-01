@@ -9,11 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        primaryBg: '#C70E10',
         primary: '#ED2224',
         error: '#B22222',
         warning: '#FFA500',
         success: '#228B22',
         info: '#1E90FF',
+        myGray: '#292929',
       },
       keyframes: {
         enterFromRight: {

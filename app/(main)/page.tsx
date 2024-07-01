@@ -41,7 +41,7 @@ export default function Home() {
     return <div>Loading...</div>;
   }
   return (
-    <main className=''>
+    <main>
       <CategoryList />
       <AdBanner />
       <div className='md:my-5 lg:mx-5'>

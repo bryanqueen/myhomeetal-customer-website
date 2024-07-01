@@ -38,9 +38,9 @@ export default function SearchPage({ searchParams }: PageProps) {
           </div>
         </div>
         <div>
-          {[0, 0, 0, 0, 0].map((item, i) => (
-            <ProductListCard key={i} />
-          ))}
+          {/*[0, 0, 0, 0, 0].map((item, i) => (
+            //<ProductListCard key={i} />
+          ))*/}
           <div className='flex justify-center py-3 lg:max-w-3xl'>
             <SearchPagination />
           </div>

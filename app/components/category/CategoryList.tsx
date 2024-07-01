@@ -1,12 +1,13 @@
-'use client'
+'use client';
 
 import Marquee from 'react-fast-marquee';
 import Link from 'next/link';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import productService from '@/app/services/productService';
 
 interface Category {
-  name: string
+  name: string;
+  _id: string;
 }
 
 const CategoryList = () => {
@@ -17,22 +18,30 @@ const CategoryList = () => {
       try {
         const response = await productService.getProductCategories();
         const data: Category[] = response.data;
-        setCategories(data)
+        setCategories(data);
       } catch (error) {
         console.error('Failed to fetch categories', error);
       }
-    }
+    };
 
-    fetchCategories()
-  },[])
+    fetchCategories();
+  }, []);
   return (
-    <div className='hidden items-center px-8 md:flex'>
-      <p className='border-r border-gray-100 pr-1 font-medium'>Categories:</p>
+    <div className='hidden items-center px-[3%] pb-5 md:flex'>
+      <p className='pr-2 text-sm font-semibold'>Categories:</p>
       <ul className='flex overflow-hidden'>
         <Marquee pauseOnHover={true} autoFill={true}>
-          {categories.map((category, i) => (
-            <li key={i} className='shrink-0 p-3 text-gray-800'>
-              <Link href=''>{category.name}</Link>
+          {categories.map((category) => (
+            <li
+              key={category._id}
+              className='shrink-0 p-3 text-sm font-light text-myGray'
+            >
+              <Link
+                href={`/category/${category.name}?categoryId=${category._id}`}
+                key={category._id}
+              >
+                {category.name}
+              </Link>
             </li>
           ))}
         </Marquee>

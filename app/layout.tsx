@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from 'react-hot-toast';
 
 import { UIProvider } from './providers';
+import { nunito } from './components/font';
 
 export const metadata: Metadata = {
   title: 'MYHOMEETAL - Your one stop shop',
@@ -17,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body>
+      <body className={`${nunito.className} antialiased`}>
         <UIProvider>{children}</UIProvider>
         <Toaster />
       </body>

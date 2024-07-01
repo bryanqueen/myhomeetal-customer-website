@@ -23,49 +23,49 @@ interface Props {
 }
 
 const ProductCard = ({ variant = 'default', product }: Props) => {
-  const cls = cn('mx-auto grid max-w-[230px] gap-5', {
-    'md:max-w-lg lg:font-medium': variant === 'top',
+  const cls = cn('mx-auto grid w-full gap-3 py-4 px-2 md:p-3', {
+    'md:w-full lg:font-medium': variant === 'top',
   });
 
   const href = `/item/${product._id}`;
 
   return (
     <div className={cls}>
-      <div className='relative'>
+      <div className='relative flex h-[130px] items-center justify-center'>
         <Link
           href={href}
           className='overflow-hidden rounded-3xl transition-[shadow] hover:shadow'
         >
           <Image
-            className={`${variant === 'top' ? 'w-full' : ''}`}
+            className={`${variant === 'top' ? '' : 'h-[120px] w-[150px] object-contain'}`}
             src={product.images[0]}
             alt='Product Card'
             width={200}
             height={200}
           />
         </Link>
-       {product.isProductNew === true && <NewProductTag />}
+        {product.isProductNew === true && <NewProductTag />}
       </div>
       <div>
-        <div className='mb-2 flex items-center justify-between'>
+        <div className='mb-1 flex items-center justify-between'>
           <Rating
             initialValue={5}
             readonly
             fillColor=''
-            className='text-primary'
+            className='text-primary mt-[-6px]'
             SVGclassName='inline'
-            size={16}
+            size={13}
             allowFraction
           />
-          <span className='font-normal text-xs'>100+ Reviews</span>
+
+          <p className='h-fit w-fit text-xs font-normal'>100+ Reviews</p>
         </div>
-        <p className='three-line-clamp text-lg font-medium'>
-          <Link href={href}>
+        <div className=' mb-2 min-h-[25px] font-medium'>
+          <Link href={href} className='three-line-clamp text-sm'>
             {product.productTitle}
           </Link>
-        </p>
-        <p className='py-2 text-xl font-semibold'>#{product.price}</p>
-        {/* <p className='text-gray-500 line-through'>$499.00</p> */}
+        </div>
+        <p className='text-base font-semibold'>#{product.price}</p>
       </div>
       {variant === 'top' && (
         <Button
@@ -82,13 +82,11 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
 };
 
 const NewProductTag = () => {
-return  (
-      <span className='text-normal absolute right-0 top-5 select-none rounded-full bg-[rgb(255,197,198)] px-3 py-1 text-sm text-[rgba(136,20,21,1)]'>
-        New Product
-      </span>
-
-  )
- }
-
+  return (
+    <span className='text-normal absolute right-0 top-5 select-none rounded-full bg-[rgb(255,197,198)] px-3 py-1 text-sm text-[rgba(136,20,21,1)]'>
+      New Product
+    </span>
+  );
+};
 
 export default ProductCard;

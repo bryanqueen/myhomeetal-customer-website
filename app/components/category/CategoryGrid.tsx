@@ -1,10 +1,9 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ProductCard from '@components/cards/ProductCard';
 import productService from '@/app/services/productService';
-
 
 interface Props {
   title: string;
@@ -38,7 +37,7 @@ const Category = ({ title, color = 'bg-primary', id }: Props) => {
         const response = await productService.getProductsByCategory(id);
         console.log('API Response:', response);
         const data: Product[] = response.data.slice(0, 6); // Get only the first 6 products
-        
+
         setProducts(data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
@@ -54,15 +53,21 @@ const Category = ({ title, color = 'bg-primary', id }: Props) => {
     return <div>Loading...</div>;
   }
   return (
-    <div className='p-4 md:my-10 md:p-5'>
+    <div className='px-2 my-10 md:my-20 md:px-[2%]'>
       <div
-        className={`col-span-full mb-2 flex items-center justify-between px-5 py-4 text-white ${color}`}
+        className={`col-span-full mb-2 flex h-[45px] items-center justify-between px-3 text-white ${color}`}
       >
-        <h2 className='font-medium md:text-xl'>{title}</h2>
-        <Link href={`/category/${id}`}>See All</Link>
+        <h2 className='font-medium text-sm md:text-base'>{title}</h2>
+        <Link
+          href={`/category/${title}?categoryId=${id}`}
+          key={id}
+          className='font-light text-xs md:font-medium md:text-base'
+        >
+          See All
+        </Link>
       </div>
       <div
-        className={`grid grid-cols-2 justify-center gap-4 md:grid-cols-4 lg:grid-cols-6 lg:p-5`}
+        className={`grid pt-5 grid-cols-2 justify-center gap-2 md:grid-cols-4 lg:grid-cols-6`}
       >
         {products.map((product) => (
           <ProductCard key={product._id} product={product} />

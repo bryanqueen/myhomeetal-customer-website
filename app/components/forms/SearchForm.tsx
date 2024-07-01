@@ -55,7 +55,7 @@ const SearchForm = () => {
           type='text'
           placeholder='What can we help you find?'
           variant='outline'
-          inputClassName='rounded-full px-5 md:py-3'
+          inputClassName='rounded-full border-[#BDBDBD] py-3 placeholder:text-[#BDBDBD] placeholder:text-sm px-5'
           // onFocus={() => setDropdown(true)}
           // onBlur={() => setDropdown(false)}
           onFocus={() => handleDropdownToggle(id, true)}
@@ -72,7 +72,7 @@ const SearchForm = () => {
             className=''
             src='/icons/search.svg'
             alt='Search'
-            width={20}
+            width={18}
             height={20}
           />
         </Button>

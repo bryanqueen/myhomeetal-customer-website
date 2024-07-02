@@ -23,7 +23,7 @@ interface Props {
 }
 
 const ProductCard = ({ variant = 'default', product }: Props) => {
-  const cls = cn('mx-auto grid w-full gap-3 py-4 px-2 md:p-3', {
+  const cls = cn('mx-auto grid w-full gap-3 ', {
     'md:w-full lg:font-medium': variant === 'top',
   });
 
@@ -31,11 +31,11 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
 
   return (
     <div className={cls}>
-      <div className='relative flex h-[130px] items-center justify-center'>
-        <Link
-          href={href}
-          className='overflow-hidden rounded-3xl transition-[shadow] hover:shadow'
-        >
+      <Link
+        href={href}
+        className='overflow-hidden px-2 py-4 md:p-3 rounded-3xl transition-[shadow] hover:shadow hover:scale-105'
+      >
+        <div className='relative mb-3 flex h-[130px] items-center justify-center'>
           <Image
             className={`${variant === 'top' ? '' : 'h-[120px] w-[150px] object-contain'}`}
             src={product.images[0]}
@@ -43,30 +43,31 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
             width={200}
             height={200}
           />
-        </Link>
-        {product.isProductNew === true && <NewProductTag />}
-      </div>
-      <div>
-        <div className='mb-1 flex items-center justify-between'>
-          <Rating
-            initialValue={5}
-            readonly
-            fillColor=''
-            className='text-primary mt-[-6px]'
-            SVGclassName='inline'
-            size={13}
-            allowFraction
-          />
 
-          <p className='h-fit w-fit text-xs font-normal'>100+ Reviews</p>
+          {product.isProductNew === true && <NewProductTag />}
         </div>
-        <div className=' mb-2 min-h-[25px] font-medium'>
-          <Link href={href} className='three-line-clamp text-sm'>
-            {product.productTitle}
-          </Link>
+        <div>
+          <div className='mb-1 flex items-center justify-between'>
+            <Rating
+              initialValue={5}
+              readonly
+              fillColor=''
+              className='mt-[-6px] text-primary'
+              SVGclassName='inline'
+              size={13}
+              allowFraction
+            />
+
+            <p className='h-fit w-fit text-xs font-normal'>100+ Reviews</p>
+          </div>
+          <div className=' mb-2 min-h-[25px] font-medium'>
+            <Link href={href} className='three-line-clamp text-sm'>
+              {product.productTitle}
+            </Link>
+          </div>
+          <p className='text-base font-semibold'>#{product.price}</p>
         </div>
-        <p className='text-base font-semibold'>#{product.price}</p>
-      </div>
+      </Link>
       {variant === 'top' && (
         <Button
           linkType='rel'

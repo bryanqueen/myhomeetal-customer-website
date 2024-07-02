@@ -32,18 +32,18 @@ const ProductHeader = ({ data }: any) => {
       className={`pointer-events-none sticky -top-1 z-[200] hidden opacity-0 transition-[opacity] lg:block`}
     >
       <div
-        className={`flex items-center justify-between overflow-hidden bg-white px-5 pb-3 pt-20  ${isStuck ? 'pointer-events-auto' : 'pointer-events-none'}`}
+        className={`flex items-center justify-between overflow-hidden bg-white px-5 pb-3 pt-24  ${isStuck ? 'pointer-events-auto' : 'pointer-events-none'}`}
       >
         <div className='flex items-center gap-4'>
-          <Image src={data.image} width={45} height={45} alt='' />
-          <p className='font-bold'>{data.title}</p>
+          <Image src={data.images[0]} width={45} height={45} alt='' />
+          <p className='font-bold'>{data.productTitle}</p>
         </div>
         <div className='flex gap-5'>
           <div className='flex items-center gap-2'>
             Quantity
             <QuantityInput />
           </div>
-          <AddToCartButton item={data} />
+          <AddToCartButton itemId={data} />
         </div>
       </div>
     </div>

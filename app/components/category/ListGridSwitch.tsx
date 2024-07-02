@@ -19,9 +19,9 @@ const ListGridSwitch = () => {
         'grid grid-cols-2 gap-5 lg:max-w-5xl xl:grid-cols-3': !isList.value,
       })}
     >
-      {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((_, i) =>
+      {/*[0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((_, i) =>
         isList.value ? <ProductListCard key={i} /> : <ProductGridCard key={i} />
-      )}
+      )*/}
     </div>
   );
 };

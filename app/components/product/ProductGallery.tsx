@@ -6,29 +6,11 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 import Button from '../Button';
 
-const ProductGallery = () => {
-  const images: ReactImageGalleryItem[] = [
-    {
-      original: '/images/product/samsung-galaxy.png',
-      thumbnail: '/images/product/samsung-galaxy.png',
-    },
-    {
-      original: '/images/product/samsung-galaxy.png',
-      thumbnail: '/images/product/samsung-galaxy.png',
-    },
-    {
-      original: '/images/product/samsung-galaxy.png',
-      thumbnail: '/images/product/samsung-galaxy.png',
-    },
-    {
-      original: '/images/product/samsung-galaxy.png',
-      thumbnail: '/images/product/samsung-galaxy.png',
-    },
-    {
-      original: '/images/product/samsung-galaxy.png',
-      thumbnail: '/images/product/samsung-galaxy.png',
-    },
-  ];
+const ProductGallery = ({ images }: { images: string[] }) => {
+  const galleryImages: ReactImageGalleryItem[] = images.map((image) => ({
+    original: image,
+    thumbnail: image,
+  }));
 
   const renderLeftNav = (onClick: any, disabled: boolean) => (
     <Button
@@ -39,6 +21,7 @@ const ProductGallery = () => {
       <FaChevronLeft />
     </Button>
   );
+
   const renderRightNav = (onClick: any, disabled: boolean) => (
     <Button
       onClick={onClick}
@@ -50,9 +33,9 @@ const ProductGallery = () => {
   );
 
   return (
-    <div className='hidden pr-1 lg:block'>
+    <div className='hidden pr-1 lg:block w-[450px]'>
       <ImageGallery
-        items={images}
+        items={galleryImages}
         thumbnailPosition='left'
         showPlayButton={false}
         showFullscreenButton={false}

@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft, ShoppingCart } from 'iconsax-react';
+import { ArrowLeft, HeartAdd, ShoppingCart } from 'iconsax-react';
 import Link from 'next/link';
 import { Rating } from 'react-simple-star-rating';
 import * as Radio from '@radix-ui/react-radio-group';
@@ -33,41 +33,50 @@ const ProductOverview = ({ data }: any) => {
           ))}
         </ul>
       </div>
-      <div className='grid lg:grid-cols-2 lg:gap-5 2xl:px-20'>
+      <div className='grid lg:grid-cols-2 lg:gap-5 2xl:px-20 mt-16 pl-10'>
         <div className='w-full overflow-hidden pl-10'>
-          <ProductCarousel />
-          <ProductGallery />
+          <ProductCarousel data={data} />
+          <ProductGallery images={data.images} />
         </div>
-        <div className='p-5 '>
-          <div className='hidden text-sm lg:block'>
-            Brand:{' '}
-            <span className='text-sm font-semibold text-[#ED2224]'>
-              {data.brand}
-            </span>
-          </div>
-          <p className='hidden pt-4 text-xl font-bold lg:block'>
-            {data.productTitle}
-          </p>
-          <div className='flex items-center pt-3'>
-            <p className='text-sm'>Ratings {data.rating?.rate || 4.4}</p>
-            <Rating
-              initialValue={data.rating?.rate}
-              readonly={true}
-              allowFraction={true}
-              size={15}
-              fillColor=''
-              className='ml-2 mt-[-7px] text-primary'
-              SVGclassName='inline'
-            />
-            <span className='px-3' />
-            <span className='text-sm'>{data.rating?.count || 100} Reviews</span>
-          </div>
-          <p className='pt-3 text-4xl font-semibold'>₦{data.price}</p>
-          <div>
-            <button className='bg-primary w-full flex items-center py-3 rounded-full'>
-              <ShoppingCart size={24} variant='Bulk' color='white' />
-              <div>Add to Cart</div>
-            </button>
+        <div className='p-5 pr-16 flex items-center justify-center'>
+          <div className='w-full h-fit'>
+            <div className='hidden text-sm lg:block'>
+              Brand:{' '}
+              <span className='text-sm font-semibold text-[#ED2224]'>
+                {data.brand}
+              </span>
+            </div>
+            <p className='hidden pt-4 text-xl font-bold lg:block'>
+              {data.productTitle}
+            </p>
+            <div className='flex items-center pt-3'>
+              <p className='text-sm'>Ratings {data.rating?.rate || 4.4}</p>
+              <Rating
+                initialValue={data.rating?.rate}
+                readonly={true}
+                allowFraction={true}
+                size={15}
+                fillColor=''
+                className='ml-2 mt-[-7px] text-primary'
+                SVGclassName='inline'
+              />
+              <span className='px-3' />
+              <span className='text-sm'>
+                {data.rating?.count || 100} Reviews
+              </span>
+            </div>
+            <p className='pt-3 text-4xl font-semibold'>₦{data.price}</p>
+            <div className='mt-10 flex items-center gap-5 w-full'>
+              <button className='flex h-[60px] w-full items-center rounded-full bg-primary px-10'>
+                <ShoppingCart size={24} variant='Bulk' color='white' />
+                <div className='flex-grow text-center font-semibold text-white'>
+                  Add to Cart
+                </div>
+              </button>
+              <div className='flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'>
+                <HeartAdd size='24' color='#ffffff' variant='Bulk' />
+              </div>
+            </div>
           </div>
         </div>
       </div>

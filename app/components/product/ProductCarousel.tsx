@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
-const ProductCarousel = () => {
+const ProductCarousel = ({ data }: any) => {
   const responsive = {
     md: {
       breakpoint: { max: 3000, min: 768 },
@@ -26,33 +26,17 @@ const ProductCarousel = () => {
   return (
     <div className='my-5 lg:hidden'>
       <Carousel responsive={responsive} partialVisbile>
-        <div className='px-2'>
-          <Image
-            className='w-full rounded-3xl border border-gray-300 object-cover'
-            src='/images/product/samsung-galaxy.png'
-            alt='Product'
-            width={200}
-            height={400}
-          />
-        </div>
-        <div className='px-2'>
-          <Image
-            className='w-full rounded-3xl border border-gray-300 object-cover'
-            src='/images/product/samsung-galaxy.png'
-            alt='Product'
-            width={200}
-            height={400}
-          />
-        </div>
-        <div className='px-2'>
-          <Image
-            className='w-full rounded-3xl border border-gray-300 object-cover'
-            src='/images/product/samsung-galaxy.png'
-            alt='Product'
-            width={200}
-            height={400}
-          />
-        </div>
+      {data.images?.map((image: string, index: number) => (
+          <div key={index} className='px-2'>
+            <Image
+              className='w-full rounded-3xl border border-gray-300 object-cover'
+              src={image}
+              alt={`Product Image ${index + 1}`}
+              width={200}
+              height={400}
+            />
+          </div>
+        ))}
       </Carousel>
     </div>
   );

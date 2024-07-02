@@ -55,7 +55,7 @@ const ProductListCard: React.FC<ProductCardProps> = ({ product }) => {
               </span>
             </p>
             
-              <Button className='w-auto rounded-full px-10'>Buy now</Button>
+              <Button linkType='rel' href={`/item/${product._id}`} className='w-auto rounded-full px-10'>Buy now</Button>
            
           </div>
         </div>

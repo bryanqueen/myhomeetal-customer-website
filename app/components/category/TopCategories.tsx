@@ -40,6 +40,7 @@ const TopCategories = () => {
               <Link
                 href={`/category/${category.name}?categoryId=${category._id}`}
                 key={category._id}
+                className='flex flex-col gap-2'
               >
                 <Image
                   className='h-20 w-20 rounded-full object-cover p-2 transition md:h-36 md:w-36'
@@ -48,10 +49,11 @@ const TopCategories = () => {
                   width='550'
                   height='550'
                 />
+
+                <p className='text-xs font-normal text-[#222222] hover:text-primary md:text-base'>
+                  {category.name}
+                </p>
               </Link>
-              <p className='text-xs font-normal text-[#222222] hover:text-primary md:text-base'>
-                {category.name}
-              </p>
             </div>
           );
         })}

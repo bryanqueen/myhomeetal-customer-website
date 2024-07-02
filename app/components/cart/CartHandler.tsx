@@ -27,12 +27,12 @@ const CartHandler = ({
 
   useEffect(() => {
     if (variant === 'ADD') {
-      const itemInCart = getItem(item.id);
+      const itemInCart = getItem(item?._id);
       if (itemInCart) {
         setDisabled(true);
       }
     }
-  }, [variant, getItem, item.id]);
+  }, [variant, getItem, item?._id]);
 
   const handleCart = () => {
     switch (variant) {

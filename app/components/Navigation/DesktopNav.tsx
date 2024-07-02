@@ -36,17 +36,16 @@ const DesktopNav = () => {
       try {
         const response = await productService.getTopProductCategories();
         const data: Category[] = response.data;
-       setCategories(data)
+        setCategories(data);
       } catch (error) {
         console.error('Failed to fetch categories:', error);
-      } 
-    }
+      }
+    };
 
-    fetchCategories()
-    
-  },[])
+    fetchCategories();
+  }, []);
   return (
-    <div className='my-3 hidden items-center justify-between rounded-[6px] bg-white h-[83px] px-[3%] text-sm lg:flex'>
+    <div className='my-3 hidden h-[83px] items-center justify-between rounded-[6px] bg-white px-[3%] text-sm lg:flex'>
       <div className='flex items-center gap-5'>
         <Link href='/'>
           <Logo variant={3} />
@@ -54,14 +53,18 @@ const DesktopNav = () => {
         <NavDropdown
           id='categories-dropdown'
           target='Categories'
-          items={categories.map(category => ({
+          items={categories.map((category) => ({
             text: category.name,
-            link: category._id
+            link: `/category/${category.name}?categoryId=${category._id}`,
           }))}
           contentClassName='grid list-none gap-x-3 sm:grid-cols-[1fr_1fr_1fr] w-[50vw]'
         />
-        <Link href='' className='text-myGray font-semibold'>Shop</Link>
-        <Link href='' className='text-myGray font-semibold'>Deals</Link>
+        <Link href='' className='font-semibold text-myGray'>
+          Shop
+        </Link>
+        <Link href='' className='font-semibold text-myGray'>
+          Deals
+        </Link>
       </div>
 
       <div className='w-[25rem] xl:w-[30rem]'>

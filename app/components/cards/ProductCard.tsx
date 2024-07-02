@@ -61,9 +61,9 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
             <p className='h-fit w-fit text-xs font-normal'>100+ Reviews</p>
           </div>
           <div className=' mb-2 min-h-[25px] font-medium'>
-            <Link href={href} className='three-line-clamp text-sm'>
+            <p className='three-line-clamp text-sm'>
               {product.productTitle}
-            </Link>
+            </p>
           </div>
           <p className='text-base font-semibold'>#{product.price}</p>
         </div>

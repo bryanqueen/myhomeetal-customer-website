@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { ShoppingCart, Profile } from 'iconsax-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getCookie, hasCookie } from 'cookies-next';
 
 import NavDropdown from './NavDropdown';
 import NavCart from './NavCart';
@@ -17,6 +18,7 @@ import ClientOnly from '@components/ClientOnly';
 import authUtils from '@utils/authUtils';
 import { accountNav2 } from '@utils/navdata';
 import productService from '@/app/services/productService';
+import { constants } from '@utils/constants';
 
 interface Category {
   _id: string;
@@ -44,6 +46,7 @@ const DesktopNav = () => {
 
     fetchCategories();
   }, []);
+
   return (
     <div className='my-3 hidden h-[83px] items-center justify-between rounded-[6px] bg-white px-[3%] text-sm lg:flex'>
       <div className='flex items-center gap-5'>
@@ -80,14 +83,16 @@ const DesktopNav = () => {
             <>
               <Profile size={20} variant='Bulk' color='#464646' />
               <ClientOnly>
-                {authUtils.checkAuthClient() ? 'Hi, User' : 'My Account'}
+                {hasCookie(constants.AUTH_TOKEN)
+                  ? `Hi, Somtochukwu`
+                  : 'My Account'}
               </ClientOnly>
             </>
           }
           items={myAccount}
           position='-right-1/2'
         >
-          {authUtils.checkAuthClient() && (
+          {hasCookie(constants.AUTH_TOKEN) && (
             <>
               {accountNav2.map((item, i) => {
                 const itemClassName =

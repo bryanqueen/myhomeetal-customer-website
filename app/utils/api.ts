@@ -10,7 +10,7 @@ const api = {
   CHANGE_PASSWORD: '',
   SET_NEW_PASSWORD: '',
   UPDATE_USER: 'user/edit-account',
-  GET_USER: '',
+  GET_USER: 'user/',
   DELETE_USER: 'user/delete-account',
   DELIVERY_ADDRESS: '',
   ORDERS: '',

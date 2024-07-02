@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import Link from 'next/link';
 import Image from 'next/image';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -20,7 +19,7 @@ interface Inputs {
 const schema = yup
   .object({
     email: yup.string().email().required('Enter a valid email address'),
-    password: yup.string().required(),
+    password: yup.string().required('Password is required'),
   })
   .required();
 
@@ -30,7 +29,7 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any, // Use `as any` to avoid type errors
   });
 
   const { handleLogin, loading, error } = useLogin();

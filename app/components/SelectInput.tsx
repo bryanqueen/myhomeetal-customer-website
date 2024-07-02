@@ -96,7 +96,6 @@ const SelectInput = ({
       <Select
         id={name}
         value={value}
-        
         onChange={onChange}
         name={name}
         placeholder={placeholder ?? 'Select...'}

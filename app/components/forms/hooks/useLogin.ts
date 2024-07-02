@@ -21,7 +21,7 @@ export const useLogin = () => {
       console.log(data);
       // setCookie(constants.USER_INFO, JSON.stringify(data.user));
       toast.success('Login successful');
-      router.push(ROUTES.ACCOUNT);
+      router.push(ROUTES.HOME);
     },
     onError: (error: AxiosError<any>) => {
       const { response } = error;

@@ -93,7 +93,7 @@ const MobileNav = () => {
 
       <div className={navClassName}>
         {isNavActive('main') && (
-          <ul className='grid h-[calc(100vh-8rem)] gap-3 overflow-auto p-5 py-10'>
+          <ul className='grid h-[calc(100vh-8rem)] bg-white gap-3 overflow-auto p-5 py-10'>
             {accountNav.map((item, i) => (
               <li key={i}>
                 <Link

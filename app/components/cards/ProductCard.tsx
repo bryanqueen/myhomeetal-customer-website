@@ -11,7 +11,7 @@ interface Product {
   _id: string;
   productTitle: string;
   price: number;
-  images: string;
+  images: string[];
   reviewsCount: number;
   rating: number;
   isProductNew: boolean;

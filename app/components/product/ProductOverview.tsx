@@ -11,6 +11,7 @@ import ProductGallery from './ProductGallery';
 import QuantityInput from '@/app/components/cart/QuantityInput';
 import Button from '@components/Button';
 import AddToCartButton from '@components/cart/AddToCartButton';
+import { StarIcon } from '@heroicons/react/16/solid';
 
 const ProductOverview = ({ data }: any) => {
   return (
@@ -33,23 +34,34 @@ const ProductOverview = ({ data }: any) => {
           ))}
         </ul>
       </div>
-      <div className='grid lg:grid-cols-2 lg:gap-5 2xl:px-20 mt-16 pl-10'>
-        <div className='w-full overflow-hidden pl-10'>
+      <div className='mt-16 grid lg:grid-cols-2 lg:gap-5 lg:pl-10 2xl:px-20'>
+        <div className='w-full overflow-hidden lg:pl-10'>
           <ProductCarousel data={data} />
           <ProductGallery images={data.images} />
         </div>
-        <div className='p-5 pr-16 flex items-center justify-center'>
-          <div className='w-full h-fit'>
-            <div className='hidden text-sm lg:block'>
+        <div className='flex items-center justify-center px-[3%] md:p-5 lg:pr-16'>
+          <div className='h-fit w-full'>
+            <div className='text-sm lg:block'>
               Brand:{' '}
               <span className='text-sm font-semibold text-[#ED2224]'>
                 {data.brand}
               </span>
             </div>
-            <p className='hidden pt-4 text-xl font-bold lg:block'>
+            <p className={'pt-4 text-xl font-bold lg:block'}>
               {data.productTitle}
             </p>
-            <div className='flex items-center pt-3'>
+
+            <div className='flex items-center pt-3 lg:hidden'>
+              <p className='mr-1 flex items-center gap-1 text-sm font-semibold'>
+                <StarIcon width={17} className='mt-[-5px] text-primary' />
+                {data.rating?.rate || 4.4}
+              </p>
+
+              <span className='text-xs'>
+                ({data.rating?.count || 100} Reviews)
+              </span>
+            </div>
+            <div className='hidden items-center pt-3 lg:flex'>
               <p className='text-sm'>Ratings {data.rating?.rate || 4.4}</p>
               <Rating
                 initialValue={data.rating?.rate}
@@ -66,7 +78,7 @@ const ProductOverview = ({ data }: any) => {
               </span>
             </div>
             <p className='pt-3 text-4xl font-semibold'>₦{data.price}</p>
-            <div className='mt-10 flex items-center gap-5 w-full'>
+            <div className='mt-10 flex w-full items-center gap-5'>
               <button className='flex h-[60px] w-full items-center rounded-full bg-primary px-10'>
                 <ShoppingCart size={24} variant='Bulk' color='white' />
                 <div className='flex-grow text-center font-semibold text-white'>

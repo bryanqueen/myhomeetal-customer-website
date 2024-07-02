@@ -23,13 +23,18 @@ const ProductCarousel = ({ data }: any) => {
     },
   };
 
+  const isSingleImage = data.images?.length === 1;
+
   return (
     <div className='my-5 lg:hidden'>
-      <Carousel responsive={responsive} partialVisbile>
-      {data.images?.map((image: string, index: number) => (
-          <div key={index} className='px-2'>
+      <Carousel responsive={responsive} partialVisible={!isSingleImage}>
+        {data.images?.map((image: string, index: number) => (
+          <div
+            key={index}
+            className={`pt-10 pb-5 ${isSingleImage ? 'flex justify-center' : ''}`}
+          >
             <Image
-              className='w-full rounded-3xl border border-gray-300 object-cover'
+              className='object-contain'
               src={image}
               alt={`Product Image ${index + 1}`}
               width={200}

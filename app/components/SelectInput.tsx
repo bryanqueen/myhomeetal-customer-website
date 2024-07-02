@@ -96,7 +96,7 @@ const SelectInput = ({
       <Select
         id={name}
         value={value}
-        // @ts-expect-error
+        
         onChange={onChange}
         name={name}
         placeholder={placeholder ?? 'Select...'}

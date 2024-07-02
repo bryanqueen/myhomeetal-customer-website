@@ -44,7 +44,7 @@ const PersonalInfoDialog = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<Inputs>({ resolver: yupResolver(schema) });
+  } = useForm<Inputs>({ resolver: yupResolver(schema) as any });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);

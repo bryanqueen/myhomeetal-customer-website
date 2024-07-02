@@ -57,7 +57,7 @@ const IDDialog = () => {
     control,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
   });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {

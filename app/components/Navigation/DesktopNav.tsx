@@ -136,13 +136,13 @@ const DesktopNav = () => {
               Cart
             </>
           }
-          contentClassName='right-0 p-2 w-72'
+          contentClassName='right-0 p-2 w-[300px]'
           position='right-0'
         >
           <ClientOnly>
             <NavCart />
           </ClientOnly>
-          <div className='my-5 flex flex-col items-center gap-2'>
+          <div className='mt-5 flex flex-col items-center gap-2'>
             <Button
               className='w-full rounded-full py-4'
               linkType='rel'

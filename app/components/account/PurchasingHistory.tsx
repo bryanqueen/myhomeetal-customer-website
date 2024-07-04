@@ -3,13 +3,18 @@
 import * as Tabs from '@radix-ui/react-tabs';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingCart } from 'iconsax-react';
-
 import NoHistory from './NoHistory';
-
-import Button from '@components/Button';
-import { PageProps } from '@/app/(account)/account/purchasing-history/page';
 import useQueryParams from '@components/hooks/useQueryParams';
+import { PageProps } from '@/app/utils/types';
+import { useEffect, useState } from 'react';
+import authUtils from '@/app/utils/authUtils';
+import productService from '@/app/services/productService';
+
+interface UserInfo {
+  firstname: string;
+  email: string;
+  id: string;
+}
 
 const PurchasingHistory = ({
   searchParams,
@@ -17,7 +22,23 @@ const PurchasingHistory = ({
   searchParams: PageProps['searchParams'];
 }) => {
   const { handleParamChange } = useQueryParams();
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
+  async function getUserInfo() {
+    const res = await productService.getUserDetails();
+  }
+
+  useEffect(() => {
+    const fetchedUserInfo = authUtils.getUserInfo();
+    setUserInfo(fetchedUserInfo);
+  }, []);
+
+  /*useEffect(() => {
+    if (userInfo) {
+      const id = userInfo.id;
+    }
+  }, [userInfo]);
+*/
   const orders = [0, 0, 0, 0, 0, 0].map((item, i) => <PurchaseItem key={i} />);
 
   return (

@@ -5,9 +5,9 @@ import Image from 'next/image';
 
 import CartHandler from './CartHandler';
 
-const CartItem = ({ item }: any) => {
+const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
   return (
-    <div className='grid gap-3 border-b border-gray-100 py-5 pr-2'>
+    <div className={`grid gap-3 ${!isLast ? 'border-b border-gray-100' : ''} py-5 pr-2`}>
       <div className='flex justify-between gap-3'>
         <div className='flex items-center gap-2'>
           <div className='h-[95px] w-[95px]'>
@@ -50,6 +50,7 @@ const CartItem = ({ item }: any) => {
         </div>
         <div className='flex gap-3'>
           <CartHandler
+          cart
             item={item}
             variant='UPDATE_MINUS'
             className='w-auto rounded-lg border-0 p-[2px]'

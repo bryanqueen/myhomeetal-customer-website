@@ -1,9 +1,25 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import authUtils from "@/app/utils/authUtils";
 
+interface UserInfo {
+  firstname: string;
+  email: string;
+}
+
 export default function AccountDashboard() {
-  const userInfo = authUtils.getUserInfo();
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+  useEffect(() => {
+    const fetchedUserInfo = authUtils.getUserInfo();
+    setUserInfo(fetchedUserInfo);
+  }, []);
+
+  if (!userInfo) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <div className='rounded-xl bg-primary/10 bg-[image:url(/images/account/info-bg-sm.png)] bg-contain bg-[position:110%] bg-no-repeat px-5 py-8 md:rounded-2xl lg:bg-[image:url(/images/account/info-bg-md.png)] lg:bg-[size:initial]'>
@@ -25,5 +41,5 @@ export default function AccountDashboard() {
         </p>
       </div>
     </div>
-  )
+  );
 }

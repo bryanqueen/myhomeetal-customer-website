@@ -24,7 +24,7 @@ export default async function page({ params }: { params: Params }) {
     return notFound();
   }
   return (
-    <div>
+    <div className='px-[3%]'>
       <ProductOverview data={data} />
       <div className='lg:-mt-32'>
         <ProductHeader data={data} />

@@ -48,7 +48,7 @@ const TabTrigger = forwardRef<HTMLButtonElement, TabTriggerProps>(
   ({ children, className, value, ...props }, forwardedRef) => (
     <Tabs.Trigger
       className={cn(
-        'flex cursor-default select-none items-center justify-center bg-white px-0 py-4 text-xl font-bold leading-none text-gray-400 shadow-current outline-none first:rounded-tl-md last:rounded-tr-md hover:text-primary focus:text-primary data-[state=active]:text-black data-[state=active]:shadow-[inset_0_-2px_0_0,0_2px_0_0] data-[state=active]:focus:relative data-[state=active]:focus:text-primary',
+        'flex cursor-default select-none items-center justify-center bg-white px-0 py-4 text-xl font-bold leading-none text-myGray shadow-current outline-none first:rounded-tl-md last:rounded-tr-md hover:text-primary focus:text-primary data-[state=active]:text-black data-[state=active]:shadow-[inset_0_-2px_0_0,0_2px_0_0] data-[state=active]:focus:relative data-[state=active]:focus:text-primary',
         className
       )}
       value={value}

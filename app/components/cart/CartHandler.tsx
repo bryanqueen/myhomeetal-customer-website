@@ -2,13 +2,13 @@
 
 import { useCart, Item } from 'react-use-cart';
 import { useEffect, useState } from 'react';
-// import { redirect } from 'next/navigation';
-
 import Button from '@components/Button';
 import { ROUTES } from '@/app/utils/routes';
+import { ShoppingCart } from 'iconsax-react';
 
 interface Props {
   item: Item;
+  cart?: boolean;
   className?: string;
   children: React.ReactNode;
   variant: 'ADD' | 'REMOVE' | 'UPDATE_PLUS' | 'UPDATE_MINUS';
@@ -17,6 +17,7 @@ interface Props {
 
 const CartHandler = ({
   item,
+  cart,
   className,
   children,
   variant,
@@ -56,7 +57,12 @@ const CartHandler = ({
   };
 
   return (
-    <Button onClick={handleCart} icon className={className} disabled={disabled}>
+    <Button
+      onClick={handleCart}
+      className={className}
+      disabled={disabled}
+      icon={variant === 'ADD' ? <ShoppingCart size={24} variant='Bulk' color='white' /> : undefined}
+    >
       {children}
     </Button>
   );

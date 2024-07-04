@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { forwardRef, ButtonHTMLAttributes } from 'react';
+import React, { forwardRef, ButtonHTMLAttributes, ReactNode } from 'react';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import { ShoppingCart } from 'iconsax-react';
@@ -8,7 +8,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   variant?: 'solid' | 'ghost' | 'outline';
   active?: boolean;
-  icon?: boolean;
+  icon?: ReactNode;
   type?: 'submit' | 'reset' | 'button';
   loading?: boolean;
   disabled?: boolean;
@@ -28,7 +28,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     variant = 'solid',
     children,
     active,
-    icon,
+    icon = false,
     loading = false,
     disabled = false,
     disableBorderRadius = false,
@@ -68,6 +68,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   if (linkType === 'abs')
     return (
       <a href={href} className={rootClassName} aria-label={ariaLabel}>
+        {icon && <span className='me-2'>{icon}</span>}
         {children}
       </a>
     );
@@ -75,6 +76,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   if (linkType === 'rel')
     return (
       <Link href={href || ''} className={rootClassName} aria-label={ariaLabel}>
+        {icon && <span className='me-2'>{icon}</span>}
         {children}
       </Link>
     );
@@ -89,7 +91,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       aria-label={ariaLabel}
       {...rest}
     >
-      {icon && <ShoppingCart size={24} variant='Bulk' color='white' />}
+      {icon && <span className='me-2'>{icon}</span>}
       <div className=''>
         {children}
       </div>

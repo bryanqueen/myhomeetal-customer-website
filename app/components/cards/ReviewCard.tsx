@@ -1,28 +1,31 @@
 import { Rating } from 'react-simple-star-rating';
+import { format } from 'date-fns';
 
-const ReviewCard = () => {
+const ReviewCard = ({
+  review,
+}: {
+  review: { name: string; rating: number; comment: string; date: string };
+}) => {
+  const formattedDate = format(new Date(review.date), 'MMM d, yyyy');
   return (
-    <div className='mb-5 flex gap-3 rounded-3xl bg-gray-100 p-3 pb-10 pt-5'>
-      <div>
-        <div className='h-16 w-16 rounded-full bg-gray-300'></div>
+    <div className='mb-5 flex flex-col gap-3 rounded-3xl bg-gray-100 py-7 px-5'>
+      <div className='text-end'>
+        <p className='shrink-0 text-xs text-myGray'>Posted {formattedDate}</p>
       </div>
-      <div className='grid gap-2'>
-        <p>User</p>
+      <div className='flex items-center gap-5'>
+        <div className='h-16 w-16 rounded-full bg-gray-300'></div>
+        <p className='max-w-[65%] text-sm text-myGray'>{review?.comment} </p>
+      </div>
+
+      <div className='flex items-center justify-end'>
         <Rating
-          initialValue={4}
+          initialValue={review?.rating}
           readonly={true}
           allowFraction={true}
-          size={20}
+          size={24}
           SVGclassName='inline'
+          fillColor='#ED2224'
         />
-        <p className='max-w-lg text-sm'>
-          From a trusted brand committed to offering uncompromising quality,
-          comfort and style, the Serta Big & Tall Executive Office Chair is not
-          your average office chair.{' '}
-        </p>
-      </div>
-      <div>
-        <p className='shrink-0 text-xs'>Posted Feb 7, 2023</p>
       </div>
     </div>
   );

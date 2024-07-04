@@ -18,7 +18,7 @@ function Cart() {
 
   if (isEmpty) {
     return (
-      <div>
+      <div className='h-[250px]'>
         <p>Your cart is empty</p>
       </div>
     );
@@ -26,9 +26,9 @@ function Cart() {
 
   return (
     <div className='rounded-xl border border-[#F4F4F4] p-3 lg:max-w-4xl'>
-      {items.map(item => (
+      {items.map((item, index) => (
         <div key={item._id}>
-          <CartItem item={item} />
+          <CartItem item={item} isLast={index === items.length - 1} />
         </div>
       ))}
     </div>

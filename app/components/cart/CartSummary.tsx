@@ -5,7 +5,7 @@ import { ROUTES } from '@utils/routes';
 import { useEffect, useState } from 'react';
 
 const CartSummary = () => {
-  const { cartTotal } = useCart();
+  const { cartTotal, items } = useCart();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -13,7 +13,9 @@ const CartSummary = () => {
   }, []);
 
   return (
-    <div className='rounded-2xl bg-[#F4F4F4] px-4'>
+    <div>
+      {items.length > 0 ? (
+        <div className='rounded-2xl bg-[#F4F4F4] px-4'>
       <p className='border-b border-[#DCDCDC] py-4 font-semibold text-myGray'>
         Cart Summary
       </p>
@@ -43,6 +45,11 @@ const CartSummary = () => {
         )}
       </div>
     </div>
+      ): (
+        <div></div>
+      )}
+    </div>
+    
   );
 };
 

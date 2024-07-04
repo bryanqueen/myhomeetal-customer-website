@@ -42,7 +42,7 @@ export default function SearchPage({ searchParams }: PageProps) {
             //<ProductListCard key={i} />
           ))*/}
           <div className='flex justify-center py-3 lg:max-w-3xl'>
-            <SearchPagination />
+            {/*<SearchPagination />*/}
           </div>
         </div>
       </div>

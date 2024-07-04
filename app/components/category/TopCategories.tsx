@@ -2,36 +2,13 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import productService from '@/app/services/productService';
 
-interface Category {
-  _id: string;
-  name: string;
-  product_category_image: string;
-}
-
-const TopCategories = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  useEffect(() => {
-    const fetchTopCategories = async () => {
-      try {
-        const response = await productService.getTopProductCategories();
-        const data: Category[] = response.data;
-        console.log(data);
-        setCategories(data);
-      } catch (error) {
-        console.error('Error Fetching Top Product Categories', error);
-      }
-    };
-
-    fetchTopCategories();
-  }, []);
+const TopCategories = ({topCategories}: any) => {
+  
   return (
     <div className='p-4 md:my-10 md:px-[3%]'>
       <div className='grid grid-cols-4 justify-center gap-3 rounded-3xl py-10 md:grid-cols-5 md:p-5 lg:gap-8 lg:bg-gray-100'>
-        {categories.map((category) => {
+        {topCategories && topCategories.map((category) => {
           return (
             <div
               key={category._id}

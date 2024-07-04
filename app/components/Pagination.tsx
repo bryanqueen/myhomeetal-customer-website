@@ -16,7 +16,7 @@ const Pagination = ({
   currentPage,
   totalPages,
   onPageChange,
-  minPagesToShow = 3,
+  minPagesToShow,
 }: PaginationProps) => {
   const handleClick = (page: number | string) => {
     if (page !== currentPage) {

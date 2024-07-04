@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, ReactNode, useState, useContext } from 'react';
+import React, { createContext, ReactNode, useState, useContext, useEffect } from 'react';
 import { CartProvider } from 'react-use-cart';
 import { toast } from 'react-hot-toast';
 import { QueryClientProvider, QueryClient } from 'react-query';
@@ -34,6 +34,10 @@ interface DropdownProviderProps {
   children: ReactNode;
 }
 
+interface MountedContextType {
+  mounted: boolean;
+}
+
 const initialNavState: NavState = {
   activeNav: null,
 };
@@ -56,14 +60,20 @@ const DropdownContext = createContext<DropdownContextValue | undefined>(
   undefined
 );
 
+const MountedContext = createContext<MountedContextType>({ mounted: false });
+
 type UIProviderProps = {
   children: ReactNode;
 };
 
 export const UIProvider = ({ children }: UIProviderProps) => {
   const [state, setState] = useState<NavState>(initialNavState);
-  const [itemState, setItemState] =
-    useState<ItemQuantityState>(initialItemQuantity);
+  const [itemState, setItemState] = useState<ItemQuantityState>(initialItemQuantity);
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const setActiveNav = (key: NavState['activeNav']) => {
     setState((prevState) => ({
@@ -86,17 +96,15 @@ export const UIProvider = ({ children }: UIProviderProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <NavContext.Provider value={{ state, setActiveNav }}>
-        <DropdownContext.Provider
-          value={{ openDropdown, handleDropdownToggle }}
-        >
+        <DropdownContext.Provider value={{ openDropdown, handleDropdownToggle }}>
           <CartProvider
             onItemAdd={() => toast.success('Added item to cart')}
             onItemRemove={() => toast.success('Removed item from cart')}
           >
-            <ItemQuantityContext.Provider
-              value={{ state: itemState, setQuantity: setItemQuantity }}
-            >
-              {children}
+            <ItemQuantityContext.Provider value={{ state: itemState, setQuantity: setItemQuantity }}>
+              <MountedContext.Provider value={{ mounted }}>
+                {children}
+              </MountedContext.Provider>
             </ItemQuantityContext.Provider>
           </CartProvider>
         </DropdownContext.Provider>
@@ -108,11 +116,13 @@ export const UIProvider = ({ children }: UIProviderProps) => {
 export const useDropdownContext = (): DropdownContextValue => {
   const context = useContext(DropdownContext);
   if (!context) {
-    throw new Error(
-      'useDropdownContext must be used within a DropdownProvider'
-    );
+    throw new Error('useDropdownContext must be used within a DropdownProvider');
   }
   return context;
 };
+
 export const useNav = () => useContext(NavContext);
+
 export const useItemQuantity = () => useContext(ItemQuantityContext);
+
+export const useMounted = () => useContext(MountedContext);

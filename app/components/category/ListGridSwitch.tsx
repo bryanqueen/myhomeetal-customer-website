@@ -1,27 +1,106 @@
 'use client';
-
 import cn from 'classnames';
 import { signal } from '@preact/signals-react';
 import { useSignals } from '@preact/signals-react/runtime';
-
+import { useEffect, useState } from 'react';
+import productService from '@/app/services/productService';
 import Button from '@components/Button';
 import ProductListCard from '@components/cards/ProductListCard';
 import ProductGridCard from '@components/cards/ProductGridCard';
+import { notFound, useSearchParams } from 'next/navigation';
+import SearchPagination from '../SearchPagination';
 
 const isList = signal(false);
 
-const ListGridSwitch = () => {
+const ListGridSwitch = ({ sortOption }: { sortOption?: string | null }) => {
   useSignals();
 
+  const [categoryProducts, setCategoryProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const productsPerPage = 4;
+
+  // Calculate the range of products to display for the current page
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = Math.min(
+    startIndex + productsPerPage,
+    categoryProducts.length
+  ); // Ensure endIndex doesn't exceed product length
+  const currentPageProducts = categoryProducts.slice(startIndex, endIndex);
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get('categoryId') || '';
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const res = await productService.getProductsByCategory(id);
+        if (!res || !res.data) {
+          console.log('Products not found');
+          return notFound();
+        }
+        setCategoryProducts(res.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setLoading(false);
+        return notFound();
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const totalPages = Math.ceil(categoryProducts.length / productsPerPage);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  const sortProducts = (products: any[], sortOption: string) => {
+    switch (sortOption) {
+      case 'priceLowToHigh':
+        return products.sort((a, b) => a.price - b.price);
+      case 'priceHighToLow':
+        return products.sort((a, b) => b.price - a.price);
+      default:
+        return products;
+    }
+  };
+
+  const sortedProducts = sortProducts(currentPageProducts, sortOption); 
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   return (
-    <div
-      className={cn({
-        'grid grid-cols-2 gap-5 lg:max-w-5xl xl:grid-cols-3': !isList.value,
-      })}
-    >
-      {/*[0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((_, i) =>
-        isList.value ? <ProductListCard key={i} /> : <ProductGridCard key={i} />
-      )*/}
+    <div>
+      <div
+        className={cn({
+          'grid grid-cols-2 gap-5 lg:max-w-5xl xl:grid-cols-3': !isList.value,
+        })}
+      >
+        {sortedProducts.map((product) =>
+          isList.value ? (
+            <ProductListCard key={product._id} product={product} />
+          ) : (
+            <ProductGridCard key={product._id} product={product} />
+          )
+        )}
+      </div>
+      <div className='flex justify-center py-3 pt-10'>
+        <SearchPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          minPagesToShow={5}
+        />
+      </div>
     </div>
   );
 };

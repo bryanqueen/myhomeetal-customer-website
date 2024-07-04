@@ -2,19 +2,31 @@
 
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { ArrowRight } from 'iconsax-react';
-
 import OrderSummary from './OrderSummary';
-
 import Input from '@components/Input';
 import RadioItem from '@components/RadioItem';
 import Button from '@components/Button';
 import ClientOnly from '@components/ClientOnly';
+import { useCart } from 'react-use-cart';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 const CheckoutForm = () => {
+  const { items, isEmpty } = useCart();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    // While waiting for hydration, render nothing or a loading indicator
+    return <div>Loading...</div>;
+  }
   return (
     <form className='grid items-start gap-5 lg:grid-cols-[2fr_1fr]'>
       <div>
-        <div className='mb-8 rounded-3xl border p-3'>
+        {/*<div className='mb-8 rounded-3xl border p-3'>
           <div className='mb-3 flex items-center gap-3'>
             <span className='flex h-5 w-5 items-center justify-center rounded-full bg-primary/30 text-xs'>
               1
@@ -49,19 +61,21 @@ const CheckoutForm = () => {
               placeholder='No 3 Kayode Arikawe Street, ikosi, Ketu, Lagos.'
             />
           </div>
-        </div>
-        <div className='mb-8 rounded-3xl border p-3'>
-          <div className='mb-3 flex items-center gap-3'>
-            <span className='flex h-5 w-5 items-center justify-center rounded-full bg-primary/30 text-xs'>
-              2
+        </div>*/}
+        <div className='mb-8 rounded-2xl border border-[#F4F4F4] px-5 pb-5'>
+          <div className='flex items-center gap-3 py-4'>
+            <span className='flex h-6 w-6 items-center justify-center rounded-full bg-[#FFE0E0] text-sm text-myGray'>
+              1
             </span>
-            <p>Select Delivery Method</p>
+            <p className='font-semibold text-myGray'>Select Delivery Method</p>
           </div>
-          <div className='rounded-3xl bg-gray-100 p-4 px-5'>
+          <div className='rounded-2xl bg-[#F4F4F4] p-7'>
             <div className='flex gap-5'>
-              <span>Delivery Method</span>
+              <span className='mr-4 font-semibold text-myGray'>
+                Delivery Method
+              </span>
               <RadioGroup.Root
-                className='flex gap-3'
+                className='flex gap-3 font-semibold text-myGray'
                 defaultValue='Door Delivery'
                 aria-label='Delivery Method'
               >
@@ -77,59 +91,65 @@ const CheckoutForm = () => {
                 />
               </RadioGroup.Root>
             </div>
-            <div className='mt-2 text-sm text-gray-500'>
+            <div className='mt-2 text-xs font-semibold text-[#989898]'>
               Delivery between 15 Aug and 18 Aug
             </div>
-            <div className='mb-3 mt-10 grid gap-3 md:grid-cols-2'>
-              {[0, 0, 0, 0].map((item, i) => (
-                <div key={i} className='flex items-center gap-3'>
-                  <div className='h-16 w-16 shrink-0 rounded-lg bg-gray-400'></div>
+            <div className='mb-3 mt-10 grid gap-5 md:grid-cols-2'>
+              {items.map((item) => (
+                <div key={item._id} className='flex items-center gap-3'>
+                  <Image
+                    src={item?.images[0]}
+                    width={57}
+                    height={61}
+                    alt='product image'
+                    className='rounded-xl object-contain'
+                  />
                   <div>
-                    <p className='text-sm'>
-                      Samsung Galaxy A14 6.6 4GB RAM/64GB ROM Android 13 - Light
-                      Green
+                    <p className='font-medium text-myGray'>
+                      {item.productTitle}
                     </p>
                   </div>
                 </div>
               ))}
             </div>
-            <Button variant='ghost' className='mx-auto w-full p-5'>
+            <Button
+              variant='ghost'
+              className='mx-auto mt-5 w-full font-semibold text-myGray'
+            >
               Modify Cart
-              <ArrowRight size={15} className='ml-3' />
+              <ArrowRight size={15} className='ml-1' />
             </Button>
           </div>
         </div>
-        <div className='rounded-3xl border p-3'>
-          <div className='mb-3 flex items-center gap-3'>
-            <span className='flex h-5 w-5 items-center justify-center rounded-full bg-primary/30 text-xs'>
-              3
-            </span>
-            <p>Select Payment Method</p>
+        <div className='mb-8 rounded-2xl border border-[#F4F4F4] px-5 pb-5'>
+          <div className='flex items-center gap-3 py-4'>
+            <span className='flex h-6 w-6 items-center justify-center rounded-full bg-[#FFE0E0] text-sm text-myGray'>2</span>
+            <p className='font-semibold text-myGray'>Select Payment Method</p>
           </div>
-          <div className='rounded-3xl bg-gray-100 p-5'>
+          <div className='rounded-2xl bg-[#F4F4F4] p-7'>
             <RadioGroup.Root
-              className='grid gap-3 md:grid-cols-3'
+              className='flex items-center justify-between font-semibold text-myGray'
               defaultValue='Payment on delivery'
               aria-label='Payment Method'
             >
-              <div>
+              <div className='basis-[45%]'>
                 <RadioItem
                   id='pm1'
                   value='Online payment'
                   labelKey='Online payment'
                 />
-                <p className='py-3 text-sm text-gray-800'>
+                <p className='py-4 text-sm text-[#7C7C7C]'>
                   Secure, fast, and efficient. Use your credit/debit card or
                   bank account to finalize your purchase instantly.
                 </p>
               </div>
-              <div>
+              <div className='basis-[45%]'>
                 <RadioItem
                   id='pm3'
                   value='Pay with wallet'
                   labelKey='Pay with wallet'
                 />
-                <p className='py-3 text-sm text-gray-800'>
+                <p className='py-4 text-sm text-[#7C7C7C]'>
                   Convenient and swift! Use your digital wallet balance to
                   complete your purchase seamlessly.
                 </p>

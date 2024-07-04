@@ -10,22 +10,8 @@ interface Category {
   _id: string;
 }
 
-const CategoryList = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await productService.getProductCategories();
-        const data: Category[] = response.data;
-        setCategories(data);
-      } catch (error) {
-        console.error('Failed to fetch categories', error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+const CategoryList = ({ categories }: any) => {
+  
   return (
     <div className='hidden items-center px-[3%] pb-5 md:flex'>
       <p className='pr-2 text-sm font-semibold'>Categories:</p>

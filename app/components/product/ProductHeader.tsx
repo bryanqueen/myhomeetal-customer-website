@@ -43,7 +43,6 @@ const ProductHeader = ({ data }: any) => {
             Quantity
             <QuantityInput />
           </div>
-          <AddToCartButton itemId={data} />
         </div>
       </div>
     </div>

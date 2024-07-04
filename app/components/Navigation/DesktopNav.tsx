@@ -8,7 +8,6 @@ import { getCookie, hasCookie } from 'cookies-next';
 
 import NavDropdown from './NavDropdown';
 import NavCart from './NavCart';
-
 import Button from '@components/Button';
 import Dialog from '@components/Dialog';
 import { ROUTES } from '@utils/routes';
@@ -32,6 +31,7 @@ const myAccount = [
 
 const DesktopNav = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const userInfo = authUtils.getUserInfo();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -46,7 +46,6 @@ const DesktopNav = () => {
 
     fetchCategories();
   }, []);
-
   return (
     <div className='my-3 hidden h-[83px] items-center justify-between rounded-[6px] bg-white px-[3%] text-sm lg:flex'>
       <div className='flex items-center gap-5'>
@@ -84,7 +83,7 @@ const DesktopNav = () => {
               <Profile size={20} variant='Bulk' color='#464646' />
               <ClientOnly>
                 {hasCookie(constants.AUTH_TOKEN)
-                  ? `Hi, Somtochukwu`
+                  ? `Hi, ${userInfo.firstname}`
                   : 'My Account'}
               </ClientOnly>
             </>

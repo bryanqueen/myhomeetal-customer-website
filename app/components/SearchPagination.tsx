@@ -2,13 +2,18 @@
 
 import Pagination from '@components/Pagination';
 
-const SearchPagination = () => {
+const SearchPagination = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  minPagesToShow,
+}) => {
   return (
     <Pagination
-      currentPage={2}
-      totalPages={15}
-      onPageChange={() => 3}
-      minPagesToShow={5}
+      currentPage={currentPage}
+      totalPages={totalPages}
+      onPageChange={onPageChange}
+      minPagesToShow={minPagesToShow}
     />
   );
 };

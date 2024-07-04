@@ -1,20 +1,18 @@
-import { ArrowLeft } from 'iconsax-react';
 import Link from 'next/link';
-
-import OrderSummary from '@components/checkout/OrderSummary';
 import CheckoutForm from '@components/checkout/CheckoutForm';
+import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 
 function CheckoutPage() {
   return (
     <main className='pb-20'>
-      <div className='px-5 lg:px-10'>
-        <Link href='/' className='flex'>
-          <ArrowLeft />
+      <div className='px-5 lg:px-[3%]'>
+        <Link href='/' className='flex items-center text-sm text-myGray'>
+          <ArrowLeftIcon width={17} className='mr-1 mt-[-3px]' />
           Back
         </Link>
       </div>
-      <div className='px-5 lg:px-10'>
-        <h1 className='my-5 text-2xl font-bold'>Checkout process</h1>
+      <div className='px-5 lg:px-[3%]'>
+        <h1 className='mt-5 mb-10 text-3xl font-bold'>Checkout process</h1>
         <CheckoutForm />
       </div>
     </main>

@@ -2,11 +2,13 @@ import cn from 'classnames';
 import React, { forwardRef, ButtonHTMLAttributes } from 'react';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
+import { ShoppingCart } from 'iconsax-react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   variant?: 'solid' | 'ghost' | 'outline';
   active?: boolean;
+  icon?: boolean;
   type?: 'submit' | 'reset' | 'button';
   loading?: boolean;
   disabled?: boolean;
@@ -26,6 +28,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     variant = 'solid',
     children,
     active,
+    icon,
     loading = false,
     disabled = false,
     disableBorderRadius = false,
@@ -86,7 +89,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       aria-label={ariaLabel}
       {...rest}
     >
-      {children}
+      {icon && <ShoppingCart size={24} variant='Bulk' color='white' />}
+      <div className=''>
+        {children}
+      </div>
       {loading && (
         <svg
           className='-me-1 ms-3 h-5 w-5 animate-spin'

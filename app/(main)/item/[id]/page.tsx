@@ -10,10 +10,11 @@ type Params = {
 };
 
 export default async function page({ params }: { params: Params }) {
-  let data;
+  let data: any;
   try {
     const res = await productService.getProductDetail(params.id);
     if (!res || !res.data) {
+      console.log('id not found')
       return notFound();
     }
     data = res.data;

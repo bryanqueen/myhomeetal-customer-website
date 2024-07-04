@@ -19,7 +19,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductListCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductListCard = ({ product }) => {
   return (
     <div className='mb-5 flex items-center gap-5 rounded-3xl border border-[#E4E7EC] p-5 lg:max-w-3xl'>
       <Image

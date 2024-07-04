@@ -27,12 +27,12 @@ const CartHandler = ({
 
   useEffect(() => {
     if (variant === 'ADD') {
-      const itemInCart = getItem(item?._id);
+      const itemInCart = getItem(item.id);
       if (itemInCart) {
         setDisabled(true);
       }
     }
-  }, [variant, getItem, item?._id]);
+  }, [variant, getItem, item.id]);
 
   const handleCart = () => {
     switch (variant) {
@@ -56,7 +56,7 @@ const CartHandler = ({
   };
 
   return (
-    <Button onClick={handleCart} className={className} disabled={disabled}>
+    <Button onClick={handleCart} icon className={className} disabled={disabled}>
       {children}
     </Button>
   );

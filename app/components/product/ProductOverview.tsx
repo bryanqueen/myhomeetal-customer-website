@@ -1,26 +1,24 @@
 'use client';
 
-import { ArrowLeft, HeartAdd, ShoppingCart } from 'iconsax-react';
+import { ArrowLeft, HeartAdd } from 'iconsax-react';
 import Link from 'next/link';
 import { Rating } from 'react-simple-star-rating';
 import * as Radio from '@radix-ui/react-radio-group';
 
 import ProductCarousel from './ProductCarousel';
 import ProductGallery from './ProductGallery';
-
-import QuantityInput from '@/app/components/cart/QuantityInput';
-import Button from '@components/Button';
-import AddToCartButton from '@components/cart/AddToCartButton';
 import { StarIcon } from '@heroicons/react/16/solid';
+import AddToCartButton from '../cart/AddToCartButton';
 
 const ProductOverview = ({ data }: any) => {
+  const itemForCart = { ...data, id: data._id };
   return (
     <div className='lg:px-[3%]'>
       <div className='mb-5 hidden items-center gap-5 lg:flex'>
-        <Button variant='ghost'>
+        <button className='flex items-center'>
           <ArrowLeft className='pr-1 ' />
           Back
-        </Button>
+        </button>
         <ul className='flex items-center gap-2'>
           {['Home', 'Wearables', 'Sneakers', 'Adidas'].map((item, i, items) => (
             <li key={i} className='flex items-center gap-2'>
@@ -78,13 +76,9 @@ const ProductOverview = ({ data }: any) => {
               </span>
             </div>
             <p className='pt-3 text-4xl font-semibold'>₦{data.price}</p>
+
             <div className='mt-10 flex w-full items-center gap-5'>
-              <button className='flex h-[60px] w-full items-center rounded-full bg-primary px-10'>
-                <ShoppingCart size={24} variant='Bulk' color='white' />
-                <div className='flex-grow text-center font-semibold text-white'>
-                  Add to Cart
-                </div>
-              </button>
+              <AddToCartButton item={itemForCart} />
               <div className='flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'>
                 <HeartAdd size='24' color='#ffffff' variant='Bulk' />
               </div>

@@ -19,7 +19,7 @@ export const useLogin = () => {
       const { data } = res;
       setCookie(constants.AUTH_TOKEN, data.token);
       console.log(data);
-      // setCookie(constants.USER_INFO, JSON.stringify(data.user));
+      setCookie(constants.USER_INFO, JSON.stringify(data.userProfile));
       toast.success('Login successful');
       router.push(ROUTES.HOME);
     },

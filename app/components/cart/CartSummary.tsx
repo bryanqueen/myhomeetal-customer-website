@@ -1,32 +1,47 @@
 'use client';
-
 import { useCart } from 'react-use-cart';
-
 import Button from '@components/Button';
 import { ROUTES } from '@utils/routes';
+import { useEffect, useState } from 'react';
 
 const CartSummary = () => {
   const { cartTotal } = useCart();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
-    <div className='rounded-3xl bg-gray-100 p-3'>
-      <p className='border-b border-gray-200 py-3 text-sm font-medium'>
+    <div className='rounded-2xl bg-[#F4F4F4] px-4'>
+      <p className='border-b border-[#DCDCDC] py-4 font-semibold text-myGray'>
         Cart Summary
       </p>
-      <div className='flex justify-between'>
-        <span>Subtotal</span>
-        <div className='text-right'>
-          <p className='text-2xl font-bold'>${cartTotal.toLocaleString()}</p>
-          <p className='text-xs'>(Delivery fees not included yet)</p>
+      <div className='py-4'>
+        <div className='flex justify-between'>
+          <span className='text-myGray'>Subtotal</span>
+          <div className='text-right'>
+            {isClient && cartTotal > 0 && (
+              <p className='mb-1 text-3xl font-semibold text-myGray'>
+                ${cartTotal.toLocaleString()}
+              </p>
+            )}
+
+            <p className='text-xs text-[#7C7C7C]'>
+              (Delivery fees not included yet)
+            </p>
+          </div>
         </div>
+        {isClient && cartTotal > 0 && (
+          <Button
+            linkType='rel'
+            href={ROUTES.CHECKOUT}
+            className='mt-8 w-full rounded-full p-4 font-semibold'
+          >
+            Checkout ( ${cartTotal.toLocaleString()} )
+          </Button>
+        )}
       </div>
-      <Button
-        linkType='rel'
-        href={ROUTES.CHECKOUT}
-        className='mt-8 w-full rounded-full p-4'
-      >
-        Checkout ( ${cartTotal.toLocaleString()} )
-      </Button>
     </div>
   );
 };

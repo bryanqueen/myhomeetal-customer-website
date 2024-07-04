@@ -7,38 +7,44 @@ import CartHandler from './CartHandler';
 
 const CartItem = ({ item }: any) => {
   return (
-    <div className='grid gap-3 border-b border-gray-100 py-5'>
+    <div className='grid gap-3 border-b border-gray-100 py-5 pr-2'>
       <div className='flex justify-between gap-3'>
-        <div className='flex gap-3'>
-          <div>
+        <div className='flex items-center gap-2'>
+          <div className='h-[95px] w-[95px]'>
             <Image
-              src='/images/product/samsung-galaxy.png'
+              src={item.images[0]}
               alt=''
-              width='70'
-              height='100'
+              width={100}
+              height={100}
+              className='h-full w-full rounded-3xl object-contain'
             />
           </div>
-          <div className='grid gap-2'>
-            <p>{item.title}</p>
-            <div className='flex items-center gap-2 text-xs'>
-              <span>Brand: </span>
-              <span className='rounded-full bg-primary/20 p-3'>Samsung</span>
+          <div className='flex items-center'>
+            <div className='py-1'>
+              <p className='mb-3 max-w-[450px] font-bold text-myGray'>
+                {item.productTitle}
+              </p>
+              <div className='flex items-center gap-2 text-sm text-myGray'>
+                <span>Brand: </span>
+                <span className='rounded-full bg-[#FFE0E0] px-6 py-2'>
+                  {item.brand}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-        <div className='grid'>
-          <span>${item.price}</span>
-          <span className='text-xs'>${item.price}</span>
+        <div className='flex items-center'>
+          <p className='text-xl font-bold text-myGray'>${item.price}</p>
         </div>
       </div>
-      <div className='flex items-center justify-between'>
+      <div className='mt-1 flex items-center justify-between'>
         <div>
           <CartHandler
             item={item}
             variant='REMOVE'
-            className='w-auto border-0 bg-transparent text-black'
+            className='w-auto border-0 bg-transparent text-sm text-myGray'
           >
-            <Trash variant='Bulk' className='text-red-800' />
+            <Trash size={24} variant='Bold' color='#B22222' />
             Remove
           </CartHandler>
         </div>
@@ -46,13 +52,17 @@ const CartItem = ({ item }: any) => {
           <CartHandler
             item={item}
             variant='UPDATE_MINUS'
-            className='w-auto p-0'
+            className='w-auto rounded-lg border-0 p-[2px]'
           >
-            <Minus />
+            <Minus size={23} />
           </CartHandler>
-          <span>{item.quantity}</span>
-          <CartHandler item={item} variant='UPDATE_PLUS' className='w-auto p-0'>
-            <Add />
+          <span className='text-myGray'>{item.quantity}</span>
+          <CartHandler
+            item={item}
+            variant='UPDATE_PLUS'
+            className='w-auto rounded-lg border-0 p-[2px]'
+          >
+            <Add size={23} />
           </CartHandler>
         </div>
       </div>

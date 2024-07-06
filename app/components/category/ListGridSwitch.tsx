@@ -3,12 +3,13 @@ import cn from 'classnames';
 import { signal } from '@preact/signals-react';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect, useState } from 'react';
+import { notFound, useSearchParams } from 'next/navigation';
+
+import SearchPagination from '../SearchPagination';
 import productService from '@/app/services/productService';
 import Button from '@components/Button';
 import ProductListCard from '@components/cards/ProductListCard';
 import ProductGridCard from '@components/cards/ProductGridCard';
-import { notFound, useSearchParams } from 'next/navigation';
-import SearchPagination from '../SearchPagination';
 
 const isList = signal(false);
 
@@ -70,7 +71,7 @@ const ListGridSwitch = ({ sortOption }: { sortOption?: string | null }) => {
     }
   };
 
-  const sortedProducts = sortProducts(currentPageProducts, sortOption); 
+  const sortedProducts = sortProducts(currentPageProducts, sortOption);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {

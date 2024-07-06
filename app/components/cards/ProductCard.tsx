@@ -33,7 +33,7 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
     <div className={cls}>
       <Link
         href={href}
-        className='overflow-hidden px-2 py-4 md:p-3 rounded-3xl transition-[shadow] hover:shadow hover:scale-105'
+        className='overflow-hidden rounded-3xl px-2 py-4 transition-[shadow] hover:scale-105 hover:shadow md:p-3'
       >
         <div className='relative mb-3 flex h-[130px] items-center justify-center'>
           <Image
@@ -61,9 +61,7 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
             <p className='h-fit w-fit text-xs font-normal'>100+ Reviews</p>
           </div>
           <div className=' mb-2 min-h-[25px] font-medium'>
-            <p className='three-line-clamp text-sm'>
-              {product.productTitle}
-            </p>
+            <p className='three-line-clamp text-sm'>{product.productTitle}</p>
           </div>
           <p className='text-base font-semibold'>#{product.price}</p>
         </div>

@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { Rating } from 'react-simple-star-rating';
-
 import Button from '@components/Button';
 
 interface Product {
@@ -19,7 +18,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductListCard = ({ product }) => {
+const ProductListCard = ({ product }: ProductCardProps) => {
   return (
     <div className='mb-5 flex items-center gap-5 rounded-3xl border border-[#E4E7EC] p-5 lg:max-w-3xl'>
       <Image
@@ -29,8 +28,8 @@ const ProductListCard = ({ product }) => {
         width='200'
         height='200'
       />
-      <div className='w-full flex items-center'>
-        <div className='grid w-full h-fit items-center gap-2'>
+      <div className='flex w-full items-center'>
+        <div className='grid h-fit w-full items-center gap-2'>
           <p className='text-sm font-medium'>{product.productTitle}</p>
           <div className='flex items-center'>
             <p className='hidden text-sm sm:block'>{product.rating || 4.4}</p>
@@ -49,14 +48,18 @@ const ProductListCard = ({ product }) => {
           </div>
           <div className='flex items-center justify-between'>
             <p className='flex items-center gap-5 sm:text-2xl'>
-              <span className='font-semibold  text-lg'>{product.price}</span>
+              <span className='text-lg font-semibold'>{product.price}</span>
               <span className='text-sm text-gray-500 line-through sm:text-lg'>
                 {product.price}
               </span>
             </p>
-            
-              <Button linkType='rel' href={`/item/${product._id}`} className='w-auto rounded-full px-10'>Buy now</Button>
-           
+            <Button
+              linkType='rel'
+              href={`/item/${product._id}`}
+              className='w-auto rounded-full px-10'
+            >
+              Buy now
+            </Button>
           </div>
         </div>
       </div>

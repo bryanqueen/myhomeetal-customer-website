@@ -52,23 +52,22 @@ const Category = ({ title, color = 'bg-primary', id }: Props) => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
   return (
-    <div className='px-2 my-10 md:my-20 md:px-[2%]'>
+    <div className='my-10 px-2 md:my-20 md:px-[2%]'>
       <div
         className={`col-span-full mb-2 flex h-[45px] items-center justify-between px-3 text-white ${color}`}
       >
-        <h2 className='font-medium text-sm md:text-base'>{title}</h2>
+        <h2 className='text-sm font-medium md:text-base'>{title}</h2>
         <Link
           href={`/category/${title}?categoryId=${id}`}
           key={id}
-          className='font-light text-xs md:font-medium md:text-base'
+          className='text-xs font-light md:text-base'
         >
           See All
         </Link>
       </div>
-      <div
-        className={`grid pt-5 grid-cols-2 justify-center gap-2 md:grid-cols-4 lg:grid-cols-6`}
-      >
+      <div className='grid justify-center gap-2 pt-5 md:grid-cols-4 lg:grid-cols-6'>
         {products.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}

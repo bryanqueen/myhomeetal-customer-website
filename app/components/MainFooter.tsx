@@ -6,6 +6,7 @@ import {
   FaXTwitter,
   FaYoutube,
 } from 'react-icons/fa6';
+
 import Logo from './Logo';
 
 interface Content {
@@ -77,31 +78,32 @@ const MainFooter: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className='bg-white'>     
-      <footer className='flex flex-wrap justify-center py-10 pt-16 px-[3%]'>
-      <div className='basis-[10%]'>
-      <Link href='/'>
-          <Logo variant={3} />
-        </Link>
-      </div>
-      <div className='flex flex-wrap'>
-      {contents.map((content, index) => (
-          <div key={index} className='w-1/2 px-4 md:w-1/5'>
-            <p className='mb-4 font-bold text-black/50 text-sm'>{content.title}</p>
-            <ul>
-              {content.items.map((item, itemIndex) => (
-                <li key={itemIndex} className='mb-2 text-black text-[13px]'>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-        
+    <div className='bg-white'>
+      <footer className='flex flex-wrap justify-center px-[3%] py-10 pt-16'>
+        <div className='basis-[10%]'>
+          <Link href='/'>
+            <Logo variant={3} />
+          </Link>
+        </div>
+        <div className='flex flex-wrap'>
+          {contents.map((content, index) => (
+            <div key={index} className='w-1/2 px-4 md:w-1/5'>
+              <p className='mb-4 text-sm font-bold text-black/50'>
+                {content.title}
+              </p>
+              <ul>
+                {content.items.map((item, itemIndex) => (
+                  <li key={itemIndex} className='mb-2 text-[13px] text-black'>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </footer>
       <div className='px-[3%] pb-5'>
-        <p className='text-black/50 text-sm font-bold mb-3'>JOIN US</p>
+        <p className='mb-3 text-sm font-bold text-black/50'>JOIN US</p>
         <div className='flex space-x-4'>
           <a href='#' aria-label='Facebook'>
             <FaFacebook />

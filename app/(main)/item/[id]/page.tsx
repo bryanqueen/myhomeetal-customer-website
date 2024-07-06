@@ -14,7 +14,7 @@ export default async function page({ params }: { params: Params }) {
   try {
     const res = await productService.getProductDetail(params.id);
     if (!res || !res.data) {
-      console.log('id not found')
+      console.log('id not found');
       return notFound();
     }
     data = res.data;

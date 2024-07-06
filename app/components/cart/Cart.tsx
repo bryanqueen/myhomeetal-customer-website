@@ -1,7 +1,8 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
-import CartItem from './CartItem';
 import { useCart } from 'react-use-cart';
+import CartItem from './CartItem';
 
 function Cart() {
   const { items, isEmpty } = useCart();

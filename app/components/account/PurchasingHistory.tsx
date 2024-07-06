@@ -1,12 +1,12 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
 import Image from 'next/image';
 import Link from 'next/link';
 import NoHistory from './NoHistory';
 import useQueryParams from '@components/hooks/useQueryParams';
 import { PageProps } from '@/app/utils/types';
-import { useEffect, useState } from 'react';
 import authUtils from '@/app/utils/authUtils';
 import productService from '@/app/services/productService';
 
@@ -26,6 +26,7 @@ const PurchasingHistory = ({
 
   async function getUserInfo() {
     const res = await productService.getUserDetails();
+    // Process response
   }
 
   useEffect(() => {
@@ -33,12 +34,6 @@ const PurchasingHistory = ({
     setUserInfo(fetchedUserInfo);
   }, []);
 
-  /*useEffect(() => {
-    if (userInfo) {
-      const id = userInfo.id;
-    }
-  }, [userInfo]);
-*/
   const orders = [0, 0, 0, 0, 0, 0].map((item, i) => <PurchaseItem key={i} />);
 
   return (

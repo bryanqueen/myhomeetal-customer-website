@@ -29,14 +29,36 @@ export default function CategoryPage({ params }: PageProps) {
         <div className='mb-5 self-start rounded-3xl border p-5'>
           <p>Sort by</p>
           <div className='my-5 grid gap-3'>
-            <Button onClick={() => setSortOption('priceLowToHigh')} className={sortOption === 'priceLowToHigh' ? 'w-full rounded-xl p-4': 'w-full rounded-xl bg-white p-4 text-gray-500'}>Price Low to High</Button>
-            <Button onClick={() => setSortOption('newestArrivals')} className='w-full rounded-xl bg-white p-4 text-gray-500'>
+            <Button
+              onClick={() => setSortOption('priceLowToHigh')}
+              className={
+                sortOption === 'priceLowToHigh'
+                  ? 'w-full rounded-xl p-4'
+                  : 'w-full rounded-xl bg-white p-4 text-gray-500'
+              }
+            >
+              Price Low to High
+            </Button>
+            <Button
+              onClick={() => setSortOption('newestArrivals')}
+              className='w-full rounded-xl bg-white p-4 text-gray-500'
+            >
               Newest Arrivals
             </Button>
-            <Button onClick={() => setSortOption('bestSellers')} className='w-full rounded-xl bg-white p-4 text-gray-500'>
+            <Button
+              onClick={() => setSortOption('bestSellers')}
+              className='w-full rounded-xl bg-white p-4 text-gray-500'
+            >
               Best Sellers
             </Button>
-            <Button onClick={() => setSortOption('priceHighToLow')} className={sortOption === 'priceHighToLow' ? 'w-full rounded-xl p-4': 'w-full rounded-xl bg-white p-4 text-gray-500'}>
+            <Button
+              onClick={() => setSortOption('priceHighToLow')}
+              className={
+                sortOption === 'priceHighToLow'
+                  ? 'w-full rounded-xl p-4'
+                  : 'w-full rounded-xl bg-white p-4 text-gray-500'
+              }
+            >
               Price High to Low
             </Button>
             <Button className='w-full rounded-xl bg-white p-4 text-gray-500'>

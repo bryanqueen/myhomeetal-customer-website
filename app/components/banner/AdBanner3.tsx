@@ -10,7 +10,7 @@ const AdBanner3 = () => {
       {images.map((src, index) => (
         <Image
           key={index}
-          className='w-full rounded-2xl lg:h-[274px] object-cover'
+          className='w-full rounded-2xl object-cover lg:h-[274px]'
           src={src}
           alt='Advert'
           width={1000}

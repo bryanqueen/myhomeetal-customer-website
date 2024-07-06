@@ -12,7 +12,7 @@ function CheckoutPage() {
         </Link>
       </div>
       <div className='px-5 lg:px-[3%]'>
-        <h1 className='mt-5 mb-10 text-3xl font-bold'>Checkout process</h1>
+        <h1 className='mb-10 mt-5 text-3xl font-bold'>Checkout process</h1>
         <CheckoutForm />
       </div>
     </main>

@@ -3,7 +3,6 @@ import './globals.css';
 import { Toaster } from 'react-hot-toast';
 
 import { UIProvider } from './providers';
-import { bricolage } from './utils/font';
 
 export const metadata: Metadata = {
   title: 'MYHOMEETAL - Your one stop shop',
@@ -18,10 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${bricolage.className} antialiased`}>
-        
-          <UIProvider>{children}</UIProvider>
-        
+      <body>
+        <UIProvider>{children}</UIProvider>
         <Toaster />
       </body>
     </html>

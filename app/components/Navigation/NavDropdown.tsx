@@ -61,7 +61,7 @@ const NavDropdown = ({
   return (
     <div className='relative flex items-center'>
       <button
-        className='flex w-full text-myGray font-semibold items-center justify-between gap-1 transition'
+        className='flex w-full items-center justify-between gap-1 font-semibold text-myGray transition'
         aria-expanded={isOpen ? 'true' : 'false'}
         onClick={() => onToggle(!isOpen)}
         onMouseEnter={() => onToggle(true)}

@@ -16,10 +16,10 @@ export default function AccountPage() {
         <div className='my-10 rounded-2xl border border-[#F4F4F4] p-3 pb-5'>
           <div className='mb-3 flex justify-between pt-3'>
             <div className='flex items-center gap-3'>
-              <span className='flex h-6 w-6 items-center justify-center font-medium rounded-full bg-[#FFE0E0] text-sm text-myGray'>
+              <span className='flex h-6 w-6 items-center justify-center rounded-full bg-[#FFE0E0] text-sm font-medium text-myGray'>
                 1
               </span>
-              <p className='text-myGray font-semibold'>Personal Information</p>
+              <p className='font-semibold text-myGray'>Personal Information</p>
             </div>
             <p className='font-medium text-primary'>Edit information</p>
           </div>
@@ -56,12 +56,12 @@ export default function AccountPage() {
           </div>
         </div>
         <div className='my-10 mb-20 rounded-2xl border border-[#F4F4F4] p-3'>
-          <div className='mb-3 flex justify-between  mt-3'>
+          <div className='mb-3 mt-3 flex  justify-between'>
             <div className='flex items-center gap-3'>
-              <span className='flex h-6 w-6 items-center justify-center font-medium rounded-full bg-[#FFE0E0] text-sm text-myGray'>
+              <span className='flex h-6 w-6 items-center justify-center rounded-full bg-[#FFE0E0] text-sm font-medium text-myGray'>
                 2
               </span>
-              <p className='text-myGray font-semibold'>Delivery Information</p>
+              <p className='font-semibold text-myGray'>Delivery Information</p>
             </div>
             <p className='font-medium text-primary'>Edit information</p>
           </div>

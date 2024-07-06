@@ -1,8 +1,9 @@
 import Link from 'next/link';
+import { ArrowLeftIcon } from '@heroicons/react/16/solid';
+
 import Category from '@components/category/CategoryGrid';
 import Cart from '@/app/components/cart/Cart';
 import CartSummary from '@/app/components/cart/CartSummary';
-import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 
 export default function CartPage() {
   return (

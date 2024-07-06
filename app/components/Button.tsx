@@ -92,9 +92,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       {...rest}
     >
       {icon && <span className='me-2'>{icon}</span>}
-      <div className=''>
-        {children}
-      </div>
+      <div className=''>{children}</div>
       {loading && (
         <svg
           className='-me-1 ms-3 h-5 w-5 animate-spin'

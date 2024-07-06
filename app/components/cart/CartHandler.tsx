@@ -2,9 +2,9 @@
 
 import { useCart, Item } from 'react-use-cart';
 import { useEffect, useState } from 'react';
+import { ShoppingCart } from 'iconsax-react';
 import Button from '@components/Button';
 import { ROUTES } from '@/app/utils/routes';
-import { ShoppingCart } from 'iconsax-react';
 
 interface Props {
   item: Item;
@@ -61,7 +61,11 @@ const CartHandler = ({
       onClick={handleCart}
       className={className}
       disabled={disabled}
-      icon={variant === 'ADD' ? <ShoppingCart size={24} variant='Bulk' color='white' /> : undefined}
+      icon={
+        variant === 'ADD' ? (
+          <ShoppingCart size={24} variant='Bulk' color='white' />
+        ) : undefined
+      }
     >
       {children}
     </Button>

@@ -8,7 +8,7 @@ const ReviewCard = ({
 }) => {
   const formattedDate = format(new Date(review.date), 'MMM d, yyyy');
   return (
-    <div className='mb-5 flex flex-col gap-3 rounded-3xl bg-gray-100 py-7 px-5'>
+    <div className='mb-5 flex flex-col gap-3 rounded-3xl bg-gray-100 px-5 py-7'>
       <div className='text-end'>
         <p className='shrink-0 text-xs text-myGray'>Posted {formattedDate}</p>
       </div>

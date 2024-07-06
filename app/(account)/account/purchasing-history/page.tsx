@@ -8,8 +8,6 @@ export const metadata: Metadata = {
   title: 'Purchasing History | Myhomeetal',
 };
 
-
-
 export default function PurchasingHistoryPage({ searchParams }: PageProps) {
   return (
     <main>

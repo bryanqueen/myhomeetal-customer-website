@@ -2,11 +2,18 @@
 
 import Pagination from '@components/Pagination';
 
-const SearchPagination = ({
+interface SearchPaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  minPagesToShow?: number; // Optional prop
+}
+
+const SearchPagination: React.FC<SearchPaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
-  minPagesToShow,
+  minPagesToShow = 1,
 }) => {
   return (
     <Pagination

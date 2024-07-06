@@ -1,15 +1,16 @@
 'use client';
 
+import { useCart } from 'react-use-cart';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { ArrowRight } from 'iconsax-react';
+
 import OrderSummary from './OrderSummary';
 import Input from '@components/Input';
 import RadioItem from '@components/RadioItem';
 import Button from '@components/Button';
 import ClientOnly from '@components/ClientOnly';
-import { useCart } from 'react-use-cart';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
 const CheckoutForm = () => {
   const { items, isEmpty } = useCart();
@@ -123,7 +124,9 @@ const CheckoutForm = () => {
         </div>
         <div className='mb-8 rounded-2xl border border-[#F4F4F4] px-5 pb-5'>
           <div className='flex items-center gap-3 py-4'>
-            <span className='flex h-6 w-6 items-center justify-center rounded-full bg-[#FFE0E0] text-sm text-myGray'>2</span>
+            <span className='flex h-6 w-6 items-center justify-center rounded-full bg-[#FFE0E0] text-sm text-myGray'>
+              2
+            </span>
             <p className='font-semibold text-myGray'>Select Payment Method</p>
           </div>
           <div className='rounded-2xl bg-[#F4F4F4] p-7'>

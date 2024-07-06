@@ -50,8 +50,8 @@ const OrderSummary = () => {
     <div>
       <div className='max-w-5xl lg:rounded-2xl lg:border lg:border-[#E4E7EC] lg:p-12'>
         <div className='w-full rounded-3xl border p-3 lg:border-0'>
-          <div className='pl-4 mb-3'>
-            <p className='text-myGray font-semibold'>Order Summary</p>
+          <div className='mb-3 pl-4'>
+            <p className='font-semibold text-myGray'>Order Summary</p>
           </div>
           <div className='rounded-2xl border border-[#E4E7EC] p-3 px-5 pr-5'>
             <OrderItem />

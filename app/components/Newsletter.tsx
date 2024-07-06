@@ -5,7 +5,7 @@ import Input from './Input';
 
 const Newsletter = () => {
   return (
-    <div className='bg-black py-10 px-[3%]'>
+    <div className='bg-black px-[3%] py-10'>
       <div className='relative isolate overflow-hidden rounded-md bg-red-600 px-4 py-10 text-center text-white md:rounded-2xl'>
         <div className='absolute inset-0 -z-10 flex items-center justify-center'>
           <Image

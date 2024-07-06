@@ -1,8 +1,9 @@
 'use client';
 
-import Marquee from 'react-fast-marquee';
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Marquee from 'react-fast-marquee';
+
 import productService from '@/app/services/productService';
 
 interface Category {
@@ -10,17 +11,16 @@ interface Category {
   _id: string;
 }
 
-const CategoryList = ({ categories }: any) => {
-  
+const CategoryList = ({ categories }: { categories: Category[] }) => {
   return (
     <div className='hidden items-center px-[3%] pb-5 md:flex'>
       <p className='pr-2 text-sm font-semibold'>Categories:</p>
       <ul className='flex overflow-hidden'>
-        <Marquee pauseOnHover={true} autoFill={true}>
+        <Marquee pauseOnHover autoFill>
           {categories.map((category) => (
             <li
               key={category._id}
-              className='shrink-0 p-3 text-sm font-light text-myGray'
+              className='p-3 text-sm font-light text-myGray'
             >
               <Link
                 href={`/category/${category.name}?categoryId=${category._id}`}

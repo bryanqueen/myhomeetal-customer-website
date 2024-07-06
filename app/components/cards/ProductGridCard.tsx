@@ -18,9 +18,11 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductGridCard: React.FC<ProductCardProps> = ({ product }: ProductCardProps) => {
+const ProductGridCard: React.FC<ProductCardProps> = ({
+  product,
+}: ProductCardProps) => {
   return (
-    <div className='grid gap-5 lg:rounded-3xl lg:border p-5 lg:max-w-md'>
+    <div className='grid gap-5 p-5 lg:max-w-md lg:rounded-3xl lg:border'>
       <Image
         className='mx-auto h-32 w-32 object-contain'
         src={product.images[0]}

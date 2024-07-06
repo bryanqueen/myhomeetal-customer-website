@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import CheckoutForm from '@components/checkout/CheckoutForm';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
+
+import CheckoutForm from '@components/checkout/CheckoutForm';
 
 function CheckoutPage() {
   return (

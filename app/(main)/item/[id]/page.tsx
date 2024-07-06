@@ -1,9 +1,10 @@
+import { notFound } from 'next/navigation';
+
 import Newsletter from '@/app/components/Newsletter';
 import ProductHeader from '@/app/components/product/ProductHeader';
 import ProductInformation from '@/app/components/product/ProductInformation';
 import ProductOverview from '@/app/components/product/ProductOverview';
 import productService from '@/app/services/productService';
-import { notFound } from 'next/navigation';
 
 type Params = {
   id: string;

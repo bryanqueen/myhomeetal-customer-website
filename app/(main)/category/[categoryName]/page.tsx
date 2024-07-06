@@ -1,10 +1,11 @@
 // import { Metadata } from 'next';
 'use client';
+import { useState } from 'react';
+
 import Button from '@components/Button';
 import ListGridSwitch, {
   ListGridSwitchControls,
 } from '@components/category/ListGridSwitch';
-import { useState } from 'react';
 
 export interface PageProps {
   params?: any;

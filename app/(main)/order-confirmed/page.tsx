@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 
 import Button from '@components/Button';
 import { ROUTES } from '@utils/routes';
-import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 
 function OrderConfirmedPage() {
   return (

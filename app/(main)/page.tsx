@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+
 import productService from '../services/productService';
 import AdBanner from '@components/banner/AdBanner';
 import AdBanner2 from '@components/banner/AdBanner2';

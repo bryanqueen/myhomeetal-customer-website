@@ -1,15 +1,16 @@
 'use client';
 
+import React from 'react';
 import CartHandler from './CartHandler';
 import { useItemQuantity } from '@/app/providers';
 
 const AddToCartButton = ({ item }: any) => {
+  const { state } = useItemQuantity();
+
   if (!item.id) {
     console.error("Product item missing required 'id' property");
     return null; // Or handle the error differently
   }
-
-  const { state } = useItemQuantity();
 
   return (
     <CartHandler

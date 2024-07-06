@@ -9,7 +9,7 @@ import ProductReviews from './ProductReviews';
 
 // Individual Components
 
-const ProductDetails = ({ dataDesc }: { dataDesc: String }) => {
+const ProductDetails = ({ dataDesc }: { dataDesc: string }) => {
   return (
     <div>
       <p>{dataDesc}</p>
@@ -70,7 +70,7 @@ const calculateRatingDistribution = (reviews: Review[]) => {
   });
 
   const reviewCount = reviews.length;
-  for (let star in distribution) {
+  for (const star in distribution) {
     distribution[star] = (distribution[star] / reviewCount) * 100;
   }
   return distribution;

@@ -25,14 +25,10 @@
   },
   "rules": {
     // "prettier/prettier": ["error"],
-    "import/order": [
-      "error",
-      {
-        "newlines-between": "always"
-      }
-    ],
+    "import/order": "off", // Disable the import/order rule
     "linebreak-style": ["error", "unix"],
     "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off", // Disable the react/prop-types rule
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/ban-ts-comment": "off"

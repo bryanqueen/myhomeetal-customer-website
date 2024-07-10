@@ -31,13 +31,13 @@ const ProductCarousel = ({ data }: any) => {
         {data.images?.map((image: string, index: number) => (
           <div
             key={index}
-            className={`pt-10 pb-5 ${isSingleImage ? 'flex justify-center' : ''}`}
+            className={`pt-2 pb-5 ${isSingleImage ? 'flex justify-center' : ''}`}
           >
             <Image
               className='object-contain'
               src={image}
               alt={`Product Image ${index + 1}`}
-              width={200}
+              width={350}
               height={400}
             />
           </div>

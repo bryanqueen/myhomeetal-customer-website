@@ -50,10 +50,10 @@ const NavDropdown = ({
   }, [isOpen]);
 
   const contentRootClassName = cn(
-    'absolute top-12 min-w-64 overflow-hidden rounded-3xl bg-white p-0 shadow transition-opacity duration-300 ease-out',
+    'absolute top-[70px] min-w-64 overflow-hidden rounded-3xl bg-white p-0 transition-opacity duration-300 ease-out z-50',
     {
       'opacity-100': isOpen,
-      'opacity-50': !isOpen,
+      'opacity-0': !isOpen,
     },
     position
   );
@@ -61,7 +61,7 @@ const NavDropdown = ({
   return (
     <div className='relative flex items-center'>
       <button
-        className='flex w-full items-center justify-between gap-1 font-semibold text-myGray transition'
+        className='flex w-full items-center justify-between gap-1 text-base hover:text-[#8B1A1A] font-clashmd text-myGray transition'
         aria-expanded={isOpen ? 'true' : 'false'}
         onClick={() => onToggle(!isOpen)}
         onMouseEnter={() => onToggle(true)}
@@ -69,6 +69,9 @@ const NavDropdown = ({
         {target}
       </button>
       <ClientOnly>
+        {isOpen && (
+          <div className='fixed inset-0 top-[83px] bg-black bg-opacity-50 z-40' onClick={() => onToggle(false)}></div>
+        )}
         <div
           className={contentRootClassName}
           ref={dropdownRef}
@@ -80,15 +83,15 @@ const NavDropdown = ({
             {children
               ? children
               : items.map((item: any, j: any) => (
-                  <Link
-                    key={j}
-                    href={item.link}
-                    className='flex select-none justify-between rounded-lg p-5 text-[15px] leading-none text-gray-500 no-underline outline-none transition-colors hover:bg-gray-100 focus-visible:shadow-[0_0_0_2px]'
-                  >
-                    {item.text}
-                    {item.icon || <ArrowRight size='15px' />}
-                  </Link>
-                ))}
+                <Link
+                  key={j}
+                  href={item.link}
+                  className='flex select-none justify-between rounded-lg p-5 text-[#656565] text-sm leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus-visible:shadow-[0_0_0_2px]'
+                >
+                  {item.text}
+                  {item.icon || <ArrowRight size='15px' />}
+                </Link>
+              ))}
           </div>
         </div>
       </ClientOnly>

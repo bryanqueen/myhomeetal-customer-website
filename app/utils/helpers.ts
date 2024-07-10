@@ -47,3 +47,27 @@ export const getPageNumbers = (
 
   return pages;
 };
+
+export const formatPrice = (price: string | number): string => {
+  const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+  if (isNaN(numericPrice)) {
+    return 'Invalid price'; // Handle invalid price scenario
+  }
+  return numericPrice.toLocaleString('en-US');
+};
+
+export const convertPrice = (priceInNGN, region) => {
+  const exchangeRates = {
+    NG: 1, // Example rate
+    US: 1500,
+    UK: 2000,
+  };
+
+  return priceInNGN / exchangeRates[region];
+};
+
+export const currencySymbols = {
+  NG: '₦',
+  US: '$',
+  UK: '£',
+};

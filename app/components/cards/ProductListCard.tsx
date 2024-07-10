@@ -23,7 +23,7 @@ const ProductListCard = ({ product }: ProductCardProps) => {
     <div className='mb-5 flex items-center gap-5 rounded-3xl border border-[#E4E7EC] p-5 lg:max-w-3xl'>
       <Image
         className='h-40 w-40 object-contain'
-        src={product.images[0]}
+        src={product?.images[0]}
         alt='Product'
         width='200'
         height='200'

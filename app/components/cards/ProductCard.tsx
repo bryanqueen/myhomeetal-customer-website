@@ -6,6 +6,9 @@ import Link from 'next/link';
 import { Rating } from 'react-simple-star-rating';
 
 import Button from '../Button';
+import { formatPrice } from '@/app/utils/helpers';
+import ProductPrice from '../product/ProductPrice';
+import { useRegion } from '@/app/RegionProvider';
 
 interface Product {
   _id: string;
@@ -23,9 +26,11 @@ interface Props {
 }
 
 const ProductCard = ({ variant = 'default', product }: Props) => {
-  const cls = cn('mx-auto grid w-full gap-3 ', {
+  const priceStyle = 'text-base font-clashmd text-black';
+  const cls = cn('flex items-center justify-evenly lg:justify-center min-w-[160px] h-[268px] lg:w-[230px] lg:h-[307px] overflow-hidden rounded-2xl gap-3 hover:border hover:border-[#F68182] box-border', {
     'md:w-full lg:font-medium': variant === 'top',
   });
+  const { region } = useRegion();
 
   const href = `/item/${product._id}`;
 
@@ -33,37 +38,51 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
     <div className={cls}>
       <Link
         href={href}
-        className='overflow-hidden rounded-3xl px-2 py-4 transition-[shadow] hover:scale-105 hover:shadow md:p-3'
+        className='transition-shadow duration-300'
       >
-        <div className='relative mb-3 flex h-[130px] items-center justify-center'>
+        <div className='relative mb-3 flex flex-col justify-between w-full h-[172px] lg:w-full lg:h-[158px] items-center lg:justify-center'>
           <Image
-            className={`${variant === 'top' ? '' : 'h-[120px] w-[150px] object-contain'}`}
+            className={`${variant === 'top' ? '' : 'w-[148px] h-[130px] lg:h-[158px] lg:w-[158px] object-contain'}`}
             src={product.images[0]}
             alt='Product Card'
             width={200}
             height={200}
+            style={{ transition: 'transform 0.3s' }}
           />
 
           {product.isProductNew === true && <NewProductTag />}
-        </div>
-        <div>
-          <div className='mb-1 flex items-center justify-between'>
+          <div className='w-full flex items-center gap-5 lg:hidden'>
             <Rating
-              initialValue={5}
+              initialValue={product.rating}
               readonly
               fillColor=''
               className='mt-[-6px] text-primary'
               SVGclassName='inline'
-              size={13}
+              size={16}
               allowFraction
             />
 
-            <p className='h-fit w-fit text-xs font-normal'>100+ Reviews</p>
+            <p className='h-fit w-fit text-[10px] text-black'>{product.reviewsCount}+ Reviews</p>
           </div>
-          <div className=' mb-2 min-h-[25px] font-medium'>
-            <p className='three-line-clamp text-sm'>{product.productTitle}</p>
+        </div>
+        <div className='lg:w-[191px] lg:h-[88px] flex flex-col justify-between'>
+          <div className='hidden w-full lg:flex items-center gap-5'>
+            <Rating
+              initialValue={product.rating}
+              readonly
+              fillColor=''
+              className='mt-[-6px] text-primary'
+              SVGclassName='inline'
+              size={16}
+              allowFraction
+            />
+
+            <p className='h-fit w-fit text-[10px] text-black'>{product.reviewsCount}+ Reviews</p>
           </div>
-          <p className='text-base font-semibold'>#{product.price}</p>
+          <div className='min-h-[25px]'>
+            <p className='three-line-clamp text-xs text-black'>{product.productTitle}</p>
+          </div>
+          <ProductPrice priceInNGN={product.price} region={region} className={priceStyle} />
         </div>
       </Link>
       {variant === 'top' && (

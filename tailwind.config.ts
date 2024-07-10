@@ -84,6 +84,13 @@ const config: Config = {
         overlayShow: 'overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
         contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
       },
+      fontFamily: {
+        clash: ["ClashDisplay-Regular", "sans-serif"],
+        clashmd: ["ClashDisplay-Medium", "sans-serif"],
+        clashsm: ["ClashDisplay-Semibold", "sans-serif"],
+        clashreg: ["ClashDisplay-Regular", "sans-serif"],
+        clashbold: ["ClashDisplay-Bold", "sans-serif"],
+      }
     },
   },
   plugins: [],

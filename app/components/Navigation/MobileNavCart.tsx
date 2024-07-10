@@ -22,7 +22,7 @@ const MobileNavCart = () => {
     );
 
   return (
-    <div className='relative h-screen p-5'>
+    <div className='relative h-screen p-5 bg-black/30'>
       <p className='text-lg font-medium'>My Cart</p>
       <p>Items in cart: {items.length}</p>
       <div className='mt-10 rounded-md lg:max-w-4xl'>

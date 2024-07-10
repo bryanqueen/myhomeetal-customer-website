@@ -11,6 +11,9 @@ import {
   SecuritySafe,
   Location,
   CloseSquare,
+  Menu,
+  Shop,
+  Bag,
 } from 'iconsax-react';
 
 import { ROUTES } from './routes';
@@ -85,5 +88,94 @@ export const accountNav2 = [
     text: 'Logout',
     icon: <LogoutIcon variant='Bulk' />,
     dialog: { content: <LogoutDialog /> },
+  },
+];
+export const accountNav3 = [
+  {
+    text: 'Personal Information',
+    icon: <UserTick variant='Bulk' color='#292D32' />,
+    link: ROUTES.ACCOUNT,
+  },
+  {
+    text: 'My Orders',
+    icon: <Box variant='Bulk' color='#292D32' />,
+    link: ROUTES.PURCHASING_HISTORY,
+  },
+  {
+    text: 'My Wallet',
+    icon: <Wallet2 variant='Bulk' color='#292D32' />,
+    link: ROUTES.WALLET,
+  },
+  {
+    text: 'Notifications',
+    icon: <Notification variant='Bold' color='#292D32' />,
+    link: ROUTES.NOTIFICATIONS,
+  },
+  {
+    text: 'Saved Items',
+    icon: <HeartAdd variant='Bulk' color='#292D32' />,
+    link: ROUTES.SAVED_ITEMS,
+  },
+
+  {
+    text: 'My Address',
+    icon: <Location variant='Bulk' color='#292D32' />,
+    link: ROUTES.ADDRESS_BOOK,
+  },
+  {
+    text: 'Security',
+    icon: <SecuritySafe variant='Bulk' color='#292D32' />,
+    link: ROUTES.SECURITY,
+  },
+  {
+    text: 'Close Account',
+    icon: <CloseSquare variant='Bulk' color='#292D32' />,
+    link: ROUTES.CLOSE_ACCOUNT,
+  },
+  {
+    text: 'Logout',
+    icon: <LogoutIcon variant='Bulk' color='#292D32' />,
+    dialog: { content: <LogoutDialog /> },
+  },
+];
+export const hamburgerNav = [
+  {
+    text: 'My Categories',
+    icon: <Menu variant='Bulk' color='#292D32' />,
+    link: ROUTES.ACCOUNT,
+  },
+  {
+    text: 'My Shops',
+    icon: <Shop variant='Bulk' color='#292D32' />,
+    link: ROUTES.PURCHASING_HISTORY,
+  },
+  {
+    text: 'My Deals',
+    icon: <Bag variant='Bulk' color='#292D32' />,
+    link: ROUTES.WALLET,
+  },
+  {
+    text: 'My Account',
+    icon: <UserTick variant='Bulk' />,
+    link: ROUTES.ACCOUNT,
+  },
+  {
+    text: 'My Cart',
+    icon: <ShoppingCart variant='Bulk' color='#292D32' />,
+    link: ROUTES.SAVED_ITEMS,
+  },
+  {
+    text: 'Help Center',
+    icon: <UserTick variant='Bulk' />,
+    select: {
+      options: [
+        { value: 'nigeria', label: 'Nigeria', image: '/images/flags/nigeria.png' },
+        { value: 'us', label: 'US', image: '/images/flags/us.png' },
+        { value: 'uk', label: 'UK', image: '/images/flags/uk.png' },
+      ],
+      onChange: (event) => {
+        console.log(event.target.value); // Handle select option change
+      },
+    },
   },
 ];

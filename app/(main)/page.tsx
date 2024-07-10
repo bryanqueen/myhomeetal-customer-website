@@ -46,7 +46,7 @@ export default async function Home() {
         {/* <Category title='New Products' /> */}
         <AdBanner3 />
         <>
-          {topCategories.slice(0, 4).map((category) => {
+          {topCategories && topCategories.slice(0, 4).map((category) => {
             return (
               <Category
                 key={category._id}

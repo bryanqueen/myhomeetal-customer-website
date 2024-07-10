@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import "../public/ClashDisplay_Complete/ClashDisplay_Complete/ClashDisplay_Complete/Fonts/WEB/css/clash-display.css";
 import { Toaster } from 'react-hot-toast';
-
+import { RegionProvider } from './RegionProvider';
 import { UIProvider } from './providers';
 
 export const metadata: Metadata = {
@@ -12,13 +13,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang='en'>
-      <body>
-        <UIProvider>{children}</UIProvider>
+    <html lang="en">
+      <body className='font-clash'>
+        <RegionProvider>
+          <UIProvider>
+            {children}
+          </UIProvider>
+        </RegionProvider>
         <Toaster />
       </body>
     </html>

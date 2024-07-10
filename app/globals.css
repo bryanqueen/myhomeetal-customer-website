@@ -28,8 +28,10 @@ a:not(.btn):hover {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .is-pinned {
@@ -39,8 +41,10 @@ a:not(.btn):hover {
 }
 
 @media (max-width: 768px) {
+
   /* For mobile screens */
   .icon-mobile {
-    color: white; /* Example mobile color */
+    color: white;
+    /* Example mobile color */
   }
 }

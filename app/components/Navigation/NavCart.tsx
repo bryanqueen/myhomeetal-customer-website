@@ -13,25 +13,25 @@ const NavCart = () => {
 
   return (
     <div className='rounded-md border-gray-100 lg:max-w-4xl'>
-      <p className='mb-5 text-gray-600'>Items in cart: {items.length}</p>
+      <p className='mb-7 text-[#656565] text-sm'>Items in cart: {items.length}</p>
       <div className='no-scrollbar max-h-[250px] w-full overflow-scroll'>
         {items.map((item) => (
           <div
             key={item.id}
-            className='mb-2 flex min-h-[75px] items-center gap-3 rounded-lg bg-gray-50 p-2'
+            className='mb-2 flex w-[211px] h-[76px] items-center gap-2 rounded-lg bg-[#f4f4f4] p-2'
           >
             <Image
               src={item?.images[0]}
               width={57}
               height={61}
               alt='product image'
-              className='h-[60px] rounded-2xl object-contain'
+              className='h-[61px] rounded-lg object-contain'
             />
-            <div className='grid'>
-              <span className='line-clamp-2 text-xs text-gray-500'>
+            <div className='w-[120px] h-[61px] py-1 flex flex-col justify-between'>
+              <p className='line-clamp-2 text-sm text-[#656565]'>
                 {item.productTitle}
-              </span>
-              <span>Price: {item.price}</span>
+              </p>
+              <p className='text-[#656565]'>Price: <span className='font-clashmd'>{item.price}</span></p>
             </div>
           </div>
         ))}

@@ -57,7 +57,7 @@ const DesktopNav = () => {
       case 'US':
         return '/images/flags/US.png';
       case 'UK':
-        return '/images/flags/GB.jpeg';
+        return '/images/flags/GB.png';
       default:
         return '/images/flags/default.png'; // Default flag if no match found
     }

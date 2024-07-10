@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { HambergerMenu, ShoppingCart, Profile } from 'iconsax-react';
+import { HambergerMenu, ShoppingCart, Profile, ArrowRight } from 'iconsax-react';
 import cn from 'classnames';
 import { Suspense } from 'react';
 
@@ -18,7 +18,7 @@ import { ROUTES } from '@utils/routes';
 import { hasCookie } from 'cookies-next';
 import { constants } from '@/app/utils/constants';
 import Dialog from '@components/Dialog';
-import { ArrowRightIcon, XMarkIcon } from '@heroicons/react/16/solid';
+import { XMarkIcon } from '@heroicons/react/16/solid';
 import SelectOption from '../SelectOption';
 import { useRouter } from 'next/navigation';
 import { useCart } from 'react-use-cart';
@@ -122,10 +122,10 @@ const MobileNav = () => {
                 <XMarkIcon width={30} />
               </button>
             </div>
-            <ul className='grid h-[calc(100vh-8rem)] gap-3 overflow-auto bg-white p-5 pb-10'>
+            <ul className='grid gap-10 overflow-auto bg-white px-[3%] py-5'>
               {hamburgerNav.map((item, i) => {
                 const itemClassName =
-                  'flex select-none justify-between items-center gap-5 text-sm font-medium rounded-lg p-5 text-[15px] leading-none text-[#656565] no-underline outline-none transition-colors hover:bg-gray-50 focus-visible:shadow-[0_0_0_2px] bg-white shadow-none w-full';
+                  'h-[50px] flex px-5 justify-between items-center gap-5 font-clashmd rounded-lg text-sm leading-none text-[#656565] no-underline outline-none transition-colors hover:bg-gray-50 bg-white w-full';
                 if (item.link) {
                   return (
                     <button
@@ -138,7 +138,7 @@ const MobileNav = () => {
                         {item.text}
                       </div>
 
-                      <ArrowRightIcon width={8} />
+                      <ArrowRight size='15px' />
                     </button>
                   );
                 } else if (item.select) {
@@ -160,15 +160,15 @@ const MobileNav = () => {
             {hasCookie(constants.AUTH_TOKEN) ? (
               <div className='fixed bottom-0 left-0 right-0 top-0 bg-white'>
                 <div className='mt-12 flex items-center justify-between px-[3%] pb-3'>
-                  <h2 className='font-medium'>My Account</h2>
+                  <h2 className='font-clashmd text-base text-myGray'>My Account</h2>
                   <button onClick={() => setActiveNav(null)}>
                     <XMarkIcon width={30} />
                   </button>
                 </div>
-                <ul className='grid h-[calc(100vh-8rem)] gap-3 overflow-auto bg-white p-5 pb-10'>
+                <ul className='h-[500px] no-scrollbar overflow-y-scroll grid gap-10 bg-white px-[3%] py-5 pb-10'>
                   {accountNav3.map((item, i) => {
                     const itemClassName =
-                      'flex select-none justify-between items-center gap-5 text-sm font-medium rounded-lg p-5 text-[15px] leading-none text-[#656565] no-underline outline-none transition-colors hover:bg-gray-50 focus-visible:shadow-[0_0_0_2px] bg-white shadow-none w-full';
+                      'h-[50px] flex px-5 justify-between items-center gap-5 font-clashmd rounded-lg text-sm leading-none text-[#656565] no-underline outline-none transition-colors hover:bg-gray-50 bg-white w-full';
                     if (item.link) {
                       return (
                         <button
@@ -181,7 +181,7 @@ const MobileNav = () => {
                             {item.text}
                           </div>
 
-                          <ArrowRightIcon width={8} />
+                          <ArrowRight size='15px' />
                         </button>
                       );
                     } else if (item.dialog) {
@@ -195,7 +195,7 @@ const MobileNav = () => {
                                 {item.text}
                               </div>
 
-                              <ArrowRightIcon width={8} />
+                              <ArrowRight size='15px' />
                             </button>
                           }
                           content={item.dialog.content}
@@ -223,7 +223,7 @@ const MobileNav = () => {
                         Create Account
                       </Button>
                     </li>
-                    <li className='text-center'>
+                    <li className='text-center p-3'>
                       <Link href={ROUTES.LOGIN}>Login</Link>
                     </li>
                   </ul>

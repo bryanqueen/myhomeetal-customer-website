@@ -144,6 +144,7 @@ const MobileNav = () => {
                 } else if (item.select) {
                   return (
                     <SelectOption
+                      key={i} // Added key here
                       options={item.select.options}
                       onChange={item.select.onChange}
                     />

@@ -33,7 +33,7 @@ const ProductGallery = ({ images }: { images: string[] }) => {
   );
 
   return (
-    <div className='hidden pr-1 lg:block w-[450px]'>
+    <div className='hidden pr-1 lg:block h-[500px]'>
       <ImageGallery
         items={galleryImages}
         thumbnailPosition='left'

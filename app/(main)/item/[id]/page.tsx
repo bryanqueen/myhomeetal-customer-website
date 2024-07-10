@@ -28,7 +28,7 @@ export default async function page({ params }: { params: Params }) {
     <div>
       <ProductOverview data={data} />
       <div className='lg:-mt-32'>
-        <ProductHeader data={data} />
+        {/*<ProductHeader data={data} />*/}
         <ProductInformation data={data} />
         <div className='lg:mx-5'></div>
       </div>

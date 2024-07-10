@@ -48,7 +48,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       {
         'rounded-md': !disableBorderRadius,
         'rounded-[2rem]': rounded,
-        'focus:bg-secondary bg-primary text-white hover:shadow-md focus-visible:border-2 focus-visible:border-black':
+        'focus:bg-secondary bg-primary text-white focus-visible:border-2 focus-visible:border-black':
           variant === 'solid',
         'border border-primary bg-white text-primary hover:bg-primary/80 hover:text-white focus-visible:border-2 focus-visible:border-black':
           variant === 'outline',

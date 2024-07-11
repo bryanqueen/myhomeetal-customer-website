@@ -26,7 +26,7 @@ const ProductCarousel = ({ data }: any) => {
   const isSingleImage = data.images.length === 1;
 
   return (
-    <div className='my-5 mt-7 lg:hidden'>
+    <div className='my-5 mt-16 lg:hidden'>
       <Carousel responsive={responsive} partialVisible={!isSingleImage}>
         {data.images.map((image: string, index: number) => (
           <div

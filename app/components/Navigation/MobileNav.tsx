@@ -1,27 +1,28 @@
 'use client';
 
 import Link from 'next/link';
-import { HambergerMenu, ShoppingCart, Profile, ArrowRight } from 'iconsax-react';
+import {
+  HambergerMenu,
+  ShoppingCart,
+  Profile,
+  ArrowRight,
+} from 'iconsax-react';
 import cn from 'classnames';
-import { Suspense } from 'react';
 
 import { useNav } from '../../providers';
-import { accountNav, accountNav3, hamburgerNav } from '../../utils/navdata';
-
+import { accountNav3, hamburgerNav } from '../../utils/navdata';
 import MobileNavCart from './MobileNavCart';
-
 import Button from '@components/Button';
 import Logo from '@components/Logo';
-import SearchForm from '@components/forms/SearchForm';
 import ClientOnly from '@components/ClientOnly';
 import { ROUTES } from '@utils/routes';
 import { hasCookie } from 'cookies-next';
 import { constants } from '@/app/utils/constants';
 import Dialog from '@components/Dialog';
 import { XMarkIcon } from '@heroicons/react/16/solid';
-import SelectOption from '../SelectOption';
 import { useRouter } from 'next/navigation';
 import { useCart } from 'react-use-cart';
+import CustomDropdown from '../SelectOption';
 
 const MobileNav = () => {
   const router = useRouter();
@@ -107,11 +108,6 @@ const MobileNav = () => {
             </Button>
           </div>
         </div>
-        <Suspense>
-          <div className='bg-white px-[3%] py-4'>
-            <SearchForm />
-          </div>
-        </Suspense>
       </div>
 
       <div className={navClassName}>
@@ -122,7 +118,7 @@ const MobileNav = () => {
                 <XMarkIcon width={30} />
               </button>
             </div>
-            <ul className='grid gap-10 overflow-auto bg-white px-[3%] py-5 pb-14'>
+            <ul className='grid gap-10 overflow-auto bg-white px-[3%] py-5'>
               {hamburgerNav.map((item, i) => {
                 const itemClassName =
                   'h-[50px] flex px-5 justify-between items-center gap-5 font-clashmd rounded-lg text-sm leading-none text-[#656565] no-underline outline-none transition-colors hover:bg-gray-50 bg-white w-full';
@@ -141,17 +137,10 @@ const MobileNav = () => {
                       <ArrowRight size='15px' />
                     </button>
                   );
-                } else if (item.select) {
-                  return (
-                    <SelectOption
-                      key={i} // Added key here
-                      options={item.select.options}
-                      onChange={item.select.onChange}
-                    />
-                  );
                 }
               })}
             </ul>
+            <CustomDropdown />
           </div>
         )}
 
@@ -160,12 +149,14 @@ const MobileNav = () => {
             {hasCookie(constants.AUTH_TOKEN) ? (
               <div className='fixed bottom-0 left-0 right-0 top-0 bg-white'>
                 <div className='mt-12 flex items-center justify-between px-[3%] pb-3'>
-                  <h2 className='font-clashmd text-base text-myGray'>My Account</h2>
+                  <h2 className='font-clashmd text-base text-myGray'>
+                    My Account
+                  </h2>
                   <button onClick={() => setActiveNav(null)}>
                     <XMarkIcon width={30} />
                   </button>
                 </div>
-                <ul className='h-[90%] no-scrollbar overflow-y-scroll grid gap-10 bg-white px-[3%] py-5 pb-14'>
+                <ul className='no-scrollbar grid h-[90%] gap-10 overflow-y-scroll bg-white px-[3%] py-5 pb-14'>
                   {accountNav3.map((item, i) => {
                     const itemClassName =
                       'h-[50px] flex px-5 justify-between items-center gap-5 font-clashmd rounded-lg text-sm leading-none text-[#656565] no-underline outline-none transition-colors hover:bg-gray-50 bg-white w-full';
@@ -223,9 +214,12 @@ const MobileNav = () => {
                         Create Account
                       </Button>
                     </li>
-                    <li className='text-center p-3'>
+                    <button
+                      onClick={() => setActiveNav(null)}
+                      className='p-3 text-center'
+                    >
                       <Link href={ROUTES.LOGIN}>Login</Link>
-                    </li>
+                    </button>
                   </ul>
                 </div>
               </div>

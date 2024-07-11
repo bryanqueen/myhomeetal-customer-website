@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-const images = ['/images/ad-banner-2.svg', '/images/ad-banner-3.svg'];
+const images = ['/images/newad2.svg', '/images/newad3.svg'];
 
 const AdBanner3 = () => {
   return (
@@ -10,11 +10,11 @@ const AdBanner3 = () => {
       {images.map((src, index) => (
         <Image
           key={index}
-          className='w-full rounded-2xl object-cover lg:h-[274px]'
           src={src}
           alt='Advert'
-          width={1000}
-          height={300}
+          width={358}
+          height={138}
+          className='w-full'
         />
       ))}
     </div>

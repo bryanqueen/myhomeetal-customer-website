@@ -8,7 +8,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='mt-36 lg:mt-0'>
+    <div>
       <TopBanner />
       <Navigation />
       {children}

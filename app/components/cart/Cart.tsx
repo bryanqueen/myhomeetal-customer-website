@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useCart } from 'react-use-cart';
 import CartItem from './CartItem';
+import MobileCartItem from './MobileCartItem';
 
 function Cart() {
   const { items, isEmpty } = useCart();
@@ -26,12 +27,21 @@ function Cart() {
   }
 
   return (
-    <div className='rounded-xl border border-[#F4F4F4] p-3 lg:max-w-4xl'>
-      {items.map((item, index) => (
-        <div key={item._id}>
-          <CartItem item={item} isLast={index === items.length - 1} />
-        </div>
-      ))}
+    <div className='lg:rounded-2xl lg:border lg:border-[#F4F4F4] lg:p-3 lg:max-w-4xl'>
+      <div className='hidden lg:block'>
+        {items?.map((item, index) => (
+          <div key={item?._id}>
+            <CartItem item={item} isLast={index === items?.length - 1} />
+          </div>
+        ))}
+      </div>
+      <div className='grid gap-5 lg:hidden'>
+        {items?.map((item) => (
+          <div key={item?._id}>
+            <MobileCartItem item={item} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

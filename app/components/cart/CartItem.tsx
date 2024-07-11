@@ -4,11 +4,14 @@ import { Trash, Minus, Add } from 'iconsax-react';
 import Image from 'next/image';
 
 import CartHandler from './CartHandler';
+import ProductPrice from '../product/ProductPrice';
+import { useRegion } from '@/app/RegionProvider';
 
 const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
+  const { region } = useRegion();
   return (
     <div
-      className={`lg:min-w-[851px] grid gap-3 ${!isLast ? 'border-b border-gray-100' : ''} py-5 pr-2`}
+      className={`hidden gap-3 lg:grid lg:min-w-[851px] ${!isLast ? 'border-b border-gray-100' : ''} py-5 pr-2`}
     >
       <div className='flex justify-between gap-3'>
         <div className='flex items-center gap-2'>
@@ -36,7 +39,11 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
           </div>
         </div>
         <div className='flex items-center'>
-          <p className='font-clashmd text-xl text-myGray'>${item?.price}</p>
+          <ProductPrice
+            className='font-clashmd text-xl text-myGray'
+            priceInNGN={item?.price}
+            region={region}
+          />
         </div>
       </div>
       <div className='mt-1 flex items-center justify-between'>
@@ -63,7 +70,9 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
           >
             <Minus size={23} />
           </CartHandler>
-          <span className='text-myGray font-clashmd text-base'>{item?.quantity}</span>
+          <span className='font-clashmd text-base text-myGray'>
+            {item?.quantity}
+          </span>
           <CartHandler
             item={item}
             variant='UPDATE_PLUS'

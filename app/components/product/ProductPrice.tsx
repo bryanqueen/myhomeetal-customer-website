@@ -12,10 +12,10 @@ const ProductPrice = ({ priceInNGN, region, className }: ProductPriceProps) => {
   const currencySymbol = currencySymbols[region] || '₦';
 
   return (
-    <span className={className}>
+    <p className={className}>
       {currencySymbol}
       {formatPrice(convertedPrice.toFixed(2))}
-    </span>
+    </p>
   );
 };
 

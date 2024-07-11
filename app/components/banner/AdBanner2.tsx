@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const images = [
-  '/images/ad-banner.svg',
-  '/images/ad-banner-2.svg',
-  '/images/ad-banner-3.svg',
+  '/images/newad4.svg',
+  '/images/newad4.svg',
+  '/images/newad4.svg',
 ];
 
 const AdBanner2 = () => {
@@ -28,19 +28,19 @@ const AdBanner2 = () => {
   }, []);
 
   return (
-    <div className='relative mx-[3%] my-5 mt-8 h-40 overflow-hidden rounded-2xl md:h-72'>
+    <div className='relative mx-[3%] my-5 mt-8 hidden h-40 overflow-hidden rounded-2xl md:h-72 lg:block'>
       {images.map((src, index) => (
         <Image
           key={index}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${currentSlide === index ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === index ? 'opacity-100' : 'opacity-0'}`}
           style={{ zIndex: currentSlide === index ? 1 : 0 }}
           src={src}
           alt={`Advert ${currentSlide + 1}`}
-          width={1500}
-          height={500}
+          width={1360}
+          height={274}
         />
       ))}
-      <div className='absolute bottom-0 right-0 z-10 flex space-x-2 p-4'>
+      <div className='absolute bottom-7 right-7 z-10 flex space-x-2 p-4'>
         {images.map((_, index) => (
           <button
             key={index}

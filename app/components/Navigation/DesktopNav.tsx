@@ -85,7 +85,7 @@ const DesktopNav = () => {
   }, []);
 
   return (
-    <div className='relative mb-3 hidden h-[90px] pt-3 items-center justify-between rounded-[6px] bg-white px-[3%] text-sm lg:flex'>
+    <div className='relative mb-3 hidden h-[90px] items-center justify-between rounded-[6px] bg-white px-[3%] pt-3 text-sm lg:flex'>
       <div className='flex items-center gap-5'>
         <Link href='/'>
           <Logo variant={3} />
@@ -252,7 +252,6 @@ const DesktopNav = () => {
           </NavDropdown>
         </ClientOnly>
         <div
-          onMouseEnter={() => setIsDropdownVisible(true)}
           onClick={() => setIsDropdownVisible(!isDropdownvisible)}
           className='flex cursor-pointer items-center gap-1'
         >
@@ -273,7 +272,10 @@ const DesktopNav = () => {
             <div className='relative'>
               <div className='absolute right-[29px] top-[19px] flex h-[183px] w-[177px] flex-col justify-between overflow-hidden rounded-2xl bg-white p-5 transition-opacity duration-300 ease-out'>
                 <button
-                  onClick={() => setRegion('UK')}
+                  onClick={() => {
+                    setRegion('UK');
+                    setIsDropdownVisible(false);
+                  }}
                   className='flex h-[37px] items-center gap-2 pl-2 text-sm text-[#656565] hover:text-[#8B1A1A]'
                 >
                   <Image
@@ -286,7 +288,10 @@ const DesktopNav = () => {
                   Global
                 </button>
                 <button
-                  onClick={() => setRegion('US')}
+                  onClick={() => {
+                    setRegion('US');
+                    setIsDropdownVisible(false);
+                  }}
                   className='flex h-[37px] items-center gap-2 pl-2 text-sm text-[#656565] hover:text-[#8B1A1A]'
                 >
                   <Image
@@ -299,7 +304,10 @@ const DesktopNav = () => {
                   United States
                 </button>
                 <button
-                  onClick={() => setRegion('NG')}
+                  onClick={() => {
+                    setRegion('NG');
+                    setIsDropdownVisible(false);
+                  }}
                   className='flex h-[37px] items-center gap-2 pl-2 text-sm text-[#656565] hover:text-[#8B1A1A]'
                 >
                   <Image

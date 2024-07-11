@@ -8,17 +8,21 @@ const NoHistory = ({
   title?: string;
 }) => {
   return (
-    <div className='m-auto grid max-w-xs justify-items-center gap-3'>
-      <div className='h-16 w-16 rounded-full bg-primary/30' />
-      <p className='text-2xl font-medium'>{title}</p>
-      <p className='mb-5 text-center text-sm'>
-        Looks like you haven&apos;t made any purchases with us so far. Ready to
-        start your shopping journey? Dive into our collection and discover
-        products tailored just for you.
+    <div className='m-auto grid max-w-xs justify-items-center gap-3 lg:gap-6'>
+      <div className='h-16 w-16 rounded-full bg-[#FFC5C6]' />
+      <p className='font-clashmd text-lg text-center text-myGray lg:text-2xl'>{title}</p>
+      <p className='text-center w-[80%] lg:w-full text-xs text-myGray lg:text-sm'>
+        Looks like you haven't made any purchases with us so far. Ready to start
+        your shopping journey? Dive into our collection and discover products
+        tailored just for you.
       </p>
-      <Button className='min-w-fit gap-3'>
-        <ShoppingCart variant='Bulk' />
-        Start Shopping Now
+      <Button
+        linkType='rel'
+        href='/'
+        icon={<ShoppingCart size={24} variant='Bulk' color='white' />}
+        className='h-[50px] w-full rounded-[20px] lg:rounded-[10px] mt-3 lg:mt-2 text-sm text-white lg:text-base'
+      >
+        <span>Start Shopping Now</span>
       </Button>
     </div>
   );

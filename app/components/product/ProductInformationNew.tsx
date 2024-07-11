@@ -1,21 +1,24 @@
-import KeyFeature from "./KeyFeature";
-import ProductDetails from "./ProductDetails";
-import { Review } from "./Review";
-import SelectLocation from "./SelectLocation";
-import Specification from "./Specification";
+import ClientOnly from '../ClientOnly';
+import KeyFeature from './KeyFeature';
+import ProductDetails from './ProductDetails';
+import { Review } from './Review';
+import SelectLocation from './SelectLocation';
+import Specification from './Specification';
 
 export default function ProductInformationNew({ data }: any) {
   return (
-    <div className='mt-[150px] px-[3%] flex gap-5'>
-      <div className="lg:basis-[65%] w-full">
-        <ProductDetails dataDesc={data?.description} />
-        <KeyFeature dataFeature={data?.KeyFeatures}/>
-        <Specification dataSpec={data?.Specification} />
-        <Review />
+    <ClientOnly>
+      <div className='mt-[150px] flex gap-5 px-[3%]'>
+        <div className='w-full lg:basis-[65%]'>
+          <ProductDetails dataDesc={data?.description} />
+          <KeyFeature dataFeature={data?.KeyFeatures} />
+          <Specification dataSpec={data?.Specification} />
+          <Review />
+        </div>
+        <div className='hidden lg:block lg:basis-[35%]'>
+          <SelectLocation />
+        </div>
       </div>
-      <div className="hidden lg:block lg:basis-[35%]">
-        <SelectLocation />
-      </div>
-    </div>
+    </ClientOnly>
   );
 }

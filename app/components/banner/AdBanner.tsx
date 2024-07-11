@@ -19,6 +19,11 @@ const AdBanner = () => {
     '/images/ad-banner.svg',
     '/images/ad-banner-3.svg',
   ];
+  const mobileImages = [
+    '/images/newad.svg',
+    '/images/newad.svg',
+    '/images/newad.svg',
+  ];
 
   return (
     <>
@@ -42,21 +47,21 @@ const AdBanner = () => {
           ))}
         </Carousel>
       </div>
-      <div className='pt-10 lg:hidden'>
+      <div className='pt-3 lg:hidden'>
         <Carousel
           responsive={responsive}
           infinite={true}
           arrows={false}
           autoPlay={true}
         >
-          {images.map((src, index) => (
+          {mobileImages.map((src, index) => (
             <Image
               key={index}
               className={imageClass}
               src={src}
               alt='Advert'
-              width='1000'
-              height='200'
+              width={358}
+              height={200}
             />
           ))}
         </Carousel>

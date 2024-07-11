@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRegion } from '../RegionProvider';
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
+import { useNav } from '../providers';
 
 const regions = [
   { name: 'NG', flagSrc: '/images/flags/NG.png' },
@@ -11,6 +12,7 @@ const regions = [
 ];
 
 const CustomDropdown = () => {
+  const { setActiveNav } = useNav();
   const { region, setRegion } = useRegion();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -55,6 +57,7 @@ const CustomDropdown = () => {
               onClick={() => {
                 setRegion(regionItem.name);
                 setIsOpen(false);
+                setActiveNav(null);
               }}
             >
               <Image

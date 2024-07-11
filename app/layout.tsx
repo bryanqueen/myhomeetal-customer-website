@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import "../public/ClashDisplay_Complete/ClashDisplay_Complete/ClashDisplay_Complete/Fonts/WEB/css/clash-display.css";
+import '../public/ClashDisplay_Complete/ClashDisplay_Complete/ClashDisplay_Complete/Fonts/WEB/css/clash-display.css';
 import { Toaster } from 'react-hot-toast';
 import { RegionProvider } from './RegionProvider';
 import { UIProvider } from './providers';
+import { PopupProvider } from './PopupProvider';
 
 export const metadata: Metadata = {
   title: 'MYHOMEETAL - Your one stop shop',
@@ -17,13 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body className='font-clash'>
-        <RegionProvider>
-          <UIProvider>
-            {children}
-          </UIProvider>
-        </RegionProvider>
+        <PopupProvider>
+          <RegionProvider>
+            <UIProvider>{children}</UIProvider>
+          </RegionProvider>
+        </PopupProvider>
         <Toaster />
       </body>
     </html>

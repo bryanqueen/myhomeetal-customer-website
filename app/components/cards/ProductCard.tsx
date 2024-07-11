@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { Rating } from 'react-simple-star-rating';
 
 import Button from '../Button';
-import { formatPrice } from '@/app/utils/helpers';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 
@@ -65,7 +64,7 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
             <p className='h-fit w-fit text-[10px] text-black'>{product.reviewsCount}+ Reviews</p>
           </div>
         </div>
-        <div className='lg:w-[191px] lg:h-[88px] flex flex-col justify-between'>
+        <div className='w-[150px] lg:w-[191px] lg:h-[88px] flex flex-col justify-between'>
           <div className='hidden w-full lg:flex items-center gap-5'>
             <Rating
               initialValue={product.rating}

@@ -19,26 +19,26 @@ const ProductCarousel = ({ data }: any) => {
     sm: {
       breakpoint: { max: 500, min: 0 },
       items: 1,
-      partialVisibilityGutter: 50,
+      partialVisibilityGutter: 0,
     },
   };
 
-  const isSingleImage = data.images?.length === 1;
+  const isSingleImage = data.images.length === 1;
 
   return (
-    <div className='my-5 lg:hidden'>
+    <div className='my-5 mt-7 lg:hidden'>
       <Carousel responsive={responsive} partialVisible={!isSingleImage}>
-        {data.images?.map((image: string, index: number) => (
+        {data.images.map((image: string, index: number) => (
           <div
             key={index}
-            className={`pt-2 pb-5 ${isSingleImage ? 'flex justify-center' : ''}`}
+            className={`pt-2 pb-5 ${isSingleImage ? 'flex items-center justify-center' : 'flex items-center justify-center'}`}
           >
             <Image
-              className='object-contain'
+              className='object-contain h-[331px]'
               src={image}
               alt={`Product Image ${index + 1}`}
-              width={350}
-              height={400}
+              width={331}
+              height={331}
             />
           </div>
         ))}

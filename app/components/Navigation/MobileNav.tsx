@@ -122,7 +122,7 @@ const MobileNav = () => {
                 <XMarkIcon width={30} />
               </button>
             </div>
-            <ul className='h-[90%] grid gap-10 overflow-auto bg-white px-[3%] py-5 pb-14'>
+            <ul className='grid gap-10 overflow-auto bg-white px-[3%] py-5 pb-14'>
               {hamburgerNav.map((item, i) => {
                 const itemClassName =
                   'h-[50px] flex px-5 justify-between items-center gap-5 font-clashmd rounded-lg text-sm leading-none text-[#656565] no-underline outline-none transition-colors hover:bg-gray-50 bg-white w-full';

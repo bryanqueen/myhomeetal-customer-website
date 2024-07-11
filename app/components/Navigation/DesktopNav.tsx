@@ -85,7 +85,7 @@ const DesktopNav = () => {
   }, []);
 
   return (
-    <div className='relative my-3 hidden h-[83px] items-center justify-between rounded-[6px] bg-white px-[3%] text-sm lg:flex'>
+    <div className='relative mb-3 hidden h-[90px] pt-3 items-center justify-between rounded-[6px] bg-white px-[3%] text-sm lg:flex'>
       <div className='flex items-center gap-5'>
         <Link href='/'>
           <Logo variant={3} />

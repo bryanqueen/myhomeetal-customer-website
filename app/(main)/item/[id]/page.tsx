@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
-
 import Newsletter from '@/app/components/Newsletter';
 import ProductHeader from '@/app/components/product/ProductHeader';
-import ProductInformation from '@/app/components/product/ProductInformation';
 import ProductOverview from '@/app/components/product/ProductOverview';
 import productService from '@/app/services/productService';
+import ProductInformationNew from '@/app/components/product/ProductInformationNew';
+import AddToCartPopup from '@/app/components/popups/AddToCartPopup';
 
 type Params = {
   id: string;
@@ -25,14 +25,19 @@ export default async function page({ params }: { params: Params }) {
     return notFound();
   }
   return (
-    <div>
-      <ProductOverview data={data} />
-      <div className='lg:-mt-32'>
-        {/*<ProductHeader data={data} />*/}
-        <ProductInformation data={data} />
-        <div className='lg:mx-5'></div>
-      </div>
-      <Newsletter />
-    </div>
+    <main className='relative'>
+      <section>
+        <ProductOverview data={data} />
+      </section>
+      <section>
+        <ProductInformationNew data={data} />
+      </section>
+
+      {/*<ProductHeader data={data} />*/}
+      {/*<ProductInformation data={data} />*/}
+      {/*<Newsletter />*/}
+      
+      <AddToCartPopup data={data}/>
+    </main>
   );
 }

@@ -14,7 +14,7 @@ const AddToCartButton = ({ item }: any) => {
 
   return (
     <CartHandler
-      className='w-full rounded-full px-10 py-5 text-base font-semibold'
+      className='w-full shadow-none border-0 rounded-full px-10 py-5 text-base font-clashmd'
       item={item}
       variant='ADD'
       quantity={state.quantity}

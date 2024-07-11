@@ -2,13 +2,13 @@ import cn from 'classnames';
 import React, { forwardRef, ButtonHTMLAttributes, ReactNode } from 'react';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import { ShoppingCart } from 'iconsax-react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   variant?: 'solid' | 'ghost' | 'outline';
   active?: boolean;
   icon?: ReactNode;
+  iconRight?: ReactNode;
   type?: 'submit' | 'reset' | 'button';
   loading?: boolean;
   disabled?: boolean;
@@ -29,6 +29,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     children,
     active,
     icon = false,
+    iconRight = false,
     loading = false,
     disabled = false,
     disableBorderRadius = false,
@@ -48,14 +49,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       {
         'rounded-md': !disableBorderRadius,
         'rounded-[2rem]': rounded,
-        'focus:bg-secondary bg-primary text-white focus-visible:border-2 focus-visible:border-black':
-          variant === 'solid',
-        'border border-primary bg-white text-primary hover:bg-primary/80 hover:text-white focus-visible:border-2 focus-visible:border-black':
+        'focus:bg-secondary bg-primary text-white': variant === 'solid',
+        ' border-primary bg-white text-primary hover:bg-primary/80 hover:text-white':
           variant === 'outline',
-        'focus:border-secondary border-transparent text-black hover:bg-white/50 focus-visible:border-2 focus-visible:border-gray-500':
+        'focus:border-secondary border-transparent text-black hover:bg-white/50':
           variant === 'ghost',
         'cursor-not-allowed': loading,
-        'cursor-not-allowed bg-gray-300 hover:cursor-not-allowed hover:shadow-none disabled:text-black':
+        'cursor-not-allowed bg-[#FF6567] hover:cursor-not-allowed hover:shadow-none disabled:text-white':
           disabled,
         'mx-auto': center,
         'w-auto p-0': noPadding,
@@ -93,6 +93,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     >
       {icon && <span className='me-2'>{icon}</span>}
       <div className=''>{children}</div>
+      {iconRight && <span className='ml-2'>{iconRight}</span>}
       {loading && (
         <svg
           className='-me-1 ms-3 h-5 w-5 animate-spin'

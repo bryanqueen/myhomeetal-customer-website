@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { ShoppingCart } from 'iconsax-react';
 import Button from '@components/Button';
 import { ROUTES } from '@/app/utils/routes';
+import { usePopup } from '@/app/PopupProvider';
 
 interface Props {
   item: Item;
@@ -13,6 +14,7 @@ interface Props {
   children: React.ReactNode;
   variant: 'ADD' | 'REMOVE' | 'UPDATE_PLUS' | 'UPDATE_MINUS';
   quantity?: number;
+  disabled?: boolean;
 }
 
 const CartHandler = ({
@@ -22,24 +24,16 @@ const CartHandler = ({
   children,
   variant,
   quantity = 1,
+  disabled,
 }: Props) => {
   const { updateItemQuantity, removeItem, addItem, getItem } = useCart();
-  const [disabled, setDisabled] = useState(false);
-
-  useEffect(() => {
-    if (variant === 'ADD') {
-      const itemInCart = getItem(item.id);
-      if (itemInCart) {
-        setDisabled(true);
-      }
-    }
-  }, [variant, getItem, item.id]);
+  const { showPopup } = usePopup();
 
   const handleCart = () => {
     switch (variant) {
       case 'ADD':
         addItem(item, quantity);
-        setDisabled(true);
+        showPopup();
         // redirect(ROUTES.CART);
         break;
       case 'REMOVE':

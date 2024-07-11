@@ -28,7 +28,7 @@ const ProductOverview = ({ data }: any) => {
       title: data?.brand,
     },
   ];
-  const priceStyle = 'text-black text-5xl font-clashmd';
+  const priceStyle = 'text-black text-[25px] lg:text-5xl font-clashmd';
   const { items, isEmpty } = useCart();
   const itemInCart = items.find((item) => item.id === data?._id);
   const itemForCart = { ...data, id: data._id };
@@ -58,41 +58,42 @@ const ProductOverview = ({ data }: any) => {
           ))}
         </ul>
       </div>
-      <div className='mt-16 flex h-[500px] w-full items-center justify-between'>
-        <div className='w-full basis-[48%] overflow-hidden lg:pl-10'>
+      <div className='mb-24 mt-16 flex w-full flex-col items-center justify-between lg:h-[500px] lg:flex-row'>
+        <div className='w-full lg:basis-[48%] lg:h-full lg:pl-10'>
           <ProductCarousel data={data} />
           <ProductGallery images={data.images} />
         </div>
-        <div className='flex h-full basis-[48%] items-center'>
-          <div className='h-[320px] w-[537px]'>
-            <div className='flex h-fit w-[488px] flex-col'>
-              <div className='text-sm text-black mb-4'>
+        <div className='flex w-full px-5 h-full lg:basis-[48%] items-center'>
+          <div className='lg:h-[320px] w-full lg:w-[537px]'>
+            <div className='flex h-fit flex-col lg:w-[488px]'>
+              <div className='mb-4 font-clashmd text-xs text-black lg:font-clash lg:text-sm'>
                 Brand:{' '}
-                <span className='ml-1 text-sm text-primary lg:font-clashmd'>
+                <span className='ml-1 font-clash text-xs text-primary lg:font-clashmd lg:text-sm'>
                   {data.brand}
                 </span>
               </div>
               <p
                 className={
-                  'text-myGray lg:block lg:font-clashmd lg:text-2xl lg:text-black'
+                  'text-base text-myGray lg:block lg:font-clashmd lg:text-2xl lg:text-black'
                 }
               >
                 {data.productTitle}
               </p>
 
-              <div className='flex items-center pt-3 lg:hidden'>
-                <p className='mr-1 flex items-center gap-1 text-xs lg:text-sm lg:font-semibold'>
-                  <StarIcon width={17} className='mt-[-3px] text-primary' />
+              <div className='flex items-center py-3 lg:hidden'>
+                <p className='mr-1 flex items-center gap-1 text-[10px] text-xs lg:text-sm lg:font-semibold'>
+                  <StarIcon width={16} className='mt-[-3px] text-primary' />
                   {data.rating?.rate || 4.4}
                 </p>
 
-                <span className='text-xs'>
+                <span className='text-[10px]'>
                   ({data.rating?.count || 100} Reviews)
                 </span>
               </div>
               <div className='hidden items-center py-3 lg:flex'>
                 <p className='text-sm text-black'>
-                  Ratings <span className='ml-1'>{data.rating?.rate || 4.4}</span>{' '}
+                  Ratings{' '}
+                  <span className='ml-1'>{data.rating?.rate || 4.4}</span>{' '}
                 </p>
                 <Rating
                   initialValue={data.rating?.rate}
@@ -115,7 +116,7 @@ const ProductOverview = ({ data }: any) => {
                 className={priceStyle}
               />
             </div>
-            <div className='mt-10 flex w-[537px] items-center justify-between gap-4'>
+            <div className='mt-16 lg:mt-10 flex items-center justify-between gap-4 lg:w-[537px]'>
               {itemInCart ? (
                 <div className='flex w-[206px] items-center justify-between'>
                   <CartHandler

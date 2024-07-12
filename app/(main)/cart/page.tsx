@@ -19,7 +19,7 @@ export default function CartPage() {
   return (
     <ClientOnly>
       <main>
-        <div className='pt-[90px] px-[3%] lg:mt-0'>
+        <div className='pt-[90px] lg:pt-0 px-[3%] lg:mt-0'>
           <button
             onClick={handleBack}
             className='hidden items-center text-sm text-myGray lg:flex'

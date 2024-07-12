@@ -3,75 +3,70 @@ import cn from 'classnames';
 import { signal } from '@preact/signals-react';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect, useState } from 'react';
-import { notFound, useSearchParams } from 'next/navigation';
 
 import SearchPagination from '../SearchPagination';
-import productService from '@/app/services/productService';
 import Button from '@components/Button';
 import ProductListCard from '@components/cards/ProductListCard';
 import ProductGridCard from '@components/cards/ProductGridCard';
 
 const isList = signal(false);
 
-const ListGridSwitch = ({ sortOption }: { sortOption?: string | null }) => {
+const sortProducts = (products: any[], sortOption: string) => {
+  switch (sortOption) {
+    case 'priceLowToHigh':
+      return products.sort((a, b) => a.price - b.price);
+    case 'priceHighToLow':
+      return products.sort((a, b) => b.price - a.price);
+    default:
+      return products;
+  }
+};
+
+const ListGridSwitch = ({
+  sortOption,
+  priceRange,
+  discountFilters,
+  products,
+}: {
+  sortOption?: string | null;
+  priceRange: { min: number; max: number };
+  discountFilters: number[];
+  products: any[];
+}) => {
   useSignals();
 
-  const [categoryProducts, setCategoryProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const productsPerPage = 4;
-
-  // Calculate the range of products to display for the current page
-  const startIndex = (currentPage - 1) * productsPerPage;
-  const endIndex = Math.min(
-    startIndex + productsPerPage,
-    categoryProducts.length
-  ); // Ensure endIndex doesn't exceed product length
-  const currentPageProducts = categoryProducts.slice(startIndex, endIndex);
-
-  const searchParams = useSearchParams();
-  const id = searchParams.get('categoryId') || '';
+  const productsPerPage = 9;
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const res = await productService.getProductsByCategory(id);
-        if (!res || !res.data) {
-          console.log('Products not found');
-          return notFound();
-        }
-        setCategoryProducts(res.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        setLoading(false);
-        return notFound();
+    const applyFilters = () => {
+      let filtered = products;
+
+      // Apply price filter
+      filtered = filtered.filter(
+        (product) =>
+          product.price >= priceRange?.min && product.price <= priceRange?.max
+      );
+
+      // Apply discount filter
+      if (discountFilters?.length > 0) {
+        filtered = filtered.filter((product) =>
+          discountFilters.some((discount) => product.discount === discount)
+        );
       }
+
+      // Apply sorting
+      filtered = sortProducts(filtered, sortOption);
+
+      setFilteredProducts(filtered);
     };
 
-    fetchProducts();
-  }, []);
+    applyFilters();
+  }, [products, priceRange, discountFilters, sortOption]);
 
-  const totalPages = Math.ceil(categoryProducts.length / productsPerPage);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  const sortProducts = (products: any[], sortOption: string) => {
-    switch (sortOption) {
-      case 'priceLowToHigh':
-        return products.sort((a, b) => a.price - b.price);
-      case 'priceHighToLow':
-        return products.sort((a, b) => b.price - a.price);
-      default:
-        return products;
-    }
-  };
-
-  const sortedProducts = sortProducts(currentPageProducts, sortOption);
+  const totalPages = Math.ceil(filteredProducts?.length / productsPerPage);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -79,14 +74,21 @@ const ListGridSwitch = ({ sortOption }: { sortOption?: string | null }) => {
     }
   };
 
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = Math?.min(
+    startIndex + productsPerPage,
+    filteredProducts?.length
+  );
+  const currentPageProducts = filteredProducts.slice(startIndex, endIndex);
+
   return (
     <div>
       <div
         className={cn({
-          'grid grid-cols-2 gap-5 lg:max-w-5xl xl:grid-cols-3': !isList.value,
+          'grid w-fit grid-cols-2 gap-4 xl:grid-cols-3': !isList.value,
         })}
       >
-        {sortedProducts.map((product) =>
+        {currentPageProducts.map((product) =>
           isList.value ? (
             <ProductListCard key={product._id} product={product} />
           ) : (

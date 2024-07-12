@@ -1,8 +1,11 @@
+import { useRegion } from '@/app/RegionProvider';
 import Image from 'next/image';
 import { useCart } from 'react-use-cart';
+import ProductPrice from '../product/ProductPrice';
 
 const NavCart = () => {
   const { isEmpty, items } = useCart();
+  const { region } = useRegion();
 
   if (isEmpty)
     return (
@@ -13,12 +16,14 @@ const NavCart = () => {
 
   return (
     <div className='rounded-md border-gray-100 lg:max-w-4xl'>
-      <p className='mb-7 text-[#656565] text-sm'>Items in cart: {items.length}</p>
+      <p className='mb-7 text-sm text-[#656565]'>
+        Items in cart: {items.length}
+      </p>
       <div className='no-scrollbar max-h-[250px] w-full overflow-scroll'>
         {items.map((item) => (
           <div
             key={item.id}
-            className='mb-2 flex w-[211px] h-[76px] items-center gap-2 rounded-lg bg-[#f4f4f4] p-2'
+            className='mb-2 flex h-[76px] w-[211px] items-center gap-2 rounded-lg bg-[#f4f4f4] p-2'
           >
             <Image
               src={item?.images[0]}
@@ -27,11 +32,20 @@ const NavCart = () => {
               alt='product image'
               className='h-[61px] rounded-lg object-contain'
             />
-            <div className='w-[120px] h-[61px] py-1 flex flex-col justify-between'>
+            <div className='flex h-[61px] w-[120px] flex-col justify-between py-1'>
               <p className='line-clamp-2 text-sm text-[#656565]'>
                 {item.productTitle}
               </p>
-              <p className='text-[#656565]'>Price: <span className='font-clashmd'>{item.price}</span></p>
+              <p className='text-[#656565] flex gap-1 items-center'>
+                Price:{' '}
+                <span>
+                  <ProductPrice
+                    priceInNGN={item.price}
+                    region={region}
+                    className='font-clashmd text-sm text-[#656565]'
+                  />
+                </span>
+              </p>
             </div>
           </div>
         ))}

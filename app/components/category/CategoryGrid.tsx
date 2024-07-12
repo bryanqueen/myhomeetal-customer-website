@@ -43,11 +43,8 @@ const Category = ({ title, color = 'bg-primary', id }: Props) => {
         console.log('No category ID provided');
         return;
       }
-      console.log(`Fetching products for category ID: ${id}`);
-
       try {
         const response = await productService.getProductsByCategory(id);
-        console.log('API Response:', response);
         const data: Product[] = response.data.slice(0, isDesktop ? 5 : 4);
 
         setProducts(data);

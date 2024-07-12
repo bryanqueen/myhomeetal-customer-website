@@ -26,7 +26,7 @@ const CartSummary = () => {
             </p>
             <div className='py-4'>
               <div className='flex justify-between'>
-                <span className='font-clashbold text-base text-myGray'>
+                <span className='font-clashsm text-base text-myGray'>
                   Subtotal
                 </span>
                 <div className='text-right'>

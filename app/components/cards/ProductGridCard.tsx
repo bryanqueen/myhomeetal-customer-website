@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { Rating } from 'react-simple-star-rating';
 
 import Button from '@components/Button';
+import ProductPrice from '../product/ProductPrice';
+import { useRegion } from '@/app/RegionProvider';
 interface Product {
   _id: string;
   productTitle: string;
@@ -21,50 +23,57 @@ interface ProductCardProps {
 const ProductGridCard: React.FC<ProductCardProps> = ({
   product,
 }: ProductCardProps) => {
+  const { region } = useRegion();
   return (
-    <div className='grid gap-5 p-5 lg:max-w-md lg:rounded-3xl lg:border'>
+    <div className='flex h-[418px] w-[279px] flex-col justify-between px-[30px] py-[20px] lg:rounded-[20px] lg:border lg:border-[#E4E7EC]'>
       <Image
-        className='mx-auto h-32 w-32 object-contain'
+        className='mx-auto h-[167px] object-contain'
         src={product.images[0]}
         alt='Product'
-        width='200'
-        height='200'
+        width={200}
+        height={167}
       />
-      <div className='w-full'>
-        <div className='mb-3 grid items-center gap-2'>
-          <div className='hidden items-center md:flex'>
-            <div className='font-medium'>{product.rating || 4.4}</div>
+      <div className='flex max-h-[117px] w-full flex-col gap-3'>
+        <div className='hidden items-center justify-between gap-[19px] lg:flex'>
+          <div className='flex items-center text-sm text-black'>
+            {product.rating || 4.4}
             <Rating
               initialValue={product.rating}
               readonly={true}
               allowFraction={true}
-              size={20}
+              size={16}
               fillColor=''
-              className='ml-2 text-primary'
+              className='mb-[3px] ml-2 text-primary'
               SVGclassName='inline'
             />
-            <span className='px-3' />
-            <span className='text-xs'>
-              {product.reviewsCount || 100} Reviews
-            </span>
           </div>
-          <p className='text-sm md:text-base'>{product.productTitle}</p>
-          <p className='flex items-center justify-between gap-5 md:text-2xl'>
-            <span className='font-bold'>{product.price}</span>
-            <span className='text-xs text-gray-500 line-through md:text-lg'>
-              {product.price}
-            </span>
+
+          <div>
+            <p className='text-sm text-black'>
+              {product.reviewsCount || 100} Reviews
+            </p>
+          </div>
+        </div>
+        <div className='flex h-[40px] items-center'>
+          <p className='three-line-clamp text-sm leading-[19.68px] text-black md:text-base'>
+            {product.productTitle}
           </p>
         </div>
-        <div className='flex justify-center'>
-          <Button
-            className='w-3/4 rounded-full p-4'
-            linkType='rel'
-            href={`/item/${product._id}`}
-          >
-            Buy now
-          </Button>
-        </div>
+
+        <ProductPrice
+          region={region}
+          priceInNGN={product.price}
+          className='font-clashmd text-[26.1px] text-black'
+        />
+      </div>
+      <div className='flex justify-center'>
+        <Button
+          className='w-[90%] rounded-full text-base text-white font-clashmd h-[50px]'
+          linkType='rel'
+          href={`/item/${product._id}`}
+        >
+          Buy now
+        </Button>
       </div>
     </div>
   );

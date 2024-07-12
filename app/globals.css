@@ -6,6 +6,40 @@ a:not(.btn):hover {
   /* text-decoration: underline; */
 }
 
+/* Hide the default checkbox */
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 17px;
+  height: 17px;
+  border: 0.77px solid #000; /* Default border */
+  border-radius: 50%; /* Fully rounded */
+  cursor: pointer;
+  position: relative;
+  outline: none;
+}
+
+/* Checkbox when checked */
+input[type='checkbox']:checked {
+ background-color: #FF0003;
+ border: none;
+}
+
+/* Checkbox when unchecked */
+input[type='checkbox']:not(:checked) {
+  background-color: #fff;
+}
+
+/* Add checkmark */
+input[type='checkbox']:checked::after {
+  content: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="white" class="bi bi-check" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 0-.708-.708l-7.5 7.5-3.5-3.5a.5.5 0 1 0-.708.708l4 4a.5.5 0 0 0 .708 0l8-8z"/></svg>');
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -36,12 +70,13 @@ a:not(.btn):hover {
 
 .is-pinned {
   height: auto;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
   opacity: 1;
 }
 
 @media (max-width: 768px) {
-
   /* For mobile screens */
   .icon-mobile {
     color: white;

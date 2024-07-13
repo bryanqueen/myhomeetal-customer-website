@@ -32,8 +32,6 @@ export default function CategoryPage({ params }: PageProps) {
 
   const { state, setActiveNav } = useNav();
 
-  const isNavActive = (key: 'sort' | 'filter') => state.activeNav === key;
-
   const searchParams = useSearchParams();
   const id = searchParams.get('categoryId') || '';
 

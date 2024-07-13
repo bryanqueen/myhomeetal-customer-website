@@ -4,6 +4,7 @@ import SearchPagination from '../SearchPagination';
 import ProductCard from '../cards/ProductCard';
 import { useNav } from '@/app/providers';
 import { XMarkIcon } from '@heroicons/react/16/solid';
+import Button from '../Button';
 
 const sortProducts = (products: any[], sortOption: string) => {
   switch (sortOption) {
@@ -209,6 +210,88 @@ export default function MobileCategory({ products }: { products: any[] }) {
                   Show {currentPageProducts?.length} Results
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/**  Sort container */}
+      {isNavActive('sort') && (
+        <div
+          onClick={() => setActiveNav(null)}
+          className='fixed bottom-0 left-0 right-0 top-0 z-[2000] flex flex-col justify-end bg-black/50 lg:hidden'
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className='relative h-[57%] w-full rounded-tl-[30px] rounded-tr-[30px] bg-white px-[3%] pt-[30px]'
+          >
+            <div className='mx-auto h-[5px] w-[98px] rounded-full bg-black'></div>
+            <div className='mt-5 grid gap-3'>
+              <Button
+                onClick={() => {
+                  setSortOption('priceLowToHigh');
+                  setActiveNav(null);
+                }}
+                className={
+                  sortOption === 'priceLowToHigh'
+                    ? 'w-full rounded-[6px] border-0 p-5 text-sm shadow-none'
+                    : 'w-full rounded-[6px] border-0 bg-[#f4f4f4] p-5 text-sm text-black'
+                }
+              >
+                Price Low to High
+              </Button>
+              <Button
+                onClick={() => {
+                  setSortOption('newestArrivals');
+                  setActiveNav(null);
+                }}
+                className={
+                  sortOption === 'newestArrivals'
+                    ? 'w-full rounded-[6px] border-0 p-5 text-sm shadow-none'
+                    : 'w-full rounded-[6px] border-0 bg-[#f4f4f4] p-5 text-sm text-black'
+                }
+              >
+                Newest Arrivals
+              </Button>
+              <Button
+                onClick={() => {
+                  setSortOption('bestSellers');
+                  setActiveNav(null);
+                }}
+                className={
+                  sortOption === 'bestSellers'
+                    ? 'w-full rounded-[6px] border-0 p-5 text-sm shadow-none'
+                    : 'w-full rounded-[6px] border-0 bg-[#f4f4f4] p-5 text-sm text-black'
+                }
+              >
+                Best Sellers
+              </Button>
+              <Button
+                onClick={() => {
+                  setSortOption('priceHighToLow');
+                  setActiveNav(null);
+                }}
+                className={
+                  sortOption === 'priceHighToLow'
+                    ? 'w-full rounded-[5px] border-0 p-5 text-sm shadow-none'
+                    : 'w-full rounded-[6px] border-0 bg-[#f4f4f4] p-5 text-sm text-black'
+                }
+              >
+                Price High to Low
+              </Button>
+              <Button
+                onClick={() => {
+                  setSortOption('AvgCustomerReview');
+                  setActiveNav(null);
+                }}
+                className={
+                  sortOption === 'AvgCustomerReview'
+                    ? 'w-full rounded-[6px] border-0 p-5 text-sm shadow-none'
+                    : 'w-full rounded-[6px] border-0 bg-[#f4f4f4] p-5 text-sm text-black'
+                }
+              >
+                Avg customer Review
+              </Button>
             </div>
           </div>
         </div>

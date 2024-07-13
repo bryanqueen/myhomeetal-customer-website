@@ -85,7 +85,7 @@ const ListGridSwitch = ({
     <div>
       <div
         className={cn({
-          'grid w-fit grid-cols-2 gap-4 xl:grid-cols-3': !isList.value,
+          'grid w-fit grid-cols-3 gap-4 xl:grid-cols-3': !isList.value,
         })}
       >
         {currentPageProducts.map((product) =>

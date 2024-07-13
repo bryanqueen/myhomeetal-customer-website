@@ -223,10 +223,10 @@ export default function MobileCategory({ products }: { products: any[] }) {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className='relative h-[57%] w-full rounded-tl-[30px] rounded-tr-[30px] bg-white px-[3%] pt-[30px]'
+            className='relative h-fit w-full rounded-tl-[30px] rounded-tr-[30px] bg-white px-[3%] pt-[30px]'
           >
             <div className='mx-auto h-[5px] w-[98px] rounded-full bg-black'></div>
-            <div className='mt-5 grid gap-3'>
+            <div className='mt-10 grid gap-3 pb-5'>
               <Button
                 onClick={() => {
                   setSortOption('priceLowToHigh');

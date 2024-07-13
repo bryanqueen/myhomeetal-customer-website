@@ -93,7 +93,7 @@ const LoginForm = () => {
             )}
           </span>
         </div>
-        <div className='flex items-center justify-between p-5'>
+        <div className='flex items-center justify-between pb-5 pl-2 lg:pt-2 lg:px-5 lg:pb-4'>
           <p className='text-xs text-[#FF0003]'>Forgot Password?</p>
           <div className='hidden items-center gap-2 lg:flex'>
             <input type='checkbox' name='' id='' />
@@ -108,7 +108,7 @@ const LoginForm = () => {
           Login
         </Button>
       </form>
-      <p className='py-4 text-center'>
+      <p className='py-2 text-center'>
         <span className='text-[10px] text-[#656565] lg:text-sm'>
           Don&apos;t have an account?
         </span>{' '}

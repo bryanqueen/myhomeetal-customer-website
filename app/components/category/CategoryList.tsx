@@ -20,7 +20,7 @@ const CategoryList = ({ categories }: { categories: Category[] }) => {
           {categories.map((category) => (
             <li
               key={category._id}
-              className='p-3 text-sm text-myGray font-clashreg'
+              className='p-3 text-sm text-myGray font-clash'
             >
               <Link
                 href={`/category/${category.name}?categoryId=${category._id}`}

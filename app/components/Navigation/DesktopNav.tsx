@@ -233,14 +233,17 @@ const DesktopNav = () => {
               </div>
             )}
             <div className='mt-5 flex flex-col items-center gap-2'>
-              <Button
-                className='flex h-[49px] w-[159px] items-center justify-center rounded-full font-clashmd text-sm text-white'
-                linkType='rel'
-                href={ROUTES.CHECKOUT}
-                disabled={items?.length < 1}
-              >
-                Checkout now
-              </Button>
+              {items?.length > 0 && (
+                <Button
+                  className='flex h-[49px] w-[159px] items-center justify-center rounded-full font-clashmd text-sm text-white'
+                  linkType='rel'
+                  href={ROUTES.CHECKOUT}
+                  disabled={items?.length < 1}
+                >
+                  Checkout now
+                </Button>
+              )}
+
               <Button
                 className='w-full rounded-full border-0 bg-white py-4 text-sm text-[#C70E10] hover:shadow-none'
                 linkType='rel'

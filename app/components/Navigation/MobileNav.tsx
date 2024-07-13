@@ -250,17 +250,20 @@ const MobileNav = () => {
                     </Link>
                   </div>
                 )}
-                <div className='flex flex-col items-center pb-2 px-[3%]'>
-                  <div className='w-full' onClick={() => setActiveNav(null)}>
-                    <Button
-                      className='flex h-[49px] border-0 shadow-none w-full items-center justify-center rounded-full font-clashmd text-base text-white lg:w-[159px] lg:text-sm'
-                      linkType='rel'
-                      href={ROUTES.CHECKOUT}
-                      disabled={items?.length < 1}
-                    >
-                      Checkout now
-                    </Button>
-                  </div>
+                <div className='flex flex-col items-center px-[3%] pb-2'>
+                  {items?.length > 0 && (
+                    <div className='w-full' onClick={() => setActiveNav(null)}>
+                      <Button
+                        className='flex h-[49px] w-full items-center justify-center rounded-full border-0 font-clashmd text-base text-white shadow-none lg:w-[159px] lg:text-sm'
+                        linkType='rel'
+                        href={ROUTES.CHECKOUT}
+                        disabled={items?.length < 1}
+                      >
+                        Checkout now
+                      </Button>
+                    </div>
+                  )}
+
                   <div onClick={() => setActiveNav(null)}>
                     <Button
                       className='w-full rounded-full border-0 bg-white py-4 text-sm text-[#C70E10] hover:shadow-none'

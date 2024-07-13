@@ -9,7 +9,7 @@ const NavCart = () => {
 
   if (isEmpty)
     return (
-      <div className='py-3'>
+      <div className='py-3 text-center text-xs text-[#656565] lg:mb-7 lg:text-sm'>
         <p>Your cart is empty</p>
       </div>
     );

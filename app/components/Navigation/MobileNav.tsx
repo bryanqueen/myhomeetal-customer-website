@@ -11,7 +11,6 @@ import cn from 'classnames';
 
 import { useNav } from '../../providers';
 import { accountNav3, hamburgerNav } from '../../utils/navdata';
-import MobileNavCart from './MobileNavCart';
 import Button from '@components/Button';
 import Logo from '@components/Logo';
 import ClientOnly from '@components/ClientOnly';
@@ -241,7 +240,7 @@ const MobileNav = () => {
                 <NavCart />
 
                 {items.length > 0 && (
-                  <div className='my-2 mb-3 flex items-center justify-center'>
+                  <div className='my-5 flex items-center justify-center'>
                     <Link
                       onClick={() => setActiveNav(null)}
                       href='/cart'
@@ -251,7 +250,7 @@ const MobileNav = () => {
                     </Link>
                   </div>
                 )}
-                <div className='flex flex-col items-center px-[3%]'>
+                <div className='flex flex-col items-center pb-2 px-[3%]'>
                   <div className='w-full' onClick={() => setActiveNav(null)}>
                     <Button
                       className='flex h-[49px] border-0 shadow-none w-full items-center justify-center rounded-full font-clashmd text-base text-white lg:w-[159px] lg:text-sm'

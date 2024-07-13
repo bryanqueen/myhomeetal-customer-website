@@ -11,6 +11,8 @@ import MobileCategory from '@/app/components/category/MobileCategory';
 import Image from 'next/image';
 import productService from '@/app/services/productService';
 import { notFound, useSearchParams } from 'next/navigation';
+import { useNav } from '@/app/providers';
+import { XMarkIcon } from '@heroicons/react/16/solid';
 
 export interface PageProps {
   params?: any;
@@ -27,6 +29,10 @@ export default function CategoryPage({ params }: PageProps) {
   const [tempMinPrice, setTempMinPrice] = useState(20000);
   const [tempMaxPrice, setTempMaxPrice] = useState(70000);
   const [discountFilters, setDiscountFilters] = useState<number[]>([]);
+
+  const { state, setActiveNav } = useNav();
+
+  const isNavActive = (key: 'sort' | 'filter') => state.activeNav === key;
 
   const searchParams = useSearchParams();
   const id = searchParams.get('categoryId') || '';
@@ -86,32 +92,34 @@ export default function CategoryPage({ params }: PageProps) {
           Showing results for &quot;{categoryName}&quot;
         </p>
         <div className='flex h-[32px] w-[115px] items-center justify-between'>
-          <div className='flex h-full w-[44px] items-center justify-between'>
-            <p className='font-clashmd text-[10px]'>Sort</p>
+          <button
+            onClick={() => setActiveNav('sort')}
+            className='flex h-full w-[44px] items-center justify-between font-clashmd text-[10px]'
+          >
+            Sort
             <Image
               src='/icons/Arrowupdown.svg'
               width={15}
               height={11}
               alt='arrow icon'
             />
-          </div>
-          <div className='flex h-full w-[45px] items-center justify-between'>
-            <p className='font-clashmd text-[10px]'>Filter</p>
+          </button>
+          <button
+            onClick={() => setActiveNav('filter')}
+            className='flex h-full w-[45px] items-center justify-between font-clashmd text-[10px]'
+          >
+            Filter
             <Image
               src='/icons/filterbar.svg'
               width={12}
               height={11}
               alt='filter icon'
             />
-          </div>
+          </button>
         </div>
       </div>
-      <MobileCategory
-        products={categoryProducts}
-        sortOption={sortOption}
-        priceRange={priceRange}
-        discountFilters={discountFilters}
-      />
+
+      <MobileCategory products={categoryProducts} />
 
       <div className='hidden lg:block'>
         <div className='mb-5 flex items-center justify-between'>
@@ -186,8 +194,8 @@ export default function CategoryPage({ params }: PageProps) {
               <p className='font-clashmd text-sm text-black'>
                 Discount Percentage:
               </p>
-              <div className='mt-4 grid gap-4'>
-                <div className='flex items-center gap-3'>
+              <div className='mt-6 grid gap-5'>
+                <div className='flex items-center gap-5'>
                   <input
                     type='checkbox'
                     name=''
@@ -197,7 +205,7 @@ export default function CategoryPage({ params }: PageProps) {
                   />
                   <label className='text-sm text-black'>50% or more</label>
                 </div>
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-5'>
                   <input
                     type='checkbox'
                     name=''
@@ -207,7 +215,7 @@ export default function CategoryPage({ params }: PageProps) {
                   />
                   <label className='text-sm text-black'>40% or more</label>
                 </div>
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-5'>
                   <input
                     type='checkbox'
                     name=''
@@ -217,7 +225,7 @@ export default function CategoryPage({ params }: PageProps) {
                   />
                   <label className='text-sm text-black'>30% or more</label>
                 </div>
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-5'>
                   <input
                     type='checkbox'
                     name=''
@@ -226,16 +234,6 @@ export default function CategoryPage({ params }: PageProps) {
                     checked={discountFilters.includes(20)}
                   />
                   <label className='text-sm text-black'>20% or more</label>
-                </div>
-                <div className='flex items-center gap-3'>
-                  <input
-                    type='checkbox'
-                    name=''
-                    id=''
-                    onChange={() => handleDiscountChange(10)}
-                    checked={discountFilters.includes(10)}
-                  />
-                  <label className='text-sm text-black'>10% or more</label>
                 </div>
               </div>
             </div>

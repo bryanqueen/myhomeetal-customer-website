@@ -8,7 +8,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 const queryClient = new QueryClient();
 
 type NavState = {
-  activeNav: 'myAccount' | 'main' | 'cart' | null;
+  activeNav: 'myAccount' | 'main' | 'cart' | 'sort' | 'filter' | null;
 };
 
 type NavContextType = {

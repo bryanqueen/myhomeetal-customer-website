@@ -23,6 +23,7 @@ import { XMarkIcon } from '@heroicons/react/16/solid';
 import { useRouter } from 'next/navigation';
 import { useCart } from 'react-use-cart';
 import CustomDropdown from '../SelectOption';
+import NavCart from './NavCart';
 
 const MobileNav = () => {
   const router = useRouter();
@@ -229,7 +230,50 @@ const MobileNav = () => {
 
         {isNavActive('cart') && (
           <ClientOnly>
-            <MobileNavCart />
+            <div
+              onClick={() => setActiveNav(null)}
+              className='fixed bottom-0 left-0 right-0 top-0 z-[2000] bg-black/50 lg:hidden'
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className='relative mx-auto mt-[140px] h-fit w-[90%] rounded-2xl bg-white pt-[18px] '
+              >
+                <NavCart />
+
+                {items.length > 0 && (
+                  <div className='my-2 mb-3 flex items-center justify-center'>
+                    <Link
+                      onClick={() => setActiveNav(null)}
+                      href='/cart'
+                      className='text-center text-xs text-[#656565] hover:text-[#8B1A1A]'
+                    >
+                      View all
+                    </Link>
+                  </div>
+                )}
+                <div className='flex flex-col items-center px-[3%]'>
+                  <div className='w-full' onClick={() => setActiveNav(null)}>
+                    <Button
+                      className='flex h-[49px] border-0 shadow-none w-full items-center justify-center rounded-full font-clashmd text-base text-white lg:w-[159px] lg:text-sm'
+                      linkType='rel'
+                      href={ROUTES.CHECKOUT}
+                      disabled={items?.length < 1}
+                    >
+                      Checkout now
+                    </Button>
+                  </div>
+                  <div onClick={() => setActiveNav(null)}>
+                    <Button
+                      className='w-full rounded-full border-0 bg-white py-4 text-sm text-[#C70E10] hover:shadow-none'
+                      linkType='rel'
+                      href={ROUTES.CART}
+                    >
+                      Go to cart
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </ClientOnly>
         )}
       </div>

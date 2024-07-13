@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -10,6 +10,8 @@ import { useLogin } from './hooks/useLogin';
 import Button from '@components/Button';
 import Input from '@components/Input';
 import { ROUTES } from '@utils/routes';
+import { useState } from 'react';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/16/solid';
 
 interface Inputs {
   email: string;
@@ -33,60 +35,88 @@ const LoginForm = () => {
   });
 
   const { handleLogin, loading, error } = useLogin();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     handleLogin(data);
   };
 
   return (
-    <div className='border-grey-500 mx-5 w-full max-w-lg rounded-2xl border bg-white p-5'>
-      <h1 className='my-5 text-center text-lg'>
-        Sign in to <span className='text-primary'>Myhomeetal</span>
+    <div className='bg-white py-2 lg:min-w-[540px] lg:max-w-[566px] lg:rounded-3xl lg:border lg:border-[#DCDCDC] lg:px-6'>
+      <h1 className='my-5 hidden text-center text-[20px] lg:block'>
+        Sign in to <span className='text-[#FF0003]'>Myhomeetal</span>
       </h1>
       {error && <p className='mb-2 text-center text-red-500'>{error}</p>}
       <div className='grid gap-3 py-5'>
-        <Button className='w-full rounded-xl bg-primary/20 p-3 text-black'>
-          <Image src='/icons/google.svg' width='20' height='20' alt='' />
+        <Button className='relative h-[56px] w-full rounded-[10px] border-0 bg-[#FFE0E0] font-clashmd text-[10px] text-black shadow-none lg:rounded-[16px] lg:font-clash lg:text-sm'>
+          <span className='absolute left-10'>
+            <Image src='/icons/google.svg' width='20' height='20' alt='' />
+          </span>
           Continue with Google
         </Button>
-        <Button className='w-full rounded-xl bg-primary/20 p-3 text-black'>
-          <Image src='/icons/facebook.svg' width='20' height='20' alt='' />
+        <Button className='relative h-[56px] w-full rounded-[10px] border-0 bg-[#FFE0E0] font-clashmd text-[10px] text-black shadow-none lg:rounded-[16px] lg:font-clash lg:text-sm'>
+          <span className='absolute left-10'>
+            <Image src='/icons/facebook.svg' width='20' height='20' alt='' />
+          </span>
           Continue with Facebook
         </Button>
       </div>
       <form className='grid gap-3' onSubmit={handleSubmit(onSubmit)}>
         <Input
           type='email'
-          labelKey='Email Address'
           placeholder='Enter Email Address'
           {...register('email')}
           errorKey={errors.email?.message}
+          labelKey='Email Address'
+          labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
+          inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
         />
-        <Input
-          type='password'
-          labelKey='Password'
-          placeholder='Enter Password'
-          {...register('password')}
-          errorKey={errors.password?.message}
-        />
+        <div className='relative'>
+          <Input
+            type={showPassword ? 'text' : 'password'}
+            labelKey='Password'
+            placeholder='Enter Password'
+            {...register('password')}
+            errorKey={errors.password?.message}
+            labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
+            inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+          />
+
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            className='absolute bottom-[18px] right-5 cursor-pointer text-[#717171]'
+          >
+            {showPassword ? (
+              <EyeSlashIcon width={20} />
+            ) : (
+              <EyeIcon width={20} />
+            )}
+          </span>
+        </div>
+        <div className='flex items-center justify-between p-5'>
+          <p className='text-xs text-[#FF0003]'>Forgot Password?</p>
+          <div className='hidden items-center gap-2 lg:flex'>
+            <input type='checkbox' name='' id='' />
+            <p className='text-xs text-black'>Stay signed-in</p>
+          </div>
+        </div>
         <Button
-          className='w-full rounded-full p-4'
+          className='mt-2 w-full rounded-[10px] p-4 font-clashmd text-xs lg:rounded-full lg:text-base'
           loading={loading}
           disabled={loading}
         >
           Login
         </Button>
       </form>
-      <p className='mb-1 mt-5 text-center text-sm font-medium'>
-        <span className='text-gray-600'>Don&apos;t have an account?</span>{' '}
-        <Link href={ROUTES.SIGNUP} className='text-primary'>
+      <p className='py-4 text-center'>
+        <span className='text-[10px] text-[#656565] lg:text-sm'>
+          Don&apos;t have an account?
+        </span>{' '}
+        <Link
+          href={ROUTES.SIGNUP}
+          className='text-[10px] text-[#C70E10] lg:text-sm'
+        >
           Create an account
-        </Link>
-      </p>
-      <p className='mb-3 text-center text-sm font-medium'>
-        <span className='text-gray-600'>Forgot password?</span>{' '}
-        <Link href={ROUTES.FORGOT_PASSWORD} className='text-primary'>
-          Change password
         </Link>
       </p>
     </div>

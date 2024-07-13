@@ -20,7 +20,7 @@ export const useLogin = () => {
       setCookie(constants.AUTH_TOKEN, data.token);
       console.log(data);
       setCookie(constants.USER_INFO, JSON.stringify(data.userProfile));
-      toast.success('Login successful');
+      toast.success('Login successful. Redirecting...');
       router.push(ROUTES.HOME);
     },
     onError: (error: AxiosError<any>) => {

@@ -11,6 +11,8 @@ import { useSignup } from './hooks/useSignUp';
 import Button from '@components/Button';
 import Input from '@components/Input';
 import { ROUTES } from '@utils/routes';
+import { useState } from 'react';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/16/solid';
 
 interface Inputs {
   firstname: string;
@@ -44,29 +46,34 @@ const SignupForm = () => {
     resolver: yupResolver(schema) as any,
   });
   const { handleSignup, loading, error } = useSignup();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     handleSignup(data);
   };
 
   return (
-    <div className='border-grey-500 mx-5 w-full max-w-lg rounded-2xl border bg-white p-5'>
-      <h1 className='my-5 text-center text-lg'>
-        Create a <span className='text-primary'>Myhomeetal account</span>
+    <div className='max-w-[100%] rounded-3xl bg-white py-2 lg:min-w-[540px] lg:max-w-[566px] lg:border lg:border-[#DCDCDC] lg:px-6'>
+      <h1 className='my-5 hidden text-center text-[20px] lg:block'>
+        Create a <span className='text-[#FF0003]'>Myhomeetal account</span>
       </h1>
       {error && <p className='mb-2 text-center text-red-500'>{error}</p>}
-      <form className='grid gap-3 py-5' onSubmit={handleSubmit(onSubmit)}>
+      <form className='grid gap-3 lg:py-5' onSubmit={handleSubmit(onSubmit)}>
         <Input
           labelKey='First Name'
           placeholder='Enter First Name'
           {...register('firstname')}
           errorKey={errors.firstname?.message}
+          labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
+          inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
         />
         <Input
           labelKey='Last Name'
           placeholder='Enter Last Name'
           {...register('lastname')}
           errorKey={errors.lastname?.message}
+          labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
+          inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
         />
         <Input
           type='email'
@@ -74,33 +81,56 @@ const SignupForm = () => {
           placeholder='Enter Email Address'
           {...register('email')}
           errorKey={errors.email?.message}
+          labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
+          inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
         />
-        <Input
-          type='password'
-          labelKey='Password'
-          placeholder='Enter Password'
-          {...register('password')}
-          errorKey={errors.password?.message}
-        />
+        <div className='relative'>
+          <Input
+            type={showPassword ? 'text' : 'password'}
+            labelKey='Password'
+            placeholder='Enter Password'
+            {...register('password')}
+            errorKey={errors.password?.message}
+            labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
+            inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+          />
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            className='absolute bottom-[18px] right-5 cursor-pointer text-[#717171]'
+          >
+            {showPassword ? (
+              <EyeSlashIcon width={20} />
+            ) : (
+              <EyeIcon width={20} />
+            )}
+          </span>
+        </div>
+
         <Button
-          className='w-full rounded-full p-4'
+          className='mt-2 w-full rounded-[10px] p-4 font-clashmd text-xs lg:rounded-full lg:text-base'
           loading={loading}
           disabled={loading}
         >
           Get Started
         </Button>
       </form>
-      <p className='mb-3 mt-3 text-center text-sm font-medium'>
-        <span className='text-gray-600'>Already have an account?</span>{' '}
-        <Link href={ROUTES.LOGIN} className='text-primary'>
-          Login
+      <p className='text-center mt-2 lg:mt-0'>
+        <span className='text-sm text-[#656565]'>Already have an account?</span>{' '}
+        <Link href={ROUTES.LOGIN} className='text-sm text-[#C70E10]'>
+          sign in
         </Link>
       </p>
-      <div className='mb-5 flex justify-center gap-3'>
-        <Button className='rounded-xl bg-primary/20 p-3 text-black' fit>
+      <div className='my-3 flex justify-center gap-3'>
+        <Button
+          className='rounded-lg border-0 bg-[#FFE0E0] p-3 text-black shadow-none'
+          fit
+        >
           <Image src='/icons/facebook.svg' width='20' height='20' alt='' />
         </Button>
-        <Button className='rounded-xl bg-primary/20 p-3 text-black' fit>
+        <Button
+          className='rounded-lg border-0 bg-[#FFE0E0] p-3 text-black shadow-none'
+          fit
+        >
           <Image src='/icons/google.svg' width='20' height='20' alt='' />
         </Button>
       </div>

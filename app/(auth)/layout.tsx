@@ -13,33 +13,24 @@ export default function AuthLayout({
   return (
     <>
       <TopBanner />
-      <main className='grid h-[calc(100vh-2.2rem)] items-start gap-2 p-5 md:p-5 lg:grid-cols-2 lg:justify-center'>
-        <div className='my-5'>
-          <div className='mx-auto mb-5 max-w-lg'>
+      <main className='lg:flex w-full lg:items-center lg:gap-16 px-4 py-10 lg:justify-between lg:px-0'>
+        <div className='lg:ml-16'>
+          <div className='mb-7 hidden lg:block'>
             <Link href='/'>
               <Logo variant={3} />
             </Link>
           </div>
           {children}
         </div>
-        <div className='h-full p-5'>
+        <div className='mr-5 hidden h-full w-fit items-end justify-end lg:flex'>
           <Image
-            className='max-h-[calc(100vh-8rem)] min-h-full w-full rounded-3xl object-cover'
-            src='/auth-image.png'
+            className='hidden rounded-3xl lg:block'
+            src='/authImg.png'
             alt=''
-            width='500'
-            height='500'
+            width={710}
+            height={736}
           />
         </div>
-        <Button className='fixed bottom-4 right-4 h-14 w-14 rounded-full p-3.5'>
-          <Image
-            className='w-full'
-            src='/icons/chat-icon.svg'
-            alt=''
-            width='10'
-            height='10'
-          />
-        </Button>
       </main>
     </>
   );

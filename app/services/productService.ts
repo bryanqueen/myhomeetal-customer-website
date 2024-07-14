@@ -6,7 +6,7 @@ const productService = {
     return await apiUtils.getRequest(`${api.PRODUCTS}?${params}`);
   },
   getUserDetails: async (id?: string) => {
-    return await apiUtils.getRequest(`${api.PRODUCTS}/user/${id}`);
+    return await apiUtils.getRequest(`user/${id}`);
   },
   getProductsByCategory: async (id?: string) => {
     return await apiUtils.getRequest(`${api.PRODUCTS}/category/${id}`)

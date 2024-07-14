@@ -1,39 +1,42 @@
-import { Add } from 'iconsax-react';
 import { Metadata } from 'next';
-import cn from 'classnames';
 
 import Notifications from '@/app/components/account/Notifications';
+import Button from '@/app/components/Button';
+import { ArrowLeftIcon } from '@heroicons/react/16/solid';
+import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Notifications | Myhomeetal',
 };
 
 function NotificationsPage() {
+  const headersList = headers();
+  const previousPath = headersList.get('referer') || '';
   return (
-    <main>
-      <h1 className='text-3xl font-medium'>My Notifications</h1>
-      <div className='my-3 flex flex-col gap-3 md:flex-row md:justify-between'>
-        <p className='mb-2 text-gray-500 md:mb-0'>
+    <main className='px-[3%] lg:px-0'>
+      <div className='flex items-center pl-1 py-5 lg:hidden'>
+        <Button
+          href={previousPath}
+          className='justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
+          linkType='rel'
+          variant='ghost'
+        >
+          <ArrowLeftIcon
+            width={17}
+            className=' mr-[2px] mt-[-1px] lg:mr-1 lg:mt-[-3px]'
+          />
+          Back
+        </Button>
+        <p className='text-center font-clashmd text-xs text-myGray lg:hidden'>
+          My Notifications
+        </p>
+      </div>
+      <div className='hidden lg:block'>
+        <h1 className='font-clashmd text-3xl text-myGray'>My Notifications</h1>
+        <p className='mt-2 text-base text-[#7C7C7C]'>
           Stay updated! All your alerts, updates, and important messages in one
           place.
         </p>
-        <div className='flex min-w-fit items-center gap-2'>
-          <span>Enable email notifications</span>
-          <label
-            htmlFor='toggleCheckbox'
-            className='relative inline-flex cursor-pointer items-center'
-          >
-            <input
-              type='checkbox'
-              id='toggleCheckbox'
-              className='peer sr-only'
-            />
-            {/* Custom Toggle Background */}
-            <div className='peer h-6 w-11 rounded-full bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none peer-checked:bg-primary/50 peer-focus:ring-4 peer-focus:ring-primary/30 dark:peer-focus:ring-primary'></div>
-            {/* Custom Toggle Circle */}
-            <div className='absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform duration-200 ease-in-out peer-checked:translate-x-5'></div>
-          </label>
-        </div>
       </div>
 
       <Notifications />

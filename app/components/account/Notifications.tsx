@@ -1,7 +1,19 @@
+'use client';
 import { Add } from 'iconsax-react';
 import cn from 'classnames';
 
 import Button from '@/app/components/Button';
+import { useEffect, useState } from 'react';
+import productService from '@/app/services/productService';
+import { notFound } from 'next/navigation';
+import authUtils from '@/app/utils/authUtils';
+
+interface User {
+  id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+}
 
 const notifications: {
   title: string;
@@ -48,40 +60,83 @@ const notifications: {
 ];
 
 const Notifications = () => {
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [notificationss, setNotifications] = useState([]);
+
+  const fetchNotification = async () => {
+    try {
+      const res = await productService.getUserDetails(userInfo?.id);
+      if (!res || !res.data) {
+        console.log('id not found');
+        return notFound();
+      }
+      setNotifications(res.data.notification);
+    } catch (error) {
+      console.error('Error in ProductPage:', error);
+      return notFound();
+    }
+  };
+
+  useEffect(() => {
+    const getUser = () => {
+      const userInfo = authUtils.getUserInfo();
+      if (userInfo) {
+        setUserInfo(userInfo);
+      }
+    };
+
+    getUser();
+  }, []);
+
+  useEffect(() => {
+    fetchNotification();
+  }, []);
   return (
-    <div className='grid gap-5 py-5'>
+    <div className='grid gap-5 lg:py-5'>
       {notifications.map((notification, i) => (
         <div
           key={i}
-          className='flex max-w-2xl gap-3 rounded-md border p-2 md:gap-8'
+          className='flex min-h-[110px] items-center gap-4 rounded-[10px] border border-[#F4F4F4] p-2 lg:min-h-0 lg:w-[730px] lg:items-start lg:gap-6 lg:rounded-[8px]'
         >
-          <div className='h-16 w-16 shrink-0 rounded-md bg-gray-100'></div>
-          <div className='max-w-lg basis-full'>
-            <p className='mb-1 font-medium'>{notification.title}</p>
-            <p className='text-sm text-gray-500'>{notification.message}</p>
-            {notification.callToAction && (
-              <div className='pt-4'>
-                <Button className='min-w-fit px-5'>
-                  {notification.callToAction.icon}
-                  {notification.callToAction.text}
-                </Button>
-              </div>
-            )}
-          </div>
-          <div className='flex flex-col items-end md:shrink-0'>
-            <span className='font-medium'>{notification.duration}m ago</span>
-            <span
-              className={cn('rounded-full px-2 py-0.5 text-sm', {
-                'bg-red-500/30 text-primary': notification.type === 'Important',
-                'bg-blue-500/20 text-blue-700': notification.type === 'Unread',
-                'bg-yellow-500/30 text-yellow-600':
-                  notification.type === 'Warning',
-                'bg-green-500/20 text-green-700':
-                  notification.type === 'Successful',
-              })}
-            >
-              {notification.type}
-            </span>
+          <div className=' h-14 w-14 shrink-0 rounded-[12px] bg-[#060606]/10 lg:h-16 lg:w-16 lg:rounded-[8px] lg:bg-[#D9D9D9]'></div>
+          <div className='flex flex-grow justify-between'>
+            <div className='max-w-[474px] basis-full'>
+              <p className='mb-1 font-clashmd text-xs text-myGray lg:text-base'>
+                {notification.title}
+              </p>
+              <p className='text-[10px] text-[#7C7C7C] lg:text-sm'>
+                {notification.message}
+              </p>
+              {notification.callToAction && (
+                <div className='pt-4'>
+                  <Button className='min-w-fit text-[10px] rounded-[8px] px-5 lg:text-base'>
+                    <span className='flex items-center gap-2'>
+                      {notification.callToAction.icon}
+                      {notification.callToAction.text}
+                    </span>
+                  </Button>
+                </div>
+              )}
+            </div>
+            <div className='flex min-h-full lg:min-h-0 w-fit flex-col justify-between'>
+              <p className='mb-1 text-end text-[10px] text-black lg:text-myGray lg:text-sm'>
+                {notification.duration}m ago
+              </p>
+              <p
+                className={cn('rounded-full px-2 py-0.5 text-sm', {
+                  'bg-[#F8BCBC] text-[10px] text-[#8B1A1A] lg:text-xs':
+                    notification.type === 'Important',
+                  'bg-[#BAD9F7] text-[10px] text-[#1673CC] lg:text-xs':
+                    notification.type === 'Unread',
+                  'bg-[#F7DFBA] text-[10px] text-[#CC8400] lg:text-xs':
+                    notification.type === 'Warning',
+                  'bg-[#BAF7BA] text-[10px] text-[#1B691B] lg:text-xs':
+                    notification.type === 'Successful',
+                })}
+              >
+                {notification.type}
+              </p>
+            </div>
           </div>
         </div>
       ))}

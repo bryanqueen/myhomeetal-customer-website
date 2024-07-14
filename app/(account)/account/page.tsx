@@ -3,14 +3,36 @@ import { Metadata } from 'next';
 import Input from '@/app/components/Input';
 import authUtils from '@/app/utils/authUtils';
 import AccountDashboard from '@/app/components/account/AccountDashboard';
+import Button from '@/app/components/Button';
+import { ArrowLeftIcon } from '@heroicons/react/16/solid';
+import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Personal Information | Myhomeetal',
 };
 
 export default function AccountPage() {
+  const headersList = headers();
+  const previousPath = headersList.get('referer') || '';
   return (
     <main className='px-[3%] lg:px-0'>
+      <div className='flex items-center pl-1 py-5 lg:hidden'>
+        <Button
+          href={previousPath}
+          className='justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
+          linkType='rel'
+          variant='ghost'
+        >
+          <ArrowLeftIcon
+            width={17}
+            className=' mr-[2px] mt-[-1px] lg:mr-1 lg:mt-[-3px]'
+          />
+          Back
+        </Button>
+        <p className='text-center font-clashmd text-xs text-myGray lg:hidden'>
+          Personal Info
+        </p>
+      </div>
       <AccountDashboard />
 
       {/**Mobile form */}

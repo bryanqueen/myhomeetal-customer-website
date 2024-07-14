@@ -69,7 +69,7 @@ const LoginForm = () => {
           errorKey={errors.email?.message}
           labelKey='Email Address'
           labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-          inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+          inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
         />
         <div className='relative'>
           <Input
@@ -79,7 +79,7 @@ const LoginForm = () => {
             {...register('password')}
             errorKey={errors.password?.message}
             labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-            inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+            inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
           />
 
           <span
@@ -94,7 +94,7 @@ const LoginForm = () => {
           </span>
         </div>
         <div className='flex items-center justify-between pb-5 pl-2 lg:pt-2 lg:px-5 lg:pb-4'>
-          <p className='text-xs text-[#FF0003]'>Forgot Password?</p>
+          <Link href='/forgot-password' className='text-xs text-[#FF0003]'>Forgot Password?</Link>
           <div className='hidden items-center gap-2 lg:flex'>
             <input type='checkbox' name='' id='' />
             <p className='text-xs text-black'>Stay signed-in</p>

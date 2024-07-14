@@ -50,7 +50,7 @@ export default function AccountPage() {
             <div className='relative'>
               <Input
                 name='email'
-                placeholder='No 3 Kayode Arikawe Street, ikosi, Ketu, Lagos.'
+                placeholder='Somtoochukwu@gmail.com'
                 type='text'
                 variant='outline'
                 inputClassName='border-0 h-[65px] rounded-[10px] text-xs placeholder:text-[#989898]'

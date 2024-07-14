@@ -27,7 +27,7 @@ export const accountNav = [
     link: ROUTES.ACCOUNT,
   },
   {
-    text: 'Purchasing History',
+    text: 'My Orders',
     icon: <ShoppingCart variant='Bulk' />,
     link: ROUTES.PURCHASING_HISTORY,
   },

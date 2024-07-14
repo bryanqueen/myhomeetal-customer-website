@@ -123,7 +123,7 @@ const Notifications = () => {
                 {notification.duration}m ago
               </p>
               <p
-                className={cn('rounded-full px-2 py-0.5 text-sm', {
+                className={cn('rounded-full px-2 py-0.5', {
                   'bg-[#F8BCBC] text-[10px] text-[#8B1A1A] lg:text-xs':
                     notification.type === 'Important',
                   'bg-[#BAD9F7] text-[10px] text-[#1673CC] lg:text-xs':

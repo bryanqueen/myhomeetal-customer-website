@@ -12,29 +12,35 @@ const LogoutDialog = () => {
 
   return (
     <div className='flex w-[80vw] max-w-[400px] flex-col items-center gap-4 p-5 text-center'>
-      <div className='h-16 w-16 rounded-full bg-primary/30' />
+      <div className='h-16 w-16 rounded-full bg-[#FFC5C6]' />
       <div className='px-5'>
-        <p className='mb-3 text-3xl font-medium'>
+        <p className='mb-3 font-clashmd text-2xl text-myGray'>
           Are you sure you want to log out?
         </p>
-        <p>Ensure you&apos;ve saved all your actions before proceeding.</p>
+        <p className='text-sm text-myGray'>
+          Ensure you&apos;ve saved all your actions <br /> before proceeding.
+        </p>
       </div>
       <div className='w-full'>
         <CloseDialog asChild>
           <Button
-            className='mb-2 w-full gap-2 p-3 font-normal'
+            className='mb-2 w-full gap-2 p-3 h-[44px] border-0 shadow-none'
             onClick={handleLogout}
             loading={loading}
             disabled={loading}
           >
-            <LogoutIcon variant='Bulk' />
-            Yes, Logout
+            <span className='flex items-center gap-3 text-base'>
+              <LogoutIcon variant='Bulk' />
+              Yes, Logout
+            </span>
           </Button>
         </CloseDialog>
         <CloseDialog asChild>
-          <Button className='w-full gap-2 bg-primary/20 p-3 font-normal text-black'>
-            <CloseSquare variant='Bold' />
-            No, Cancel
+          <Button className='font-base border-0 shadow-none h-[44px] w-full gap-2 bg-[#FFF1F1] text-myGray'>
+            <span className='flex items-center gap-3'>
+              <CloseSquare variant='Bold' />
+              No, Cancel
+            </span>
           </Button>
         </CloseDialog>
       </div>

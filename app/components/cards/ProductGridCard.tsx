@@ -68,7 +68,7 @@ const ProductGridCard: React.FC<ProductCardProps> = ({
       </div>
       <div className='flex justify-center'>
         <Button
-          className='w-[90%] rounded-full text-base text-white font-clashmd h-[50px]'
+          className='w-[90%] rounded-full border-0 shadow-none text-base text-white font-clashmd h-[50px]'
           linkType='rel'
           href={`/item/${product._id}`}
         >

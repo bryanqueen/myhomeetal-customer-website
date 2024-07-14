@@ -18,7 +18,7 @@ export default function NavLink({
 
   const className = twMerge(
     cn(
-      'mb-3 flex items-center gap-3 rounded-xl p-3 py-4 text-gray-500 transition hover:bg-primary/30 hover:text-black focus:outline-primary',
+      'mb-3 flex items-center gap-3 rounded-lg p-3 py-4 text-[#989898] transition hover:bg-primary/30 hover:text-black focus:outline-primary',
       { 'bg-primary text-white hover:bg-primary hover:text-white': isActive }
     )
   );

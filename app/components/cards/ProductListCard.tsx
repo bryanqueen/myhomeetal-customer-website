@@ -66,7 +66,7 @@ const ProductListCard = ({ product }: ProductCardProps) => {
               <Button
                 linkType='rel'
                 href={`/item/${product._id}`}
-                className='h-[50px] w-[205px] rounded-full font-clashmd text-base text-white'
+                className='h-[50px] border-0 shadow-none w-[205px] rounded-full font-clashmd text-base text-white'
               >
                 Buy now
               </Button>

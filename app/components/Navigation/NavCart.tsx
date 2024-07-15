@@ -23,7 +23,7 @@ const NavCart = () => {
         {items.map((item) => (
           <div
             key={item.id}
-            className='mb-2 flex h-[70px] w-full items-center gap-4 rounded-lg bg-[#f4f4f4] p-2 lg:h-[76px] lg:w-[211px] lg:gap-2'
+            className='mb-2 flex h-[70px] w-full items-center gap-4 rounded-lg bg-[#f4f4f4] p-2 lg:h-[76px] lg:w-[211px] lg:gap-3'
           >
             <Image
               src={item?.images[0]}
@@ -33,7 +33,7 @@ const NavCart = () => {
               className='h-[58px] rounded-lg object-contain lg:h-[61px]'
             />
             <div className='flex h-[61px] w-[120px] flex-col justify-between py-1'>
-              <p className='line-clamp-2 text-xs text-[#656565] lg:text-sm'>
+              <p className='line-clamp-2 text-xs text-[#656565] lg:text-sm lg:leading-[15px]'>
                 {item.productTitle}
               </p>
               <p className='flex items-center gap-1 text-xs text-[#656565] lg:text-base'>

@@ -27,7 +27,7 @@ const CartHandler = ({
   disabled,
 }: Props) => {
   const { updateItemQuantity, removeItem, addItem, getItem } = useCart();
-  const { showPopup } = usePopup();
+  const { showPopup, hidePopup, isPopupVisible } = usePopup();
 
   const handleCart = () => {
     switch (variant) {
@@ -38,6 +38,10 @@ const CartHandler = ({
         break;
       case 'REMOVE':
         removeItem(item.id);
+        if (isPopupVisible) {
+          hidePopup();
+        }
+
         break;
       case 'UPDATE_PLUS':
         updateItemQuantity(item.id, Number(item.quantity) + 1);

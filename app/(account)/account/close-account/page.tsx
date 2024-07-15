@@ -29,7 +29,7 @@ function CloseAccountPage() {
           Back
         </Button>
         <p className='text-center font-clashmd text-xs text-myGray lg:hidden'>
-          Saved Items
+          Close Account
         </p>
       </div>
       <div className='hidden flex-col items-center lg:flex'>
@@ -60,7 +60,7 @@ function CloseAccountPage() {
             required
             inputClassName='lg:rounded-2xl text-sm lg:h-[56px] placeholder:text-xs rounded-[10px] h-[60px] bg-[#f4f4f4] placeholder:text-[#989898] lg:placeholder:text-base'
           />
-          <Button className='mt-8 lg:mt-0 w-full rounded-[10px] h-[50px] border-0 px-6 py-3 font-clashmd text-base text-white shadow-none lg:rounded-[8px] lg:font-clash'>
+          <Button className='mt-8 h-[50px] w-full rounded-[10px] border-0 px-6 py-3 font-clashmd text-base text-white shadow-none lg:mt-0 lg:rounded-[8px] lg:font-clash'>
             <span className='flex items-center gap-3 lg:gap-1'>
               <Trash variant='Bold' size={20} />
               Delete Account

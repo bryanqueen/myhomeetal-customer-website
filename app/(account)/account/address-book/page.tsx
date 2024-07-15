@@ -100,7 +100,7 @@ const AddressCard = () => {
         Easily manage and select delivery locations to ensure your orders reach
         exactly where you want them.
       </p>
-      <Button className='mb-3 w-full max-w-[224px] rounded-[8px] border-0 bg-white px-6 py-3 font-clashmd text-sm text-primary shadow-none lg:w-full lg:pb-0 lg:font-clash lg:text-base'>
+      <Button className='mb-3 lg:mb-0 w-full max-w-[224px] rounded-[8px] border-0 bg-white px-6 py-3 font-clashmd text-sm text-primary shadow-none lg:w-full lg:font-clash lg:text-base'>
         <span className='flex items-center justify-center gap-3 lg:gap-2'>
           <Location variant='Bold' size={20} />
           Edit Address

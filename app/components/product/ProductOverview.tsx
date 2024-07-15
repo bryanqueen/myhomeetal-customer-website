@@ -13,15 +13,31 @@ import ProductPrice from './ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import { useCart } from 'react-use-cart';
 import CartHandler from '../cart/CartHandler';
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import ClientOnly from '../ClientOnly';
+import productService from '@/app/services/productService';
 
 const ProductOverview = ({ data }: any) => {
   const router = useRouter();
+  const id = data?._id;
 
   const handleBack = () => {
     router.back();
   };
+
+  const savedItem = async () => {
+    try {
+      const payload = { authMethod: data?._id };
+      const res = await productService.saveProduct({ payload, id });
+      if (res.status === 200) {
+        alert('saved item');
+      }
+    } catch (error) {
+      console.error('Error in saving item:', error);
+      return notFound();
+    }
+  };
+
   const breadCrumb = [
     {
       title: 'Home',
@@ -153,9 +169,12 @@ const ProductOverview = ({ data }: any) => {
                   <AddToCartButton item={itemForCart} />
                 )}
 
-                <div className='flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'>
+                <button
+                  onClick={savedItem}
+                  className='flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'
+                >
                   <HeartAdd size='24' color='#ffffff' variant='Bulk' />
-                </div>
+                </button>
               </div>
             </div>
           </div>

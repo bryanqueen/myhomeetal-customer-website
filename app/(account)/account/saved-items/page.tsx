@@ -31,16 +31,6 @@ function SavedItemsPage() {
           Saved Items
         </p>
       </div>
-      {/* <div className='py-32'>
-        <NoHistory title='No Saved Item Yet' />
-      </div> */}
-      <div className='hidden lg:block'>
-        <h1 className='font-clashmd text-3xl text-myGray'>Saved Items</h1>
-        <p className='mt-2 text-base text-[#7C7C7C]'>
-          Our robust measures ensure your data remains protected, giving you a
-          worry-free browsing and shopping experience.
-        </p>
-      </div>
 
       <SaveItems />
     </main>

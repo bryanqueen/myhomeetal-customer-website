@@ -63,7 +63,7 @@ const Notifications = () => {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [notificationss, setNotifications] = useState([]);
 
-  const fetchNotification = async () => {
+  /*const fetchNotification = async () => {
     try {
       const res = await productService.getUserDetails(userInfo?.id);
       if (!res || !res.data) {
@@ -90,7 +90,7 @@ const Notifications = () => {
 
   useEffect(() => {
     fetchNotification();
-  }, []);
+  }, [userInfo]); */
   return (
     <div className='grid gap-5 lg:py-5'>
       {notifications.map((notification, i) => (
@@ -109,7 +109,7 @@ const Notifications = () => {
               </p>
               {notification.callToAction && (
                 <div className='pt-4'>
-                  <Button className='min-w-fit text-[10px] rounded-[8px] px-5 lg:text-base'>
+                  <Button className='min-w-fit rounded-[8px] px-5 text-[10px] lg:text-base'>
                     <span className='flex items-center gap-2'>
                       {notification.callToAction.icon}
                       {notification.callToAction.text}
@@ -118,8 +118,8 @@ const Notifications = () => {
                 </div>
               )}
             </div>
-            <div className='flex min-h-full lg:min-h-0 w-fit flex-col justify-between'>
-              <p className='mb-1 text-end text-[10px] text-black lg:text-myGray lg:text-sm'>
+            <div className='flex min-h-full w-fit flex-col justify-between lg:min-h-0'>
+              <p className='mb-1 text-end text-[10px] text-black lg:text-sm lg:text-myGray'>
                 {notification.duration}m ago
               </p>
               <p

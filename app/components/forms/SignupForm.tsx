@@ -107,7 +107,7 @@ const SignupForm = () => {
         </div>
 
         <Button
-          className='mt-2 w-full rounded-[10px] p-4 font-clashmd text-xs lg:rounded-full lg:text-base'
+          className='mt-2 w-full border-0 shadow-none rounded-[10px] p-4 font-clashmd text-xs lg:rounded-full lg:text-base'
           loading={loading}
           disabled={loading}
         >

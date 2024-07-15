@@ -11,11 +11,11 @@ const LogoutDialog = () => {
   const { handleLogout, loading } = useLogout();
 
   return (
-    <div className='flex w-[80vw] max-w-[400px] flex-col items-center gap-4 p-5 text-center'>
+    <div className='flex w-[75vw] lg:w-[70vw] max-w-[400px] flex-col items-center gap-4 py-5 px-0 lg:px-3 text-center'>
       <div className='h-16 w-16 rounded-full bg-[#FFC5C6]' />
-      <div className='px-5'>
-        <p className='mb-3 font-clashmd text-2xl text-myGray'>
-          Are you sure you want to log out?
+      <div className=''>
+        <p className='mb-3 font-clashmd text-center text-xl lg:text-2xl text-myGray'>
+          Are you sure you want <br /> to log out?
         </p>
         <p className='text-sm text-myGray'>
           Ensure you&apos;ve saved all your actions <br /> before proceeding.

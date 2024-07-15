@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast';
 
 import { constants } from '@utils/constants';
 import { ROUTES } from '@utils/routes';
+import { useNav } from '@/app/providers';
 
 async function logout() {
   return {
@@ -17,14 +18,15 @@ async function logout() {
 
 export const useLogout = () => {
   const [error, setError] = useState('');
+  const { setActiveNav } = useNav();
   const router = useRouter();
 
   const logoutMutate = useMutation(logout, {
     onSuccess: async () => {
       deleteCookie(constants.AUTH_TOKEN);
-      window.location.reload();
       router.push(ROUTES.HOME);
       toast.success('Logout Successful');
+      setActiveNav(null);
     },
     onError: (error: AxiosError<any>) => {
       console.log('Logout error response: ', error);

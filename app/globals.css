@@ -22,8 +22,8 @@ input[type='checkbox'] {
 
 /* Checkbox when checked */
 input[type='checkbox']:checked {
- background-color: #FF0003;
- border: none;
+  background-color: #ff0003;
+  border: none;
 }
 
 /* Checkbox when unchecked */
@@ -74,6 +74,35 @@ input[type='checkbox']:checked::after {
     0 1px 3px 0 rgb(0 0 0 / 0.1),
     0 1px 2px -1px rgb(0 0 0 / 0.1);
   opacity: 1;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-animation {
+  position: relative;
+  overflow: hidden;
+  background-color: #f6f6f6;
+}
+
+.shimmer-animation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2s infinite;
 }
 
 @media (max-width: 768px) {

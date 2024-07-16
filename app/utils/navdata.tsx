@@ -47,6 +47,11 @@ export const accountNav = [
     link: ROUTES.SAVED_ITEMS,
   },
   {
+    text: 'My Referrals',
+    icon: <HeartAdd variant='Bulk' />,
+    link: ROUTES.REFERRAL,
+  },
+  {
     text: 'Security',
     icon: <SecuritySafe variant='Bulk' />,
     link: ROUTES.SECURITY,
@@ -169,7 +174,11 @@ export const hamburgerNav = [
     icon: <UserTick variant='Bulk' />,
     select: {
       options: [
-        { value: 'nigeria', label: 'Nigeria', image: '/images/flags/nigeria.png' },
+        {
+          value: 'nigeria',
+          label: 'Nigeria',
+          image: '/images/flags/nigeria.png',
+        },
         { value: 'us', label: 'US', image: '/images/flags/us.png' },
         { value: 'uk', label: 'UK', image: '/images/flags/uk.png' },
       ],

@@ -85,7 +85,7 @@ const DesktopNav = () => {
   }, []);
 
   return (
-    <div className='relative mb-3 hidden h-[90px] items-center justify-between rounded-[6px] bg-white px-[3%] pt-3 text-sm lg:flex'>
+    <div className='relative mb-3 hidden h-[90px] items-center justify-between gap-5 rounded-[6px] bg-white px-[3%] pt-3 text-sm lg:flex'>
       <div className='flex items-center gap-5'>
         <Link href='/'>
           <Logo variant={3} />
@@ -111,6 +111,12 @@ const DesktopNav = () => {
         >
           Deals
         </Link>
+        <Link
+          href='/referral-page'
+          className='font-clashmd text-base text-myGray hover:text-[#8B1A1A]'
+        >
+          Referrals
+        </Link>
       </div>
 
       <div className='w-[25rem] xl:w-[30rem]'>
@@ -124,7 +130,7 @@ const DesktopNav = () => {
           {hasCookie(constants.AUTH_TOKEN) ? (
             <Link
               href='/account'
-              className='flex items-center gap-1 font-clashmd   text-base text-myGray hover:text-[#8B1A1A]'
+              className='flex items-center gap-1 whitespace-nowrap font-clashmd text-base text-myGray hover:text-[#8B1A1A]'
             >
               <Profile size={20} variant='Bulk' color='#464646' />
 

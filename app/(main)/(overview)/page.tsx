@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import productService from '../services/productService';
+import productService from '../../services/productService';
 import AdBanner from '@components/banner/AdBanner';
 import AdBanner2 from '@components/banner/AdBanner2';
 import AdBanner3 from '@components/banner/AdBanner3';
@@ -9,7 +9,8 @@ import Category from '@/app/components/category/CategoryGrid';
 import Newsletter from '@components/Newsletter';
 import CategoryList from '@components/category/CategoryList';
 import { Suspense } from 'react';
-import SearchForm from '../components/forms/SearchForm';
+import SearchForm from '../../components/forms/SearchForm';
+import { HomeSkeleton } from '../../components/loader';
 
 export default async function Home() {
   let allCategories: any;
@@ -40,14 +41,17 @@ export default async function Home() {
   return (
     <main className='pt-[165px] lg:pt-0'>
       <Suspense>
-        <div className='bg-white lg:hidden fixed top-[83px] right-0 left-0 z-[1000] px-[3%] py-4'>
+        <div className='fixed left-0 right-0 top-[83px] z-[1000] bg-white px-[3%] py-4 lg:hidden'>
           <SearchForm />
         </div>
       </Suspense>
+
       <CategoryList categories={allCategories} />
+
       <AdBanner />
       <div className='md:my-5 lg:mx-5'>
         <TopCategories topCategories={topCategories} />
+
         {/* <Category title='Top Selling Items' color='bg-yellow-500'  /> */}
         <AdBanner2 />
         {/* <Category title='New Products' /> */}

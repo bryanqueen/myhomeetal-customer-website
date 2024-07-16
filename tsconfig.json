@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/(main)/page.tsx"
+    "app/(main)/(overview)/page.tsx"
 , "app/components/DesktopNav2.tsx"  ],
   "exclude": ["node_modules"]
 }

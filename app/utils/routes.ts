@@ -14,6 +14,7 @@ export const ROUTES = {
   WALLET: '/account/my-wallet',
   NOTIFICATIONS: '/account/notifications',
   SAVED_ITEMS: '/account/saved-items',
+  REFERRAL: '/account/my-referrals',
   SECURITY: '/account/security',
   ADDRESS_BOOK: '/account/address-book',
   CLOSE_ACCOUNT: '/account/close-account',

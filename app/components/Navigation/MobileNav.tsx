@@ -209,7 +209,7 @@ const MobileNav = () => {
                       <Button
                         linkType='rel'
                         href={ROUTES.SIGNUP}
-                        className='w-full rounded-full p-5'
+                        className='w-full rounded-full p-5 border-0 shadow-none'
                       >
                         Create Account
                       </Button>

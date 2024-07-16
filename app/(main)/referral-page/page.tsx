@@ -55,10 +55,10 @@ export default function ReferralPage() {
         </div>
       </section>
       <section className='mt-16'>
-        <h2 className='mb-3 text-center font-clashmd text-[39px] text-myGray'>
+        <h2 className='mb-3 text-center leading-[47.97px] font-clashmd text-[39px] text-myGray'>
           Frequently Asked <br /> Question
         </h2>
-        <p className='text-center text-base leading-[19.09px] text-[#525252]'>
+        <p className='text-center text-base mb-16 leading-[19.09px] text-[#525252]'>
           Invite your friends to shop with us and earn exciting rewards <br />{' '}
           for every successful referral.
         </p>

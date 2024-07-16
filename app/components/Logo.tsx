@@ -10,9 +10,9 @@ const Logo = ({ variant = 1 }: { variant?: 1 | 2 | 3 }) => {
       <Image
         src='/logo3.svg'
         alt='Logo'
-        width={55}
+        width={71}
         height={70}
-        className='lg:[71px] w-[63px] object-contain'
+        className='lg:w-[71px] w-[71px] object-contain'
       />
     );
 };

@@ -69,7 +69,6 @@ export default async function Home() {
             })}
         </>
       </div>
-      <Newsletter />
     </main>
   );
 }

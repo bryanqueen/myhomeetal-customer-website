@@ -8,6 +8,7 @@ import {
 } from 'react-icons/fa6';
 
 import Logo from './Logo';
+import Newsletter from './Newsletter';
 
 interface Content {
   title: string;
@@ -16,60 +17,56 @@ interface Content {
 
 const contents: Content[] = [
   {
-    title: 'INFORMATION',
+    title: 'User Information',
     items: [
       'About Us',
-      'About Zip',
-      'Privacy Policy',
-      'Search',
-      'Terms',
-      'Orders and Returns',
+      'FAQs',
       'Contact Us',
-      'Advanced Search',
-      'Newsletter Subscription',
+      'Newsletter Signup',
+      'Returns and Refunds',
+      'Shipping & Delivery',
+      'Store Locator',
+      'Privacy Policy',
     ],
   },
   {
-    title: 'HELP & LINKS',
+    title: 'Help & Support',
+    items: [' Chat with us', 'Help Center', 'Contact Us', 'Newsletter Signup'],
+  },
+  {
+    title: 'Useful Links',
     items: [
-      'Chat with us',
-      'Help Center',
-      'Contact Us',
-      'Service Center',
-      'How to shop on Myhomeetal?',
-      'Delivery options and timelines',
-      'How to return a product on Myhomeetal?',
+      'Experience Center',
+      ' How to shop on Myhomeetal?',
+      'Myhomeetal?',
       'Corporate and bulk purchases',
       'Report a Product',
       'Dispute Resolution Policy',
       'Returns & Refund Timeline',
-      'Return Policy',
     ],
   },
   {
-    title: 'PC PARTS',
+    title: 'Partners & Shops',
     items: [
-      'CPUs',
-      'Add On Cards',
-      'Hard Drives (Internal)',
-      'Graphic Cards',
-      'Keyboards / Mice',
-      'Cases / Power Supplies / Cooling',
-      'RAM (Memory)',
-      'Software',
-      'Speakers / Headsets',
-      'Motherboards',
+      'Anker',
+      'Apple',
+      'Hisense',
+      'Lontor',
+      'Samsung',
+      'Hewellet Packard',
+      'See All',
     ],
   },
   {
-    title: 'PC PARTS',
+    title: 'Blog & Articles',
     items: [
       'Everyday Use Notebooks',
-      'MSI Workstation Series',
-      'MSI Prestige Series',
-      'Tablets and Pads',
-      'Netbooks',
-      'Infinity Gaming Notebooks',
+      'Apple',
+      'Hisense',
+      'Lontor',
+      'Samsung',
+      'Hewellet Packard',
+      'See All',
     ],
   },
 ];
@@ -78,66 +75,70 @@ const MainFooter: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className='bg-white'>
-      <footer className='flex flex-wrap justify-center px-[3%] py-10 pt-16'>
-        <div className='basis-[10%]'>
-          <Link href='/'>
-            <Logo variant={3} />
-          </Link>
+    <div className='bg-black px-[3%] py-6 lg:py-10 lg:pb-8'>
+      <Newsletter />
+      <footer className='mt-6 bg-white px-[3%] py-10'>
+        <div className='flex flex-col lg:flex-row'>
+          <div className='flex basis-[10%] items-center justify-center lg:block'>
+            <Link href='/'>
+              <Logo variant={3} />
+            </Link>
+          </div>
+          <div className='grid max-h-fit max-w-[992.3px] grid-cols-2 gap-5 px-[2%] pt-10 lg:grid-cols-5 lg:px-0'>
+            {contents.map((content) => (
+              <div key={content.title}>
+                <h2 className='font-clashmd text-sm text-[#989898]'>
+                  {content.title}
+                </h2>
+                <ul className='mt-3'>
+                  {content.items.map((item, i) => (
+                    <li className='mb-1 text-sm' key={i}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className='flex flex-wrap'>
-          {contents.map((content, index) => (
-            <div key={index} className='w-1/2 px-4 md:w-1/5'>
-              <p className='mb-4 text-sm font-bold text-black/50'>
-                {content.title}
-              </p>
-              <ul>
-                {content.items.map((item, itemIndex) => (
-                  <li key={itemIndex} className='mb-2 text-[13px] text-black'>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+        <div className='mx-auto mt-20 w-fit'>
+          <p className='mb-3 text-center font-clashmd text-xs text-black/50 lg:text-sm'>
+            JOIN US
+          </p>
+          <div className='flex space-x-4'>
+            <a href='#' aria-label='Facebook'>
+              <FaFacebook size={20} />
+            </a>
+            <a href='#' aria-label='Instagram'>
+              <FaInstagram size={20} />
+            </a>
+            <a href='#' aria-label='YouTube'>
+              <FaYoutube size={20} />
+            </a>
+            <a href='#' aria-label='X'>
+              <FaXTwitter size={20} />
+            </a>
+          </div>
+        </div>
+        <div className='mt-10'>
+          <div className='flex flex-col-reverse gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-0'>
+            <div className='mx-auto text-xs lg:mx-0'>
+              &copy; {currentYear} - MyHomeetal | All Rights Reserved
             </div>
-          ))}
+            <div className='mx-auto flex min-w-[296px] items-center justify-between lg:mx-0 lg:min-w-0 lg:space-x-4'>
+              <Link href='#' className='text-xs'>
+                Privacy Policy
+              </Link>
+              <Link href='#' className='text-xs'>
+                Term Of Use
+              </Link>
+              <Link href='#' className='text-xs'>
+                Cookie Settings
+              </Link>
+            </div>
+          </div>
         </div>
       </footer>
-      <div className='px-[3%] pb-5'>
-        <p className='mb-3 text-sm font-bold text-black/50'>JOIN US</p>
-        <div className='flex space-x-4'>
-          <a href='#' aria-label='Facebook'>
-            <FaFacebook />
-          </a>
-          <a href='#' aria-label='Instagram'>
-            <FaInstagram />
-          </a>
-          <a href='#' aria-label='YouTube'>
-            <FaYoutube />
-          </a>
-          <a href='#' aria-label='X'>
-            <FaXTwitter />
-          </a>
-        </div>
-      </div>
-
-      <div className='px-[3%] py-4'>
-        <div className='flex items-center justify-between'>
-          <div className='text-xs'>
-            &copy; {currentYear} - MyHomeetal | All Rights Reserved
-          </div>
-          <div className='flex space-x-4'>
-            <Link href='#' className='text-xs'>
-              Privacy Policy
-            </Link>
-            <Link href='#' className='text-xs'>
-              Term Of Use
-            </Link>
-            <Link href='#' className='text-xs'>
-              Cookie Settings
-            </Link>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

@@ -81,7 +81,7 @@ const MainFooter: React.FC = () => {
         <div className='flex flex-col lg:flex-row'>
           <div className='flex basis-[10%] items-center justify-center lg:block'>
             <Link href='/'>
-              <Logo variant={3} />
+              <Logo variant={4} />
             </Link>
           </div>
           <div className='grid max-h-fit max-w-[992.3px] grid-cols-2 gap-5 px-[2%] pt-10 lg:grid-cols-5 lg:px-0'>

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-const Logo = ({ variant = 1 }: { variant?: 1 | 2 | 3 }) => {
+const Logo = ({ variant = 1 }: { variant?: 1 | 2 | 3 | 4 }) => {
   if (variant === 1)
     return <Image src='/logo1.svg' alt='Logo' width={70} height={70} />;
   if (variant === 2)
@@ -12,7 +12,17 @@ const Logo = ({ variant = 1 }: { variant?: 1 | 2 | 3 }) => {
         alt='Logo'
         width={71}
         height={70}
-        className='lg:w-[71px] w-[71px] object-contain'
+        className='lg:w-[71px] w-[63px] object-contain'
+      />
+    );
+  if (variant === 4)
+    return (
+      <Image
+        src='/logo3.svg'
+        alt='Logo'
+        width={74}
+        height={70}
+        className='w-[74px] object-contain'
       />
     );
 };

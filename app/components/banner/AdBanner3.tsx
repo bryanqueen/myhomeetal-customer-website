@@ -15,6 +15,7 @@ const AdBanner3 = () => {
           width={358}
           height={138}
           className='w-full'
+          loading='lazy'
         />
       ))}
     </div>

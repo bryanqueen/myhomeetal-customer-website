@@ -38,6 +38,7 @@ const AdBanner2 = () => {
           alt={`Advert ${currentSlide + 1}`}
           width={1360}
           height={274}
+          loading='lazy'
         />
       ))}
       <div className='absolute bottom-7 right-7 z-10 flex space-x-2 p-4'>

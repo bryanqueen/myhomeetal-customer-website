@@ -41,8 +41,9 @@ const AdBanner = () => {
               className={imageClass}
               src={src}
               alt='Advert'
-              width='1000'
-              height='200'
+              width={1000}
+              height={200}
+              loading='lazy'
             />
           ))}
         </Carousel>
@@ -62,6 +63,7 @@ const AdBanner = () => {
               alt='Advert'
               width={358}
               height={200}
+              loading='lazy'
             />
           ))}
         </Carousel>

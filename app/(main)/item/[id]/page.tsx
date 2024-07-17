@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import Newsletter from '@/app/components/Newsletter';
 import ProductHeader from '@/app/components/product/ProductHeader';
 import ProductOverview from '@/app/components/product/ProductOverview';
 import productService from '@/app/services/productService';
@@ -34,9 +33,6 @@ export default async function page({ params }: { params: Params }) {
       </section>
 
       {/*<ProductHeader data={data} />*/}
-      {/*<ProductInformation data={data} />*/}
-      {/*<Newsletter />*/}
-      
       <AddToCartPopup data={data}/>
     </main>
   );

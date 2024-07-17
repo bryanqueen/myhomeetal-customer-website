@@ -4,7 +4,7 @@ const shimmer = 'shimmer-animation';
 
 export function MobileCategorySkeleton() {
   return (
-    <div className='flex flex-wrap justify-between gap-3 p-4 lg:hidden'>
+    <div className='flex flex-wrap justify-between gap-3 p-4 pt-[60px] lg:hidden'>
       {[...Array(6)].map((_, index) => (
         <div
           key={index}

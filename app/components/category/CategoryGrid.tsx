@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ProductCard from '@components/cards/ProductCard';
 import productService from '@/app/services/productService';
+import { MobileCategorySkeleton } from '../loader';
 
 interface Props {
   title: string;
@@ -58,10 +59,6 @@ const Category = ({ title, color = 'bg-primary', id }: Props) => {
     fetchProducts();
   }, [id, isDesktop]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className='my-10 px-2 md:my-20 md:px-[2%]'>
       <div
@@ -76,11 +73,15 @@ const Category = ({ title, color = 'bg-primary', id }: Props) => {
           See All
         </Link>
       </div>
-      <div className='mt-10 grid grid-cols-2 justify-center gap-x-3 gap-y-7 md:grid-cols-4 lg:mt-7 lg:grid-cols-5 lg:gap-5'>
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
-      </div>
+      {loading ? (
+        <MobileCategorySkeleton />
+      ) : (
+        <div className='mt-10 grid grid-cols-2 justify-center gap-x-3 gap-y-7 md:grid-cols-4 lg:mt-7 lg:grid-cols-5 lg:gap-5'>
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -296,21 +296,24 @@ export default function MobileCategory({ products }: { products: any[] }) {
           </div>
         </div>
       )}
-      <div className=''>
-        <div className='mt-9 grid grid-cols-2 gap-x-3 gap-y-7'>
-          {currentPageProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+
+      {currentPageProducts.length > 0 && (
+        <div className=''>
+          <div className='mt-9 grid grid-cols-2 gap-x-3 gap-y-7'>
+            {currentPageProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+          <div className='flex justify-center py-3 pt-10'>
+            <SearchPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              minPagesToShow={5}
+            />
+          </div>
         </div>
-        <div className='flex justify-center py-3 pt-10'>
-          <SearchPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            minPagesToShow={5}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 }

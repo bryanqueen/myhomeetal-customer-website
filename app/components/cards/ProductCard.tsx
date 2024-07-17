@@ -49,6 +49,7 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
               width={200}
               height={200}
               style={{ transition: 'transform 0.3s' }}
+              loading='lazy'
             />
 
             {product.isProductNew === true && <NewProductTag />}

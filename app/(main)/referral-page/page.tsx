@@ -1,66 +1,60 @@
 import Accordion from '@/app/components/Accordion';
 import ReferralDashBoard2 from '@/app/components/account/ReferralDashboard2';
+import SearchForm from '@/app/components/forms/SearchForm';
+import ReferralSteps from '@/app/components/RefHIWCard';
 import Image from 'next/image';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 export default function ReferralPage() {
   return (
-    <main className='mx-[3%]'>
+    <main className='mx-[3%] pb-20 pt-[165px] lg:pt-0'>
+      <Suspense>
+        <div className='fixed left-0 right-0 top-[83px] z-[1000] bg-white px-[3%] py-4 lg:hidden'>
+          <SearchForm />
+        </div>
+      </Suspense>
       <section>
         <ReferralDashBoard2 />
       </section>
       <section>
-        <div className='mt-7'>
+        <div className='mt-5 lg:mt-7'>
           <Image
             src='/images/referral.svg'
             width={1360}
             height={280}
             alt='referral'
+            loading='lazy'
+            className='hidden lg:block'
+          />
+          <Image
+            src='/images/mobref.svg'
+            width={1360}
+            height={280}
+            alt='referral'
+            loading='lazy'
+            className='lg:hidden'
           />
         </div>
       </section>
-      <section className='mt-16'>
-        <h2 className='mb-3 text-center font-clashmd text-[39px] text-myGray'>
+      <section className='mt-20'>
+        <h2 className='mb-3 text-center font-clashmd text-base text-myGray lg:text-[39px]'>
           How it works{' '}
         </h2>
-        <p className='text-center text-base leading-[19.09px] text-[#525252]'>
-          Invite your friends to shop with us and earn exciting rewards <br />{' '}
-          for every successful referral.
+        <p className='mx-auto max-w-[288px] text-center text-xs leading-[14.76px] text-[#525252] lg:max-w-[421px] lg:text-base lg:leading-[19.09px]'>
+          Invite your friends to shop with us and earn exciting rewards for
+          every successful referral.
         </p>
-        <div className='mt-16 grid grid-cols-4 gap-5'>
-          <Image
-            src='/images/ref1.svg'
-            alt='referral'
-            width={332}
-            height={471}
-          />
-          <Image
-            src='/images/ref2.svg'
-            alt='referral'
-            width={332}
-            height={471}
-          />
-          <Image
-            src='/images/ref3.svg'
-            alt='referral'
-            width={332}
-            height={471}
-          />
-          <Image
-            src='/images/ref4.svg'
-            alt='referral'
-            width={332}
-            height={471}
-          />
+        <div className='mt-16'>
+          <ReferralSteps />
         </div>
       </section>
-      <section className='mt-16'>
-        <h2 className='mb-3 text-center leading-[47.97px] font-clashmd text-[39px] text-myGray'>
-          Frequently Asked <br /> Question
+      <section className='mt-20'>
+        <h2 className='mx-auto mb-3 text-center font-clashmd text-base text-myGray lg:max-w-[352px] lg:text-[39px] lg:leading-[47.97px]'>
+          Frequently Asked Question
         </h2>
-        <p className='text-center text-base mb-16 leading-[19.09px] text-[#525252]'>
-          Invite your friends to shop with us and earn exciting rewards <br />{' '}
-          for every successful referral.
+        <p className='mx-auto mb-16 max-w-[321px] text-center font-clashmd text-sm leading-[14.76px] text-[#525252] lg:max-w-[421px] lg:font-clash lg:text-base lg:leading-[19.09px]'>
+          Invite your friends to shop with us and earn exciting rewards for
+          every successful referral.
         </p>
         <Accordion />
       </section>

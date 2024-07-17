@@ -16,13 +16,17 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ question, answer }) => {
   return (
     <div className='mb-4'>
       <button
-        className='w-full rounded-2xl bg-[#FFF1F1] p-4 px-6 text-left focus:outline-none'
+        className='w-full rounded-[10px] lg:rounded-2xl bg-[#FFF1F1] p-4 px-6 text-left focus:outline-none'
         onClick={toggleOpen}
       >
-        <h3 className='font-clashmd text-xl text-myGray'>{question}</h3>
+        <h3 className='font-clashmd text-xs text-myGray lg:text-xl'>
+          {question}
+        </h3>
         {isOpen && (
           <div className='py-4'>
-            <p className='text-base text-[#525252] italic'>{answer}</p>
+            <p className='text-[10px] lg:italic text-[#525252] lg:text-base'>
+              {answer}
+            </p>
           </div>
         )}
       </button>

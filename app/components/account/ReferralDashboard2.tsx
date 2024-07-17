@@ -37,16 +37,16 @@ export default function ReferralDashBoard2() {
               </div>
             </>
           ) : (
-            <div className='ml-3'>
+            <div className='lg:ml-3 flex flex-col gap-3 lg:block'>
               <Link
                 href='/login'
-                className='mr-4 rounded-full bg-white px-6 py-4 font-clashsm text-xs text-myGray'
+                className='min-w-[200px] lg:min-w-fit text-[10px] text-center w-full mr-4 rounded-full bg-white px-6 py-4 font-clashsm lg:text-xs text-myGray'
               >
                 Login
               </Link>
               <Link
                 href='/register'
-                className='rounded-full bg-white px-6 py-4 font-clashsm text-xs text-myGray'
+                className='min-w-[200px] lg:min-w-fit text-[10px] text-center rounded-full bg-white px-6 py-4 font-clashsm lg:text-xs text-myGray'
               >
                 Create an Account
               </Link>

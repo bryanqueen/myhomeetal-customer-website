@@ -49,7 +49,7 @@ export const accountNav = [
   },
   {
     text: 'My Referrals',
-    icon: <HeartAdd variant='Bulk' />,
+    icon: <Profile2User variant='Bulk' />,
     link: ROUTES.REFERRAL,
   },
   {
@@ -122,6 +122,11 @@ export const accountNav3 = [
     icon: <HeartAdd variant='Bulk' color='#292D32' />,
     link: ROUTES.SAVED_ITEMS,
   },
+  {
+    text: 'My Referrals',
+    icon: <Profile2User variant='Bulk' />,
+    link: ROUTES.REFERRAL,
+  },
 
   {
     text: 'My Address',
@@ -156,7 +161,7 @@ export const hamburgerNav = [
     link: ROUTES.DEALS,
   },
   {
-    text: 'My Referrals',
+    text: 'Referral Program',
     icon: <Profile2User variant='Bulk' color='#292D32' />,
     link: ROUTES.REFERRAL2,
   },
@@ -173,7 +178,7 @@ export const hamburgerNav = [
   {
     text: 'Help Center',
     icon: <UserTick variant='Bulk' color='#292D32' />,
-    link: ROUTES.HELP
+    link: ROUTES.HELP,
   },
   {
     select: {
@@ -190,5 +195,5 @@ export const hamburgerNav = [
         console.log(event.target.value); // Handle select option change
       },
     },
-  }
+  },
 ];

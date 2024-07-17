@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import ClientOnly from '../ClientOnly';
 
 interface Referral {
   name: string;
@@ -44,65 +45,69 @@ const referrals: Referral[] = [
 const ReferralTable: React.FC = () => {
   const [isReferral, setIsReferral] = useState(true);
   return (
-    <div className='mt-7 pb-20'>
-      <h2 className='mb-5 font-clashmd text-base text-myGray'>Referrals</h2>
-      <div className='min-h-[427px] max-w-[1110px] overflow-x-auto rounded-2xl border border-[#F4F4F4] bg-white'>
-        <table className='min-w-full border-collapse'>
-          <thead>
-            <tr className='flex'>
-              <th className=' basis-1/2 px-6 py-4 text-start font-clashmd text-base text-myGray'>
-                People
-              </th>
+    <ClientOnly>
+      <div className='mt-7 pb-20'>
+        <h2 className='mb-5 font-clashmd text-xs text-myGray lg:text-base'>
+          Referrals
+        </h2>
+        <div className='max-w-[1110px] overflow-x-auto rounded-[10px] border border-[#F4F4F4] bg-white lg:min-h-[427px] lg:rounded-2xl'>
+          <table className='min-w-full border-collapse'>
+            <thead>
+              <tr className='flex'>
+                <th className='basis-[40%] p-[10px] text-start text-[10px] text-myGray lg:px-6 lg:py-4 lg:font-clashmd lg:text-base'>
+                  People
+                </th>
 
-              <th className='flex basis-1/4 items-center justify-center px-6 py-4 text-start font-clashmd text-base text-myGray'>
-                Stage
-              </th>
-              <th className='flex basis-1/4 items-center justify-end px-6 py-4 text-end font-clashmd text-base text-myGray'>
-                Earning
-              </th>
-            </tr>
-          </thead>
-          {!isReferral ? (
-            <div className='mx-auto mt-32 flex h-fit w-full max-w-[262px] flex-col items-center justify-center gap-5'>
-              <p className='text-center font-clashmd text-base text-myGray'>
-                You dont have any referral yet share your link to earn{' '}
-              </p>
-              <button className='h-[47px] w-[113px] rounded-full bg-primaryBg font-clashsm text-xs text-white'>
-                Copy Code
-              </button>
-            </div>
-          ) : (
-            <tbody>
-              {referrals.map((referral, index) => (
-                <tr key={index} className='flex'>
-                  <td className='basis-1/2 px-6 py-4 text-base text-myGray'>
-                    {referral.name}
-                  </td>
+                <th className='flex basis-[30%] items-center justify-center p-[10px] text-start text-[10px] text-myGray lg:px-6 lg:py-4 lg:font-clashmd lg:text-base'>
+                  Stage
+                </th>
+                <th className='flex basis-[30%] items-center justify-end p-[10px] text-end text-[10px] text-myGray lg:px-6 lg:py-4 lg:font-clashmd lg:text-base'>
+                  Earning
+                </th>
+              </tr>
+            </thead>
+            {!isReferral ? (
+              <div className='mx-auto mt-32 flex h-fit w-full max-w-[262px] flex-col items-center justify-center gap-5'>
+                <p className='text-center font-clashmd text-xs lg:text-base text-myGray'>
+                  You dont have any referral yet share your link to earn{' '}
+                </p>
+                <button className='h-[47px] w-[113px] rounded-full bg-primaryBg font-clashsm text-xs text-white'>
+                  Copy Code
+                </button>
+              </div>
+            ) : (
+              <tbody>
+                {referrals.map((referral, index) => (
+                  <tr key={index} className='flex'>
+                    <td className='basis-[40%] whitespace-nowrap p-[10px] text-xs text-myGray lg:px-6 lg:py-4 lg:text-base'>
+                      {referral.name}
+                    </td>
 
-                  <td className='flex basis-1/4 items-center justify-center px-6 py-4'>
-                    <span
-                      className={`inline-block rounded px-2 py-1 text-sm ${referral.stage === 'Signed up' ? 'rounded-full bg-[#FFE0E0] px-4 py-1 text-sm text-myGray' : 'rounded-full bg-[#BAF7BA] px-4 py-1 text-sm text-myGray'}`}
-                    >
-                      {referral.stage}
-                    </span>
-                  </td>
-                  <td className='grid basis-1/4 px-6 py-4'>
-                    <p
-                      className={`${referral.earning === 100 ? 'text-[#B22222]' : 'text-[#228B22]'} text-end font-clashmd text-xl`}
-                    >
-                      {referral.earning}
-                    </p>
-                    <p className='ml-2 text-end text-sm text-[#989898]'>
-                      {referral.date}
-                    </p>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          )}
-        </table>
+                    <td className='flex basis-[30%] items-center justify-center p-[10px] lg:px-6 lg:py-4'>
+                      <span
+                        className={`inline-block whitespace-nowrap rounded lg:px-2 lg:py-1 ${referral.stage === 'Signed up' ? 'rounded-full bg-[#FFE0E0] px-2 py-1 text-[8px] text-myGray lg:px-4 lg:text-sm' : 'rounded-full bg-[#BAF7BA] px-2 py-1 text-[8px] text-myGray lg:px-4 lg:text-sm'}`}
+                      >
+                        {referral.stage}
+                      </span>
+                    </td>
+                    <td className='grid basis-[30%] p-[10px] lg:px-6 lg:py-4'>
+                      <p
+                        className={`${referral.earning === 100 ? 'text-[#B22222]' : 'text-[#228B22]'} text-end font-clashmd text-xs lg:text-xl`}
+                      >
+                        {referral.earning}
+                      </p>
+                      <p className='ml-2 whitespace-nowrap text-end text-[10px] text-[#989898] lg:text-sm'>
+                        {referral.date}
+                      </p>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            )}
+          </table>
+        </div>
       </div>
-    </div>
+    </ClientOnly>
   );
 };
 

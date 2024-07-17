@@ -14,7 +14,7 @@ export default function ReferralDashBoard() {
             every successful referral.
           </p>
         </div>
-        <div className='mx-auto mb-4 flex h-[50px] min-w-[300px] max-w-[300px] items-center justify-center rounded-2xl bg-white lg:mx-0 lg:h-[56px] lg:max-w-[516px] lg:justify-between lg:pl-7 lg:pr-2'>
+        <div className='mx-auto mb-4 flex h-[50px] min-w-[300px] max-w-[300px] items-center justify-center rounded-2xl bg-white lg:mx-0 lg:h-[56px] lg:max-w-[490px] lg:justify-between lg:pl-7 lg:pr-2'>
           <p className='text-[10px] text-[#989898] lg:text-xs'>
             https://www.myhomeetal.com/referral?code=XYZ123
           </p>
@@ -28,7 +28,7 @@ export default function ReferralDashBoard() {
           </button>
         </div>
 
-        <p className='text-base text-[#525252]'>Share on:</p>
+        <p className='hidden lg:block text-base text-[#525252]'>Share on:</p>
       </div>
       <Image
         src='/images/referralIcon5.svg'

@@ -6,32 +6,34 @@ import { Box } from 'iconsax-react';
 export default function ReferralEarningDashboard() {
   const { region } = useRegion();
   return (
-    <div className='mt-7 grid h-[195px] w-full max-w-[1108px] grid-cols-2 gap-4'>
-      <div className='flex h-full w-full items-center rounded-xl border border-[#E4E7EC] pl-5'>
-        <div className='grid min-h-[163px] gap-5'>
+    <div className='mt-7 grid w-full max-w-[1108px] gap-4 lg:h-[195px] lg:grid-cols-2'>
+      <div className='flex h-[62px] w-full items-center justify-center rounded-xl border border-[#E4E7EC] pl-5 lg:h-full lg:justify-start'>
+        <div className='flex items-center justify-center gap-5 lg:grid lg:min-h-[163px]'>
           <div className='flex items-center gap-3'>
             <div className='flex h-8 w-8 items-center justify-center rounded-[8px] bg-[#FFF1F1]'>
               <Box size='15' color='#FF6567' />
             </div>
-            <p className='font-clashmd text-sm text-[#667185]'>
+            <p className='font-clashmd text-xs text-[#667185] lg:text-sm'>
               Total Referrals
             </p>
           </div>
-          <p className='font-clashsm text-[32px] text-[#1D2739]'>122</p>
+          <p className='font-clashsm text-base text-[#1D2739] lg:text-[32px]'>
+            122
+          </p>
         </div>
       </div>
-      <div className='flex h-full w-full items-center rounded-xl border border-[#E4E7EC] p-5'>
-        <div className='grid min-h-[163px] gap-5'>
+      <div className='flex h-[62px] w-full items-center justify-center rounded-xl border border-[#E4E7EC] pl-5 lg:h-full lg:justify-start'>
+        <div className='flex items-center justify-center gap-5 lg:grid lg:min-h-[163px]'>
           <div className='flex items-center gap-3'>
             <div className='flex h-8 w-8 items-center justify-center rounded-[8px] bg-[#FFF1F1]'>
               <Box size='15' color='#FF6567' />
             </div>
-            <p className='font-clashmd text-sm text-[#667185]'>
+            <p className='font-clashmd text-xs text-[#667185] lg:text-sm'>
               Total Earnings
             </p>
           </div>
           <ProductPrice
-            className='font-clashsm text-[32px] text-[#1D2739]'
+            className='font-clashsm text-base lg:text-[32px] text-[#1D2739]'
             region={region}
             priceInNGN={61000}
           />

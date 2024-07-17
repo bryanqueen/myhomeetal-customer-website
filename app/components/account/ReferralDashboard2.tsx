@@ -56,11 +56,11 @@ export default function ReferralDashBoard2() {
       </div>
 
       <Image
-        src='/images/referralIcon2.svg'
+        src='/images/referralIcon4.svg'
         width={207}
         height={211}
         alt='referral Icon'
-        className='absolute bottom-0 left-[-50px] lg:hidden'
+        className='absolute bottom-0 left-0 lg:hidden'
         loading='lazy'
       />
       <div className='relative hidden lg:block'>

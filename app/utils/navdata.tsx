@@ -14,6 +14,7 @@ import {
   Menu,
   Shop,
   Bag,
+  Profile2User,
 } from 'iconsax-react';
 
 import { ROUTES } from './routes';
@@ -145,19 +146,19 @@ export const accountNav3 = [
 ];
 export const hamburgerNav = [
   {
-    text: 'My Categories',
-    icon: <Menu variant='Bulk' color='#292D32' />,
-    link: ROUTES.ACCOUNT,
-  },
-  {
     text: 'My Shops',
     icon: <Shop variant='Bulk' color='#292D32' />,
-    link: ROUTES.PURCHASING_HISTORY,
+    link: ROUTES.SHOPS,
   },
   {
     text: 'My Deals',
     icon: <Bag variant='Bulk' color='#292D32' />,
-    link: ROUTES.WALLET,
+    link: ROUTES.DEALS,
+  },
+  {
+    text: 'My Referrals',
+    icon: <Profile2User variant='Bulk' color='#292D32' />,
+    link: ROUTES.REFERRAL2,
   },
   {
     text: 'My Account',
@@ -167,11 +168,14 @@ export const hamburgerNav = [
   {
     text: 'My Cart',
     icon: <ShoppingCart variant='Bulk' color='#292D32' />,
-    link: ROUTES.SAVED_ITEMS,
+    link: ROUTES.CART,
   },
   {
     text: 'Help Center',
-    icon: <UserTick variant='Bulk' />,
+    icon: <UserTick variant='Bulk' color='#292D32' />,
+    link: ROUTES.HELP
+  },
+  {
     select: {
       options: [
         {
@@ -186,5 +190,5 @@ export const hamburgerNav = [
         console.log(event.target.value); // Handle select option change
       },
     },
-  },
+  }
 ];

@@ -84,7 +84,7 @@ export default function CategoryPage({ params }: PageProps) {
 
   return (
     <>
-      <main className='pb-20 pt-[165px] lg:px-[3%] lg:pt-0'>
+      <main className='pb-20 pt-[165px] lg:px-[3%] lg:pt-0 min-h-[100vh]'>
         <Suspense>
           <div className='fixed left-0 right-0 top-[83px] z-[1000] bg-white px-[3%] py-4 lg:hidden'>
             <SearchForm />

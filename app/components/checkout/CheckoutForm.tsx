@@ -195,7 +195,7 @@ const CheckoutForm: React.FC = () => {
                 <div className='mt-5 grid grid-cols-2 gap-5'>
                   {items &&
                     items.map((item) => (
-                      <div className='flex max-w-[388px] items-center gap-5'>
+                      <div key={item.id} className='flex max-w-[388px] items-center gap-5'>
                         <Image
                           alt='tick icon'
                           src={item?.images[0]}

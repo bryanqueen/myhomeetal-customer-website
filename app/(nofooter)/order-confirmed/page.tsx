@@ -29,7 +29,7 @@ function OrderConfirmedPage() {
           <OrderSummary />
         </div>
         <Button
-          className='mb-3 min-w-full rounded-xl border-0 p-5 font-clashmd text-base shadow-none lg:min-w-[600px]'
+          className='mb-3 min-w-full rounded-xl border-0 p-3 lg:p-5 font-clashmd text-base shadow-none lg:min-w-[600px]'
           linkType='rel'
           href={ROUTES.HOME}
         >

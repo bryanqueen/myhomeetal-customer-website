@@ -32,6 +32,7 @@ const ProductGridCard: React.FC<ProductCardProps> = ({
         alt='Product'
         width={200}
         height={167}
+        loading='lazy'
       />
       <div className='flex max-h-[117px] w-full flex-col gap-3'>
         <div className='hidden items-center justify-between gap-[19px] lg:flex'>

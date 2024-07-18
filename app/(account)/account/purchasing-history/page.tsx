@@ -12,7 +12,7 @@ export default function PurchasingHistoryPage() {
   const headersList = headers();
   const previousPath = headersList.get('referer') || '';
   return (
-    <main className='px-[3%] lg:px-0'>
+    <main className='px-[3%] pb-10 lg:px-0'>
       <div className='flex items-center py-5 pl-1 lg:hidden'>
         <Button
           href={previousPath}

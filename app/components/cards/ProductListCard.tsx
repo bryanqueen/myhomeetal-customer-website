@@ -33,6 +33,7 @@ const ProductListCard = ({ product }: ProductCardProps) => {
             alt='Product'
             width={200}
             height={200}
+            loading='lazy'
           />
         </div>
 

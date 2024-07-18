@@ -114,15 +114,12 @@ export default function PurchasingHistory() {
                     </p>
                   </div>
                 </div>
-                <div className='grid gap-5'>
+                <div className='flex items-center'>
                   <ProductPrice
                     priceInNGN={order.price}
                     region={region}
                     className='font-clashmd text-xl text-black'
                   />
-                  <Link href='/' className='text-sm text-primary'>
-                    See Details
-                  </Link>
                 </div>
               </div>
             </div>

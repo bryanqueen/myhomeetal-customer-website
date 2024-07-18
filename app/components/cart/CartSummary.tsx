@@ -49,9 +49,10 @@ const CartSummary = () => {
                 <Button
                   linkType='rel'
                   href={ROUTES.CHECKOUT}
-                  className='mt-10 w-full rounded-full p-4 font-clashmd text-base text-white'
+                  className='mt-10 w-full border-0 shadow-none rounded-full p-4 font-clashmd text-base text-white'
                 >
-                  Checkout ( ${cartTotal.toLocaleString()} )
+                  Checkout{' '}
+                  <ProductPrice priceInNGN={cartTotal} region={region} />
                 </Button>
               )}
             </div>

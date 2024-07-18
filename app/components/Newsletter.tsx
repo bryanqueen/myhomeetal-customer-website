@@ -37,7 +37,7 @@ const Newsletter = () => {
               placeholder='Enter email address here'
               inputClassName='bg-[#FFF1F1] w-full h-full rounded-full text-sm lg:text-base placeholder:text-myGray placeholder:text-[10px] lg:placeholder:text-sm'
             ></Input>
-            <button className='absolute right-2 top-[8.5px] h-[36px] rounded-full border border-[#881415] bg-primary px-6 text-[10px] text-white lg:top-[5px] lg:h-[40px] lg:px-4 lg:font-clashmd lg:text-base'>
+            <button className='absolute right-2 top-[6px] h-[36px] rounded-full border border-[#881415] bg-primary px-6 text-[10px] text-white lg:top-[5px] lg:h-[40px] lg:px-4 lg:font-clashmd lg:text-base'>
               Subscribe
             </button>
           </form>

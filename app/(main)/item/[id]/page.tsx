@@ -24,7 +24,7 @@ export default async function page({ params }: { params: Params }) {
     return notFound();
   }
   return (
-    <main className='relative'>
+    <main className='relative min-h-[100vh]'>
       <section>
         <ProductOverview data={data} />
       </section>

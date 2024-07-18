@@ -284,12 +284,12 @@ const CheckoutForm: React.FC = () => {
                   onValueChange={setSelectedPaymentMethod}
                 >
                   <RadioItem
-                    id='r1'
+                    id='r3'
                     value='Online payment'
                     labelKey='Online payment'
                   />
                   <RadioItem
-                    id='r2'
+                    id='r4'
                     value='Pay with wallet'
                     labelKey='Pay with wallet'
                   />

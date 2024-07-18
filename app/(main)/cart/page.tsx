@@ -18,7 +18,7 @@ export default function CartPage() {
 
   return (
     <ClientOnly>
-      <main className='pb-20'>
+      <main className='pb-20 min-h-[100vh]'>
         <div className='pt-[90px] lg:pt-0 px-[3%] lg:mt-0'>
           <button
             onClick={handleBack}

@@ -85,7 +85,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
 
       <div className='flex justify-between border-t border-[#DCDCDC] py-3 text-myGray'>
         <span className='pl-4 text-xs lg:text-base'>Payment method:</span>
-        <span className='pr-4 text-[10px] lg:text-base'>{deliveryMethod}</span>
+        <span className='pr-4 text-[10px] lg:text-base'>{selectedPayment}</span>
       </div>
       <div className='px-4 pb-5'>
         {firstStage ? (

@@ -298,8 +298,8 @@ export default function MobileCategory({ products }: { products: any[] }) {
       )}
 
       {currentPageProducts.length > 0 && (
-        <div className=''>
-          <div className='mt-9 grid grid-cols-2 gap-x-3 gap-y-7'>
+        <div>
+          <div className='min-h-[90vh] mt-14 grid grid-cols-2 gap-x-3 gap-y-7'>
             {currentPageProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}

@@ -85,7 +85,7 @@ const ReferralTable: React.FC = () => {
 
                     <td className='flex basis-[30%] items-center justify-center p-[10px] lg:px-6 lg:py-4'>
                       <span
-                        className={`inline-block whitespace-nowrap rounded lg:px-2 lg:py-1 ${referral.stage === 'Signed up' ? 'rounded-full bg-[#FFE0E0] px-2 py-1 text-[8px] text-myGray lg:px-4 lg:text-sm' : 'rounded-full bg-[#BAF7BA] px-2 py-1 text-[8px] text-myGray lg:px-4 lg:text-sm'}`}
+                        className={`inline-block whitespace-nowrap rounded lg:px-2 lg:py-1 ${referral.stage === 'Signed up' ? 'rounded-full bg-[#FFE0E0] px-2 py-1 text-[10px] text-myGray lg:px-4 lg:text-sm' : 'rounded-full bg-[#BAF7BA] px-2 py-1 text-[10px] text-myGray lg:px-4 lg:text-sm'}`}
                       >
                         {referral.stage}
                       </span>

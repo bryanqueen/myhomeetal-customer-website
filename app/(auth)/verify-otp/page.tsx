@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import OTPForm from '@/app/components/forms/OTPForm';
 import Link from 'next/link';
 import Logo from '@/app/components/Logo';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Verify OTP | Myhomeetal',
@@ -16,7 +17,9 @@ export default function VerifyPage() {
           <Logo variant={3} />
         </Link>
       </div>
+      <Suspense>
       <OTPForm />
+      </Suspense>
     </div>
   );
 }

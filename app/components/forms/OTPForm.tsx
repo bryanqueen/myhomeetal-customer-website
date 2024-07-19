@@ -11,52 +11,98 @@ import OtpInput from 'react-otp-input';
 import Button from '@components/Button';
 import Input from '@components/Input';
 import { ROUTES } from '@utils/routes';
+import axios from 'axios';
+import { useRouter, useSearchParams } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 const OTPForm = () => {
+  const router = useRouter();
   const [otp, setOtp] = useState('');
+  const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const email = decodeURIComponent(searchParams.get('email') || '');
 
-  const onSubmit = (e: any) => {
+  const resendOtp = async () => {
+    const data: any = { email: 'efatomoye@gmail.com' };
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        'https://my-home-et-al-backend.onrender.com/api/v1/user/user/resend-otp',
+        data
+      );
+
+      if (res.status === 200) {
+        toast.success('Code resent!');
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSubmit = async (e: any) => {
     e.preventDefault();
-    const data = { email: '', otp: otp };
+    setLoading(true);
+    const data = { email: email, otp: otp };
+    try {
+      const res = await axios.post(
+        'https://my-home-et-al-backend.onrender.com/api/v1/user/verify-otp',
+        data
+      );
 
-    console.log(data);
+      if (res.status === 200) {
+        router.push(ROUTES.LOGIN);
+        toast.success('Account verification successfull');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <div className='border-grey-500 mx-5 w-full max-w-lg rounded-2xl border bg-white p-6'>
-      <h1 className='my-5 text-center text-lg'>Enter verification code</h1>
-      <p className='text-center'>
-        We have sent a verification code to oyefesoafolabiteniola@gmail.com
-      </p>
-      {/* {error && <p className='mb-2 text-center text-red-500'>{error}</p>} */}
+    <>
+      {!loading && (
+        <div className='w-full border-[#E4E7EC] bg-white lg:mx-5 lg:rounded-3xl lg:border lg:px-5 lg:py-8'>
+          <h1 className='mb-1 text-center font-clashmd text-base lg:my-5 lg:font-clash lg:text-xl'>
+            Enter verification code
+          </h1>
+          <p className='mx-auto max-w-[275.54px] text-center text-[10px] leading-[12.3px] lg:text-sm lg:leading-[16.93px]'>
+            We have sent a verification code to {email}
+          </p>
+          {/* {error && <p className='mb-2 text-center text-red-500'>{error}</p>} */}
 
-      <form className='grid gap-3' onSubmit={onSubmit}>
-        <div className='my-10'>
-          <p className='text-center text-xs'>5 digit code</p>
+          <form className='mt-20 grid gap-3' onSubmit={onSubmit}>
+            <div className='mb-3 hidden lg:block'>
+              <p className='text-center text-[10px]'>5-digit code</p>
+            </div>
+            <OtpInput
+              value={otp}
+              onChange={setOtp}
+              numInputs={5}
+              renderInput={(props) => <input {...props} />}
+              inputStyle='w-[60px] bg-[#F4F4F4] lg:bg-white h-[60px] lg:max-w-[71px] lg:h-[71px] rounded-[10px] mx-1 lg:mx-auto lg:border lg:border-[#E4E7EC] focus:bg-white focus:outline-[#FF0003] text-sm lg:text-base text-black flex-1'
+              containerStyle='justify-center lg:mb-16 lg:px-10'
+            />
+            <div className='mt-3 lg:hidden'>
+              <p className='text-center text-[10px]'>5-digit code</p>
+            </div>
+            <Button
+              className='mt-14 h-[50px] w-full rounded-[10px] border-0 font-clashmd text-xs shadow-none lg:mt-0 lg:h-[56px] lg:rounded-full lg:text-base'
+              loading={loading}
+              disabled={loading}
+            >
+              Verify One Time Password
+            </Button>
+          </form>
+          <p className='mb-10 pt-5 text-center text-[10px] lg:text-sm'>
+            <span className='text-[#656565]'>
+              Didn&apos;t receive the code?
+            </span>{' '}
+            <button className='text-[#C70E10]'>Request a new code</button>
+          </p>
         </div>
-        <OtpInput
-          value={otp}
-          onChange={setOtp}
-          numInputs={5}
-          renderInput={(props) => <input {...props} />}
-          inputStyle='p-3 md:p-5 rounded-xl mx-2 md:mx-3 border border-gray-400 focus:outline-primary text-black flex-1'
-          containerStyle='justify-center mb-10'
-        />
-        <Button
-          className='w-full rounded-full p-4'
-          // loading={loading}
-          // disabled={loading}
-        >
-          Verify One Time Password
-        </Button>
-      </form>
-      <p className='py-3 text-center text-sm font-medium'>
-        <span className='text-gray-600'>Didn&apos;t receive the code?</span>{' '}
-        <Link href='' className='text-primary'>
-          Request a new code
-        </Link>
-      </p>
-    </div>
+      )}
+    </>
   );
 };
 

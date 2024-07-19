@@ -13,9 +13,10 @@ export const useSignup = () => {
   const router = useRouter();
 
   const signupMutate = useMutation(authService.signup, {
-    onSuccess: async (res) => {
+    onSuccess: async (res, variables) => {
       console.log(res);
-      router.push(ROUTES.LOGIN);
+      const email = variables.email;
+      router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
       toast.success('Created an account');
     },
     onError: (error: AxiosError<any>) => {

@@ -2,6 +2,7 @@ export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
   SIGNUP: '/register',
+  VERIFY: '/verify',
   FORGOT_PASSWORD: '/forgot-password',
   NEWSLETTER: '/newsletter',
   PRODUCT: (id: string) => `/item/${id}`,

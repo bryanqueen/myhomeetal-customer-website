@@ -61,7 +61,7 @@ const OTPForm = () => {
 
   return (
     <>
-      {!loading && (
+      {email && (
         <div className='w-full border-[#E4E7EC] bg-white lg:mx-5 lg:rounded-3xl lg:border lg:px-5 lg:py-8'>
           <h1 className='mb-1 text-center font-clashmd text-base lg:my-5 lg:font-clash lg:text-xl'>
             Enter verification code

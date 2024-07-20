@@ -13,7 +13,7 @@ import SearchForm from '../../components/forms/SearchForm';
 export default async function Home() {
   let allCategories: any;
   let topCategories: any;
-  let productsByCategory: any = {};
+  const productsByCategory: any = {};
 
   try {
     const [productCategoriesRes, topProductCategoriesRes] = await Promise.all([

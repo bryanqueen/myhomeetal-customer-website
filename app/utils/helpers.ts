@@ -71,3 +71,22 @@ export const currencySymbols = {
   US: '$',
   UK: '£',
 };
+
+export const numberToWords = (num: number): string => {
+  const ones: string[] = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+  ];
+
+  if (num < 10) return ones[num];
+
+  return 'Number too large';
+};

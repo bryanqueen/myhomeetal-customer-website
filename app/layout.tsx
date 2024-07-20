@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import { RegionProvider } from './RegionProvider';
 import { UIProvider } from './providers';
 import { PopupProvider } from './PopupProvider';
+import { AddressBookProvider } from './addressBookProvider';
 
 export const metadata: Metadata = {
   title: 'MYHOMEETAL - Your one stop shop',
@@ -20,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className='font-clash'>
-        <PopupProvider>
-          <RegionProvider>
-            <UIProvider>{children}</UIProvider>
-          </RegionProvider>
-        </PopupProvider>
+        <AddressBookProvider>
+          <PopupProvider>
+            <RegionProvider>
+              <UIProvider>{children}</UIProvider>
+            </RegionProvider>
+          </PopupProvider>
+        </AddressBookProvider>
         <Toaster />
       </body>
     </html>

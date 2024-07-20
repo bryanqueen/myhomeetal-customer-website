@@ -19,6 +19,7 @@ const OTPForm = () => {
   const router = useRouter();
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isEmail, setIsEmail] = useState(false);
   const searchParams = useSearchParams();
   const email = decodeURIComponent(searchParams.get('email') || '');
 
@@ -49,13 +50,24 @@ const OTPForm = () => {
         'https://my-home-et-al-backend.onrender.com/api/v1/user/verify-otp',
         data
       );
-
       if (res.status === 200) {
-        router.push(ROUTES.LOGIN);
-        toast.success('Account verification successfull');
+        try {
+          router.push('/login');
+          toast.success('Account verification successful');
+        } catch (navError) {
+          console.error('Navigation error:', navError);
+          toast.error(
+            'Failed to navigate to the login page. Please try again.'
+          );
+        }
+      } else {
+        toast.error('Verification failed. Please check the OTP and try again.');
       }
     } catch (error) {
-      console.error(error);
+      console.error('OTP verification error:', error);
+      toast.error('An error occurred during verification. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 

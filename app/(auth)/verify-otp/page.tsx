@@ -18,7 +18,7 @@ export default function VerifyPage() {
         </Link>
       </div>
       <Suspense>
-      <OTPForm />
+        <OTPForm />
       </Suspense>
     </div>
   );

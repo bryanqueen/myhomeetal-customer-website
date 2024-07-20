@@ -6,15 +6,15 @@ import AdBanner2 from '@components/banner/AdBanner2';
 import AdBanner3 from '@components/banner/AdBanner3';
 import TopCategories from '@/app/components/category/TopCategories';
 import Category from '@/app/components/category/CategoryGrid';
-import Newsletter from '@components/Newsletter';
 import CategoryList from '@components/category/CategoryList';
 import { Suspense } from 'react';
 import SearchForm from '../../components/forms/SearchForm';
-import { HomeSkeleton } from '../../components/loader';
 
 export default async function Home() {
   let allCategories: any;
   let topCategories: any;
+  let productsByCategory: any = {};
+
   try {
     const [productCategoriesRes, topProductCategoriesRes] = await Promise.all([
       productService.getProductCategories(),
@@ -33,6 +33,14 @@ export default async function Home() {
 
     allCategories = productCategoriesRes.data;
     topCategories = topProductCategoriesRes.data;
+
+    // Fetch products for each top category
+    await Promise.all(
+      topCategories.map(async (category) => {
+        const productsRes = await productService.getProductsByCategory(category._id);
+        productsByCategory[category._id] = productsRes.data;
+      })
+    );
   } catch (error) {
     console.error('Error fetching product categories:', error);
     return notFound();
@@ -64,6 +72,7 @@ export default async function Home() {
                   key={category._id}
                   title={category.name}
                   id={category._id}
+                  products={productsByCategory[category._id]}
                 />
               );
             })}

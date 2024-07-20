@@ -70,8 +70,9 @@ const MobileNav = () => {
               <Button
                 noPadding
                 variant='ghost'
-                onClick={() => setActiveNav('cart')}
                 ariaLabel='Cart'
+                linkType='rel'
+                href='/cart'
               >
                 <div className='relative'>
                   {items?.length > 0 && (
@@ -82,11 +83,7 @@ const MobileNav = () => {
                   <ShoppingCart
                     size={24}
                     variant='Bulk'
-                    className={
-                      isNavActive('cart')
-                        ? 'icon-mobile text-primary'
-                        : 'icon-mobile'
-                    }
+                    color='white'
                   />
                 </div>
               </Button>
@@ -209,7 +206,7 @@ const MobileNav = () => {
                       <Button
                         linkType='rel'
                         href={ROUTES.SIGNUP}
-                        className='w-full rounded-full p-5 border-0 shadow-none'
+                        className='w-full rounded-full border-0 p-5 shadow-none'
                       >
                         Create Account
                       </Button>

@@ -22,9 +22,20 @@ interface Product {
   isProductNew: boolean;
 }
 
-const Category = ({ title, color = 'bg-primary', id }: Props) => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+type CategoryProps = {
+  title: string;
+  id: string;
+  color?: string;
+  products: Product[];
+};
+
+const Category: React.FC<CategoryProps> = ({
+  title,
+  color = 'bg-primary',
+  id,
+  products,
+}) => {
+  const [loading, setLoading] = useState(false);
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
   useEffect(() => {
@@ -38,7 +49,7 @@ const Category = ({ title, color = 'bg-primary', id }: Props) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchProducts = async () => {
       if (!id) {
         console.log('No category ID provided');
@@ -57,7 +68,7 @@ const Category = ({ title, color = 'bg-primary', id }: Props) => {
     };
 
     fetchProducts();
-  }, [id, isDesktop]);
+  }, [id, isDesktop]); */
 
   return (
     <div className='my-10 px-2 md:my-20 md:px-[2%]'>
@@ -77,9 +88,10 @@ const Category = ({ title, color = 'bg-primary', id }: Props) => {
         <MobileCategorySkeleton />
       ) : (
         <div className='mt-10 grid grid-cols-2 justify-center gap-x-3 gap-y-7 md:grid-cols-4 lg:mt-7 lg:grid-cols-5 lg:gap-5'>
-          {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+          {products &&
+            products.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
         </div>
       )}
     </div>

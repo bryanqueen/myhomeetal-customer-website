@@ -6,6 +6,7 @@ import SearchForm from '@/app/components/forms/SearchForm';
 import productService from '@/app/services/productService';
 import { notFound } from 'next/navigation';
 import MobileCategoryContainer from '@/app/components/category/MobileCategoryContainer';
+import DesktopCategoryContainer from '@/app/components/category/DesktopCategoryContainer';
 export interface PageProps {
   params?: any;
   searchParams: {
@@ -48,6 +49,12 @@ export default async function CategoryPage({
         </section>
         <section>
           <MobileCategoryContainer
+            categoryName={categoryName}
+            products={productsByCategory}
+          />
+        </section>
+        <section>
+          <DesktopCategoryContainer
             categoryName={categoryName}
             products={productsByCategory}
           />

@@ -11,17 +11,37 @@ import ProductGridCard from '@components/cards/ProductGridCard';
 
 const isList = signal(false);
 
-const sortProducts = (products: any[], sortOption: string) => {
+interface Product {
+  _id: string;
+  productTitle: string;
+  price: number;
+  images: string[];
+  reviewsCount: number;
+  rating: number;
+  isProductNew: boolean;
+  discount: number;
+  createdAt: string;
+}
+
+const sortProducts = (products: Product[], sortOption: string) => {
   switch (sortOption) {
     case 'priceLowToHigh':
       return products.sort((a, b) => a.price - b.price);
     case 'priceHighToLow':
       return products.sort((a, b) => b.price - a.price);
+    case 'newestArrivals':
+      return products.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+    case 'bestSellers':
+      return products.sort((a, b) => b.reviewsCount - a.reviewsCount);
+    case 'AvgCustomerReview':
+      return products.sort((a, b) => b.rating - a.rating);
     default:
       return products;
   }
 };
-
 const ListGridSwitch = ({
   sortOption,
   priceRange,
@@ -31,7 +51,7 @@ const ListGridSwitch = ({
   sortOption?: string | null;
   priceRange: { min: number; max: number };
   discountFilters: number[];
-  products: any[];
+  products: Product[];
 }) => {
   useSignals();
 
@@ -68,9 +88,17 @@ const ListGridSwitch = ({
 
   const totalPages = Math.ceil(filteredProducts?.length / productsPerPage);
 
+  // New useEffect to reset currentPage if it exceeds totalPages
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [filteredProducts.length, totalPages, currentPage]);
+
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
       setCurrentPage(newPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 

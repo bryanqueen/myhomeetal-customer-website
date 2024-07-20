@@ -25,7 +25,7 @@ interface AddressCardProps {
   firstname: string;
   lastname: string;
   editfunc: (address: string, phone: string, index: number, id: number) => void; // Define the function type here
-  edit: Boolean;
+  edit: boolean;
 }
 
 export default function AddressBook() {

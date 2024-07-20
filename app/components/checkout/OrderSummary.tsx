@@ -9,8 +9,9 @@ import { useRegion } from '@/app/RegionProvider';
 import Input from '../Input';
 
 interface Address {
-  phone: string;
-  address: string;
+  id: number;
+  email: string;
+  phoneNumber: string;
 }
 
 interface DeliveryMethodProps {
@@ -50,7 +51,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
         </button>
       </div>
       <div className='px-4'>
-        <div className='border-b border-[#DCDCDC] pb-3 pt-2 lg:pt-4 text-xs text-myGray lg:text-base'>
+        <div className='border-b border-[#DCDCDC] pb-3 pt-2 text-xs text-myGray lg:pt-4 lg:text-base'>
           Order Summary
         </div>
         <div className='border-b border-[#DCDCDC] py-3 text-xs lg:text-sm'>
@@ -92,7 +93,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
           <Button
             linkType='rel'
             href={ROUTES.ORDER_CONFIRMED}
-            className='mt-8 w-full rounded-[10px] lg:rounded-full border-0 p-4 font-clashmd text-base shadow-none'
+            className='mt-8 w-full rounded-[10px] border-0 p-4 font-clashmd text-base shadow-none lg:rounded-full'
           >
             <span>
               Checkout (<ProductPrice priceInNGN={cartTotal} region={region} />)
@@ -101,7 +102,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
         ) : (
           <button
             onClick={handleFirstStage}
-            className='mt-4 lg:mt-8 w-full rounded-[10px] lg:rounded-full border-0 bg-primary p-3 lg:p-4 font-clashmd text-base text-white shadow-none'
+            className='mt-4 w-full rounded-[10px] border-0 bg-primary p-3 font-clashmd text-base text-white shadow-none lg:mt-8 lg:rounded-full lg:p-4'
           >
             {' '}
             Continue

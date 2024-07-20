@@ -12,39 +12,46 @@ import RadioItem from '@components/RadioItem';
 import Button from '@components/Button';
 import ClientOnly from '@components/ClientOnly';
 import Link from 'next/link';
+import { useAddressBook } from '@/app/addressBookProvider';
+import authUtils from '@/app/utils/authUtils';
+import toast from 'react-hot-toast';
+import { numberToWords } from '@/app/utils/helpers';
 
 interface Address {
-  phone: string;
-  address: string;
+  id: number;
+  email: string;
+  phoneNumber: string;
 }
 
-const myAddressBook: Address[] = [
-  {
-    phone: '+234 8024312345',
-    address: '18, Karimu street, Surulere',
-  },
-  {
-    phone: '+234 8024312345',
-    address: '22, Fagbenro Square',
-  },
-  {
-    phone: '+234 8024312345',
-    address: '107, Femi Ayantuga, Surulere',
-  },
-];
+interface UserInfo {
+  firstname: string;
+  lastname: string;
+}
 
 const CheckoutForm: React.FC = () => {
-  const { items, totalItems, isEmpty } = useCart();
-
-  const [address, setAddress] = useState<Address>(myAddressBook[0]);
+  const { addresses, createAddress, editAddress, deleteAddress, saveAddress } =
+    useAddressBook();
+  const { items, isEmpty } = useCart();
+  const [isAddAddress, setIsAddAddress] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(
+    addresses.length > 0 ? addresses[0] : null
+  );
   const [isChange, setIsChange] = useState(false);
   const [firstStageCompleted, setFirstStageCompleted] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState('Door Delivery');
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState('Pay with wallet');
   const [deliveryDates, setDeliveryDates] = useState({ start: '', end: '' });
+  const [isEdit, setIsEdit] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [myAddress, setMyAddress] = useState('');
+  const [myindex, setIndex] = useState<number | null>(null);
+  const [id, setId] = useState<number | null>(null);
+
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   useEffect(() => {
+    const fetchedUserInfo = authUtils.getUserInfo();
     const calculateDeliveryDates = () => {
       const today = new Date();
       const startDate = new Date();
@@ -64,11 +71,130 @@ const CheckoutForm: React.FC = () => {
     };
 
     calculateDeliveryDates();
+    setUserInfo(fetchedUserInfo);
   }, []);
+
+  const handleAddressClick = (address) => {
+    setSelectedAddress(address);
+  };
+
+  const handleEdit = (
+    address: string,
+    phone: string,
+    index: number,
+    id: number
+  ) => {
+    setMyAddress(address);
+    setPhoneNumber(phone);
+    setIndex(index);
+    setId(id);
+    setIsEdit(true);
+  };
+  const addressInWords = numberToWords(myindex + 1);
 
   return (
     <ClientOnly>
       <div className='grid gap-5 lg:grid-cols-[2fr_1fr]'>
+        {(isEdit || isAddAddress) && (
+          <div className='fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-[#292929]/50'>
+            {/**Edit container */}
+            {isEdit && (
+              <div className='mt-20'>
+                <div className='mx-auto min-w-[1115px] rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block'>
+                  <p className='font-clashmd text-xs lg:text-base'>
+                    Address {addressInWords}
+                  </p>
+                  <p className='max-w-[243px] text-[10px] lg:max-w-[497px] lg:text-sm'>
+                    Ensure the details entered are accurate to avoid issues
+                    during product delivery
+                  </p>
+                  <div className='mt-5 grid grid-cols-2 gap-5'>
+                    <Input
+                      name='address'
+                      value={myAddress}
+                      onChange={(e) => setMyAddress(e.target.value)}
+                      labelKey='Delevery Address'
+                      placeholder='10, Uliot street, Bariga, Lagos Nigeria'
+                      labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
+                      inputClassName='h-[56px] text-xs bg-white placeholder:text-sm placeholder:text-black'
+                    />
+                    <Input
+                      name='phoneNumber'
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      labelKey='Phone Number'
+                      placeholder='+234 9073872270'
+                      labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
+                      inputClassName='h-[56px] text-xs bg-white placeholder:text-sm placeholder:text-black'
+                    />
+                  </div>
+                </div>
+                <div className='flex items-center justify-center'>
+                  <button
+                    onClick={() => {
+                      editAddress(id, myAddress, phoneNumber);
+                      toast.success('Address updated successfully');
+                      setIsEdit(false);
+                    }}
+                    className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-[10px] bg-primary text-center font-clashmd text-base text-white lg:rounded-full'
+                  >
+                    Update Address
+                  </button>
+                </div>
+              </div>
+            )}
+            {/**Add container */}
+            {isAddAddress && (
+              <div>
+                <div className='mx-auto mt-10 max-w-[582px] rounded-xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:rounded-2xl'>
+                  <div className='grid max-w-[503px] gap-5'>
+                    <Input
+                      name='address'
+                      onChange={(e) => setMyAddress(e.target.value)}
+                      labelKey='Delevery Address'
+                      placeholder='10, Uliot street, Bariga, Lagos Nigeria'
+                      labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
+                      inputClassName='h-[50px] lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
+                    />
+                    <Input
+                      name='phoneNumber'
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      labelKey='Phone Number'
+                      placeholder='+234 9073872270'
+                      labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
+                      inputClassName='h-[50px] lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
+                    />
+                  </div>
+                  <div className='hidden items-center justify-center lg:flex'>
+                    <button
+                      onClick={() => {
+                        createAddress(myAddress, phoneNumber);
+                        toast.success('Address created successfully');
+                        setIsAddAddress(false);
+                      }}
+                      className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full bg-primary text-center font-clashmd text-base text-white'
+                    >
+                      Create a New Address
+                    </button>
+                  </div>
+                </div>
+                <div className='flex items-center justify-center lg:hidden'>
+                  <button
+                    onClick={() => {
+                      createAddress(myAddress, phoneNumber);
+                      setIsAddAddress(false);
+                      toast.success('Address created successfully');
+                    }}
+                    className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] bg-primary text-center font-clashmd text-base text-white'
+                  >
+                    Create a New Address
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className='grid gap-5'>
           <div className='rounded-[10px] border border-[#F4F4F4] px-[2%] py-4 lg:rounded-2xl lg:px-5'>
             <div className='flex items-center justify-between'>
@@ -94,7 +220,7 @@ const CheckoutForm: React.FC = () => {
                 </p>
               </div>
               <div>
-                {myAddressBook.length > 0 && !isChange && (
+                {addresses.length > 0 && !isChange && (
                   <button
                     onClick={() => setIsChange(!isChange)}
                     className='text-xs text-[#8B1A1A] lg:font-clashmd lg:text-base'
@@ -112,19 +238,80 @@ const CheckoutForm: React.FC = () => {
                 )}
               </div>
             </div>
-            {myAddressBook.length > 0 ? (
-              <div className='mt-10 rounded-[10px] bg-[#F4F4F4] px-3 py-5 lg:rounded-2xl lg:px-9'>
-                <p className='mb-2 text-xs text-black lg:mb-1 lg:text-base'>
-                  Oyefeso Afolabi
-                </p>
-                <div className='flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-10'>
-                  <p className='text-xs text-black lg:text-base'>
-                    {address.address}
-                  </p>
-                  <p className='text-xs text-black lg:text-base'>
-                    {address.phone}
-                  </p>
-                </div>
+            {addresses.length > 0 ? (
+              <div>
+                {!isChange ? (
+                  <div className='mt-10 rounded-[10px] bg-[#F4F4F4] px-3 py-5 lg:rounded-2xl lg:px-9'>
+                    <p className='mb-2 text-xs text-black lg:mb-1 lg:text-base'>
+                      <span className='mr-2'>{userInfo?.firstname}</span>
+                      <span>{userInfo?.lastname}</span>
+                    </p>
+                    <div className='flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-10'>
+                      <p className='text-xs text-black lg:text-base'>
+                        {selectedAddress?.email}
+                      </p>
+                      <p className='text-xs text-black lg:text-base'>
+                        {selectedAddress?.phoneNumber}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    {addresses.map((address, index) => (
+                      <div
+                        key={address.id}
+                        onClick={() => handleAddressClick(address)}
+                        className={`relative mt-10 rounded-[10px] ${
+                          address.id === selectedAddress.id
+                            ? 'bg-primary text-white'
+                            : 'bg-[#F4F4F4] text-black'
+                        } px-3 py-5 lg:rounded-2xl lg:px-9`}
+                      >
+                        <p className='mb-2 text-xs lg:mb-1 lg:text-base'>
+                          <span className='mr-2'>{userInfo?.firstname}</span>
+                          <span>{userInfo?.lastname}</span>
+                        </p>
+                        <div className='flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-10'>
+                          <p className='text-xs lg:text-base'>
+                            {address?.email}
+                          </p>
+                          <p className='text-xs lg:text-base'>
+                            {address?.phoneNumber}
+                          </p>
+                        </div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent triggering the parent div's onClick
+                            handleEdit(
+                              address.email,
+                              address.phoneNumber,
+                              index,
+                              address.id
+                            );
+                          }}
+                          className={`${
+                            address.id === selectedAddress.id
+                              ? 'text-white'
+                              : 'text-[#8B1A1A]'
+                          } absolute right-2 top-[50%] h-20 w-20 translate-y-[-50%]`}
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    ))}
+                    <div className='hidden items-center justify-center lg:flex'>
+                      <button
+                        disabled={addresses.length === 3}
+                        onClick={() => {
+                          setIsAddAddress(true);
+                        }}
+                        className='mx-auto mt-10 h-[50px] w-full max-w-[395px] rounded-full bg-primary text-center font-clashmd text-base text-white disabled:cursor-not-allowed disabled:bg-[#F8BCBC]'
+                      >
+                        Add a New Address
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className='mt-10 rounded-[10px] bg-[#F4F4F4] px-3 py-5 lg:rounded-2xl lg:px-9'>
@@ -132,10 +319,16 @@ const CheckoutForm: React.FC = () => {
                   Oyefeso Afolabi
                 </p>
                 <div className='flex items-center gap-10'>
-                  <p className='text-xs text-primary lg:text-base'>
+                  <p
+                    onClick={() => setIsAddAddress(true)}
+                    className='cursor-pointer text-xs text-primary lg:text-base'
+                  >
                     Add an address to continue
                   </p>
-                  <p className='text-xs text-black lg:text-base'>
+                  <p
+                    onClick={() => setIsAddAddress(true)}
+                    className='cursor-pointer text-xs text-black lg:text-base'
+                  >
                     Add a phone number to continue
                   </p>
                 </div>
@@ -165,52 +358,56 @@ const CheckoutForm: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className='mt-5 rounded-[10px] bg-[#F4F4F4] px-3 py-7 lg:rounded-2xl lg:px-9'>
-              {firstStageCompleted ? (
-                <p className='font-clashmd text-xs text-myGray lg:font-clash lg:text-base'>
-                  {selectedMethod}
-                </p>
-              ) : (
-                <RadioGroup.Root
-                  className='flex flex-col gap-5 font-clashmd text-xs text-myGray lg:flex-row lg:items-center lg:gap-60 lg:font-clash lg:text-base'
-                  defaultValue={selectedMethod}
-                  aria-label='Delivery Method'
-                  onValueChange={setSelectedMethod}
-                >
-                  <RadioItem
-                    id='r1'
-                    value='Door Delivery'
-                    labelKey='Door Delivery'
-                  />
-                  <RadioItem
-                    id='r2'
-                    value='Pickup Delivery'
-                    labelKey='Pickup Delivery'
-                  />
-                </RadioGroup.Root>
-              )}
+            {!isChange && (
+              <div className='mt-5 rounded-[10px] bg-[#F4F4F4] px-3 py-7 lg:rounded-2xl lg:px-9'>
+                <div>
+                  {firstStageCompleted ? (
+                    <p className='font-clashmd text-xs text-myGray lg:font-clash lg:text-base'>
+                      {selectedMethod}
+                    </p>
+                  ) : (
+                    <RadioGroup.Root
+                      className='flex flex-col gap-5 font-clashmd text-xs text-myGray lg:flex-row lg:items-center lg:gap-60 lg:font-clash lg:text-base'
+                      defaultValue={selectedMethod}
+                      aria-label='Delivery Method'
+                      onValueChange={setSelectedMethod}
+                    >
+                      <RadioItem
+                        id='r1'
+                        value='Door Delivery'
+                        labelKey='Door Delivery'
+                      />
+                      <RadioItem
+                        id='r2'
+                        value='Pickup Delivery'
+                        labelKey='Pickup Delivery'
+                      />
+                    </RadioGroup.Root>
+                  )}
 
-              <div className='mt-5 lg:mt-8'>
-                {selectedMethod === 'Door Delivery' && (
-                  <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
-                    Delivery between {deliveryDates.start} and{' '}
-                    {deliveryDates.end}
-                  </p>
-                )}
-                {selectedMethod === 'Pickup Delivery' && (
-                  <p className='text-[10px] text-[#7C7C7C] lg:text-base'>
-                    Available for pickup between {deliveryDates.start} and{' '}
-                    {deliveryDates.end}
-                  </p>
-                )}
+                  <div className='mt-5 lg:mt-8'>
+                    {selectedMethod === 'Door Delivery' && (
+                      <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
+                        Delivery between {deliveryDates.start} and{' '}
+                        {deliveryDates.end}
+                      </p>
+                    )}
+                    {selectedMethod === 'Pickup Delivery' && (
+                      <p className='text-[10px] text-[#7C7C7C] lg:text-base'>
+                        Available for pickup between {deliveryDates.start} and{' '}
+                        {deliveryDates.end}
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
             {firstStageCompleted && (
               <div className='mt-10 rounded-[10px] bg-[#F4F4F4] px-3 py-7 lg:rounded-2xl lg:px-9'>
                 <p className='font-clashmd text-xs text-myGray lg:font-clash lg:text-base'>
-                  Shipment({totalItems})
+                  Shipment({items.length})
                 </p>
-                <div className='mt-5 grid lg:grid-cols-2 gap-5'>
+                <div className='mt-5 grid gap-5 lg:grid-cols-2'>
                   {items &&
                     items.map((item) => (
                       <div
@@ -222,9 +419,9 @@ const CheckoutForm: React.FC = () => {
                           src={item?.images[0]}
                           width={56}
                           height={56}
-                          className='w-10 h-10 lg:h-[56px] lg:w-[56px] rounded-[8px]'
+                          className='h-10 w-10 rounded-[8px] lg:h-[56px] lg:w-[56px]'
                         />
-                        <div className='text-xs lg:text-base lg:leading-[19.68px] text-myGray'>
+                        <div className='text-xs text-myGray lg:text-base lg:leading-[19.68px]'>
                           {item.productTitle}
                         </div>
                       </div>
@@ -232,7 +429,7 @@ const CheckoutForm: React.FC = () => {
                 </div>
                 <Link
                   href='/cart'
-                  className='mx-auto mt-10 flex w-fit items-center gap-2 font-clashmd text-sm lg:text-base text-myGray'
+                  className='mx-auto mt-10 flex w-fit items-center gap-2 font-clashmd text-sm text-myGray lg:text-base'
                 >
                   Modify Cart <ArrowRight size={16} />
                 </Link>
@@ -262,55 +459,57 @@ const CheckoutForm: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className='mt-5 rounded-[10px] bg-[#F4F4F4] px-3 py-7 lg:rounded-2xl lg:px-9 lg:pb-5 lg:pt-10'>
-              {firstStageCompleted ? (
-                <RadioGroup.Root
-                  className='flex flex-col gap-5 font-clashmd text-xs text-myGray lg:flex-row lg:items-center lg:gap-60 lg:font-clash lg:text-base'
-                  defaultValue={selectedPaymentMethod}
-                  aria-label='Pay with wallet'
-                  onValueChange={setSelectedPaymentMethod}
-                >
-                  <RadioItem
-                    id='r1'
-                    value={selectedPaymentMethod}
-                    labelKey={selectedPaymentMethod}
-                  />
-                </RadioGroup.Root>
-              ) : (
-                <RadioGroup.Root
-                  className='flex flex-col gap-5 font-clashmd text-xs text-myGray lg:flex-row lg:items-center lg:gap-60 lg:font-clash lg:text-base'
-                  defaultValue={selectedPaymentMethod}
-                  aria-label='Pay with wallet'
-                  onValueChange={setSelectedPaymentMethod}
-                >
-                  <RadioItem
-                    id='r3'
-                    value='Online payment'
-                    labelKey='Online payment'
-                  />
-                  <RadioItem
-                    id='r4'
-                    value='Pay with wallet'
-                    labelKey='Pay with wallet'
-                  />
-                </RadioGroup.Root>
-              )}
+            {!isChange && (
+              <div className='mt-5 rounded-[10px] bg-[#F4F4F4] px-3 py-7 lg:rounded-2xl lg:px-9 lg:pb-5 lg:pt-10'>
+                {firstStageCompleted ? (
+                  <RadioGroup.Root
+                    className='flex flex-col gap-5 font-clashmd text-xs text-myGray lg:flex-row lg:items-center lg:gap-60 lg:font-clash lg:text-base'
+                    defaultValue={selectedPaymentMethod}
+                    aria-label='Pay with wallet'
+                    onValueChange={setSelectedPaymentMethod}
+                  >
+                    <RadioItem
+                      id='r1'
+                      value={selectedPaymentMethod}
+                      labelKey={selectedPaymentMethod}
+                    />
+                  </RadioGroup.Root>
+                ) : (
+                  <RadioGroup.Root
+                    className='flex flex-col gap-5 font-clashmd text-xs text-myGray lg:flex-row lg:items-center lg:gap-60 lg:font-clash lg:text-base'
+                    defaultValue={selectedPaymentMethod}
+                    aria-label='Pay with wallet'
+                    onValueChange={setSelectedPaymentMethod}
+                  >
+                    <RadioItem
+                      id='r3'
+                      value='Online payment'
+                      labelKey='Online payment'
+                    />
+                    <RadioItem
+                      id='r4'
+                      value='Pay with wallet'
+                      labelKey='Pay with wallet'
+                    />
+                  </RadioGroup.Root>
+                )}
 
-              <div className='mt-5 lg:mt-8'>
-                {selectedPaymentMethod === 'Online payment' && (
-                  <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
-                    Secure, fast, and efficient. Use your credit/debit card or
-                    bank account to finalize your purchase instantly.
-                  </p>
-                )}
-                {selectedPaymentMethod === 'Pay with wallet' && (
-                  <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
-                    Convenient and swift! Use your digital wallet balance to
-                    complete your purchase seamlessly.
-                  </p>
-                )}
+                <div className='mt-5 lg:mt-8'>
+                  {selectedPaymentMethod === 'Online payment' && (
+                    <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
+                      Secure, fast, and efficient. Use your credit/debit card or
+                      bank account to finalize your purchase instantly.
+                    </p>
+                  )}
+                  {selectedPaymentMethod === 'Pay with wallet' && (
+                    <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
+                      Convenient and swift! Use your digital wallet balance to
+                      complete your purchase seamlessly.
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 
@@ -318,7 +517,7 @@ const CheckoutForm: React.FC = () => {
           deliveryMethod={selectedMethod}
           firstStage={firstStageCompleted}
           setFirstStageCompleted={setFirstStageCompleted}
-          address={address}
+          address={selectedAddress}
           selectedPayment={selectedPaymentMethod}
         />
       </div>

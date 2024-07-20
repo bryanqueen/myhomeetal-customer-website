@@ -141,7 +141,7 @@ export default function AddressBook() {
                   labelKey='Delevery Address'
                   placeholder='10, Uliot street, Bariga, Lagos Nigeria'
                   labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
-                  inputClassName='h-[50px] rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
+                  inputClassName='h-[50px] lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
                 />
                 <Input
                   name='phoneNumber'
@@ -149,7 +149,7 @@ export default function AddressBook() {
                   labelKey='Phone Number'
                   placeholder='+234 9073872270'
                   labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
-                  inputClassName='h-[50px] rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
+                  inputClassName='h-[50px] lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
                 />
               </div>
               <div className='hidden items-center justify-center lg:flex'>

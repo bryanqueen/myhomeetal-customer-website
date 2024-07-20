@@ -10,6 +10,13 @@ import CategoryList from '@components/category/CategoryList';
 import { Suspense } from 'react';
 import SearchForm from '../../components/forms/SearchForm';
 
+function shuffleArray(array: any[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
 export default async function Home() {
   let allCategories: any;
   let topCategories: any;
@@ -34,10 +41,16 @@ export default async function Home() {
     allCategories = productCategoriesRes.data;
     topCategories = topProductCategoriesRes.data;
 
+    // Shuffle the top categories before slicing
+    shuffleArray(topCategories);
+    shuffleArray(allCategories);
+
     // Fetch products for each top category
     await Promise.all(
       topCategories.map(async (category) => {
-        const productsRes = await productService.getProductsByCategory(category._id);
+        const productsRes = await productService.getProductsByCategory(
+          category._id
+        );
         productsByCategory[category._id] = productsRes.data;
       })
     );
@@ -65,8 +78,8 @@ export default async function Home() {
         {/* <Category title='New Products' /> */}
         <AdBanner3 />
         <>
-          {topCategories &&
-            topCategories.slice(0, 4).map((category) => {
+          {allCategories &&
+            allCategories.slice(0, 4).map((category) => {
               return (
                 <Category
                   key={category._id}

@@ -35,40 +35,9 @@ const Category: React.FC<CategoryProps> = ({
   id,
   products,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [isDesktop, setIsDesktop] = useState<boolean>(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 768);
-    };
-
-    handleResize(); // Initial check
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  /*useEffect(() => {
-    const fetchProducts = async () => {
-      if (!id) {
-        console.log('No category ID provided');
-        return;
-      }
-      try {
-        const response = await productService.getProductsByCategory(id);
-        const data: Product[] = response.data.slice(0, isDesktop ? 5 : 4);
-
-        setProducts(data);
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, [id, isDesktop]); */
+  // Slice products for desktop and mobile
+  const desktopProducts = products.slice(0, 5);
+  const mobileProducts = products.slice(0, 4);
 
   return (
     <div className='my-10 px-2 md:my-20 md:px-[2%]'>
@@ -84,15 +53,23 @@ const Category: React.FC<CategoryProps> = ({
           See All
         </Link>
       </div>
-      {loading ? (
-        <MobileCategorySkeleton />
-      ) : (
-        <div className='mt-10 grid grid-cols-2 justify-center gap-x-3 gap-y-7 md:grid-cols-4 lg:mt-7 lg:grid-cols-5 lg:gap-5'>
-          {products &&
-            products.map((product) => (
+      {products ? (
+        <>
+          {/* Mobile view */}
+          <div className='mt-10 grid grid-cols-2 justify-center gap-x-3 gap-y-7 md:hidden'>
+            {mobileProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
-        </div>
+          </div>
+          {/* Desktop view */}
+          <div className='mt-10 hidden grid-cols-4 justify-center gap-x-3 gap-y-7 md:grid lg:mt-7 lg:grid-cols-5 lg:gap-5'>
+            {desktopProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <MobileCategorySkeleton />
       )}
     </div>
   );

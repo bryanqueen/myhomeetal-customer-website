@@ -99,7 +99,7 @@ const CheckoutForm: React.FC = () => {
           <div className='fixed bottom-0 left-0 right-0 top-0 z-50 items-center justify-center bg-[#292929]/50 lg:flex'>
             {/**Edit container */}
             {isEdit && (
-              <div className='mt-20 min-w-full px-[3%] lg:min-w-[1115px] lg:px-0'>
+              <div className='absolute top-[50%] translate-y-[-50%] mt-20 min-w-full px-[3%] lg:min-w-[1115px] lg:px-0'>
                 <div className='mx-auto rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:min-w-[1115px]'>
                   <p className='font-clashmd text-xs lg:text-base'>
                     Address {addressInWords}

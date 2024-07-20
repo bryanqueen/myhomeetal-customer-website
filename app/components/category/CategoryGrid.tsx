@@ -36,8 +36,8 @@ const Category: React.FC<CategoryProps> = ({
   products,
 }) => {
   // Slice products for desktop and mobile
-  const desktopProducts = products.slice(0, 5);
-  const mobileProducts = products.slice(0, 4);
+  const desktopProducts = products?.slice(0, 5);
+  const mobileProducts = products?.slice(0, 4);
 
   return (
     <div className='my-10 px-2 md:my-20 md:px-[2%]'>
@@ -53,7 +53,7 @@ const Category: React.FC<CategoryProps> = ({
           See All
         </Link>
       </div>
-      {products ? (
+      {(products && products.length > 0) ? (
         <>
           {/* Mobile view */}
           <div className='mt-10 grid grid-cols-2 justify-center gap-x-3 gap-y-7 md:hidden'>

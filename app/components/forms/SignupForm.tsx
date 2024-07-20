@@ -13,6 +13,7 @@ import Input from '@components/Input';
 import { ROUTES } from '@utils/routes';
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/16/solid';
+import ClientOnly from '../ClientOnly';
 
 interface Inputs {
   firstname: string;
@@ -53,88 +54,92 @@ const SignupForm = () => {
   };
 
   return (
-    <div className='max-w-[100%] rounded-3xl bg-white py-2 lg:min-w-[540px] lg:max-w-[566px] lg:border lg:border-[#DCDCDC] lg:px-6'>
-      <h1 className='my-5 hidden text-center text-[20px] lg:block'>
-        Create a <span className='text-[#FF0003]'>Myhomeetal account</span>
-      </h1>
-      {error && <p className='mb-2 text-center text-red-500'>{error}</p>}
-      <form className='grid gap-3 lg:py-5' onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          labelKey='First Name'
-          placeholder='Enter First Name'
-          {...register('firstname')}
-          errorKey={errors.firstname?.message}
-          labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-          inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
-        />
-        <Input
-          labelKey='Last Name'
-          placeholder='Enter Last Name'
-          {...register('lastname')}
-          errorKey={errors.lastname?.message}
-          labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-          inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
-        />
-        <Input
-          type='email'
-          labelKey='Email Address'
-          placeholder='Enter Email Address'
-          {...register('email')}
-          errorKey={errors.email?.message}
-          labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-          inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
-        />
-        <div className='relative'>
+    <ClientOnly>
+      <div className='max-w-[100%] rounded-3xl bg-white py-2 lg:min-w-[540px] lg:max-w-[566px] lg:border lg:border-[#DCDCDC] lg:px-6'>
+        <h1 className='my-5 hidden text-center text-[20px] lg:block'>
+          Create a <span className='text-[#FF0003]'>Myhomeetal account</span>
+        </h1>
+        {error && <p className='mb-2 text-center text-red-500'>{error}</p>}
+        <form className='grid gap-3 lg:py-5' onSubmit={handleSubmit(onSubmit)}>
           <Input
-            type={showPassword ? 'text' : 'password'}
-            labelKey='Password'
-            placeholder='Enter Password'
-            {...register('password')}
-            errorKey={errors.password?.message}
+            labelKey='First Name'
+            placeholder='Enter First Name'
+            {...register('firstname')}
+            errorKey={errors.firstname?.message}
             labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
             inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
           />
-          <span
-            onClick={() => setShowPassword(!showPassword)}
-            className='absolute bottom-[18px] right-5 cursor-pointer text-[#717171]'
-          >
-            {showPassword ? (
-              <EyeSlashIcon width={20} />
-            ) : (
-              <EyeIcon width={20} />
-            )}
-          </span>
-        </div>
+          <Input
+            labelKey='Last Name'
+            placeholder='Enter Last Name'
+            {...register('lastname')}
+            errorKey={errors.lastname?.message}
+            labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
+            inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+          />
+          <Input
+            type='email'
+            labelKey='Email Address'
+            placeholder='Enter Email Address'
+            {...register('email')}
+            errorKey={errors.email?.message}
+            labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
+            inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+          />
+          <div className='relative'>
+            <Input
+              type={showPassword ? 'text' : 'password'}
+              labelKey='Password'
+              placeholder='Enter Password'
+              {...register('password')}
+              errorKey={errors.password?.message}
+              labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
+              inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+            />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              className='absolute bottom-[18px] right-5 cursor-pointer text-[#717171]'
+            >
+              {showPassword ? (
+                <EyeSlashIcon width={20} />
+              ) : (
+                <EyeIcon width={20} />
+              )}
+            </span>
+          </div>
 
-        <Button
-          className='mt-2 w-full border-0 shadow-none rounded-[10px] p-4 font-clashmd text-xs lg:rounded-full lg:text-base'
-          loading={loading}
-          disabled={loading}
-        >
-          Get Started
-        </Button>
-      </form>
-      <p className='text-center mt-2 lg:mt-0'>
-        <span className='text-sm text-[#656565]'>Already have an account?</span>{' '}
-        <Link href={ROUTES.LOGIN} className='text-sm text-[#C70E10]'>
-          sign in
-        </Link>
-      </p>
-      <div className='my-3 flex justify-center gap-3'>
-        <Button
-          className='rounded-lg border-0 bg-[#FFE0E0] p-3 text-black shadow-none'
-          fit
-        >
-          <Image src='/icons/facebook.svg' width='20' height='20' alt='' />
-        </Button>
-        <Button
-          className='rounded-lg border-0 bg-[#FFE0E0] p-3 text-black shadow-none'
-          fit
-        >
-          <Image src='/icons/google.svg' width='20' height='20' alt='' />
-        </Button>
+          <Button
+            className='mt-2 w-full rounded-[10px] border-0 p-4 font-clashmd text-xs shadow-none lg:rounded-full lg:text-base'
+            loading={loading}
+            disabled={loading}
+          >
+            Get Started
+          </Button>
+        </form>
+        <p className='mt-2 text-center lg:mt-0'>
+          <span className='text-sm text-[#656565]'>
+            Already have an account?
+          </span>{' '}
+          <Link href={ROUTES.LOGIN} className='text-sm text-[#C70E10]'>
+            sign in
+          </Link>
+        </p>
+        <div className='my-3 flex justify-center gap-3'>
+          <Button
+            className='rounded-lg border-0 bg-[#FFE0E0] p-3 text-black shadow-none'
+            fit
+          >
+            <Image src='/icons/facebook.svg' width='20' height='20' alt='' />
+          </Button>
+          <Button
+            className='rounded-lg border-0 bg-[#FFE0E0] p-3 text-black shadow-none'
+            fit
+          >
+            <Image src='/icons/google.svg' width='20' height='20' alt='' />
+          </Button>
+        </div>
       </div>
-    </div>
+    </ClientOnly>
   );
 };
 

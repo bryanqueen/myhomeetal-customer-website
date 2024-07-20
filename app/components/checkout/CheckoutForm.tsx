@@ -100,7 +100,7 @@ const CheckoutForm: React.FC = () => {
             {/**Edit container */}
             {isEdit && (
               <div className='mt-20'>
-                <div className='mx-auto min-w-[1115px] rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block'>
+                <div className='mx-auto lg:min-w-[1115px] rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block'>
                   <p className='font-clashmd text-xs lg:text-base'>
                     Address {addressInWords}
                   </p>
@@ -108,7 +108,7 @@ const CheckoutForm: React.FC = () => {
                     Ensure the details entered are accurate to avoid issues
                     during product delivery
                   </p>
-                  <div className='mt-5 grid grid-cols-2 gap-5'>
+                  <div className='mt-5 grid lg:grid-cols-2 gap-5'>
                     <Input
                       name='address'
                       value={myAddress}
@@ -198,7 +198,7 @@ const CheckoutForm: React.FC = () => {
         <div className='grid gap-5'>
           <div className='rounded-[10px] border border-[#F4F4F4] px-[2%] py-4 lg:rounded-2xl lg:px-5'>
             <div className='flex items-center justify-between'>
-              <div className='mt-4 flex w-fit items-center gap-3 lg:mt-0'>
+              <div className='flex w-fit items-center gap-3 lg:mt-0'>
                 {firstStageCompleted ? (
                   <Image
                     alt='tick icon'
@@ -231,7 +231,7 @@ const CheckoutForm: React.FC = () => {
                 {isChange && (
                   <button
                     onClick={() => setIsChange(!isChange)}
-                    className='font-clashmd text-base text-primary'
+                    className='text-xs text-primary lg:font-clashmd lg:text-base'
                   >
                     Continue Checkout
                   </button>
@@ -256,16 +256,16 @@ const CheckoutForm: React.FC = () => {
                     </div>
                   </div>
                 ) : (
-                  <div>
+                  <div className='mt-10'>
                     {addresses.map((address, index) => (
                       <div
                         key={address.id}
                         onClick={() => handleAddressClick(address)}
-                        className={`relative mt-10 rounded-[10px] ${
+                        className={`relative mt-3 lg:mt-10 rounded-[10px] ${
                           address.id === selectedAddress.id
                             ? 'bg-primary text-white'
                             : 'bg-[#F4F4F4] text-black'
-                        } px-3 py-5 lg:rounded-2xl lg:px-9`}
+                        } px-3 py-7 lg:py-5 lg:rounded-2xl lg:px-9`}
                       >
                         <p className='mb-2 text-xs lg:mb-1 lg:text-base'>
                           <span className='mr-2'>{userInfo?.firstname}</span>
@@ -293,19 +293,19 @@ const CheckoutForm: React.FC = () => {
                             address.id === selectedAddress.id
                               ? 'text-white'
                               : 'text-[#8B1A1A]'
-                          } absolute right-2 top-[50%] h-20 w-20 translate-y-[-50%]`}
+                          } absolute right-2 top-[50%] h-20 w-20 translate-y-[-50%] text-sm lg:text-base`}
                         >
                           Edit
                         </button>
                       </div>
                     ))}
-                    <div className='hidden items-center justify-center lg:flex'>
+                    <div className='items-center justify-center flex pb-3 lg:pb-0'>
                       <button
                         disabled={addresses.length === 3}
                         onClick={() => {
                           setIsAddAddress(true);
                         }}
-                        className='mx-auto mt-10 h-[50px] w-full max-w-[395px] rounded-full bg-primary text-center font-clashmd text-base text-white disabled:cursor-not-allowed disabled:bg-[#F8BCBC]'
+                        className='mx-auto mt-10 h-[50px] w-[90%] lg:w-full max-w-[395px] rounded-full bg-primary text-center font-clashmd text-base text-white disabled:cursor-not-allowed disabled:bg-[#F8BCBC]'
                       >
                         Add a New Address
                       </button>

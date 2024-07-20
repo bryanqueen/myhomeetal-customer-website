@@ -45,12 +45,11 @@ export default async function Home() {
     shuffleArray(topCategories);
     shuffleArray(allCategories);
 
+
     // Fetch products for each top category
     await Promise.all(
       topCategories.map(async (category) => {
-        const productsRes = await productService.getProductsByCategory(
-          category._id
-        );
+        const productsRes = await productService.getProductsByCategory(category._id);
         productsByCategory[category._id] = productsRes.data;
       })
     );
@@ -78,8 +77,8 @@ export default async function Home() {
         {/* <Category title='New Products' /> */}
         <AdBanner3 />
         <>
-          {allCategories &&
-            allCategories.slice(0, 4).map((category) => {
+          {topCategories &&
+            topCategories.slice(0, 4).map((category) => {
               return (
                 <Category
                   key={category._id}

@@ -96,11 +96,11 @@ const CheckoutForm: React.FC = () => {
     <ClientOnly>
       <div className='grid gap-5 lg:grid-cols-[2fr_1fr]'>
         {(isEdit || isAddAddress) && (
-          <div className='fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-[#292929]/50'>
+          <div className='fixed bottom-0 left-0 right-0 top-0 z-50 items-center justify-center bg-[#292929]/50 lg:flex'>
             {/**Edit container */}
             {isEdit && (
-              <div className='mt-20'>
-                <div className='mx-auto lg:min-w-[1115px] rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block'>
+              <div className='mt-20 min-w-full px-[3%] lg:min-w-[1115px] lg:px-0'>
+                <div className='mx-auto rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:min-w-[1115px]'>
                   <p className='font-clashmd text-xs lg:text-base'>
                     Address {addressInWords}
                   </p>
@@ -108,7 +108,7 @@ const CheckoutForm: React.FC = () => {
                     Ensure the details entered are accurate to avoid issues
                     during product delivery
                   </p>
-                  <div className='mt-5 grid lg:grid-cols-2 gap-5'>
+                  <div className='mt-5 grid gap-5 lg:grid-cols-2'>
                     <Input
                       name='address'
                       value={myAddress}
@@ -145,9 +145,9 @@ const CheckoutForm: React.FC = () => {
             )}
             {/**Add container */}
             {isAddAddress && (
-              <div>
-                <div className='mx-auto mt-10 max-w-[582px] rounded-xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:rounded-2xl'>
-                  <div className='grid max-w-[503px] gap-5'>
+              <div className='absolute top-[50%] min-w-full translate-y-[-50%] px-[3%]'>
+                <div className='mt-10 rounded-xl bg-[#f4f4f4] px-5 py-10 lg:mx-auto lg:mt-24 lg:block lg:max-w-[582px] lg:rounded-2xl'>
+                  <div className='grid gap-5 lg:max-w-[503px]'>
                     <Input
                       name='address'
                       onChange={(e) => setMyAddress(e.target.value)}
@@ -261,11 +261,11 @@ const CheckoutForm: React.FC = () => {
                       <div
                         key={address.id}
                         onClick={() => handleAddressClick(address)}
-                        className={`relative mt-3 lg:mt-10 rounded-[10px] ${
+                        className={`relative mt-3 rounded-[10px] lg:mt-10 ${
                           address.id === selectedAddress.id
                             ? 'bg-primary text-white'
                             : 'bg-[#F4F4F4] text-black'
-                        } px-3 py-7 lg:py-5 lg:rounded-2xl lg:px-9`}
+                        } px-3 py-7 lg:rounded-2xl lg:px-9 lg:py-5`}
                       >
                         <p className='mb-2 text-xs lg:mb-1 lg:text-base'>
                           <span className='mr-2'>{userInfo?.firstname}</span>
@@ -299,13 +299,13 @@ const CheckoutForm: React.FC = () => {
                         </button>
                       </div>
                     ))}
-                    <div className='items-center justify-center flex pb-3 lg:pb-0'>
+                    <div className='flex items-center justify-center pb-3 lg:pb-0'>
                       <button
                         disabled={addresses.length === 3}
                         onClick={() => {
                           setIsAddAddress(true);
                         }}
-                        className='mx-auto mt-10 h-[50px] w-[90%] lg:w-full max-w-[395px] rounded-full bg-primary text-center font-clashmd text-base text-white disabled:cursor-not-allowed disabled:bg-[#F8BCBC]'
+                        className='mx-auto mt-10 h-[50px] w-[90%] max-w-[395px] rounded-full bg-primary text-center font-clashmd text-base text-white disabled:cursor-not-allowed disabled:bg-[#F8BCBC] lg:w-full'
                       >
                         Add a New Address
                       </button>

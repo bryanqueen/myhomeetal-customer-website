@@ -45,11 +45,12 @@ export default async function Home() {
     shuffleArray(topCategories);
     shuffleArray(allCategories);
 
-
     // Fetch products for each top category
     await Promise.all(
       topCategories.map(async (category) => {
-        const productsRes = await productService.getProductsByCategory(category._id);
+        const productsRes = await productService.getProductsByCategory(
+          category._id
+        );
         productsByCategory[category._id] = productsRes.data;
       })
     );
@@ -60,13 +61,16 @@ export default async function Home() {
 
   return (
     <main className='pt-[165px] lg:pt-0'>
-      <Suspense>
-        <div className='fixed left-0 right-0 top-[83px] z-[1000] bg-white px-[3%] py-4 lg:hidden'>
-          <SearchForm />
-        </div>
-      </Suspense>
-
-      <CategoryList categories={allCategories} />
+      <section>
+        <Suspense>
+          <div className='fixed left-0 right-0 top-[83px] z-[1000] bg-white px-[3%] py-4 lg:hidden'>
+            <SearchForm />
+          </div>
+        </Suspense>
+      </section>
+      <section>
+        <CategoryList categories={allCategories} />
+      </section>
 
       <AdBanner />
       <div className='md:my-5 lg:mx-5'>

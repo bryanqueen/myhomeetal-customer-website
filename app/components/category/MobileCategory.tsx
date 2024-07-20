@@ -6,18 +6,39 @@ import { useNav } from '@/app/providers';
 import { XMarkIcon } from '@heroicons/react/16/solid';
 import Button from '../Button';
 
-const sortProducts = (products: any[], sortOption: string) => {
+const sortProducts = (products: Product[], sortOption: string) => {
   switch (sortOption) {
     case 'priceLowToHigh':
       return products.sort((a, b) => a.price - b.price);
     case 'priceHighToLow':
       return products.sort((a, b) => b.price - a.price);
+    case 'newestArrivals':
+      return products.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+    case 'bestSellers':
+      return products.sort((a, b) => b.reviewsCount - a.reviewsCount);
+    case 'AvgCustomerReview':
+      return products.sort((a, b) => b.rating - a.rating);
     default:
       return products;
   }
 };
 
-export default function MobileCategory({ products }: { products: any[] }) {
+interface Product {
+  _id: string;
+  productTitle: string;
+  price: number;
+  images: string[];
+  reviewsCount: number;
+  rating: number;
+  discount: number;
+  isProductNew: boolean;
+  createdAt: string;
+}
+
+export default function MobileCategory({ products }: { products: Product[] }) {
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState<string | null>('priceLowToHigh');
@@ -90,9 +111,17 @@ export default function MobileCategory({ products }: { products: any[] }) {
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
+  // New useEffect to reset currentPage if it exceeds totalPages
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [filteredProducts.length, totalPages, currentPage]);
+
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
       setCurrentPage(newPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -299,11 +328,14 @@ export default function MobileCategory({ products }: { products: any[] }) {
 
       {currentPageProducts.length > 0 && (
         <div>
-          <div className='min-h-[90vh] mt-14 grid grid-cols-2 gap-x-3 gap-y-7'>
-            {currentPageProducts.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
+          <div className='min-h-[90vh]'>
+            <div className='mt-14 grid grid-cols-2 gap-x-3 gap-y-7'>
+              {currentPageProducts.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </div>
           </div>
+
           <div className='flex justify-center py-3 pt-10'>
             <SearchPagination
               currentPage={currentPage}

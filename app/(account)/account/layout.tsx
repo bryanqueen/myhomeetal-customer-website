@@ -1,9 +1,5 @@
-import { headers } from 'next/headers';
-
 import Navigation from '@components/Navigation';
-import Button from '@components/Button';
 import AccountSidebar from '@components/account/AccountSidebar';
-import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import Back from '@/app/components/account/Back';
 
 export default function AccountLayout({

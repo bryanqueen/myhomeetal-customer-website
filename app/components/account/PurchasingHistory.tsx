@@ -5,9 +5,8 @@ import Image from 'next/image';
 import cn from 'classnames';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
-import Link from 'next/link';
 
-const ordersData = [
+/*const ordersData = [
   {
     id: '#2349201',
     product:
@@ -39,10 +38,10 @@ const ordersData = [
     status: 'Completed',
     price: 2000,
   },
-];
+]; */
 
 export default function PurchasingHistory() {
-  const [orders, setOrders] = useState(ordersData);
+  const [orders, setOrders] = useState([]);
   const { region } = useRegion();
   return (
     <div>

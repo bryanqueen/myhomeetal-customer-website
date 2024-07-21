@@ -53,11 +53,6 @@ export const accountNav = [
     link: ROUTES.REFERRAL,
   },
   {
-    text: 'Security',
-    icon: <SecuritySafe variant='Bulk' />,
-    link: ROUTES.SECURITY,
-  },
-  {
     text: 'Address Book',
     icon: <Location variant='Bulk' />,
     link: ROUTES.ADDRESS_BOOK,
@@ -113,7 +108,7 @@ export const accountNav3 = [
     link: ROUTES.WALLET,
   },
   {
-    text: 'Notifications',
+    text: 'My Notifications',
     icon: <Notification variant='Bold' color='#292D32' />,
     link: ROUTES.NOTIFICATIONS,
   },
@@ -132,11 +127,6 @@ export const accountNav3 = [
     text: 'My Address',
     icon: <Location variant='Bulk' color='#292D32' />,
     link: ROUTES.ADDRESS_BOOK,
-  },
-  {
-    text: 'Security',
-    icon: <SecuritySafe variant='Bulk' color='#292D32' />,
-    link: ROUTES.SECURITY,
   },
   {
     text: 'Close Account',

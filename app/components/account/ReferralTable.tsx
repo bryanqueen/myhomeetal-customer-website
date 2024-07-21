@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import ClientOnly from '../ClientOnly';
+import toast from 'react-hot-toast';
 
 interface Referral {
   name: string;
@@ -43,7 +44,20 @@ const referrals: Referral[] = [
 ];
 
 const ReferralTable: React.FC = () => {
-  const [isReferral, setIsReferral] = useState(true);
+  const [isReferral, setIsReferral] = useState(false);
+  const referralLink = 'https://www.myhomeetal.com/referral?code=XYZ123';
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(referralLink).then(
+      () => {
+        toast.success('Link copied to clipboard!');
+      },
+      (err) => {
+        toast.error('Failed to copy the link. Please try again.');
+      }
+    );
+  };
+
   return (
     <ClientOnly>
       <div className='mt-7 pb-20'>
@@ -71,7 +85,7 @@ const ReferralTable: React.FC = () => {
                 <p className='text-center font-clashmd text-xs lg:text-base text-myGray'>
                   You dont have any referral yet share your link to earn{' '}
                 </p>
-                <button className='h-[47px] w-[113px] rounded-full bg-primaryBg font-clashsm text-xs text-white'>
+                <button onClick={copyToClipboard} className='h-[47px] w-[113px] rounded-full bg-primaryBg font-clashsm text-xs text-white'>
                   Copy Code
                 </button>
               </div>

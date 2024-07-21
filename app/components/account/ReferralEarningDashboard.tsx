@@ -18,7 +18,7 @@ export default function ReferralEarningDashboard() {
             </p>
           </div>
           <p className='font-clashsm text-base text-[#1D2739] lg:text-[32px]'>
-            122
+            0
           </p>
         </div>
       </div>
@@ -33,9 +33,9 @@ export default function ReferralEarningDashboard() {
             </p>
           </div>
           <ProductPrice
-            className='font-clashsm text-base lg:text-[32px] text-[#1D2739]'
+            className='font-clashsm text-base text-[#1D2739] lg:text-[32px]'
             region={region}
-            priceInNGN={61000}
+            priceInNGN={0}
           />
         </div>
       </div>

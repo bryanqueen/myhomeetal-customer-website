@@ -5,8 +5,21 @@ import Image from 'next/image';
 import React from 'react';
 import ClientOnly from '../ClientOnly';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 export default function ReferralDashBoard2() {
+  const referralLink = 'https://www.myhomeetal.com/referral?code=XYZ123';
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(referralLink).then(
+      () => {
+        toast.success('Link copied to clipboard!');
+      },
+      (err) => {
+        toast.error('Failed to copy the link. Please try again.');
+      }
+    );
+  };
   return (
     <div className='relative flex h-[256px] w-full items-center justify-center overflow-hidden rounded-2xl bg-primaryBg lg:h-[493px] lg:max-w-[1360px] lg:justify-between lg:rounded-3xl lg:pl-[5%]'>
       <div className='z-20 lg:z-0'>
@@ -24,29 +37,35 @@ export default function ReferralDashBoard2() {
             <>
               <div className='mb-4 flex h-[50px] w-full min-w-[300px] items-center justify-between rounded-2xl bg-white pl-7 pr-2 lg:h-[56px] lg:min-w-[516px]'>
                 <p className='text-[10px] text-[#989898] lg:text-xs'>
-                  https://www.myhomeetal.com/referral?code=XYZ123
+                  {referralLink}
                 </p>
-                <button className='hidden h-[47px] w-[113px] rounded-2xl bg-primaryBg font-clashsm text-xs text-white lg:block'>
+                <button
+                  onClick={copyToClipboard}
+                  className='hidden h-[47px] w-[113px] rounded-2xl bg-primaryBg font-clashsm text-xs text-white lg:block'
+                >
                   Copy Code
                 </button>
               </div>
               <div className='flex items-center justify-center'>
-                <button className='h-[34px] w-[157px] rounded-full bg-white font-clashsm text-[10px] text-primaryBg lg:hidden'>
+                <button
+                  onClick={copyToClipboard}
+                  className='h-[34px] w-[157px] rounded-full bg-white font-clashsm text-[10px] text-primaryBg lg:hidden'
+                >
                   Copy Code
                 </button>
               </div>
             </>
           ) : (
-            <div className='lg:ml-3 flex flex-col gap-3 lg:block'>
+            <div className='flex flex-col gap-3 lg:ml-3 lg:block'>
               <Link
                 href='/login'
-                className='min-w-[200px] lg:min-w-fit text-[10px] text-center w-full mr-4 rounded-full bg-white px-6 py-4 font-clashsm lg:text-xs text-myGray'
+                className='mr-4 w-full min-w-[200px] rounded-full bg-white px-6 py-4 text-center font-clashsm text-[10px] text-myGray lg:min-w-fit lg:text-xs'
               >
                 Login
               </Link>
               <Link
                 href='/register'
-                className='min-w-[200px] lg:min-w-fit text-[10px] text-center rounded-full bg-white px-6 py-4 font-clashsm lg:text-xs text-myGray'
+                className='min-w-[200px] rounded-full bg-white px-6 py-4 text-center font-clashsm text-[10px] text-myGray lg:min-w-fit lg:text-xs'
               >
                 Create an Account
               </Link>

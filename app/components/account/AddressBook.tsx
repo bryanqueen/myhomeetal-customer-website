@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Input from '@/app/components/Input';
 import { Location, CloseSquare } from 'iconsax-react';
 
@@ -56,6 +56,16 @@ export default function AddressBook() {
     setId(id);
     setIsEdit(true);
   };
+  const addAddressRef = useRef<HTMLDivElement>(null);
+  const editAddressRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    if (isAddAddress && addAddressRef.current) {
+      addAddressRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else if (isEdit && editAddressRef.current) {
+      editAddressRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [isAddAddress, isEdit]);
 
   const addressInWords = numberToWords(myindex + 1);
 
@@ -67,7 +77,9 @@ export default function AddressBook() {
             <h1 className='font-clashmd text-3xl text-myGray'>Address Book</h1>
             <Button
               disabled={addresses.length === 3}
-              onClick={() => setIsAddAddress(!isAddAddress)}
+              onClick={() => {
+                setIsAddAddress(!isAddAddress);
+              }}
               className='min-w-fit border-0 px-6 py-3 text-base text-white shadow-none'
             >
               <span className='flex items-center gap-2'>
@@ -118,7 +130,9 @@ export default function AddressBook() {
         {addresses.length > 0 && (
           <div className='mt-14 lg:hidden'>
             <Button
-              onClick={() => setIsAddAddress(!isAddAddress)}
+              onClick={() => {
+                setIsAddAddress(!isAddAddress);
+              }}
               disabled={addresses.length === 3}
               className='h-[50px] w-full rounded-[10px] border-0 font-clashmd text-base text-white shadow-none'
             >
@@ -132,7 +146,7 @@ export default function AddressBook() {
 
         {/**Add container */}
         {isAddAddress && (
-          <div>
+          <div ref={addAddressRef}>
             <div className='mx-auto mt-10 max-w-[582px] rounded-xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:rounded-2xl'>
               <div className='grid max-w-[503px] gap-5'>
                 <Input
@@ -181,7 +195,7 @@ export default function AddressBook() {
         )}
         {/**Edit container */}
         {isEdit && (
-          <div>
+          <div ref={editAddressRef}>
             <div className='mx-auto mt-10 max-w-full rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block'>
               <p className='font-clashmd text-xs lg:text-base'>
                 Address {addressInWords}

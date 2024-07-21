@@ -14,7 +14,7 @@ function CloseAccountPage() {
   const headersList = headers();
   const previousPath = headersList.get('referer') || '';
   return (
-    <main className='mx-[3%] lg:mx-0'>
+    <main className='mx-[3%] lg:mx-0 lg:pb-40'>
       <div className='flex items-center py-5 pl-1 lg:hidden'>
         <Button
           href={previousPath}

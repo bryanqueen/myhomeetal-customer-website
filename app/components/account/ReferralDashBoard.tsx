@@ -1,7 +1,23 @@
+'use client';
 import Image from 'next/image';
 import React from 'react';
+import ClientOnly from '../ClientOnly';
+import toast from 'react-hot-toast';
 
 export default function ReferralDashBoard() {
+  const referralLink = 'https://www.myhomeetal.com/referral?code=XYZ123';
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(referralLink).then(
+      () => {
+        toast.success('Link copied to clipboard!');
+      },
+      (err) => {
+        toast.error('Failed to copy the link. Please try again.');
+      }
+    );
+  };
+
   return (
     <div className='relative flex h-[256px] w-full max-w-[1110px] items-center overflow-hidden rounded-[10px] bg-[#FFF1F1] lg:h-[339px] lg:rounded-3xl lg:pl-[5%]'>
       <div className='z-10 w-full lg:z-0'>
@@ -14,21 +30,31 @@ export default function ReferralDashBoard() {
             every successful referral.
           </p>
         </div>
-        <div className='mx-auto mb-4 flex h-[50px] min-w-[300px] max-w-[300px] items-center justify-center rounded-2xl bg-white lg:mx-0 lg:h-[56px] lg:max-w-[490px] lg:justify-between lg:pl-7 lg:pr-2'>
-          <p className='text-[10px] text-[#989898] lg:text-xs'>
-            https://www.myhomeetal.com/referral?code=XYZ123
-          </p>
-          <button className='hidden h-[47px] w-[113px] rounded-2xl bg-primaryBg font-clashsm text-xs text-white lg:block'>
-            Copy Code
-          </button>
-        </div>
-        <div className='flex items-center justify-center lg:hidden'>
-          <button className='h-[34px] w-[157px] rounded-full bg-primaryBg font-clashmd text-[10px] text-white lg:hidden'>
-            Copy Code
-          </button>
-        </div>
-
-        <p className='hidden lg:block text-base text-[#525252]'>Share on:</p>
+        <ClientOnly>
+          <div className='mx-auto mb-4 flex h-[50px] min-w-[300px] max-w-[300px] items-center justify-center rounded-2xl bg-white lg:mx-0 lg:h-[56px] lg:max-w-[490px] lg:justify-between lg:pl-7 lg:pr-2'>
+            <p
+              id='referralLink'
+              className='text-[10px] text-[#989898] lg:text-xs'
+            >
+              {referralLink}
+            </p>
+            <button
+              onClick={copyToClipboard}
+              className='hidden h-[47px] w-[113px] rounded-2xl bg-primaryBg font-clashsm text-xs text-white lg:block'
+            >
+              Copy Code
+            </button>
+          </div>
+          <div className='flex items-center justify-center lg:hidden'>
+            <button
+              onClick={copyToClipboard}
+              className='h-[34px] w-[157px] rounded-full bg-primaryBg font-clashmd text-[10px] text-white lg:hidden'
+            >
+              Copy Code
+            </button>
+          </div>
+        </ClientOnly>
+        <p className='hidden text-base text-[#525252] lg:block'>Share on:</p>
       </div>
       <Image
         src='/images/referralIcon5.svg'

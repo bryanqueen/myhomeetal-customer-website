@@ -22,7 +22,7 @@ interface User {
 export default function SaveItems() {
   const { region } = useRegion();
   const [savedItems, setSavedItems] = useState<string[]>([]);
-  const [isItem, setIsItem] = useState(true);
+  const [isItem, setIsItem] = useState(false);
 
   const fetchSavedItems = async () => {
     try {

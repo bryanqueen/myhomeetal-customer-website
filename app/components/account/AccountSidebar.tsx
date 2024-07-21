@@ -9,7 +9,7 @@ import Logout from '@components/account/Logout';
 const AccountSidebar = () => {
   return (
     <div className='relative hidden lg:block'>
-      <div className='sticky top-20'>
+      <div className='no-scrollbar sticky top-40 max-h-[70vh] overflow-scroll'>
         <p className='mb-5 font-clashmd text-base'>My Account</p>
         {accountNav.map((item, i) => (
           <NavLink href={item.link} key={i}>

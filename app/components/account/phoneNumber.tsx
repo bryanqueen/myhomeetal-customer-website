@@ -18,7 +18,7 @@ const PhoneInputComponent: React.FC = () => {
     width: '100%',
     height: '60px',
     paddingLeft: '60px',
-    background: '#F4F4F4',
+    background: 'white',
   };
 
   const buttonStyle: React.CSSProperties = {
@@ -38,7 +38,7 @@ const PhoneInputComponent: React.FC = () => {
     borderBottom: '0px',
     borderLeft: '0px',
     borderRight: '1px',
-    background: '#f4f4f4',
+    background: 'white',
     padding: '0 5px 0 5px',
   };
 

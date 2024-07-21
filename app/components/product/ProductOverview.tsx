@@ -13,8 +13,8 @@ import { useRegion } from '@/app/RegionProvider';
 import { useCart } from 'react-use-cart';
 import CartHandler from '../cart/CartHandler';
 import { useRouter } from 'next/navigation';
-import ClientOnly from '../ClientOnly';
 import productService from '@/app/services/productService';
+import ClientOnly from '../ClientOnly';
 
 const ProductOverview = ({ data }: any) => {
   const router = useRouter();
@@ -55,7 +55,7 @@ const ProductOverview = ({ data }: any) => {
   const itemForCart = { ...data, id: data._id };
   const { region } = useRegion();
   return (
-    <ClientOnly>
+    <div>
       {data && (
         <div className='lg:px-[3%]'>
           <div className='mb-5 hidden items-center gap-14 lg:flex'>
@@ -69,15 +69,15 @@ const ProductOverview = ({ data }: any) => {
             <ul className='flex items-center gap-2'>
               {breadCrumb.map((item, i, items) => (
                 <li key={i} className='flex items-center gap-2'>
-                  {item.link ? (
+                  {item?.link ? (
                     <Link href={item.link} className='text-sm text-myGray'>
-                      {item.title}{' '}
+                      {item?.title}{' '}
                     </Link>
                   ) : (
                     <p className='text-sm text-myGray'>{item.title}</p>
                   )}
 
-                  {i < items.length - 1 && (
+                  {i < items?.length - 1 && (
                     <span className='inline-block h-1 w-1 rounded-full bg-[#d9d9d9] p-[0.2rem]'></span>
                   )}
                 </li>
@@ -109,19 +109,19 @@ const ProductOverview = ({ data }: any) => {
                   <div className='flex items-center py-3 lg:hidden'>
                     <p className='mr-1 flex items-center gap-1 text-[10px] text-xs lg:text-sm lg:font-semibold'>
                       <StarIcon width={16} className='mt-[-3px] text-primary' />
-                      {data.rating?.rate}
+                      {data?.rating?.rate}
                     </p>
 
                     <span className='text-[10px]'>
-                      ({data.rating?.count} Reviews)
+                      ({data?.rating?.count} Reviews)
                     </span>
                   </div>
                   <div className='hidden items-center py-3 lg:flex'>
                     <p className='text-sm text-black'>
-                      Ratings <span className='ml-1'>{data.rating?.rate}</span>{' '}
+                      Ratings <span className='ml-1'>{data?.rating?.rate}</span>{' '}
                     </p>
                     <Rating
-                      initialValue={data.rating?.rate}
+                      initialValue={data?.rating?.rate}
                       readonly={true}
                       allowFraction={true}
                       size={16}
@@ -131,7 +131,7 @@ const ProductOverview = ({ data }: any) => {
                     />
                     <span className='px-3' />
                     <span className='text-sm text-black'>
-                      {data.rating?.count} Reviews
+                      {data?.rating?.count} Reviews
                     </span>
                   </div>
 
@@ -141,42 +141,44 @@ const ProductOverview = ({ data }: any) => {
                     className={priceStyle}
                   />
                 </div>
-                <div className='mt-16 flex items-center justify-between gap-4 lg:mt-10 lg:w-[537px]'>
-                  {itemInCart ? (
-                    <div className='flex w-[206px] items-center justify-between'>
-                      <CartHandler
-                        cart
-                        item={itemInCart}
-                        variant='UPDATE_MINUS'
-                        className='h-[50px] w-[50px] rounded-lg border-0'
-                      >
-                        <Minus size={35} />
-                      </CartHandler>
-                      <span className='text-2xl text-myGray'>
-                        {itemInCart.quantity}
-                      </span>
-                      <CartHandler
-                        item={itemInCart}
-                        variant='UPDATE_PLUS'
-                        className='h-[50px] w-[50px] rounded-lg border-0'
-                      >
-                        <Add size={35} />
-                      </CartHandler>
-                    </div>
-                  ) : (
-                    <AddToCartButton item={itemForCart} />
-                  )}
+                <ClientOnly>
+                  <div className='mt-16 flex items-center justify-between gap-4 lg:mt-10 lg:w-[537px]'>
+                    {itemInCart ? (
+                      <div className='flex w-[206px] items-center justify-between'>
+                        <CartHandler
+                          cart
+                          item={itemInCart}
+                          variant='UPDATE_MINUS'
+                          className='h-[50px] w-[50px] rounded-lg border-0'
+                        >
+                          <Minus size={35} />
+                        </CartHandler>
+                        <span className='text-2xl text-myGray'>
+                          {itemInCart.quantity}
+                        </span>
+                        <CartHandler
+                          item={itemInCart}
+                          variant='UPDATE_PLUS'
+                          className='h-[50px] w-[50px] rounded-lg border-0'
+                        >
+                          <Add size={35} />
+                        </CartHandler>
+                      </div>
+                    ) : (
+                      <AddToCartButton item={itemForCart} />
+                    )}
 
-                  <button className='flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'>
-                    <HeartAdd size='24' color='#ffffff' variant='Bulk' />
-                  </button>
-                </div>
+                    <button className='flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'>
+                      <HeartAdd size='24' color='#ffffff' variant='Bulk' />
+                    </button>
+                  </div>
+                </ClientOnly>
               </div>
             </div>
           </div>
         </div>
       )}
-    </ClientOnly>
+    </div>
   );
 };
 

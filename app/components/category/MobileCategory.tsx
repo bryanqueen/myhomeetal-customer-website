@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import SearchPagination from '../SearchPagination';
 import ProductCard from '../cards/ProductCard';
@@ -88,9 +89,9 @@ export default function MobileCategory({ products }: { products: Product[] }) {
       let filtered = products;
 
       // Apply price filter
-      filtered = filtered.filter(
+      filtered = filtered?.filter(
         (product) =>
-          product.price >= priceRange.min && product.price <= priceRange.max
+          product?.price >= priceRange.min && product?.price <= priceRange.max
       );
 
       // Apply discount filter
@@ -109,14 +110,14 @@ export default function MobileCategory({ products }: { products: Product[] }) {
     applyFilters();
   }, [products, priceRange, discountFilters, sortOption]);
 
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const totalPages = Math.ceil(filteredProducts?.length / productsPerPage);
 
   // New useEffect to reset currentPage if it exceeds totalPages
   useEffect(() => {
     if (currentPage > totalPages) {
       setCurrentPage(1);
     }
-  }, [filteredProducts.length, totalPages, currentPage]);
+  }, [filteredProducts?.length, totalPages, currentPage]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -326,12 +327,12 @@ export default function MobileCategory({ products }: { products: Product[] }) {
         </div>
       )}
 
-      {currentPageProducts.length > 0 && (
+      {currentPageProducts?.length > 0 && (
         <div>
           <div className='min-h-[90vh]'>
             <div className='mt-14 grid grid-cols-2 gap-x-3 gap-y-7'>
-              {currentPageProducts.map((product) => (
-                <ProductCard key={product._id} product={product} />
+              {currentPageProducts?.map((product) => (
+                <ProductCard key={product?._id} product={product} />
               ))}
             </div>
           </div>

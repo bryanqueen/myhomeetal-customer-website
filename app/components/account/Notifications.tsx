@@ -109,7 +109,7 @@ const Notifications = () => {
               </p>
               {notification.callToAction && (
                 <div className='pt-4'>
-                  <Button className='min-w-fit rounded-[8px] px-5 text-[10px] lg:text-base'>
+                  <Button className='min-w-fit border-0 shadow-none rounded-[8px] px-5 text-[10px] lg:text-base'>
                     <span className='flex items-center gap-2'>
                       {notification.callToAction.icon}
                       {notification.callToAction.text}

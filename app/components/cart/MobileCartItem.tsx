@@ -1,3 +1,4 @@
+'use client';
 import { TrashIcon } from '@heroicons/react/16/solid';
 import Image from 'next/image';
 import React from 'react';

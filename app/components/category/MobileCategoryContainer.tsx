@@ -1,10 +1,7 @@
 'use client';
 import MobileCategory from '@/app/components/category/MobileCategory';
 import Image from 'next/image';
-import {
-  DesktopCategorySkeleton,
-  MobileCategorySkeleton,
-} from '@/app/components/loader';
+import { MobileCategorySkeleton } from '@/app/components/loader';
 import { useNav } from '@/app/providers';
 
 interface Product {
@@ -28,7 +25,7 @@ export default function MobileCategoryContainer({
   categoryName,
   products,
 }: CategoryProps) {
-  const { state, setActiveNav } = useNav();
+  const { setActiveNav } = useNav();
   return (
     <div>
       {/**Mobile Category Header */}
@@ -67,7 +64,7 @@ export default function MobileCategoryContainer({
           </button>
         </div>
       </div>
-      {(products && products.length > 0) ? (
+      {products && products.length > 0 ? (
         <MobileCategory products={products} />
       ) : (
         <MobileCategorySkeleton />

@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useRef, useState } from 'react';
 import ReviewCard from '@components/cards/ReviewCard';
 import Button from '@components/Button';

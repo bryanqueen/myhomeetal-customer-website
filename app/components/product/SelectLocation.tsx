@@ -1,5 +1,4 @@
 import { Box1, Shop } from 'iconsax-react';
-import React from 'react';
 
 export default function SelectLocation() {
   return (

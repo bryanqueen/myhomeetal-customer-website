@@ -7,7 +7,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import Button from '../Button';
 
 const ProductGallery = ({ images }: { images: string[] }) => {
-  const galleryImages: ReactImageGalleryItem[] = images.map((image) => ({
+  const galleryImages: ReactImageGalleryItem[] = images?.map((image) => ({
     original: image,
     thumbnail: image,
   }));

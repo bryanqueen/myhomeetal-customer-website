@@ -35,7 +35,7 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
   );
   const { region } = useRegion();
 
-  const href = `/item/${product._id}`;
+  const href = `/item/${product?._id}`;
 
   return (
     <ClientOnly>
@@ -44,7 +44,7 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
           <div className='relative mb-3 flex h-[172px] w-full flex-col items-center justify-between lg:h-[158px] lg:w-full lg:justify-center'>
             <Image
               className={`${variant === 'top' ? '' : 'h-[130px] w-[148px] object-contain lg:h-[158px] lg:w-[158px]'}`}
-              src={product.images[0]}
+              src={product?.images[0]}
               alt='Product Card'
               width={200}
               height={200}
@@ -52,10 +52,10 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
               loading='lazy'
             />
 
-            {product.isProductNew === true && <NewProductTag />}
+            {product?.isProductNew === true && <NewProductTag />}
             <div className='flex w-full items-center gap-5 lg:hidden'>
               <Rating
-                initialValue={product.rating}
+                initialValue={product?.rating}
                 readonly
                 fillColor=''
                 className='mt-[-6px] text-primary'
@@ -65,14 +65,14 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
               />
 
               <p className='h-fit w-fit text-[10px] text-black'>
-                {product.reviewsCount}+ Reviews
+                {product?.reviewsCount}+ Reviews
               </p>
             </div>
           </div>
           <div className='flex w-[150px] flex-col justify-between lg:h-[88px] lg:w-[191px]'>
             <div className='hidden w-full items-center gap-5 lg:flex'>
               <Rating
-                initialValue={product.rating}
+                initialValue={product?.rating}
                 readonly
                 fillColor=''
                 className='mt-[-6px] text-primary'
@@ -82,16 +82,16 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
               />
 
               <p className='h-fit w-fit text-[10px] text-black'>
-                {product.reviewsCount}+ Reviews
+                {product?.reviewsCount}+ Reviews
               </p>
             </div>
             <div className='min-h-[25px]'>
               <p className='three-line-clamp text-xs text-black'>
-                {product.productTitle}
+                {product?.productTitle}
               </p>
             </div>
             <ProductPrice
-              priceInNGN={product.price}
+              priceInNGN={product?.price}
               region={region}
               className={priceStyle}
             />

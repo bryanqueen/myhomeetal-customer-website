@@ -1,10 +1,9 @@
-import ClientOnly from '../ClientOnly';
+'use  client';
 import KeyFeature from './KeyFeature';
 import ProductDetails from './ProductDetails';
 import { Review } from './Review';
 import SelectLocation from './SelectLocation';
 import Specification from './Specification';
-
 
 type Spec = {
   title: string;
@@ -25,9 +24,11 @@ type ProductInformationNewProps = {
   data: DataProps;
 };
 
-export default function ProductInformationNew({ data }: ProductInformationNewProps) {
+export default function ProductInformationNew({
+  data,
+}: ProductInformationNewProps) {
   return (
-    <ClientOnly>
+    <div>
       {data && (
         <div className='mt-[150px] flex gap-5 px-[3%]'>
           <div className='w-full lg:basis-[65%]'>
@@ -41,6 +42,6 @@ export default function ProductInformationNew({ data }: ProductInformationNewPro
           </div>
         </div>
       )}
-    </ClientOnly>
+    </div>
   );
 }

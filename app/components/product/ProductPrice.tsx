@@ -1,3 +1,4 @@
+'use client'
 import { convertPrice, currencySymbols, formatPrice } from "@/app/utils/helpers";
 
 interface ProductPriceProps {

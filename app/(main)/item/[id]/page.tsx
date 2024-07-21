@@ -17,8 +17,7 @@ export default async function page({ params }: { params: Params }) {
       console.log('id not found');
       return notFound();
     }
-    data = res.data;
-    console.log(data);
+    data = res?.data;
   } catch (error) {
     console.error('Error in ProductPage:', error);
     return notFound();

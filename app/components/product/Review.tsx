@@ -1,4 +1,5 @@
 'use client';
+
 import Image from 'next/image';
 import React from 'react';
 import { Rating } from 'react-simple-star-rating';
@@ -11,7 +12,7 @@ const RatingProgress = ({
   star?: number;
   percent?: number;
 }) => (
-  <div className='flex w-full items-center gap-5 lg:gap-8 py-1'>
+  <div className='flex w-full items-center gap-5 py-1 lg:gap-8'>
     <div className='flex items-center justify-between text-xs text-black lg:text-base lg:text-myGray'>
       <span className='w-[50px] text-center'>{star}</span>
       <Image
@@ -163,9 +164,9 @@ export const Review = () => {
 
   return (
     <div className='mb-5 py-[38px] lg:rounded-[20px] lg:border lg:border-[#E4E7EC] lg:px-10'>
-      <div className='relative flex lg:justify-between gap-4 px-5 lg:h-[175px] lg:w-[759px] lg:px-0'>
+      <div className='relative flex gap-4 px-5 lg:h-[175px] lg:w-[759px] lg:justify-between lg:px-0'>
         <div className='absolute left-[50%] hidden h-[100%] w-[1px] translate-x-[-50%] bg-[#989898] lg:block'></div>
-        <div className='relative flex basis-[30%] flex-col justify-center items-center gap-3 lg:flex-row lg:gap-10'>
+        <div className='relative flex basis-[30%] flex-col items-center justify-center gap-3 lg:flex-row lg:gap-10'>
           <div className='absolute right-[-15px] top-[50%] h-[60%] w-[1px] translate-y-[-50%] bg-[#989898]/40 lg:hidden'></div>
           <div className='flex h-[65px] w-[65px] items-center justify-center rounded-full bg-primary font-clashmd text-4xl text-white lg:h-[116px] lg:w-[116px] lg:text-5xl'>
             {averageRating.toFixed(1)}
@@ -199,7 +200,7 @@ export const Review = () => {
             </span>
           </div>
         </div>
-        <div className='flex pl-2 items-center justify-end lg:pr-10'>
+        <div className='flex items-center justify-end pl-2 lg:pr-10'>
           <div className='w-[100px] lg:h-[157.08px] lg:min-w-[283px]'>
             {Object.keys(ratingDistribution)
               .reverse()

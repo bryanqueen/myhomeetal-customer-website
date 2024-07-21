@@ -1,14 +1,16 @@
-import React from 'react'
+'use client';
 
 export default function ProductDetails({ dataDesc }: { dataDesc: string }) {
   return (
-    <div className='rounded-[10px] lg:rounded-[20px] border border-[#E4E7EC] mb-5'>
-      <div className='bg-primary h-[55px] lg:h-[80px] flex items-center px-2 lg:px-5 rounded-tl-[10px] rounded-tr-[10px] lg:rounded-tl-[20px] lg:rounded-tr-[20px]'>
-        <h2 className='text-white text-xs lg:text-base font-clashmd'>PRODUCT DETAILS</h2>
+    <div className='mb-5 rounded-[10px] border border-[#E4E7EC] lg:rounded-[20px]'>
+      <div className='flex h-[55px] items-center rounded-tl-[10px] rounded-tr-[10px] bg-primary px-2 lg:h-[80px] lg:rounded-tl-[20px] lg:rounded-tr-[20px] lg:px-5'>
+        <h2 className='font-clashmd text-xs text-white lg:text-base'>
+          PRODUCT DETAILS
+        </h2>
       </div>
-      <div className='px-2 lg:px-5 py-[38px] text-xs text-black lg:text-base'>
+      <div className='px-2 py-[38px] text-xs text-black lg:px-5 lg:text-base'>
         <p>{dataDesc}</p>
       </div>
     </div>
-  )
+  );
 }

@@ -65,15 +65,15 @@ const ListGridSwitch = ({
       let filtered = products;
 
       // Apply price filter
-      filtered = filtered.filter(
+      filtered = filtered?.filter(
         (product) =>
-          product.price >= priceRange?.min && product.price <= priceRange?.max
+          product?.price >= priceRange?.min && product?.price <= priceRange?.max
       );
 
       // Apply discount filter
       if (discountFilters?.length > 0) {
-        filtered = filtered.filter((product) =>
-          discountFilters.some((discount) => product.discount === discount)
+        filtered = filtered?.filter((product) =>
+          discountFilters.some((discount) => product?.discount === discount)
         );
       }
 
@@ -116,11 +116,11 @@ const ListGridSwitch = ({
           'grid w-fit grid-cols-3 gap-4 xl:grid-cols-3': !isList.value,
         })}
       >
-        {currentPageProducts.map((product) =>
+        {currentPageProducts?.map((product) =>
           isList.value ? (
-            <ProductListCard key={product._id} product={product} />
+            <ProductListCard key={product?._id} product={product} />
           ) : (
-            <ProductGridCard key={product._id} product={product} />
+            <ProductGridCard key={product?._id} product={product} />
           )
         )}
       </div>

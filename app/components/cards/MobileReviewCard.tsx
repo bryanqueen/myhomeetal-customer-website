@@ -1,3 +1,4 @@
+'use client';
 import { format } from 'date-fns';
 import { Rating } from 'react-simple-star-rating';
 
@@ -8,7 +9,7 @@ export default function MobileReviewCard({
 }) {
   const formattedDate = format(new Date(review.date), 'MMM d');
   return (
-    <div className='mb-5 h-[95.8px] rounded-[10px] flex flex-col justify-between bg-[#F4F4F4] px-[10px] py-[15px]'>
+    <div className='mb-5 flex h-[95.8px] flex-col justify-between rounded-[10px] bg-[#F4F4F4] px-[10px] py-[15px]'>
       <div className='flex h-[39px] items-center gap-5'>
         <div className='h-[39px] w-[39px] rounded-full bg-gray-300'></div>
         <p className='w-[90%] truncate text-sm text-myGray'>

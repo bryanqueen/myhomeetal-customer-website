@@ -48,16 +48,20 @@ export default async function CategoryPage({
           </Suspense>
         </section>
         <section>
-          <MobileCategoryContainer
-            categoryName={categoryName}
-            products={productsByCategory}
-          />
+          <Suspense fallback={'loading...'}>
+            <MobileCategoryContainer
+              categoryName={categoryName}
+              products={productsByCategory}
+            />
+          </Suspense>
         </section>
         <section>
-          <DesktopCategoryContainer
-            categoryName={categoryName}
-            products={productsByCategory}
-          />
+          <Suspense fallback={'loading...'}>
+            <DesktopCategoryContainer
+              categoryName={categoryName}
+              products={productsByCategory}
+            />
+          </Suspense>
         </section>
       </main>
     </>

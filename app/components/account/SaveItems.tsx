@@ -24,7 +24,7 @@ export default function SaveItems() {
   const [savedItems, setSavedItems] = useState<string[]>([]);
   const [isItem, setIsItem] = useState(true);
 
-  /* const fetchSavedItems = async () => {
+  const fetchSavedItems = async () => {
     try {
       const res = await productService.getSavedProducts();
       if (!res || !res.data) {
@@ -40,7 +40,7 @@ export default function SaveItems() {
 
   useEffect(() => {
     fetchSavedItems();
-  }, []); */
+  }, []);
 
   return (
     <div>
@@ -57,6 +57,7 @@ export default function SaveItems() {
               a worry-free browsing and shopping experience.
             </p>
           </div>
+          <div>{savedItems && savedItems.map((item) => <p>{item}</p>)}</div>
           <div className='grid gap-6 lg:my-10 lg:gap-9 lg:py-5'>
             {[0, 0, 0, 0].map((V, i) => (
               <div

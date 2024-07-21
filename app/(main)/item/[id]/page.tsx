@@ -23,6 +23,7 @@ export default async function page({ params }: { params: Params }) {
     console.error('Error in ProductPage:', error);
     return notFound();
   }
+
   return (
     <main className='relative min-h-[100vh]'>
       <section>
@@ -33,7 +34,7 @@ export default async function page({ params }: { params: Params }) {
       </section>
 
       {/*<ProductHeader data={data} />*/}
-      <AddToCartPopup data={data}/>
+      <AddToCartPopup data={data} />
     </main>
   );
 }

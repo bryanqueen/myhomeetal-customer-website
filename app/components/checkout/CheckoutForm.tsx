@@ -516,6 +516,7 @@ const CheckoutForm: React.FC = () => {
         <OrderSummary
           deliveryMethod={selectedMethod}
           firstStage={firstStageCompleted}
+          isChange={isChange}
           setFirstStageCompleted={setFirstStageCompleted}
           address={selectedAddress}
           selectedPayment={selectedPaymentMethod}

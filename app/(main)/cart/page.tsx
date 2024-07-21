@@ -17,38 +17,42 @@ export default function CartPage() {
   };
 
   return (
-    <ClientOnly>
-      <main className='pb-20 min-h-[100vh]'>
-        <div className='pt-[90px] lg:pt-0 px-[3%] lg:mt-0'>
-          <button
-            onClick={handleBack}
-            className='hidden items-center text-sm text-myGray lg:flex'
-          >
-            <ArrowLeftIcon width={17} className='mr-1 mt-[-3px]' />
-            Back
-          </button>
-        </div>
-        <div className='px-[3%]'>
-          <h1 className='sticky top-[100px] text-xs my-5 text-center font-clashmd text-black lg:text-start lg:text-3xl'>
-            Shopping Cart
-          </h1>
+    <main className='min-h-[100vh] pb-20'>
+      <div className='sticky top-[90px] hidden bg-white px-[3%] py-5 pt-[90px] lg:mt-0 lg:block lg:pt-0'>
+        <button
+          onClick={handleBack}
+          className='flex items-center text-sm text-myGray'
+        >
+          <ArrowLeftIcon width={17} className='mr-1 mt-[-3px]' />
+          Back
+        </button>
+      </div>
+      <div className='px-[3%] lg:pt-0 pt-[85px]'>
+        <h1 className='my-5 text-center font-clashmd text-xs text-black lg:text-start lg:text-3xl'>
+          Shopping Cart
+        </h1>
+        <ClientOnly>
           {!isEmpty ? (
             <>
-              <div className='grid items-start gap-5 lg:grid-cols-[2fr_1fr]'>
-                <Cart />
-                <CartSummary />
+              <div className='grid lg:min-h-[100vh] items-start gap-5 lg:grid-cols-[2fr_1fr]'>
+                <div>
+                  <Cart />
+                </div>
+                <div className='lg:sticky lg:top-[120px]'>
+                  <CartSummary />
+                </div>
               </div>
               <div className='lg:hidden'>
                 <MobileCartSummary />
               </div>
             </>
           ) : (
-            <div className='h-[60vh] flex items-center justify-center'>
+            <div className='flex h-[60vh] items-center justify-center'>
               <NoHistory title='Your Cart is empty!' />
             </div>
           )}
-        </div>
-      </main>
-    </ClientOnly>
+        </ClientOnly>
+      </div>
+    </main>
   );
 }

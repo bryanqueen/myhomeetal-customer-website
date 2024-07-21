@@ -17,6 +17,7 @@ interface Address {
 interface DeliveryMethodProps {
   deliveryMethod: string;
   firstStage: boolean;
+  isChange: boolean;
   setFirstStageCompleted: React.Dispatch<React.SetStateAction<boolean>>;
   address: Address;
   selectedPayment: string;
@@ -25,6 +26,7 @@ interface DeliveryMethodProps {
 const OrderSummary: React.FC<DeliveryMethodProps> = ({
   deliveryMethod,
   firstStage,
+  isChange,
   setFirstStageCompleted,
   address,
   selectedPayment,
@@ -91,6 +93,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
       <div className='px-4 pb-5'>
         {firstStage ? (
           <Button
+            disabled={isChange === true}
             linkType='rel'
             href={ROUTES.ORDER_CONFIRMED}
             className='mt-8 w-full rounded-[10px] border-0 p-4 font-clashmd text-base shadow-none lg:rounded-full'
@@ -101,8 +104,9 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
           </Button>
         ) : (
           <button
+            disabled={isChange === true}
             onClick={handleFirstStage}
-            className='mt-4 w-full rounded-[10px] border-0 bg-primary p-3 font-clashmd text-base text-white shadow-none lg:mt-8 lg:rounded-full lg:p-4'
+            className='mt-4 w-full rounded-[10px] disabled:opacity-50 cursor-not-allowed border-0 bg-primary p-3 font-clashmd text-base text-white shadow-none lg:mt-8 lg:rounded-full lg:p-4'
           >
             {' '}
             Continue

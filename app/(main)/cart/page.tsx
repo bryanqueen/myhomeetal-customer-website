@@ -29,7 +29,7 @@ export default function CartPage() {
           </button>
         </div>
         <div className='px-[3%]'>
-          <h1 className='text-xs my-5 text-center font-clashmd text-black lg:text-start lg:text-3xl'>
+          <h1 className='sticky top-[100px] text-xs my-5 text-center font-clashmd text-black lg:text-start lg:text-3xl'>
             Shopping Cart
           </h1>
           {!isEmpty ? (

@@ -3,7 +3,6 @@
 import { Add, HeartAdd, Minus } from 'iconsax-react';
 import Link from 'next/link';
 import { Rating } from 'react-simple-star-rating';
-import * as Radio from '@radix-ui/react-radio-group';
 
 import ProductCarousel from './ProductCarousel';
 import ProductGallery from './ProductGallery';
@@ -178,27 +177,6 @@ const ProductOverview = ({ data }: any) => {
         </div>
       )}
     </ClientOnly>
-  );
-};
-
-interface RadioItemProps {
-  id: string;
-  value: string;
-  color?: string;
-}
-
-const ColorRadioItem = ({ id, value, color = 'black' }: RadioItemProps) => {
-  return (
-    <Radio.Item
-      id={id}
-      className='relative flex h-10 w-10 grid-cols-1 items-center justify-center rounded-md'
-      value={value}
-    >
-      <div
-        className={`relative h-[calc(2.5rem-5px)] w-[calc(2.5rem-5px)] rounded-md bg-${color} bg-${color}-500`}
-      ></div>
-      <Radio.Indicator className="absolute flex h-full w-full items-center justify-center after:block after:h-full after:w-full after:rounded-lg after:border-[3px] after:border-primary/70 after:bg-transparent after:content-['']" />
-    </Radio.Item>
   );
 };
 

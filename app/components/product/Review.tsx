@@ -163,7 +163,7 @@ export const Review = () => {
 
   return (
     <div className='mb-5 py-[38px] lg:rounded-[20px] lg:border lg:border-[#E4E7EC] lg:px-10'>
-      <div className='relative flex gap-4 px-5 lg:h-[175px] lg:w-[759px] lg:px-0'>
+      <div className='relative flex lg:justify-between gap-4 px-5 lg:h-[175px] lg:w-[759px] lg:px-0'>
         <div className='absolute left-[50%] hidden h-[100%] w-[1px] translate-x-[-50%] bg-[#989898] lg:block'></div>
         <div className='relative flex basis-[30%] flex-col justify-center items-center gap-3 lg:flex-row lg:gap-10'>
           <div className='absolute right-[-15px] top-[50%] h-[60%] w-[1px] translate-y-[-50%] bg-[#989898]/40 lg:hidden'></div>
@@ -200,7 +200,7 @@ export const Review = () => {
           </div>
         </div>
         <div className='flex pl-2 items-center justify-end lg:pr-10'>
-          <div className='w-[100px] lg:h-[157.08px] lg:w-[283px]'>
+          <div className='w-[100px] lg:h-[157.08px] lg:min-w-[283px]'>
             {Object.keys(ratingDistribution)
               .reverse()
               .map((star) => (

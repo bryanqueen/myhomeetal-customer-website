@@ -5,7 +5,27 @@ import { Review } from './Review';
 import SelectLocation from './SelectLocation';
 import Specification from './Specification';
 
-export default function ProductInformationNew({ data }: any) {
+
+type Spec = {
+  title: string;
+  desc: string;
+};
+
+type KeyFeatureProps = {
+  feature: string;
+};
+
+type DataProps = {
+  description: string;
+  KeyFeatures: KeyFeatureProps[];
+  Specification: Spec[];
+};
+
+type ProductInformationNewProps = {
+  data: DataProps;
+};
+
+export default function ProductInformationNew({ data }: ProductInformationNewProps) {
   return (
     <ClientOnly>
       {data && (

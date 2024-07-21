@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ReviewCard from '@components/cards/ReviewCard';
 import Button from '@components/Button';
 import Pagination from '@components/Pagination';
@@ -20,6 +20,7 @@ const REVIEWS_PER_PAGE = 5;
 
 const ProductReviews = ({ reviews }: ProductReviewInfoProps) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const reviewSectionRef = useRef<HTMLDivElement>(null);
 
   const totalPages = Math.ceil(reviews.length / REVIEWS_PER_PAGE);
   const startIndex = (currentPage - 1) * REVIEWS_PER_PAGE;
@@ -28,14 +29,34 @@ const ProductReviews = ({ reviews }: ProductReviewInfoProps) => {
     startIndex + REVIEWS_PER_PAGE
   );
 
+  const handleScrollToReviews = () => {
+    if (reviewSectionRef.current) {
+      const headerOffset = 80; // Adjust this value to match your header height
+      const elementPosition =
+        reviewSectionRef.current.getBoundingClientRect().top;
+      const offsetPosition =
+        elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   const handlePageChange = (page: number | string) => {
     if (typeof page === 'number') {
       setCurrentPage(page);
     }
   };
 
+  // Scroll to reviews section whenever the page changes
+  useEffect(() => {
+    handleScrollToReviews();
+  }, [currentPage]);
+
   return (
-    <div className='pt-10'>
+    <div ref={reviewSectionRef} className='pt-10'>
       <div className='hidden lg:block'>
         {selectedReviews.map((review, index) => (
           <ReviewCard key={index} review={review} />
@@ -62,8 +83,8 @@ const ProductReviews = ({ reviews }: ProductReviewInfoProps) => {
             onPageChange={handlePageChange}
           />
         </div>
-        <div className='lg:hidden text-[10px]'>
-          <span className='text-black font-clashmd'>{currentPage}</span> {'/'}{' '}
+        <div className='text-[10px] lg:hidden'>
+          <span className='font-clashmd text-black'>{currentPage}</span> {'/'}{' '}
           <span className='text-[#868686]'>{totalPages}</span>
         </div>
 

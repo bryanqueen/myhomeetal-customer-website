@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 const NoHistory = ({
   title = 'No Purchase History Yet',
   buttonText = 'Start Shopping Now',
-  bodyText = 'Looks like you haven&#39;t made any purchases with us so far. Ready tostart your shopping journey? Dive into our collection and discoverproducts tailored just for you.',
+  bodyText = "Looks like you haven't made any purchases with us so far. Ready tostart your shopping journey? Dive into our collection and discoverproducts tailored just for you.",
   icon = <ShoppingCart size={24} variant='Bulk' color='white' />,
   onButtonClick,
 }: {

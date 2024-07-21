@@ -57,7 +57,6 @@ export default function SaveItems() {
               a worry-free browsing and shopping experience.
             </p>
           </div>
-          <div>{savedItems && savedItems.map((item) => <p>{item}</p>)}</div>
           <div className='grid gap-6 lg:my-10 lg:gap-9 lg:py-5'>
             {[0, 0, 0, 0].map((V, i) => (
               <div

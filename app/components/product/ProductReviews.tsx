@@ -20,6 +20,7 @@ const REVIEWS_PER_PAGE = 5;
 
 const ProductReviews = ({ reviews }: ProductReviewInfoProps) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [shouldScroll, setShouldScroll] = useState(false);
   const reviewSectionRef = useRef<HTMLDivElement>(null);
 
   const totalPages = Math.ceil(reviews.length / REVIEWS_PER_PAGE);
@@ -47,14 +48,17 @@ const ProductReviews = ({ reviews }: ProductReviewInfoProps) => {
   const handlePageChange = (page: number | string) => {
     if (typeof page === 'number') {
       setCurrentPage(page);
+      setShouldScroll(true);
     }
   };
 
-  // Scroll to reviews section whenever the page changes
+  // Scroll to reviews section whenever the page changes, but only if shouldScroll is true
   useEffect(() => {
-    handleScrollToReviews();
-  }, [currentPage]);
-
+    if (shouldScroll) {
+      handleScrollToReviews();
+      setShouldScroll(false);
+    }
+  }, [currentPage, shouldScroll]);
   return (
     <div ref={reviewSectionRef} className='pt-10'>
       <div className='hidden lg:block'>

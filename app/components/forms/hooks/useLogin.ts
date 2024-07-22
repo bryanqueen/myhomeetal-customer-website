@@ -17,9 +17,9 @@ export const useLogin = () => {
   const loginMutate = useMutation(authService.login, {
     onSuccess: async (res: AxiosResponse<any>) => {
       const { data } = res;
-      setCookie(constants.AUTH_TOKEN, data.token);
-      console.log(data);
-      setCookie(constants.USER_INFO, JSON.stringify(data.userProfile));
+      // Set cookies for the token and user info
+      setCookie(constants.AUTH_TOKEN, data.token, { maxAge: 60 * 60 * 24 }); // 1 day
+      setCookie(constants.USER_INFO, JSON.stringify(data.userProfile), { maxAge: 60 * 60 * 24 }); // 1 day
       toast.success('Login successful. Redirecting...');
       router.push(ROUTES.HOME);
     },

@@ -24,6 +24,7 @@ export const useLogout = () => {
   const logoutMutate = useMutation(logout, {
     onSuccess: async () => {
       deleteCookie(constants.AUTH_TOKEN);
+      deleteCookie(constants.USER_INFO);
       router.push(ROUTES.HOME);
       toast.success('Logout Successful');
       setActiveNav(null);

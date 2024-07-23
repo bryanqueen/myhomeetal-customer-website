@@ -1,9 +1,28 @@
+import { Metadata } from 'next';
 import NoHistory from '@/app/components/account/NoHistory';
 import { Notification } from 'iconsax-react';
 
+export const metadata: Metadata = {
+  title: 'Daily Deals | Myhomeetal',
+  description:
+    'Check out the latest daily deals and offers at Myhomeetal. Stay tuned for exciting discounts and promotions.',
+  openGraph: {
+    title: 'Daily Deals | Myhomeetal',
+    description:
+      'Explore our daily deals and special offers at Myhomeetal. Don’t miss out on the best discounts and promotions.',
+    url: 'https://myhomeetal.com/daily-deals',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Daily Deals | Myhomeetal',
+    description:
+      'Explore the latest daily deals and offers at Myhomeetal. Get notified about exciting discounts and promotions.',
+  },
+};
+
 export default function dealPage() {
   return (
-    <main className='pt-[105px]'>
+    <main className='pt-[105px] lg:pt-0'>
       <div className='flex h-[63px] w-full items-center justify-between bg-black pr-4 lg:pr-10'>
         <div className='basis-[30%] lg:basis-0'></div>
         <div className='w-fit font-clashmd text-xs text-white lg:text-[31px]'>

@@ -77,7 +77,9 @@ const SearchForm = () => {
           />
         </Button>
       </form>
-      <div className={`w-full ${dropdownRootClassName}`} ref={dropdownRef}>
+      {/**
+       * 
+       * <div className={`w-full ${dropdownRootClassName}`} ref={dropdownRef}>
         <div className='mb-5'>
           <p className='mb-3 font-medium'>Top Search</p>
           <div className='grid grid-cols-4 gap-3'>
@@ -99,6 +101,7 @@ const SearchForm = () => {
           </div>
         </div>
       </div>
+       */}
     </div>
   );
 };

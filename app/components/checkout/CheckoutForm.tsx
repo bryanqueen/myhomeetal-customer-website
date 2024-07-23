@@ -74,6 +74,11 @@ const CheckoutForm: React.FC = () => {
     setUserInfo(fetchedUserInfo);
   }, []);
 
+  useEffect(() => {
+    // Ensure that the address list is updated after creating a new address
+    setSelectedAddress(addresses.length > 0 ? addresses[0] : null);
+  }, [addresses]);
+
   const handleAddressClick = (address) => {
     setSelectedAddress(address);
   };
@@ -168,9 +173,14 @@ const CheckoutForm: React.FC = () => {
                   <div className='hidden items-center justify-center lg:flex'>
                     <button
                       onClick={() => {
-                        createAddress(myAddress, phoneNumber);
-                        toast.success('Address created successfully');
-                        setIsAddAddress(false);
+                        if(myAddress && phoneNumber) {
+                          createAddress(myAddress, phoneNumber);
+                          toast.success('Address created successfully');
+                          setIsAddAddress(false);
+                        } else{
+                          toast.error('All fields are required')
+                        }
+                       
                       }}
                       className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full bg-primary text-center font-clashmd text-base text-white'
                     >

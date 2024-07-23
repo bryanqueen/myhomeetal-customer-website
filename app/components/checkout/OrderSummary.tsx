@@ -106,7 +106,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
           <button
             disabled={isChange === true}
             onClick={handleFirstStage}
-            className='mt-4 w-full rounded-[10px] disabled:opacity-50 cursor-not-allowed border-0 bg-primary p-3 font-clashmd text-base text-white shadow-none lg:mt-8 lg:rounded-full lg:p-4'
+            className='mt-4 w-full rounded-[10px] disabled:opacity-50 disabled:cursor-not-allowed border-0 bg-primary p-3 font-clashmd text-base text-white shadow-none lg:mt-8 lg:rounded-full lg:p-4'
           >
             {' '}
             Continue

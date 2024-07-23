@@ -1,5 +1,5 @@
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-
 import productService from '../../services/productService';
 import AdBanner from '@components/banner/AdBanner';
 import AdBanner2 from '@components/banner/AdBanner2';
@@ -16,6 +16,24 @@ function shuffleArray(array: any[]) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+export const metadata: Metadata = {
+  title: 'Home | Myhomeetal',
+  description:
+    'Discover top categories and products at Myhomeetal. Explore our best-selling items, latest trends, and more.',
+  keywords:
+    'e-commerce, online shopping, top categories, best sellers, new products',
+  openGraph: {
+    title: 'Home | Myhomeetal',
+    description:
+      'Explore top categories and products at Myhomeetal. Find the best deals and latest trends in one place.',
+    url: 'https://myhomeetal.com',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Home | Myhomeetal',
+    description: 'Discover the best deals and top categories on Myhomeetal.',
+  },
+};
 
 export default async function Home() {
   let allCategories: any;
@@ -55,8 +73,23 @@ export default async function Home() {
       })
     );
   } catch (error) {
-    console.error('Error fetching product categories:', error);
-    return notFound();
+    console.error('Error fetching products:', error);
+
+    // Check if the error is a network error or a timeout
+    if (
+      error instanceof Error &&
+      (error.message.includes('Network Error') ||
+        error.message.includes('timeout'))
+    ) {
+      console.error('Network error or timeout occurred:', error);
+      // Optionally, return a custom error page or message
+      return notFound(); // You might want to handle it differently based on your application's needs
+    }
+
+    // Handle other types of errors
+    console.error('An unexpected error occurred:', error);
+    // Optionally, return a custom error page or message
+    return notFound(); // Again, adjust based on your needs
   }
 
   return (

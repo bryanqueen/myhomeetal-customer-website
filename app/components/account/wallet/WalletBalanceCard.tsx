@@ -26,7 +26,7 @@ const WalletBalanceCard = () => {
             trigger={
               <Button className='min-w-[152px] rounded-[10px] text-[10px] border-0 h-[32px] shadow-none'>
                 <span className='flex items-center gap-2'>
-                  <Add variant='Broken' size={11} />
+                  <Add variant='Broken' size={15} />
                   Add Funds
                 </span>
               </Button>

@@ -19,7 +19,7 @@ const MyDialog = ({
       <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className='fixed inset-0 z-[2000] bg-black/20 data-[state=open]:animate-overlayShow' />
-        <Dialog.Content className='fixed left-[50%] top-[50%] z-[2000] max-h-[85vh] w-[95vw] lg:max-w-fit translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-2xl py-7 px-5 bg-white lg:p-[25px] focus:outline-none data-[state=open]:animate-contentShow'>
+        <Dialog.Content className='fixed left-[50%] top-[50%] z-[2000] max-h-fit w-[95vw] lg:max-w-fit translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-2xl py-7 px-5 bg-white lg:p-[25px] focus:outline-none data-[state=open]:animate-contentShow'>
           {content}
           <Dialog.Close asChild>
             

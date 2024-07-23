@@ -39,7 +39,7 @@ const AddFundDialog = () => {
   };
 
   const handleSentFund = () => {
-    setIsFundSuccess(true);
+    setIsFundSuccess(false);
   };
 
   return (
@@ -112,7 +112,7 @@ const AddFundDialog = () => {
           </div>
         </div>
       ) : isPayMethod === 'online' ? (
-        <div className='min-h-[70vh] min-w-[742px]'>
+        <div className='lg:min-h-[70vh] lg:min-w-[742px]'>
           <p className='text-center font-clashmd text-base'>
             Fund wallet (Online Transfer)
           </p>
@@ -121,18 +121,18 @@ const AddFundDialog = () => {
           </div>
         </div>
       ) : (
-        <div className='flex min-w-[552px] flex-col items-center justify-center gap-7'>
+        <div className='flex lg:min-w-[552px] flex-col items-center justify-center gap-7'>
           {isFundSuccess === null && (
             <>
               <p className='text-center font-clashmd text-base'>
                 Fund wallet (Virtual Account)
               </p>
-              <p className='max-w-[482px] text-center'>
+              <p className='max-w-[482px] text-xs lg:text-base text-center'>
                 Copy the account details below and proceed to make the payment
                 using your preferred banking method.
               </p>
               <div className='flex items-center gap-4'>
-                <p className='font-clashmd text-[25px] text-myGray'>
+                <p className='font-clashmd text-base lg:text-[25px] text-myGray'>
                   Paystack titan <span className='mx-1'>|</span>{' '}
                   <span className='text-primary' id='accountNumber'>
                     {accountNumber}
@@ -156,7 +156,7 @@ const AddFundDialog = () => {
             </>
           )}
           {isFundSuccess && (
-            <div className='flex min-w-[552px] flex-col items-center justify-center gap-9 pb-10'>
+            <div className='flex lg:min-w-[552px] flex-col items-center justify-center gap-9 pb-10'>
               <p className='text-center font-clashmd text-base'>
                 Fund wallet (Virtual Account)
               </p>
@@ -168,10 +168,10 @@ const AddFundDialog = () => {
                   height={75}
                   alt='success icon'
                 />
-                <p className='font-clashmd text-[25px] text-myGray'>
+                <p className='font-clashmd text-base lg:text-[25px] text-myGray'>
                   Payment Made Successfully!
                 </p>
-                <p className='text-center'>
+                <p className='text-center text-xs lg:text-base'>
                   Your funds have been added to your virtual wallet using your
                   virtual account number. Thank you for your payment!
                 </p>
@@ -179,7 +179,7 @@ const AddFundDialog = () => {
             </div>
           )}
           {isFundSuccess === false && (
-            <div className='flex min-w-[552px] flex-col items-center justify-center gap-9 pb-10'>
+            <div className='flex lg:min-w-[552px] flex-col items-center justify-center gap-9 pb-10'>
               <p className='text-center font-clashmd text-base'>
                 Fund wallet (Virtual Account)
               </p>
@@ -191,10 +191,10 @@ const AddFundDialog = () => {
                   height={75}
                   alt='success icon'
                 />
-                <p className='font-clashmd text-[25px] text-myGray'>
+                <p className='font-clashmd text-base lg:text-[25px] text-myGray'>
                   Unsuccessful Payment
                 </p>
-                <p className='text-center'>
+                <p className='text-center text-xs lg:text-base'>
                   Unfortunately, your payment could not be processed. Please try
                   again or{' '}
                   <span className='text-primary'> contact support</span> for

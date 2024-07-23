@@ -15,7 +15,11 @@ import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-const OTPForm = () => {
+interface OTPFormProps {
+  redirectTo: string; // Route to redirect after successful verification
+}
+
+const OTPForm: React.FC<OTPFormProps> = ({redirectTo}) => {
   const router = useRouter();
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
@@ -52,7 +56,7 @@ const OTPForm = () => {
       );
       if (res.status === 200) {
         try {
-          router.push('/login');
+          router.push(redirectTo);
           toast.success('Account verification successful');
         } catch (navError) {
           console.error('Navigation error:', navError);

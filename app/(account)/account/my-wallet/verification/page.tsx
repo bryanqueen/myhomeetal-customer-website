@@ -1,27 +1,20 @@
-import { Metadata } from 'next';
-
-import WalletBalanceCard from '@components/account/wallet/WalletBalanceCard';
-import RecentTransactions from '@components/account/wallet/RecentTransactions';
-import WalletCreation from '@components/account/wallet/WalletCreation';
-import { headers } from 'next/headers';
+import StepsIndicator from '@/app/components/account/wallet/StepIndicator';
 import Button from '@/app/components/Button';
+import OTPForm from '@/app/components/forms/OTPForm';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
+import { Metadata } from 'next';
+import { headers } from 'next/headers';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'My Wallet | Myhomeetal',
+  title: 'Verify OTP | Myhomeetal',
 };
 
-function MyWalletPage() {
-  const hasWallet = true;
-
-  return <main>{hasWallet ? <WalletAccount /> : <WalletCreation />}</main>;
-}
-
-const WalletAccount = () => {
+export default function VerificationPage() {
   const headersList = headers();
   const previousPath = headersList.get('referer') || '';
   return (
-    <main className='px-[3%] pb-20 lg:px-0'>
+    <main className='pb-20 px-[3%] lg:px-0'>
       <div className='sticky top-[83px] z-50 flex items-center bg-white py-5 pl-1 lg:hidden'>
         <Button
           href={previousPath}
@@ -39,15 +32,19 @@ const WalletAccount = () => {
           My Wallet{' '}
         </p>
       </div>
-      <h1 className='hidden font-clashmd text-3xl text-myGray lg:block'>
-        My Wallet
-      </h1>
-      <WalletBalanceCard />
-      <div className='my-10'>
-        <RecentTransactions />
+      <div className='flex flex-col items-center gap-20 xl:flex-row'>
+        <div className='hidden shrink-0 gap-3 lg:grid'>
+          <h1 className='font-clashmd text-3xl text-myGray'>My Wallet</h1>
+        </div>
+        <div className='pt-10 lg:pt-0'>
+          <StepsIndicator currentStep={2} />
+        </div>
+      </div>
+      <div className='mx-auto mt-20 max-w-[566px]'>
+        <Suspense>
+          <OTPForm redirectTo='/addfunds' />
+        </Suspense>
       </div>
     </main>
   );
-};
-
-export default MyWalletPage;
+}

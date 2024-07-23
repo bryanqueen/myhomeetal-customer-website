@@ -1,12 +1,10 @@
 'use client';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import CheckoutForm from '@components/checkout/CheckoutForm';
-import { useCart } from 'react-use-cart';
 import { useRouter } from 'next/navigation';
 
 function CheckoutPage() {
   const router = useRouter();
-  const { isEmpty } = useCart();
 
   const handleBack = () => {
     router.back();

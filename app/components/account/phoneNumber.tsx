@@ -3,8 +3,11 @@ import React, { useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-const PhoneInputComponent: React.FC = () => {
-  const [phone, setPhone] = useState<string>('');
+interface PhoneInputComponentProps {
+  onChange: (value: string) => void;
+}
+
+const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({ onChange }) => {
   const inputStyle: React.CSSProperties = {
     border: '0',
     borderRadius: '16px',
@@ -47,8 +50,6 @@ const PhoneInputComponent: React.FC = () => {
       <div className='hidden lg:block'>
         <PhoneInput
           country={'ng'} // Default country code (e.g., 'us' for the USA)
-          value={phone}
-          onChange={(phone) => setPhone(phone)}
           enableSearch={true} // Enables search functionality for countries
           inputStyle={inputStyle}
           buttonStyle={buttonStyle}
@@ -58,8 +59,6 @@ const PhoneInputComponent: React.FC = () => {
       <div className='lg:hidden'>
         <PhoneInput
           country={'ng'} // Default country code (e.g., 'us' for the USA)
-          value={phone}
-          onChange={(phone) => setPhone(phone)}
           enableSearch={true} // Enables search functionality for countries
           inputStyle={mobileinputStyle}
           buttonStyle={mobilebuttonStyle}

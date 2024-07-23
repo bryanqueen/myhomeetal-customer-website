@@ -1,22 +1,67 @@
+'use client';
+import { useState } from 'react';
+
 const RecentTransactions = () => {
+  const [isTransaction, setIsTransaction] = useState(true);
   return (
-    <div className='rounded-xl border px-3'>
-      <div className='flex justify-between py-3 font-medium'>
-        <span>Items</span>
-        <span>Amount</span>
-      </div>
-      <div>
-        {[0, 0, 0, 0].map((V, i) => (
-          <div key={i} className='flex justify-between gap-3 border-b py-4'>
-            <p className='text-sm'>
-              Samsung Galaxy A14 6.6 4GB RAM/64GB ROM Android 13 - Light Green
-            </p>
-            <div className='grid min-w-fit justify-items-end'>
-              <span className='text-lg text-red-700'>-₦ 3,850</span>
-              <span className='text-xs text-gray-500'>15th Nov 2023</span>
-            </div>
+    <div>
+      <p className='mb-3 text-center font-clashmd text-xs text-black lg:text-start lg:text-base lg:text-myGray'>
+        Recent transactions
+      </p>
+      <div className='lg:hidden'>
+        {isTransaction ? (
+          <div className='max-w-full px-3 grid gap-5'>
+            {[0, 0, 0, 0, 0, 0].map((V, i) => (
+              <div
+                key={i}
+                className='flex justify-between gap-3 rounded-[10px] border border-[#F4F4F4] p-5'
+              >
+                <p className='max-w-[206px] text-xs text-black'>
+                  Samsung Galaxy A14 6.6 4GB RAM/64GB ROM Android 13 - Light
+                  Green
+                </p>
+                <div className='grid min-w-fit justify-items-end'>
+                  <span className='font-clashmd text-xs text-[#B22222]'>
+                    -₦ 3,850
+                  </span>
+                  <span className='text-[10px] text-black'>15th Nov 2023</span>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        ) : (
+          <div className='flex min-h-[200px] items-center justify-center'>
+            <p className='text-xs'>No New transactions</p>
+          </div>
+        )}
+      </div>
+      <div className='no-scrollbar hidden h-full max-h-[427px] w-full overflow-scroll rounded-2xl border border-[#F4F4F4] px-5 py-6 lg:block'>
+        <div className='mb-3 flex w-full items-center justify-between'>
+          <p className='font-clashmd text-base text-myGray'>Items</p>
+          <p className='font-clashmd text-base text-myGray'>Amount</p>
+        </div>
+        {isTransaction ? (
+          <div className='max-w-full'>
+            {[0, 0, 0, 0, 0, 0].map((V, i) => (
+              <div key={i} className='flex justify-between gap-3 py-4'>
+                <p className='max-w-[475px] text-base text-myGray'>
+                  Samsung Galaxy A14 6.6 4GB RAM/64GB ROM Android 13 - Light
+                  Green
+                </p>
+                <div className='grid min-w-fit justify-items-end'>
+                  <span className='font-clashmd text-xl text-[#B22222]'>
+                    -₦ 3,850
+                  </span>
+                  <span className='text-sm text-[#989898]'>15th Nov 2023</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className='flex min-h-[300px] items-center justify-center'>
+            <p className='font-clashmd text-base'>No New transactions</p>
+          </div>
+        )}
       </div>
     </div>
   );

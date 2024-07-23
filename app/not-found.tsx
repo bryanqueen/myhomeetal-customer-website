@@ -9,10 +9,10 @@ const NotFound = () => {
       <TopBanner />
       <Navigation />
       <div className='flex min-h-[80vh] flex-col items-center justify-center'>
-        <h1 className='font-clashmd text-[20px] lg:text-[49px]'>
+        <h1 className='font-clashmd text-[20px] mb-2 lg:mb-0 lg:text-[49px]'>
           Why wasn&apos;t this page found?
         </h1>
-        <p className='mb-10 max-w-[589px] text-center text-sm lg:text-[25px] lg:leading-[30.75px]'>
+        <p className='mb-10 max-w-[70%] lg:max-w-[589px] text-center text-xs lg:text-[25px] lg:leading-[30.75px]'>
           Oops! Looks like this page is on vacation, exploring fashion trends
           across the globe.
         </p>

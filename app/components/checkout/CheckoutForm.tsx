@@ -191,9 +191,13 @@ const CheckoutForm: React.FC = () => {
                 <div className='flex items-center justify-center lg:hidden'>
                   <button
                     onClick={() => {
-                      createAddress(myAddress, phoneNumber);
-                      setIsAddAddress(false);
-                      toast.success('Address created successfully');
+                      if(myAddress && phoneNumber) {
+                        createAddress(myAddress, phoneNumber);
+                        toast.success('Address created successfully');
+                        setIsAddAddress(false);
+                      } else{
+                        toast.error('All fields are required')
+                      }
                     }}
                     className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] bg-primary text-center font-clashmd text-base text-white'
                   >

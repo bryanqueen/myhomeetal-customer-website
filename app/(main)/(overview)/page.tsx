@@ -82,7 +82,7 @@ export default async function Home() {
         <AdBanner3 />
         <>
           {topCategories &&
-            topCategories.slice(0, 4).map((category) => {
+            topCategories.slice(0, 6).map((category) => {
               return (
                 <Category
                   key={category._id}

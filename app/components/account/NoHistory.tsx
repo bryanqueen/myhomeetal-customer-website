@@ -2,6 +2,7 @@ import { ShoppingCart } from 'iconsax-react';
 
 import Button from '@components/Button';
 import { ReactNode } from 'react';
+import Link from 'next/link';
 
 const NoHistory = ({
   title = 'No Purchase History Yet',
@@ -9,15 +10,17 @@ const NoHistory = ({
   bodyText = "Looks like you haven't made any purchases with us so far. Ready tostart your shopping journey? Dive into our collection and discoverproducts tailored just for you.",
   icon = <ShoppingCart size={24} variant='Bulk' color='white' />,
   onButtonClick,
+  extraText,
 }: {
   title?: string;
   buttonText?: string;
   bodyText?: string;
+  extraText?: string;
   icon?: ReactNode;
   onButtonClick?: () => void;
 }) => {
   return (
-    <div className='m-auto grid max-w-xs justify-items-center gap-3 lg:gap-6'>
+    <div className='m-auto grid max-w-xs justify-items-center gap-3 lg:max-w-[420px] lg:gap-6'>
       <div className='h-16 w-16 rounded-full bg-[#FFC5C6]' />
       <p className='text-center font-clashmd text-lg text-myGray lg:text-2xl'>
         {title}
@@ -43,6 +46,9 @@ const NoHistory = ({
           <span>{buttonText}</span>
         </Button>
       )}
+      <Link href='/' className='text-center font-clashmd text-xs'>
+        {extraText}
+      </Link>
     </div>
   );
 };

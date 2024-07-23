@@ -100,13 +100,7 @@ const DesktopNav = () => {
           contentClassName='grid list-none gap-x-3 sm:grid-cols-[1fr_1fr_1fr] w-[50vw]'
         />
         <Link
-          href=''
-          className='font-clashmd text-base text-myGray hover:text-[#8B1A1A]'
-        >
-          Shop
-        </Link>
-        <Link
-          href=''
+          href='/deals'
           className='font-clashmd text-base text-myGray hover:text-[#8B1A1A]'
         >
           Deals

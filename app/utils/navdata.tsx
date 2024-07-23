@@ -141,11 +141,6 @@ export const accountNav3 = [
 ];
 export const hamburgerNav = [
   {
-    text: 'My Shops',
-    icon: <Shop variant='Bulk' color='#292D32' />,
-    link: ROUTES.SHOPS,
-  },
-  {
     text: 'My Deals',
     icon: <Bag variant='Bulk' color='#292D32' />,
     link: ROUTES.DEALS,

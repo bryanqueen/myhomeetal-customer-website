@@ -7,7 +7,7 @@ interface PhoneInputComponentProps {
   onChange: (value: string) => void;
 }
 
-const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({ onChange }) => {
+const PhoneInputComponent = () => {
   const inputStyle: React.CSSProperties = {
     border: '0',
     borderRadius: '16px',

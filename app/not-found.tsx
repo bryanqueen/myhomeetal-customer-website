@@ -10,7 +10,7 @@ const NotFound = () => {
       <Navigation />
       <div className='flex min-h-[80vh] flex-col items-center justify-center'>
         <h1 className='font-clashmd text-[20px] lg:text-[49px]'>
-          Why wasn't this page found?
+          Why wasn&apos;t this page found?
         </h1>
         <p className='mb-10 max-w-[589px] text-center text-sm lg:text-[25px] lg:leading-[30.75px]'>
           Oops! Looks like this page is on vacation, exploring fashion trends

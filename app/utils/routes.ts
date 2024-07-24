@@ -8,6 +8,7 @@ export const ROUTES = {
   PRODUCT: (id: string) => `/item/${id}`,
   CART: '/cart',
   CHECKOUT: '/checkout',
+  ONLINE: '/checkout/online-payment',
   HELP:'/help-center',
   SHOPS: '/shops',
   DEALS: '/deals',

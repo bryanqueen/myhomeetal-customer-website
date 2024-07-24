@@ -34,11 +34,11 @@ const steps = [
 
 const ReferralSteps: React.FC = () => {
   return (
-    <div className='mx-[3%] grid gap-7 lg:gap-4 lg:mx-0 lg:grid-cols-4'>
+    <div className='mx-[3%] grid gap-7 lg:gap-4 lg:mx-0 lg:grid-cols-4 2xl:gap-10'>
       {steps.map((step) => (
         <div
           key={step.stepNumber}
-          className='relative w-full rounded-3xl bg-[#FFF1F1] px-5 py-9 pt-20 lg:max-w-[322px]'
+          className='relative w-full rounded-3xl bg-[#FFF1F1] px-5 py-9 pt-20 lg:max-w-[322px] 2xl:max-w-full'
         >
           <div className='absolute left-4 top-4 rounded-full bg-primaryBg px-4 py-2 font-clashmd text-xs text-white'>
             <span>Step {step.stepNumber}</span>

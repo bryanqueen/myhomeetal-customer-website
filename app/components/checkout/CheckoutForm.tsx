@@ -9,7 +9,6 @@ import { ArrowRight } from 'iconsax-react';
 import OrderSummary from './OrderSummary';
 import Input from '@components/Input';
 import RadioItem from '@components/RadioItem';
-import Button from '@components/Button';
 import ClientOnly from '@components/ClientOnly';
 import Link from 'next/link';
 import { useAddressBook } from '@/app/addressBookProvider';
@@ -29,18 +28,16 @@ interface UserInfo {
 }
 
 const CheckoutForm: React.FC = () => {
-  const { addresses, createAddress, editAddress, deleteAddress, saveAddress } =
-    useAddressBook();
-  const { items, isEmpty } = useCart();
+  const { addresses, createAddress, editAddress } = useAddressBook();
+  const { items } = useCart();
   const [isAddAddress, setIsAddAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(
     addresses.length > 0 ? addresses[0] : null
   );
   const [isChange, setIsChange] = useState(false);
   const [firstStageCompleted, setFirstStageCompleted] = useState(false);
-  const [selectedMethod, setSelectedMethod] = useState('Door Delivery');
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState('Pay with wallet');
+  const [selectedMethod, setSelectedMethod] = useState('');
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [deliveryDates, setDeliveryDates] = useState({ start: '', end: '' });
   const [isEdit, setIsEdit] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -69,7 +66,13 @@ const CheckoutForm: React.FC = () => {
         end: endDate.toLocaleDateString('en-GB', options),
       });
     };
-
+    const savedState = JSON.parse(localStorage.getItem('checkoutState'));
+    if (savedState) {
+      setSelectedAddress(savedState.address || null);
+      setFirstStageCompleted(savedState.firstStage || false);
+      setSelectedMethod(savedState.deliveryMethod || '');
+      setSelectedPaymentMethod(savedState.selectedPayment || '');
+    }
     calculateDeliveryDates();
     setUserInfo(fetchedUserInfo);
   }, []);
@@ -101,11 +104,17 @@ const CheckoutForm: React.FC = () => {
     <ClientOnly>
       <div className='grid gap-5 lg:grid-cols-[2fr_1fr]'>
         {(isEdit || isAddAddress) && (
-          <div className='fixed bottom-0 left-0 right-0 top-0 z-50 items-center justify-center bg-[#292929]/50 lg:flex'>
+          <div
+            onClick={() => (isEdit ? setIsEdit(false) : setIsAddAddress(false))}
+            className='fixed bottom-0 left-0 right-0 top-0 z-50 items-center justify-center bg-[#292929]/50 lg:flex'
+          >
             {/**Edit container */}
             {isEdit && (
-              <div className='absolute top-[50%] translate-y-[-50%] mt-20 min-w-full px-[3%] lg:min-w-[1115px] lg:px-0'>
-                <div className='mx-auto rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:min-w-[1115px]'>
+              <div className='absolute top-[50%] mt-20 min-w-full translate-y-[-50%] px-[3%] lg:min-w-[1115px] lg:px-0'>
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className='mx-auto rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:min-w-[1115px]'
+                >
                   <p className='font-clashmd text-xs lg:text-base'>
                     Address {addressInWords}
                   </p>
@@ -138,6 +147,8 @@ const CheckoutForm: React.FC = () => {
                   <button
                     onClick={() => {
                       editAddress(id, myAddress, phoneNumber);
+                      setMyAddress('');
+                      setPhoneNumber('');
                       toast.success('Address updated successfully');
                       setIsEdit(false);
                     }}
@@ -151,7 +162,10 @@ const CheckoutForm: React.FC = () => {
             {/**Add container */}
             {isAddAddress && (
               <div className='absolute top-[50%] min-w-full translate-y-[-50%] px-[3%]'>
-                <div className='mt-10 rounded-xl bg-[#f4f4f4] px-5 py-10 lg:mx-auto lg:mt-24 lg:block lg:max-w-[582px] lg:rounded-2xl'>
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className='mt-10 rounded-xl bg-[#f4f4f4] px-5 py-10 lg:mx-auto lg:mt-24 lg:block lg:max-w-[582px] lg:rounded-2xl'
+                >
                   <div className='grid gap-5 lg:max-w-[503px]'>
                     <Input
                       name='address'
@@ -173,14 +187,15 @@ const CheckoutForm: React.FC = () => {
                   <div className='hidden items-center justify-center lg:flex'>
                     <button
                       onClick={() => {
-                        if(myAddress && phoneNumber) {
+                        if (myAddress && phoneNumber) {
                           createAddress(myAddress, phoneNumber);
+                          setMyAddress('');
+                          setPhoneNumber('');
                           toast.success('Address created successfully');
                           setIsAddAddress(false);
-                        } else{
-                          toast.error('All fields are required')
+                        } else {
+                          toast.error('All fields are required');
                         }
-                       
                       }}
                       className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full bg-primary text-center font-clashmd text-base text-white'
                     >
@@ -188,15 +203,20 @@ const CheckoutForm: React.FC = () => {
                     </button>
                   </div>
                 </div>
-                <div className='flex items-center justify-center lg:hidden'>
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className='flex items-center justify-center lg:hidden'
+                >
                   <button
                     onClick={() => {
-                      if(myAddress && phoneNumber) {
+                      if (myAddress && phoneNumber) {
                         createAddress(myAddress, phoneNumber);
+                        setMyAddress('');
+                        setPhoneNumber('');
                         toast.success('Address created successfully');
                         setIsAddAddress(false);
-                      } else{
-                        toast.error('All fields are required')
+                      } else {
+                        toast.error('All fields are required');
                       }
                     }}
                     className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] bg-primary text-center font-clashmd text-base text-white'
@@ -234,7 +254,7 @@ const CheckoutForm: React.FC = () => {
                 </p>
               </div>
               <div>
-                {addresses.length > 0 && !isChange && (
+                {addresses.length > 0 && !isChange && !firstStageCompleted && (
                   <button
                     onClick={() => setIsChange(!isChange)}
                     className='text-xs text-[#8B1A1A] lg:font-clashmd lg:text-base'
@@ -330,7 +350,8 @@ const CheckoutForm: React.FC = () => {
             ) : (
               <div className='mt-10 rounded-[10px] bg-[#F4F4F4] px-3 py-5 lg:rounded-2xl lg:px-9'>
                 <p className='mb-1 text-xs text-black lg:text-base'>
-                  Oyefeso Afolabi
+                  <span className='mr-2'>{userInfo?.firstname}</span>
+                  <span>{userInfo?.lastname}</span>
                 </p>
                 <div className='flex items-center gap-10'>
                   <p
@@ -388,25 +409,25 @@ const CheckoutForm: React.FC = () => {
                     >
                       <RadioItem
                         id='r1'
-                        value='Door Delivery'
+                        value='Door delivery'
                         labelKey='Door Delivery'
                       />
                       <RadioItem
                         id='r2'
-                        value='Pickup Delivery'
+                        value='Pickup delivery'
                         labelKey='Pickup Delivery'
                       />
                     </RadioGroup.Root>
                   )}
 
                   <div className='mt-5 lg:mt-8'>
-                    {selectedMethod === 'Door Delivery' && (
+                    {selectedMethod === 'Door delivery' && (
                       <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
                         Delivery between {deliveryDates.start} and{' '}
                         {deliveryDates.end}
                       </p>
                     )}
-                    {selectedMethod === 'Pickup Delivery' && (
+                    {selectedMethod === 'Pickup delivery' && (
                       <p className='text-[10px] text-[#7C7C7C] lg:text-base'>
                         Available for pickup between {deliveryDates.start} and{' '}
                         {deliveryDates.end}
@@ -497,25 +518,25 @@ const CheckoutForm: React.FC = () => {
                   >
                     <RadioItem
                       id='r3'
-                      value='Online payment'
+                      value='Card'
                       labelKey='Online payment'
                     />
                     <RadioItem
                       id='r4'
-                      value='Pay with wallet'
+                      value='Wallet'
                       labelKey='Pay with wallet'
                     />
                   </RadioGroup.Root>
                 )}
 
-                <div className='mt-5 lg:mt-8'>
-                  {selectedPaymentMethod === 'Online payment' && (
+                <div className='mt-5 transition-all lg:mt-8'>
+                  {selectedPaymentMethod === 'Card' && (
                     <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
                       Secure, fast, and efficient. Use your credit/debit card or
                       bank account to finalize your purchase instantly.
                     </p>
                   )}
-                  {selectedPaymentMethod === 'Pay with wallet' && (
+                  {selectedPaymentMethod === 'Wallet' && (
                     <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
                       Convenient and swift! Use your digital wallet balance to
                       complete your purchase seamlessly.

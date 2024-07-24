@@ -7,6 +7,9 @@ import { ROUTES } from '@utils/routes';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import Input from '../Input';
+import productService from '@/app/services/productService';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Address {
   id: number;
@@ -31,14 +34,53 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   address,
   selectedPayment,
 }) => {
-  const { cartTotal, totalItems } = useCart();
+  const { cartTotal, totalItems, items } = useCart();
   const { region } = useRegion();
+  const [orderId, setOrderId] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleFirstStage = () => {
+  const handleFirstStage = async () => {
     if (address && deliveryMethod && selectedPayment) {
-      setFirstStageCompleted(true);
+      setLoading(true);
+      try {
+        const orderItems = items.map((item) => ({
+          product: item.id,
+          qty: item.quantity,
+          price: item.price,
+        }));
+        const payload = {
+          address: address.email,
+          orderPrice: cartTotal, // Use itemsAmount directly for orderPrice
+          orderItems: orderItems, // Use the transformed items for orderItems
+          deliveryMethod: deliveryMethod,
+          paymentMethod: selectedPayment,
+        };
+        const res = await productService.createOrder(payload);
+        if (res.status === 200) {
+          setFirstStageCompleted(true);
+          setOrderId(res.data?.newOrder?.orderId);
+          setLoading(false);
+          const checkoutState = {
+            address,
+            firstStage: true,
+            deliveryMethod,
+            selectedPayment,
+          };
+          localStorage.setItem('checkoutState', JSON.stringify(checkoutState));
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    } else {
+      toast.error('All fields required');
     }
   };
+
+  const handleCheckout = () => {
+
+  }
 
   return (
     <div className='h-fit rounded-[13.11px] bg-[#F4F4F4] lg:rounded-2xl'>
@@ -87,7 +129,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
       </div>
 
       <div className='flex justify-between border-t border-[#DCDCDC] py-3 text-myGray'>
-        <span className='pl-4 text-xs lg:text-base'>Payment method:</span>
+        <span className='pl-4 text-xs lg:text-base'>Payment method: {orderId}</span>
         <span className='pr-4 text-[10px] lg:text-base'>{selectedPayment}</span>
       </div>
       <div className='px-4 pb-5'>
@@ -95,7 +137,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
           <Button
             disabled={isChange === true}
             linkType='rel'
-            href={ROUTES.ORDER_CONFIRMED}
+            href={ROUTES.ONLINE}
             className='mt-8 w-full rounded-[10px] border-0 p-4 font-clashmd text-base shadow-none lg:rounded-full'
           >
             <span>
@@ -103,14 +145,15 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
             </span>
           </Button>
         ) : (
-          <button
+          <Button
             disabled={isChange === true}
             onClick={handleFirstStage}
-            className='mt-4 w-full rounded-[10px] disabled:opacity-50 disabled:cursor-not-allowed border-0 bg-primary p-3 font-clashmd text-base text-white shadow-none lg:mt-8 lg:rounded-full lg:p-4'
+            loading={loading}
+            className='mt-4 w-full rounded-[10px] border-0 bg-primary p-3 font-clashmd text-base text-white shadow-none disabled:cursor-not-allowed disabled:opacity-50 lg:mt-8 lg:rounded-full lg:p-4'
           >
             {' '}
             Continue
-          </button>
+          </Button>
         )}
       </div>
     </div>

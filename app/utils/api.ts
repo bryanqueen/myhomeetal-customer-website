@@ -13,7 +13,7 @@ const api = {
   GET_USER: 'user/',
   DELETE_USER: 'user/delete-account',
   DELIVERY_ADDRESS: '',
-  ORDERS: '',
+  ORDERS: 'order/create-order',
   WALLET: 'wallet',
 };
 

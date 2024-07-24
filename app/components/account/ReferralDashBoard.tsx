@@ -19,7 +19,7 @@ export default function ReferralDashBoard() {
   };
 
   return (
-    <div className='relative flex h-[256px] w-full max-w-[1110px] items-center overflow-hidden rounded-[10px] bg-[#FFF1F1] lg:h-[339px] lg:rounded-3xl lg:pl-[5%]'>
+    <div className='relative flex h-[256px] w-full items-center overflow-hidden rounded-[10px] bg-[#FFF1F1] lg:h-[339px] lg:rounded-3xl lg:pl-[5%]'>
       <div className='z-10 w-full lg:z-0'>
         <div className='mx-auto mb-7 max-w-[224px] lg:mx-0 lg:mb-4 lg:max-w-[470px]'>
           <h1 className='mb-2 text-center font-clashmd  text-xs text-myGray lg:mb-4 lg:text-start lg:text-2xl'>

@@ -64,7 +64,7 @@ const ReferralTable: React.FC = () => {
         <h2 className='mb-5 font-clashmd text-xs text-myGray lg:text-base'>
           Referrals
         </h2>
-        <div className='max-w-[1110px] overflow-x-auto rounded-[10px] border border-[#F4F4F4] bg-white lg:min-h-[427px] lg:rounded-2xl'>
+        <div className='overflow-x-auto rounded-[10px] border border-[#F4F4F4] bg-white lg:min-h-[427px] lg:rounded-2xl'>
           <table className='min-w-full border-collapse'>
             <thead>
               <tr className='flex'>

@@ -222,7 +222,7 @@ const DesktopNav = () => {
           >
             <NavCart />
 
-            {items.length > 0 && (
+            {items?.length > 0 && (
               <div className='mt-1 flex items-center justify-center'>
                 <Link
                   href='/cart'

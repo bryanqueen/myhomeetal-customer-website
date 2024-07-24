@@ -9,10 +9,7 @@ const productService = {
     return await apiUtils.getRequest(`${api.GET_USER}${id}`);
   },
   saveProduct: async ({ payload, id }: { payload: any; id: string }) => {
-    return await apiUtils.postRequest(
-      `user/save-item/${id}`,
-      payload
-    );
+    return await apiUtils.postRequest(`user/save-item/${id}`, payload);
   },
   getSavedProducts: async (id?: string) => {
     return await apiUtils.getRequest(`user/saved-items`);
@@ -47,7 +44,13 @@ const productService = {
   getOrder: async (id: string) => {
     return await apiUtils.getRequest(`${api.ORDERS}${id}/`);
   },
-  createOrder: async (payload: { product: string; quantity: number }) => {
+  createOrder: async (payload: {
+    address: string;
+    orderPrice: number;
+    orderItems: { product: string; qty: number; price: number }[];
+    deliveryMethod: string;
+    paymentMethod: string;
+  }) => {
     return await apiUtils.postRequest(`${api.ORDERS}`, payload);
   },
   checkout: async ({

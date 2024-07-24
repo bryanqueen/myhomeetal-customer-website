@@ -20,11 +20,11 @@ export default function ReferralPage() {
         <div className='mt-5 lg:mt-7'>
           <Image
             src='/images/referral.svg'
-            width={1360}
+            width={2000}
             height={280}
             alt='referral'
             loading='lazy'
-            className='hidden lg:block'
+            className='hidden lg:block w-full'
           />
           <Image
             src='/images/mobref.svg'
@@ -49,7 +49,7 @@ export default function ReferralPage() {
         </div>
       </section>
       <section className='mt-20'>
-        <h2 className='mx-auto mb-3 text-center font-clashmd text-base text-myGray lg:max-w-[352px] lg:text-[39px] lg:leading-[47.97px]'>
+        <h2 className='mx-auto mb-3 text-center font-clashmd text-base text-myGray lg:max-w-[352px] 2xl:max-w-full lg:text-[39px] lg:leading-[47.97px]'>
           Frequently Asked Question
         </h2>
         <p className='mx-auto mb-16 max-w-[321px] text-center font-clashmd text-sm leading-[14.76px] text-[#525252] lg:max-w-[421px] lg:font-clash lg:text-base lg:leading-[19.09px]'>

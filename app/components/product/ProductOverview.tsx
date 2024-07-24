@@ -12,28 +12,95 @@ import ProductPrice from './ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import { useCart } from 'react-use-cart';
 import CartHandler from '../cart/CartHandler';
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import productService from '@/app/services/productService';
 import ClientOnly from '../ClientOnly';
+import { useEffect, useState } from 'react';
+import { jwtVerify } from 'jose';
+import toast from 'react-hot-toast';
 
 const ProductOverview = ({ data }: any) => {
+  const [isTokenValid, setIsTokenValid] = useState(true); // State to track token validity
+  const [savedItems, setSavedItems] = useState<string[]>([]);
   const router = useRouter();
   const id = data?._id;
 
   const handleBack = () => {
     router.back();
   };
-  
+
+  // Function to check token validity
+  const checkTokenValidity = async () => {
+    const token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('AUTH_TOKEN='));
+    if (token) {
+      const tokenValue = token.split('=')[1];
+      try {
+        await jwtVerify(
+          tokenValue,
+          new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET)
+        );
+      } catch (error) {
+        if (error.name === 'JWTExpired' || error.message.includes('exp')) {
+          console.error('JWT expired:', error);
+        } else {
+          console.error('JWT verification failed:', error);
+        }
+        setIsTokenValid(false);
+      }
+    } else {
+      setIsTokenValid(false);
+    }
+  };
+
+  //fetch all saved items
+  const fetchSavedItems = async () => {
+    try {
+      const res = await productService.getSavedProducts();
+      if (!res || !res.data) {
+        console.log('id not found');
+        return notFound();
+      }
+      setSavedItems(res.data.savedItems);
+    } catch (error) {
+      console.error('Error in ProductPage:', error);
+      return notFound();
+    }
+  };
+
+  useEffect(() => {
+    checkTokenValidity(); // Check token validity on component mount
+    fetchSavedItems();
+  }, []);
 
   const savedItem = async () => {
+    // Check if the token is valid before proceeding
+    if (!isTokenValid) {
+      // Redirect to login if the token is invalid
+      return router.push('/login');
+    }
+
+    // Check if the item is already saved
+    if (savedItems.includes(id)) {
+      toast.error('Item already saved');
+      return;
+    }
+
     try {
       const payload = { authMethod: data?._id };
       const res = await productService.saveProduct({ payload, id });
+
+      // Check the response status
       if (res.status === 200) {
-        alert('saved item');
+        toast.success('Saved item');
+      } else {
+        // Handle unexpected response status
+        toast.error('Failed to save item. Please try again.');
       }
     } catch (error) {
       console.error('Error in saving item:', error);
+      toast.error('An error occurred while saving the item. Please try again.');
     }
   };
 
@@ -169,7 +236,10 @@ const ProductOverview = ({ data }: any) => {
                       <AddToCartButton item={itemForCart} />
                     )}
 
-                    <button className='flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'>
+                    <button
+                      onClick={savedItem}
+                      className='flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'
+                    >
                       <HeartAdd size='24' color='#ffffff' variant='Bulk' />
                     </button>
                   </div>

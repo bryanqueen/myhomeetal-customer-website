@@ -22,13 +22,12 @@ export const metadata: Metadata = {
 
 export default function dealPage() {
   return (
-    <main className='pt-[105px] lg:pt-0'>
-      <div className='flex h-[63px] w-full items-center justify-between bg-black pr-4 lg:pr-10'>
-        <div className='basis-[30%] lg:basis-0'></div>
-        <div className='w-fit font-clashmd text-xs text-white lg:text-[31px]'>
+    <main className='pt-[100px] lg:pt-0'>
+      <div className='relative flex h-[50px] lg:h-[63px] w-full items-center justify-center bg-black'>
+        <div className='w-fit text-center font-clashmd text-xs text-white lg:text-[31px]'>
           Daily Deals
         </div>
-        <div className='w-fit text-[10px] text-white lg:text-base'>
+        <div className='lg:right-20 right-[3%] absolute text-[10px] text-white lg:text-base'>
           Time Left: <span className='lg:text-primary'>0h : 0m :0s</span>
         </div>
       </div>

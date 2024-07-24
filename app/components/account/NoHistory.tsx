@@ -32,7 +32,7 @@ const NoHistory = ({
         <Button
           icon={icon}
           onClick={onButtonClick}
-          className='mt-4 h-[50px] w-full rounded-[8px] text-sm text-white lg:mt-2 lg:rounded-[10px] lg:text-base'
+          className='mt-4 h-[50px] w-full rounded-[8px] border-0 text-sm text-white shadow-none lg:mt-2 lg:rounded-[10px] lg:text-base'
         >
           <span>{buttonText}</span>
         </Button>
@@ -41,7 +41,7 @@ const NoHistory = ({
           linkType='rel'
           href='/'
           icon={icon}
-          className='mt-4 h-[50px] w-full rounded-[8px] text-sm text-white lg:mt-2 lg:rounded-[10px] lg:text-base'
+          className='mt-4 h-[50px] w-full rounded-[8px] border-0 text-sm text-white shadow-none lg:mt-2 lg:rounded-[10px] lg:text-base'
         >
           <span>{buttonText}</span>
         </Button>

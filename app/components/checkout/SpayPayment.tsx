@@ -1,8 +1,5 @@
-// components/PayWithSpay.js
-'use client';
-import authUtils from '@/app/utils/authUtils';
+import { useState, useEffect } from 'react';
 import Script from 'next/script';
-import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface UserInfo {
@@ -17,23 +14,31 @@ interface PayWithSpayProps {
 
 const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
-    const fetchedUserInfo = authUtils.getUserInfo();
+    // Simulate fetching user info
+    const fetchedUserInfo = {
+      firstname: 'John',
+      lastname: 'Doe',
+      email: 'john.doe@example.com',
+    };
     setUserInfo(fetchedUserInfo);
-    // Ensure the payWithSpay function is defined in the window object
-    if (fetchedUserInfo) {
+  }, []);
+
+  useEffect(() => {
+    if (scriptLoaded && userInfo) {
       window.payWithSpay = function () {
-        var handler = {
+        const handler = {
           amount: cartTotal,
           currency: 'NGN',
           reference: 'myhomeetal234556739',
           merchantCode: 'MCH_la8whiqumgh489i',
           customer: {
-            firstName: fetchedUserInfo.firstname,
-            lastName: fetchedUserInfo.lastname,
+            firstName: userInfo.firstname,
+            lastName: userInfo.lastname,
             phone: '0813575SPAY',
-            email: fetchedUserInfo.email,
+            email: userInfo.email,
           },
           callback: function (response) {
             if (response.status === 'SUCCESS') {
@@ -45,28 +50,47 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
           },
         };
 
-        window.SpayCheckout.init(handler);
+        try {
+          window.SpayCheckout.init(handler);
+        } catch (error) {
+          console.error('Error initializing SpayCheckout:', error);
+        }
       };
     }
-  }, []);
+  }, [scriptLoaded, userInfo, cartTotal]);
 
   return (
     <>
       <Script
-        src='https://testcheckout.spaybusiness.com/pay/static/js/spay_checkout.js'
-        strategy='afterInteractive'
+        src="https://testcheckout.spaybusiness.com/pay/static/js/spay_checkout.js"
+        strategy="afterInteractive"
+        onLoad={() => {
+          setScriptLoaded(true);
+        }}
+        onError={(e) => {
+          console.error('Error loading SpayCheckout script:', e);
+        }}
       />
       <link
-        href='https://testcheckout.spaybusiness.com/pay/static/css/spay_checkout.css'
-        rel='stylesheet'
+        href="https://testcheckout.spaybusiness.com/pay/static/css/spay_checkout.css"
+        rel="stylesheet"
       />
       <button
-        className='rounded-xl bg-white px-10 py-4 font-clashmd text-base'
-        id='payWithSpay'
+        className="rounded-xl bg-white px-10 py-4 font-clashmd text-base"
+        id="payWithSpay"
         onClick={(e) => {
           e.stopPropagation();
-          window.payWithSpay();
+          if (window.payWithSpay) {
+            try {
+              window.payWithSpay();
+            } catch (error) {
+              console.error('Error during payWithSpay execution:', error);
+            }
+          } else {
+            console.error('payWithSpay function is not defined');
+          }
         }}
+        disabled={!userInfo}
       >
         Pay With Spay
       </button>

@@ -1,16 +1,18 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import Input from '@/app/components/Input';
-import { Location, CloseSquare } from 'iconsax-react';
+import { Location, CloseSquare, Trash } from 'iconsax-react';
 
 import Button from '@/app/components/Button';
 import { useAddressBook } from '@/app/addressBookProvider';
 import toast from 'react-hot-toast';
 import authUtils from '@/app/utils/authUtils';
 import ClientOnly from '../ClientOnly';
-import { userInfo } from 'os';
 import { numberToWords } from '@/app/utils/helpers';
 import NoHistory from './NoHistory';
+import Dialog from '@components/Dialog';
+import Image from 'next/image';
+import { Close as CloseDialog } from '@radix-ui/react-dialog';
 
 interface UserInfo {
   firstname: string;
@@ -58,7 +60,7 @@ export default function AddressBook() {
   };
   const addAddressRef = useRef<HTMLDivElement>(null);
   const editAddressRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     if (isAddAddress && addAddressRef.current) {
       addAddressRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -76,7 +78,7 @@ export default function AddressBook() {
           <div className='flex items-center justify-between'>
             <h1 className='font-clashmd text-3xl text-myGray'>Address Book</h1>
             <Button
-              disabled={addresses.length === 3}
+              disabled={addresses.length === 3 || isEdit === true}
               onClick={() => {
                 setIsAddAddress(!isAddAddress);
               }}
@@ -133,7 +135,7 @@ export default function AddressBook() {
               onClick={() => {
                 setIsAddAddress(!isAddAddress);
               }}
-              disabled={addresses.length === 3}
+              disabled={addresses.length === 3 || isEdit === true}
               className='h-[50px] w-full rounded-[10px] border-0 font-clashmd text-base text-white shadow-none'
             >
               <span className='flex items-center gap-2'>
@@ -147,8 +149,20 @@ export default function AddressBook() {
         {/**Add container */}
         {isAddAddress && (
           <div ref={addAddressRef}>
-            <div className='mx-auto mt-10 max-w-[582px] rounded-xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:rounded-2xl'>
-              <div className='grid max-w-[503px] gap-5'>
+            <div className='relative mx-auto mt-10 max-w-[582px] rounded-xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:rounded-2xl'>
+              <button
+                onClick={() => setIsAddAddress(false)}
+                className='absolute right-4 top-4 flex h-[20px] w-[20px] items-center justify-center rounded-full border border-[#030303]/20 lg:right-5 lg:top-5 lg:h-[34px] lg:w-[34px] lg:border-[#030303]'
+              >
+                <Image
+                  src='/icons/X.svg'
+                  width={12}
+                  height={10}
+                  alt='x-icon'
+                  className='w-[7px] lg:w-[12px]'
+                />
+              </button>
+              <div className='grid max-w-[503px] gap-5 lg:pt-5'>
                 <Input
                   name='address'
                   onChange={(e) => setAddress(e.target.value)}
@@ -169,9 +183,15 @@ export default function AddressBook() {
               <div className='hidden items-center justify-center lg:flex'>
                 <button
                   onClick={() => {
-                    createAddress(address, phoneNumber);
-                    toast.success('Address created successfully');
-                    setIsAddAddress(false);
+                    if (address && phoneNumber) {
+                      createAddress(address, phoneNumber);
+                      setAddress('');
+                      setPhoneNumber('');
+                      toast.success('Address created successfully');
+                      setIsAddAddress(false);
+                    } else {
+                      toast.error('All fields are required');
+                    }
                   }}
                   className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full bg-primary text-center font-clashmd text-base text-white'
                 >
@@ -182,9 +202,15 @@ export default function AddressBook() {
             <div className='flex items-center justify-center lg:hidden'>
               <button
                 onClick={() => {
-                  createAddress(address, phoneNumber);
-                  toast.success('Address created successfully');
-                  setIsAddAddress(false);
+                  if (address && phoneNumber) {
+                    createAddress(address, phoneNumber);
+                    setAddress('');
+                    setPhoneNumber('');
+                    toast.success('Address created successfully');
+                    setIsAddAddress(false);
+                  } else {
+                    toast.error('All fields are required');
+                  }
                 }}
                 className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] bg-primary text-center font-clashmd text-base text-white'
               >
@@ -196,7 +222,19 @@ export default function AddressBook() {
         {/**Edit container */}
         {isEdit && (
           <div ref={editAddressRef}>
-            <div className='mx-auto mt-10 max-w-full rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block'>
+            <div className='relative mx-auto mt-10 max-w-full rounded-2xl bg-[#f4f4f4] px-5 py-10 pt-20 lg:mt-24 lg:block lg:pt-14'>
+              <button
+                onClick={() => setIsEdit(false)}
+                className='absolute right-4 top-4 flex h-[20px] w-[20px] items-center justify-center rounded-full border border-[#030303]/20 lg:right-5 lg:top-5 lg:h-[34px] lg:w-[34px] lg:border-[#030303]'
+              >
+                <Image
+                  src='/icons/X.svg'
+                  width={12}
+                  height={10}
+                  alt='x-icon'
+                  className='w-[7px] lg:w-[12px]'
+                />
+              </button>
               <p className='font-clashmd text-xs lg:text-base'>
                 Address {addressInWords}
               </p>
@@ -204,7 +242,7 @@ export default function AddressBook() {
                 Ensure the details entered are accurate to avoid issues during
                 product delivery
               </p>
-              <div className='grid max-w-[503px] gap-5'>
+              <div className='grid gap-5 lg:mt-5 lg:grid-cols-2'>
                 <Input
                   name='address'
                   value={address}
@@ -229,6 +267,8 @@ export default function AddressBook() {
               <button
                 onClick={() => {
                   editAddress(id, address, phoneNumber);
+                  setAddress('');
+                  setPhoneNumber('');
                   toast.success('Address updated successfully');
                   setIsEdit(false);
                 }}
@@ -254,8 +294,7 @@ const AddressCard: React.FC<AddressCardProps> = ({
   editfunc,
   edit,
 }) => {
-  const { addresses, createAddress, editAddress, deleteAddress, saveAddress } =
-    useAddressBook();
+  const { deleteAddress } = useAddressBook();
   const addressInWords = numberToWords(index + 1);
   return (
     <div className='flex w-full flex-col rounded-[10px] bg-[#F4F4F4] px-5 pt-4 lg:block lg:max-w-[262px] lg:items-center lg:rounded-2xl lg:py-4'>
@@ -263,17 +302,14 @@ const AddressCard: React.FC<AddressCardProps> = ({
         <span className='text-sm text-[#7C7C7C] lg:text-base'>
           Address {addressInWords}
         </span>
-        <Button
-          onClick={() => {
-            deleteAddress(id);
-            toast.success('Address successfully deleted');
-          }}
-          className='p-0 text-[#525252]'
-          variant='ghost'
-          fit
-        >
-          <CloseSquare variant='Bold' />
-        </Button>
+        <Dialog
+          trigger={
+            <Button className='p-0 text-[#525252]' variant='ghost' fit>
+              <CloseSquare variant='Bold' />
+            </Button>
+          }
+          content={<Delete id={id} deleteAddress={deleteAddress} />}
+        />
       </div>
       <div>
         <p className='text-xs text-[#7C7C7C] lg:max-w-[209px] lg:text-start lg:text-sm lg:text-black'>
@@ -297,6 +333,48 @@ const AddressCard: React.FC<AddressCardProps> = ({
             Edit Address
           </span>
         </Button>
+      </div>
+    </div>
+  );
+};
+
+interface LogoutCardProps {
+  id: number;
+  deleteAddress: (id: number) => void; // Define the function type here
+}
+
+const Delete: React.FC<LogoutCardProps> = ({ id, deleteAddress }) => {
+  return (
+    <div className='flex w-[full] max-w-[400px] flex-col items-center gap-4 px-0 py-5 text-center lg:w-[70vw] lg:px-3'>
+      <div className='h-16 w-16 rounded-full bg-[#FFC5C6]' />
+      <div className=''>
+        <p className='mb-3 text-center font-clashmd text-xl text-myGray lg:text-2xl'>
+          Are you sure you want to <br /> delete this address?
+        </p>
+        <p className='text-sm text-myGray'>
+          Ensure you&apos;ve saved all your actions <br /> before proceeding.
+        </p>
+      </div>
+      <div className='w-full'>
+        <CloseDialog asChild>
+          <Button
+            className='mb-2 h-[44px] w-full gap-2 border-0 p-3 shadow-none'
+            onClick={() => deleteAddress(id)}
+          >
+            <span className='flex items-center gap-3 text-base'>
+              <Trash variant='Bulk' />
+              Yes, Delete
+            </span>
+          </Button>
+        </CloseDialog>
+        <CloseDialog asChild>
+          <Button className='font-base h-[44px] w-full gap-2 border-0 bg-[#FFF1F1] text-myGray shadow-none'>
+            <span className='flex items-center gap-3'>
+              <CloseSquare variant='Bold' />
+              No, Cancel
+            </span>
+          </Button>
+        </CloseDialog>
       </div>
     </div>
   );

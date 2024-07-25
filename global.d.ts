@@ -7,5 +7,8 @@ declare global {
     SpayCheckout: {
       init: (handler: any) => void;
     };
+    Intercom: any;
+    intercomSettings: any;
+    attachEvent: any;
   }
 }

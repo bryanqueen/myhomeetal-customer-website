@@ -1,5 +1,7 @@
+'use client'
 import Link from 'next/link';
 import React from 'react';
+import Intercom from '@intercom/messenger-js-sdk';
 import {
   FaFacebook,
   FaInstagram,
@@ -72,6 +74,9 @@ const contents: Content[] = [
 ];
 
 const MainFooter: React.FC = () => {
+  Intercom({
+    app_id: 'l4tx2a9y',
+  });
   const currentYear = new Date().getFullYear();
 
   return (

@@ -38,7 +38,7 @@ const myAccount = [
   { text: 'Login now', link: ROUTES.LOGIN },
 ];
 const help = [
-  { text: 'Help & Support', link: ROUTES.HOME },
+  { text: 'Help & Support', link: ROUTES.HELP },
   { text: 'Privacy Policy', link: ROUTES.HOME },
   { text: 'Term of Use', link: ROUTES.HOME },
 ];

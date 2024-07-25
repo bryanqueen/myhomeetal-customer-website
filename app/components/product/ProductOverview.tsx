@@ -222,7 +222,7 @@ const ProductOverview = ({ data }: any) => {
                           <Minus size={35} />
                         </CartHandler>
                         <span className='text-2xl text-myGray'>
-                          {itemInCart.quantity}
+                          {itemInCart?.quantity}
                         </span>
                         <CartHandler
                           item={itemInCart}

@@ -34,13 +34,13 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
           reference: 'myhomeetal234556739',
           merchantCode: 'MCH_la8whiqumgh489i',
           customer: {
-            firstName: userInfo.firstname,
-            lastName: userInfo.lastname,
+            firstName: userInfo?.firstname,
+            lastName: userInfo?.lastname,
             phone: '0813575SPAY',
-            email: userInfo.email,
+            email: userInfo?.email,
           },
           callback: function (response) {
-            if (response.status === 'SUCCESS') {
+            if (response?.status === 'SUCCESS') {
               toast.success('Payment successful');
             }
           },

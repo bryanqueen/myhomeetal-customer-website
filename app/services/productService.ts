@@ -1,5 +1,6 @@
 import { api } from '@utils/api';
 import { apiUtils } from '@/app/utils/apiUtils';
+import { User } from '../utils/types';
 
 const productService = {
   getAllProducts: async (params?: string) => {
@@ -52,6 +53,20 @@ const productService = {
     paymentMethod: string;
   }) => {
     return await apiUtils.postRequest(`${api.ORDERS}`, payload);
+  },
+  createWallet: async (payload: {
+    display_name: string;
+    bvn: string;
+    firstname: string;
+    currency: string;
+    lastname: string;
+    email: string;
+    date_of_birth: string;
+    gender: string;
+    email_alert: boolean;
+    mobile_number: string;
+  }) => {
+    return await apiUtils.postRequest(`${api.WALLET}`, payload);
   },
   checkout: async ({
     payload,

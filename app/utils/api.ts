@@ -14,7 +14,7 @@ const api = {
   DELETE_USER: 'user/delete-account',
   DELIVERY_ADDRESS: '',
   ORDERS: 'order/create-order',
-  WALLET: 'wallet',
+  WALLET: 'wallet/create',
 };
 
 export { api };

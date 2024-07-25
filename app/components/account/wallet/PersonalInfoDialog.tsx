@@ -54,7 +54,6 @@ const PersonalInfoDialog = () => {
     <div className='flex w-[80vw] max-w-3xl flex-col gap-4 p-5 px-2'>
       <div className='py-5'>
         <p className='font-bold'>Personal Information</p>
-        <p>Enter your details</p>
       </div>
       <form className='grid gap-4' onSubmit={handleSubmit(onSubmit)}>
         <Input

@@ -10,6 +10,9 @@ import { useRouter } from 'next/navigation';
 import PhoneInputComponent from '../phoneNumber';
 import Input from '../../Input';
 import authUtils from '@/app/utils/authUtils';
+import productService from '@/app/services/productService';
+import { User } from '@/app/utils/types';
+import toast from 'react-hot-toast';
 
 interface UserInfo {
   firstname: string;
@@ -37,30 +40,63 @@ const CollectWalletInfo = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [isPersonalInfoCompleted, setIsPersonalInfoCompleted] = useState(true);
+  const [gender, setGender] = useState('');
+  const [dob, setDob] = useState('');
+  const [isPersonalInfoCompleted, setIsPersonalInfoCompleted] = useState(false);
+  const [isPersonalDialogOpen, setIsPersonalDialogOpen] = useState(false);
   //phone number states
   const [isPhoneDialogOpen, setIsPhoneDialogOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [otp, setOtp] = useState('');
   const [isPhoneNumberCompleted, setisPhoneNumberCompleted] = useState(false);
   //bvn states
   const [isBvnDialogOpen, setIsBvnDialogOpen] = useState(false);
   const [fullName, setFullName] = useState('');
   const [bvn, setBvn] = useState('');
   const [isBvnCompleted, setIsBvnCompleted] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleContinueSetup = () => {
+  const handleContinueSetup = async () => {
     if (isPersonalInfoCompleted && isPhoneNumberCompleted && isBvnCompleted) {
-      router.push(
-        `/account/my-wallet/verification?email=${encodeURIComponent(email)}`
-      );
+      try {
+        const payload = {
+          display_name: firstName,
+          bvn: bvn,
+          firstname: firstName,
+          currency: 'NGN',
+          lastname: lastName,
+          email: email,
+          date_of_birth: dob,
+          gender: gender.toLowerCase(),
+          email_alert: true,
+          mobile_number: phoneNumber,
+        };
+        const res = await productService.createWallet(payload);
+        if (res.status === 200) {
+          router.push(
+            `/account/my-wallet/verification?email=${encodeURIComponent(email)}`
+          );
+        } else {
+          console.error('Failed to create wallet. Status:', res.status);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      toast.error('Incomplete setup information.');
     }
   };
 
   const handlePhoneSubmit = () => {
-    if (phoneNumber && otp) {
+    if (phoneNumber) {
       setisPhoneNumberCompleted(true);
       setIsPhoneDialogOpen(false);
+    }
+  };
+
+  const handlePersonalSubmit = () => {
+    if (email && gender && dob) {
+      setIsPersonalInfoCompleted(true);
+      setIsPersonalDialogOpen(false);
     }
   };
 
@@ -89,7 +125,19 @@ const CollectWalletInfo = () => {
               disabled={isPersonalInfoCompleted}
             />
           }
-          content={<PersonalInfoDialog />}
+          content={
+            <PersonalInfo
+              email={email}
+              gender={gender}
+              dob={dob}
+              setDob={setDob}
+              setGender={setGender}
+              submit={handlePersonalSubmit}
+              setEmail={setEmail}
+            />
+          }
+          open={isPersonalDialogOpen} // Control the dialog open state
+          onOpenChange={setIsPersonalDialogOpen} // Handle open state change
         />
         <MyDialog
           trigger={
@@ -103,9 +151,9 @@ const CollectWalletInfo = () => {
             <PhoneBox
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
-              otp={otp}
-              setOtp={setOtp}
               submit={handlePhoneSubmit}
+              error={error}
+              setError={setError}
             />
           }
           open={isPhoneDialogOpen} // Control the dialog open state
@@ -121,6 +169,8 @@ const CollectWalletInfo = () => {
           }
           content={
             <BvnBox
+              error={error}
+              setError={setError}
               fullName={fullName}
               setFullName={setFullName}
               bvn={bvn}
@@ -134,7 +184,7 @@ const CollectWalletInfo = () => {
       </div>
       <button
         onClick={handleContinueSetup}
-        className='mt-16 h-[50px] w-full rounded-[10px] bg-primary font-clashmd text-base text-white lg:mt-20 lg:p-5'
+        className='mt-16 flex h-[50px] w-full items-center justify-center rounded-[10px] bg-primary font-clashmd text-base text-white lg:mt-20 lg:h-[60px] lg:p-5'
       >
         Continue Setup
       </button>
@@ -142,22 +192,99 @@ const CollectWalletInfo = () => {
   );
 };
 
+// Define Personal component to accept onPhoneNumberChange prop
+interface PersonalProps {
+  email: string;
+  setDob: (value: string) => void;
+  dob: string;
+  setGender: (value: string) => void;
+  setEmail: (value: string) => void;
+  gender: string;
+  submit: () => void;
+}
+const PersonalInfo: React.FC<PersonalProps> = ({
+  email,
+  gender,
+  dob,
+  submit,
+  setEmail,
+  setGender,
+  setDob,
+}) => {
+  return (
+    <div className='min-w-full rounded-[15px] bg-white lg:min-w-[626px] lg:rounded-[30px]'>
+      <div>
+        <p className='mb-8 text-center font-clashmd text-sm lg:mb-10 lg:text-start lg:text-base'>
+          Personal Information
+        </p>
+        <div className='grid gap-5'>
+          <Input
+            name='email'
+            labelKey='Email Address'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder='example@gmail.com'
+            labelClassName=' text-black font-clashmd text-[8px] lg:text-xs'
+            inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
+          />
+          <Input
+            name='gender'
+            labelKey='Gender'
+            value={gender}
+            placeholder='Male'
+            onChange={(e) => setGender(e.target.value)}
+            labelClassName=' text-black font-clashmd text-[8px] lg:text-xs'
+            inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
+          />
+          <Input
+            name='date_of_birth'
+            labelKey='Date of Birth'
+            placeholder='2023-09-04'
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+            labelClassName=' text-black font-clashmd text-[8px] lg:text-xs'
+            inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
+          />
+        </div>
+        <button
+          onClick={submit}
+          className={`mt-7 w-full rounded-[10px] lg:mb-3 lg:mt-20 ${email && gender && dob ? 'bg-primary' : 'bg-[#989898]'}  h-[50px] px-6 font-clashmd text-base text-white lg:h-[55px]`}
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // Define PhoneBox component to accept onPhoneNumberChange prop
 interface PhoneBoxProps {
   phoneNumber: string;
+  error: string;
   setPhoneNumber: (value: string) => void;
-  otp: string;
-  setOtp: (value: string) => void;
   submit: () => void;
+  setError: (value: string) => void;
 }
 
 const PhoneBox: React.FC<PhoneBoxProps> = ({
   phoneNumber,
   setPhoneNumber,
-  otp,
-  setOtp,
   submit,
+  error,
+  setError,
 }) => {
+  const handlePhoneChange = (e) => {
+    const inputValue = e.target.value;
+    const isNumber = /^(\d*)?$/.test(inputValue);
+
+    if (!isNumber || (inputValue.length > 0 && !/^\d+$/.test(inputValue))) {
+      setError('Invalid Phone Number format');
+    } else {
+      setError('');
+      setPhoneNumber(inputValue);
+    }
+  };
+
   return (
     <div className='min-w-full rounded-[15px] bg-white lg:min-w-[626px] lg:rounded-[30px]'>
       <div>
@@ -170,29 +297,15 @@ const PhoneBox: React.FC<PhoneBoxProps> = ({
               name='phone'
               labelKey='Phone Number'
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={handlePhoneChange}
+              errorKey={error}
               labelClassName=' text-black font-clashmd text-[8px] lg:text-xs'
-              inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
-            />
-            <div className='mt-2 flex items-center justify-end'>
-              <button className='text-[10px] text-[#1B691B]'>
-                Request Otp
-              </button>
-            </div>
-          </div>
-          <div>
-            <Input
-              name='otp'
-              labelKey='One-time-Password'
-              onChange={(e) => setOtp(e.target.value)}
-              placeholder='Enter 5 digit Pin'
-              labelClassName='pl-4 text-black font-clashmd text-[8px] lg:text-xs'
               inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
             />
           </div>
           <button
             onClick={submit}
-            className={`mt-10 w-full rounded-[10px] lg:mb-3 lg:mt-20 ${otp && phoneNumber ? 'bg-primary' : 'bg-[#989898]'}  h-[50px] px-6 font-clashmd text-base text-white lg:h-[55px]`}
+            className={`mt-10 w-full rounded-[10px] lg:mb-3 lg:mt-20 ${phoneNumber ? 'bg-primary' : 'bg-[#989898]'}  h-[50px] px-6 font-clashmd text-base text-white lg:h-[55px]`}
           >
             Submit
           </button>
@@ -206,8 +319,10 @@ interface BvnBoxProps {
   fullName: string;
   setFullName: (value: string) => void;
   bvn: string;
+  error: string;
   setBvn: (value: string) => void;
   submit: () => void;
+  setError: (value: string) => void;
 }
 
 const BvnBox: React.FC<BvnBoxProps> = ({
@@ -216,7 +331,20 @@ const BvnBox: React.FC<BvnBoxProps> = ({
   bvn,
   setBvn,
   submit,
+  setError,
+  error,
 }) => {
+  const handleBvnChange = (e) => {
+    const inputValue = e.target.value;
+    const isNumber = /^\d+$/.test(inputValue); // Checks if input contains only numbers
+
+    if (inputValue.length > 11 || !isNumber) {
+      setError('Invalid BVN format');
+    } else {
+      setError('');
+      setBvn(inputValue);
+    }
+  };
   return (
     <div className='w-full bg-white lg:min-w-[626px] lg:max-w-[626px] lg:rounded-[30px] lg:py-5'>
       <div>
@@ -236,10 +364,11 @@ const BvnBox: React.FC<BvnBoxProps> = ({
           </div>
           <div className='mt-5'>
             <Input
+              errorKey={error}
               name='bvn'
               labelKey='Bank Verification Number'
               placeholder='Enter your unique 11 digit number'
-              onChange={(e) => setBvn(e.target.value)}
+              onChange={handleBvnChange}
               labelClassName='pl-4 text-black font-clashmd text-[8px] lg:text-xs'
               inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
             />

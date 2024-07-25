@@ -24,4 +24,6 @@ export const ROUTES = {
   SECURITY: '/account/security',
   ADDRESS_BOOK: '/account/address-book',
   CLOSE_ACCOUNT: '/account/close-account',
+  PRIVACY: '/privacypolicy',
+  TERMS: '/termsofservice',
 };

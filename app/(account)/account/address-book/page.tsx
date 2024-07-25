@@ -16,10 +16,10 @@ function AddressBookPage() {
   const previousPath = headersList.get('referer') || '';
   return (
     <main className='mx-[3%] pb-10 lg:mx-0'>
-      <div className='sticky top-[83px] z-20 flex items-center bg-white py-5 pl-1 lg:hidden'>
+      <div className='sticky top-[83px] z-20 flex items-center justify-center bg-white py-5 pl-1 lg:hidden'>
         <Button
           href={previousPath}
-          className='justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
+          className='absolute left-[2%] justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
           linkType='rel'
           variant='ghost'
         >

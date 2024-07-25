@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 const RecentTransactions = () => {
-  const [isTransaction, setIsTransaction] = useState(true);
+  const [isTransaction, setIsTransaction] = useState(false);
   return (
     <div>
       <p className='mb-3 text-center font-clashmd text-xs text-black lg:text-start lg:text-base lg:text-myGray'>

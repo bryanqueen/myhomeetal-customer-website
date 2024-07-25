@@ -9,10 +9,10 @@ const WalletCreation = () => {
   const previousPath = headersList.get('referer') || '';
   return (
     <div className='px-[3%] lg:px-0'>
-      <div className='sticky top-[83px] z-50 flex items-center bg-white py-5 pl-1 lg:hidden'>
+      <div className='sticky top-[83px] z-20 flex items-center justify-center bg-white py-5 pl-1 lg:hidden'>
         <Button
           href={previousPath}
-          className='justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
+          className='absolute left-[2%] justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
           linkType='rel'
           variant='ghost'
         >

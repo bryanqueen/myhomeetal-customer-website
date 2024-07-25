@@ -11,10 +11,10 @@ export default function AddFundPage() {
   const previousPath = headersList.get('referer') || '';
   return (
     <main className='px-[3%] pb-20 lg:px-0'>
-      <div className='sticky top-[83px] z-20 flex items-center bg-white py-5 pl-1 lg:hidden'>
+      <div className='sticky top-[83px] z-20 flex items-center justify-center bg-white py-5 pl-1 lg:hidden'>
         <Button
           href={previousPath}
-          className='justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
+          className='absolute left-[2%] justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
           linkType='rel'
           variant='ghost'
         >
@@ -36,21 +36,7 @@ export default function AddFundPage() {
       </div>
       <WalletBalanceCard />
       <div className='mt-5 pt-5 lg:mt-0 lg:pt-0'>
-        <p className='mb-3 text-center font-clashmd text-xs text-black lg:text-start lg:text-base lg:text-myGray'>
-          Recent transactions
-        </p>
-        <div>
-          <RecentTransactions />
-        </div>
-        <div className='hidden h-full max-h-[427px] w-full rounded-2xl border border-[#F4F4F4] px-5 py-6 lg:block'>
-          <div className='flex w-full items-center justify-between'>
-            <p className='font-clashmd text-base text-myGray'>Items</p>
-            <p className='font-clashmd text-base text-myGray'>Amount</p>
-          </div>
-          <div className='flex min-h-[300px] items-center justify-center'>
-            <p className='font-clashmd text-base'>No New transactions</p>
-          </div>
-        </div>
+        <RecentTransactions />
       </div>
     </main>
   );

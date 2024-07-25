@@ -24,6 +24,7 @@ const AddFundDialog = () => {
 
   const [isPayMethod, setIsPayMethod] = useState('');
   const [amount, setAmount] = useState('');
+  const [vat, setVat] = useState(0);
   const [error, setError] = useState('');
   const [isPayMethodToggle, setIsPayMethodToggle] = useState(false);
   const [isFundAccount, setIsFundAccount] = useState(false);
@@ -32,9 +33,33 @@ const AddFundDialog = () => {
   const handleFundAccount = () => {
     if (amount && isPayMethod) {
       setIsFundAccount(true);
-      setError(''); // Clear any previous errors
     } else {
-      setError('All fields are required');
+      toast.error('All fields are required');
+    }
+  };
+
+  const handleAmountChange = (e) => {
+    const inputValue = e.target.value;
+
+    // Check if the input is empty
+    if (inputValue === '') {
+      setError(''); // Clear the error if the input is empty
+      setAmount(''); // Clear the amount
+      setVat(0); // Reset VAT to 0
+      return; // Exit the function early
+    }
+
+    const isValidAmount = /^\d+(\.\d{2})?$/.test(inputValue); // Allow decimals
+
+    if (!isValidAmount) {
+      setError(
+        'Invalid amount format. Please enter numbers only, optionally with a decimal point.'
+      );
+    } else {
+      setError('');
+      setAmount(inputValue);
+      const calculatedVat = parseFloat(inputValue) * 0.006; // Use parseFloat for decimal calculations
+      setVat(calculatedVat);
     }
   };
 
@@ -45,11 +70,10 @@ const AddFundDialog = () => {
   return (
     <div>
       {!isFundAccount ? (
-        <div className='flex lg:w-[80vw] max-w-xl flex-col gap-4 w-full py-5 px-2'>
+        <div className='flex w-full flex-col gap-4 px-2 py-5 lg:w-[80vw]'>
           <div className='pb-5'>
             <p className='text-center font-clashmd text-base'>Fund Account</p>
           </div>
-          {error && <p className='text-center text-sm text-primary'>{error}</p>}
           <div className='grid gap-4'>
             <div>
               <div className='relative'>
@@ -57,7 +81,8 @@ const AddFundDialog = () => {
                   name='amount'
                   labelKey='Enter Amount'
                   placeholder='₦150,000.00'
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={handleAmountChange}
+                  errorKey={error}
                   variant='outline'
                   inputClassName='py-5 border-[#D9D9D9] text-sm rounded-[10px] placeholder:text-xs placeholder:text-black'
                   labelClassName='text-myGray text-xs font-clashmd pl-4'
@@ -66,8 +91,8 @@ const AddFundDialog = () => {
               </div>
               <p className='pl-4 pt-1 text-[10px] text-myGray'>
                 0.6 % Fee on all transaction:{' '}
-                <span className='text-[#F68182]'>150,000</span> &times; 0.006 =
-                900
+                <span className='text-[#F68182]'>{amount}</span> &times; 0.006 =
+                <span className='text-[#F68182]'>{vat.toFixed(2)}</span>
               </p>
             </div>
             <div className='mt-5'>
@@ -121,18 +146,18 @@ const AddFundDialog = () => {
           </div>
         </div>
       ) : (
-        <div className='flex lg:min-w-[552px] flex-col items-center justify-center gap-7'>
+        <div className='flex flex-col items-center justify-center gap-7 lg:min-w-[552px]'>
           {isFundSuccess === null && (
             <>
               <p className='text-center font-clashmd text-base'>
                 Fund wallet (Virtual Account)
               </p>
-              <p className='max-w-[482px] text-xs lg:text-base text-center'>
+              <p className='max-w-[482px] text-center text-xs lg:text-base'>
                 Copy the account details below and proceed to make the payment
                 using your preferred banking method.
               </p>
               <div className='flex items-center gap-4'>
-                <p className='font-clashmd text-base lg:text-[25px] text-myGray'>
+                <p className='font-clashmd text-base text-myGray lg:text-[25px]'>
                   Paystack titan <span className='mx-1'>|</span>{' '}
                   <span className='text-primary' id='accountNumber'>
                     {accountNumber}
@@ -156,7 +181,7 @@ const AddFundDialog = () => {
             </>
           )}
           {isFundSuccess && (
-            <div className='flex lg:min-w-[552px] flex-col items-center justify-center gap-9 pb-10'>
+            <div className='flex flex-col items-center justify-center gap-9 pb-10 lg:min-w-[552px]'>
               <p className='text-center font-clashmd text-base'>
                 Fund wallet (Virtual Account)
               </p>
@@ -168,7 +193,7 @@ const AddFundDialog = () => {
                   height={75}
                   alt='success icon'
                 />
-                <p className='font-clashmd text-base lg:text-[25px] text-myGray'>
+                <p className='font-clashmd text-base text-myGray lg:text-[25px]'>
                   Payment Made Successfully!
                 </p>
                 <p className='text-center text-xs lg:text-base'>
@@ -179,7 +204,7 @@ const AddFundDialog = () => {
             </div>
           )}
           {isFundSuccess === false && (
-            <div className='flex lg:min-w-[552px] flex-col items-center justify-center gap-9 pb-10'>
+            <div className='flex flex-col items-center justify-center gap-9 pb-10 lg:min-w-[552px]'>
               <p className='text-center font-clashmd text-base'>
                 Fund wallet (Virtual Account)
               </p>
@@ -191,7 +216,7 @@ const AddFundDialog = () => {
                   height={75}
                   alt='success icon'
                 />
-                <p className='font-clashmd text-base lg:text-[25px] text-myGray'>
+                <p className='font-clashmd text-base text-myGray lg:text-[25px]'>
                   Unsuccessful Payment
                 </p>
                 <p className='text-center text-xs lg:text-base'>

@@ -1,7 +1,26 @@
+'use client';
 import Input from '@/app/components/Input';
 import PhoneInputComponent from '@/app/components/account/phoneNumber';
+import { useState } from 'react';
 
-export default function PersonalInformationForm() {
+interface UserInfo {
+  firstname: string;
+  email: string;
+  phone?: string;
+  lastname: string;
+}
+
+interface AccountDashboardProps {
+  userInfo: UserInfo | null;
+}
+
+export default function PersonalInformationForm({
+  userInfo,
+}: AccountDashboardProps) {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   return (
     <div>
       {/**Mobile form */}
@@ -22,15 +41,17 @@ export default function PersonalInformationForm() {
               <Input
                 name='firstName'
                 type='text'
+                value={userInfo?.firstname}
+                onChange={(e) => setFirstName(e.target.value)}
                 variant='outline'
                 inputClassName='border-0 h-[65px] rounded-[10px] text-xs placeholder:text-[#989898]'
-                placeholder='Oluwafemi'
               />
             </div>
             <div className='relative'>
               <Input
                 name='lastName'
-                placeholder='Odunayo'
+                value={userInfo?.lastname}
+                onChange={(e) => setLastName(e.target.value)}
                 type='text'
                 variant='outline'
                 inputClassName='border-0 h-[65px] rounded-[10px] text-xs placeholder:text-[#989898]'
@@ -39,7 +60,8 @@ export default function PersonalInformationForm() {
             <div className='relative'>
               <Input
                 name='email'
-                placeholder='Somtoochukwu@gmail.com'
+                value={userInfo?.email}
+                onChange={(e) => setEmail(e.target.value)}
                 type='text'
                 variant='outline'
                 inputClassName='border-0 h-[65px] rounded-[10px] text-xs placeholder:text-[#989898]'
@@ -78,7 +100,8 @@ export default function PersonalInformationForm() {
                 type='text'
                 variant='outline'
                 inputClassName='border-0 rounded-2xl placeholder:text-[#989898]'
-                placeholder='Oluwafemi'
+                value={userInfo?.firstname}
+                onChange={(e) => setFirstName(e.target.value)}
                 labelClassName='text-myGray font-clashmd text-base'
               />
               <Input
@@ -87,7 +110,8 @@ export default function PersonalInformationForm() {
                 type='text'
                 variant='outline'
                 inputClassName='border-0 rounded-2xl placeholder:text-[#989898]'
-                placeholder='Odunayo'
+                value={userInfo?.lastname}
+                onChange={(e) => setLastName(e.target.value)}
                 labelClassName='text-myGray font-clashmd text-base'
               />
             </div>
@@ -97,7 +121,8 @@ export default function PersonalInformationForm() {
               type='text'
               variant='outline'
               inputClassName='border-0 rounded-2xl mb-3 placeholder:text-[#989898]'
-              placeholder='No 3 Kayode Arikawe Street, ikosi, Ketu, Lagos.'
+              value={userInfo?.email}
+              onChange={(e) => setEmail(e.target.value)}
               labelClassName='text-myGray font-clashmd text-base'
             />
             <div className='mb-5 grid gap-5 md:grid-cols-2'>

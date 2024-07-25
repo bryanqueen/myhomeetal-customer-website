@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import authUtils from '@/app/utils/authUtils';
 import ClientOnly from '../ClientOnly';
 
 interface UserInfo {
@@ -10,18 +9,12 @@ interface UserInfo {
   phone?: string;
 }
 
-export default function AccountDashboard() {
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+interface AccountDashboardProps {
+  userInfo: UserInfo | null;
+}
+
+export default function AccountDashboard({ userInfo }: AccountDashboardProps) {
   const [isWallet, setIsWallet] = useState(false);
-
-  useEffect(() => {
-    const fetchedUserInfo = authUtils.getUserInfo();
-    setUserInfo(fetchedUserInfo);
-  }, []);
-
-  if (!userInfo) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <ClientOnly>

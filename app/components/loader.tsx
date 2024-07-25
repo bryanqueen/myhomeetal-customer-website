@@ -82,7 +82,7 @@ export function DesktopCategorySkeleton() {
 
 export function HomeSkeleton() {
   return (
-    <main className='pt-[165px] lg:pt-0'>
+    <main className='pt-[80px] lg:pt-0'>
       <div className='shimmer-animation fixed left-0 right-0 top-[83px] z-[1000] bg-white px-[3%] py-4 lg:hidden'></div>
 
       <div className='shimmer-animation mx-[3%] mt-5 h-12 w-full rounded bg-gray-200'></div>

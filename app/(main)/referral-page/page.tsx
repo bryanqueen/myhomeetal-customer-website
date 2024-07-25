@@ -9,7 +9,7 @@ export default function ReferralPage() {
   return (
     <main className='mx-[3%] pb-20 pt-[165px] lg:pt-0'>
       <Suspense>
-        <div className='fixed left-0 right-0 top-[83px] z-[1000] bg-white px-[3%] py-4 lg:hidden'>
+        <div className='fixed left-0 right-0 top-[83px] z-20 bg-white px-[3%] py-4 lg:hidden'>
           <SearchForm />
         </div>
       </Suspense>

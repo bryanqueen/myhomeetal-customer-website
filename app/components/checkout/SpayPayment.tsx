@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Script from 'next/script';
 import toast from 'react-hot-toast';
+import authUtils from '@/app/utils/authUtils';
 
 interface UserInfo {
   firstname: string;
@@ -18,12 +19,10 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
 
   useEffect(() => {
     // Simulate fetching user info
-    const fetchedUserInfo = {
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'john.doe@example.com',
-    };
-    setUserInfo(fetchedUserInfo);
+    const fetchedUserInfo = authUtils.getUserInfo();
+    if (fetchedUserInfo) {
+      setUserInfo(fetchedUserInfo);
+    }
   }, []);
 
   useEffect(() => {
@@ -62,8 +61,8 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
   return (
     <>
       <Script
-        src="https://testcheckout.spaybusiness.com/pay/static/js/spay_checkout.js"
-        strategy="afterInteractive"
+        src='https://testcheckout.spaybusiness.com/pay/static/js/spay_checkout.js'
+        strategy='afterInteractive'
         onLoad={() => {
           setScriptLoaded(true);
         }}
@@ -72,12 +71,12 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
         }}
       />
       <link
-        href="https://testcheckout.spaybusiness.com/pay/static/css/spay_checkout.css"
-        rel="stylesheet"
+        href='https://testcheckout.spaybusiness.com/pay/static/css/spay_checkout.css'
+        rel='stylesheet'
       />
       <button
-        className="rounded-xl bg-white px-10 py-4 font-clashmd text-base"
-        id="payWithSpay"
+        className='rounded-xl bg-white px-10 py-4 font-clashmd text-base'
+        id='payWithSpay'
         onClick={(e) => {
           e.stopPropagation();
           if (window.payWithSpay) {

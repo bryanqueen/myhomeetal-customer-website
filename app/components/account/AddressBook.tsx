@@ -117,7 +117,7 @@ export default function AddressBook() {
             {!isAddAddress && (
               <div className='flex h-[80vh] items-center justify-center'>
                 <NoHistory
-                  title='No Address add yet'
+                  title='No Address added yet'
                   buttonText='Add Address'
                   bodyText="It looks like you haven't added an address yet. Ready to set up your delivery details? Add your address to start enjoying our tailored shopping experience."
                   icon={<Location variant='Bold' size={20} />}

@@ -14,7 +14,7 @@ function NotificationsPage() {
   const previousPath = headersList.get('referer') || '';
   return (
     <main className='px-[3%] lg:px-0'>
-      <div className='sticky z-50 flex items-center bg-white py-5 pl-1 lg:hidden'>
+      <div className='flex sticky bg-white z-20 top-[83px] items-center py-5 pl-1 lg:hidden'>
         <Button
           href={previousPath}
           className='justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'

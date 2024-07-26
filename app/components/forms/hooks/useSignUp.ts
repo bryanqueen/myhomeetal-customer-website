@@ -13,6 +13,7 @@ export const useSignup = () => {
 
   const signupMutate = useMutation(authService.signup, {
     onSuccess: async (res, variables) => {
+      console.log(res);
       const email = variables.email;
       router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
       toast.success('Created an account');

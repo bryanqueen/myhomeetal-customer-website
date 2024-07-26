@@ -14,12 +14,14 @@ import { ROUTES } from '@utils/routes';
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/16/solid';
 import ClientOnly from '../ClientOnly';
+import { useSearchParams } from 'next/navigation';
 
 interface Inputs {
   firstname: string;
   lastname: string;
   email: string;
   password: string;
+  referralCode: string;
 }
 
 const schema = yup
@@ -48,6 +50,8 @@ const SignupForm = () => {
   });
   const { handleSignup, loading, error } = useSignup();
   const [showPassword, setShowPassword] = useState(false);
+  const searchParams = useSearchParams();
+  const code = decodeURIComponent(searchParams.get('code') || '');
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     handleSignup(data);
@@ -86,6 +90,18 @@ const SignupForm = () => {
             labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
             inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
           />
+          <div className='hidden'>
+            <Input
+              type='text'
+              labelKey='Referral Code'
+              value={code}
+              placeholder='Enter Referral Code'
+              {...register('referralCode')}
+              labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
+              inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+            />
+          </div>
+
           <div className='relative'>
             <Input
               type={showPassword ? 'text' : 'password'}

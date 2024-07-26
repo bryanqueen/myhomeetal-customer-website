@@ -56,8 +56,8 @@ export default async function Home() {
       return notFound();
     }
 
-    allCategories = productCategoriesRes.data;
-    topCategories = topProductCategoriesRes.data;
+    allCategories = productCategoriesRes?.data;
+    topCategories = topProductCategoriesRes?.data;
 
     // Shuffle the top categories before slicing
     shuffleArray(topCategories);

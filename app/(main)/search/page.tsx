@@ -15,66 +15,64 @@ export interface PageProps {
 }
 
 export default async function SearchPage({ searchParams }: PageProps) {
-  const id = searchParams.q;
+  const query = searchParams.q;
 
   let productsByCategory: any = [];
 
   try {
-    if (id) {
-      const res = await productService.getProductsByCategory(id);
-      if (!res || !res.data) {
-        console.log('Products not found');
-        return notFound();
+    // Construct a POST request body
+    const requestBody = {
+      query: query, // Or other search parameters if needed
+    };
+
+    const response = await fetch(
+      `https://my-home-et-al-backend.onrender.com/api/v1/product/search?query=${query}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Indicate JSON data
+        },
+        body: JSON.stringify(requestBody), // Stringify the request body
       }
+    );
 
-      productsByCategory = res.data;
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
     }
+
+    const data = await response.json();
+    productsByCategory = data;
   } catch (error) {
-    console.error('Error fetching products:', error);
-
-    // Check if the error is a network error or a timeout
-    if (
-      error instanceof Error &&
-      (error.message.includes('Network Error') ||
-        error.message.includes('timeout'))
-    ) {
-      console.error('Network error or timeout occurred:', error);
-      // Optionally, return a custom error page or message
-      return notFound(); // You might want to handle it differently based on your application's needs
-    }
-
-    // Handle other types of errors
-    console.error('An unexpected error occurred:', error);
-    // Optionally, return a custom error page or message
-    return notFound(); // Again, adjust based on your needs
+    console.error('Error fetching data:', error);
+    // Handle errors appropriately (e.g., display error message)
+    return notFound();
   }
-  return {
-    /**
-      <main className='min-h-[100vh] pb-20 pt-[165px] lg:px-[3%] lg:pt-0'>
-        <section>
-          <Suspense>
-            <div className='fixed left-0 right-0 top-[83px] z-20 bg-white px-[3%] py-4 lg:hidden'>
-              <SearchForm />
-            </div>
-          </Suspense>
-        </section>
-        <section className='lg:hidden'>
-          <Suspense fallback={<MobileCategorySkeleton />}>
-            <MobileCategoryContainer
-              categoryName={id}
-              products={productsByCategory}
-            />
-          </Suspense>
-        </section>
-        <section className='hidden lg:block'>
-          <Suspense fallback={'loading...'}>
-            <DesktopCategoryContainer
-              categoryName={id}
-              products={productsByCategory}
-            />
-          </Suspense>
-        </section>
-      </main>
-      */
-  };
+
+  return (
+    <main className='min-h-[100vh] pb-20 pt-[165px] lg:px-[3%] lg:pt-0'>
+      <section>
+        <Suspense>
+          <div className='fixed left-0 right-0 top-[83px] z-20 bg-white px-[3%] py-4 lg:hidden'>
+            <SearchForm />
+          </div>
+        </Suspense>
+      </section>
+      <section className='lg:hidden'>
+        <Suspense fallback={<MobileCategorySkeleton />}>
+          <MobileCategoryContainer
+            categoryName={query}
+            products={productsByCategory}
+          />
+        </Suspense>
+      </section>
+      <section className='hidden lg:block'>
+        <Suspense fallback={'loading...'}>
+          <DesktopCategoryContainer
+            categoryName={query}
+            products={productsByCategory}
+          />
+        </Suspense>
+      </section>
+    </main>
+  );
 }

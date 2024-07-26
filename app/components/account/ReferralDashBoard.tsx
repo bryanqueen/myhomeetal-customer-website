@@ -1,11 +1,31 @@
 'use client';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ClientOnly from '../ClientOnly';
 import toast from 'react-hot-toast';
+import authUtils from '@/app/utils/authUtils';
+import productService from '@/app/services/productService';
+import { notFound } from 'next/navigation';
 
 export default function ReferralDashBoard() {
-  const referralLink = 'https://www.myhomeetal.com/referral?code=XYZ123';
+  const [code, setCode] = useState();
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const fetchedUserInfo = await authUtils.getUserInfo();
+      if (fetchedUserInfo) {
+        const res = await productService.getUserDetails(fetchedUserInfo.id);
+        if (!res || !res.data) {
+          console.log('id not found');
+          return notFound();
+        }
+        setCode(res.data.referralCode);
+      }
+    };
+    fetchUserInfo();
+  }, []);
+
+  const referralLink = `https://www.myhomeetal.com/register?code=${code}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(referralLink).then(

@@ -3,7 +3,6 @@ import AccountDashboard from '@/app/components/account/AccountDashboard';
 import Button from '@/app/components/Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import PersonalInformationForm from '@/app/components/account/PersonalInformationForm';
-import authUtils from '@/app/utils/authUtils';
 import productService from '@/app/services/productService';
 import { cookies, headers } from 'next/headers';
 import { constants } from '@/app/utils/constants';

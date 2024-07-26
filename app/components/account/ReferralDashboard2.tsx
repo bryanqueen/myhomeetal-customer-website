@@ -2,13 +2,33 @@
 import { constants } from '@/app/utils/constants';
 import { hasCookie } from 'cookies-next';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ClientOnly from '../ClientOnly';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import productService from '@/app/services/productService';
+import { notFound } from 'next/navigation';
+import authUtils from '@/app/utils/authUtils';
 
 export default function ReferralDashBoard2() {
-  const referralLink = 'https://www.myhomeetal.com/referral?code=XYZ123';
+  const [code, setCode] = useState();
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const fetchedUserInfo = await authUtils.getUserInfo();
+      if (fetchedUserInfo) {
+        const res = await productService.getUserDetails(fetchedUserInfo.id);
+        if (!res || !res.data) {
+          console.log('id not found');
+          return notFound();
+        }
+        setCode(res.data.referralCode);
+      }
+    };
+    fetchUserInfo();
+  }, []);
+
+  const referralLink = `https://www.myhomeetal.com/register?code=${code}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(referralLink).then(
@@ -35,17 +55,20 @@ export default function ReferralDashBoard2() {
         <ClientOnly>
           {hasCookie(constants.AUTH_TOKEN) ? (
             <>
-              <div className='mb-4 flex h-[50px] w-full min-w-[300px] items-center justify-between rounded-2xl bg-white pl-7 pr-2 lg:h-[56px] lg:min-w-[516px]'>
-                <p className='text-[10px] text-[#989898] lg:text-xs'>
-                  {referralLink}
-                </p>
-                <button
-                  onClick={copyToClipboard}
-                  className='hidden h-[47px] w-[113px] rounded-2xl bg-primaryBg font-clashsm text-xs text-white lg:block'
-                >
-                  Copy Code
-                </button>
-              </div>
+              {code && (
+                <div className='mb-4 flex h-[50px] w-full min-w-[300px] items-center justify-between rounded-2xl bg-white pl-7 pr-2 lg:h-[56px] lg:min-w-[516px]'>
+                  <p className='text-[10px] text-[#989898] lg:text-xs'>
+                    {referralLink}
+                  </p>
+                  <button
+                    onClick={copyToClipboard}
+                    className='hidden h-[47px] w-[113px] rounded-2xl bg-primaryBg font-clashsm text-xs text-white lg:block'
+                  >
+                    Copy Code
+                  </button>
+                </div>
+              )}
+
               <div className='flex items-center justify-center'>
                 <button
                   onClick={copyToClipboard}

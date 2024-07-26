@@ -1,6 +1,5 @@
 import { api } from '@utils/api';
 import { apiUtils } from '@/app/utils/apiUtils';
-import { User } from '../utils/types';
 
 const productService = {
   getAllProducts: async (params?: string) => {

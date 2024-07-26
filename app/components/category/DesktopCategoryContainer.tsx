@@ -57,7 +57,7 @@ export default function DesktopCategoryContainer({
   return (
     <div>
       <div className='hidden lg:block'>
-        <div className='sticky z-50 top-[80px] mb-5 flex items-center justify-between bg-white'>
+        <div className='sticky z-20 top-[80px] mb-5 flex items-center justify-between bg-white'>
           {products && (
             <p className='text-xs md:text-sm'>
               Showing over {products.length} results for &quot;{categoryName}

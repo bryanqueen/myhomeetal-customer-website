@@ -19,6 +19,12 @@ interface AddressBookContextType {
   editAddress: (id: number, email: string, phoneNumber: string) => void;
   deleteAddress: (id: number) => void;
   saveAddress: () => void;
+  firstStageCompleted: boolean;
+  selectedPaymentMethod: string;
+  selectedDeliveryMethod: string;
+  setFirstStageCompleted: (completed: boolean) => void;
+  setSelectedPaymentMethod: (payment: string) => void;
+  setSelectedDeliveryMethod: (delivery: string) => void;
 }
 
 const AddressBookContext = createContext<AddressBookContextType | undefined>(
@@ -46,11 +52,41 @@ export const AddressBookProvider: React.FC<{ children: ReactNode }> = ({
     return [];
   });
 
+  const [firstStageCompleted, setFirstStageCompleted] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedValue = localStorage.getItem('firstStageCompleted');
+      return storedValue === 'true'; // Convert string to boolean
+    }
+    return false; // Default value if not in the browser
+  });
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedMethod = localStorage.getItem('selectedPaymentMethod');
+      return storedMethod || '';
+    }
+    return '';
+  });
+
+  const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedMethod = localStorage.getItem('selectedPaymentMethod');
+      return storedMethod || '';
+    }
+    return '';
+  });
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('addresses', JSON.stringify(addresses));
+      localStorage.setItem(
+        'firstStageCompleted',
+        JSON.stringify(firstStageCompleted)
+      );
+      localStorage.setItem('selectedPaymentMethod', selectedPaymentMethod);
+      localStorage.setItem('selectedDeliveryMethod', selectedDeliveryMethod);
     }
-  }, [addresses]);
+  }, [addresses, firstStageCompleted]);
 
   const createAddress = (email: string, phoneNumber: string) => {
     const newAddress: Address = {
@@ -86,6 +122,12 @@ export const AddressBookProvider: React.FC<{ children: ReactNode }> = ({
         editAddress,
         deleteAddress,
         saveAddress,
+        firstStageCompleted,
+        setFirstStageCompleted,
+        selectedPaymentMethod,
+        selectedDeliveryMethod,
+        setSelectedDeliveryMethod,
+        setSelectedPaymentMethod,
       }}
     >
       {children}

@@ -30,16 +30,23 @@ interface UserInfo {
 }
 
 const CheckoutForm: React.FC = () => {
-  const { addresses, createAddress, editAddress } = useAddressBook();
+  const {
+    addresses,
+    createAddress,
+    editAddress,
+    setFirstStageCompleted,
+    firstStageCompleted,
+    setSelectedDeliveryMethod,
+    selectedDeliveryMethod,
+    selectedPaymentMethod,
+    setSelectedPaymentMethod,
+  } = useAddressBook();
   const { items } = useCart();
   const [isAddAddress, setIsAddAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(
     addresses.length > 0 ? addresses[0] : null
   );
   const [isChange, setIsChange] = useState(false);
-  const [firstStageCompleted, setFirstStageCompleted] = useState(false);
-  const [selectedMethod, setSelectedMethod] = useState('');
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [deliveryDates, setDeliveryDates] = useState({ start: '', end: '' });
   const [isEdit, setIsEdit] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -73,7 +80,7 @@ const CheckoutForm: React.FC = () => {
     if (savedState) {
       setSelectedAddress(savedState.address || null);
       setFirstStageCompleted(savedState.firstStage || false);
-      setSelectedMethod(savedState.deliveryMethod || '');
+      setSelectedDeliveryMethod(savedState.deliveryMethod || '');
       setSelectedPaymentMethod(savedState.selectedPayment || '');
     }
     calculateDeliveryDates();
@@ -96,10 +103,6 @@ const CheckoutForm: React.FC = () => {
       console.log('User info is undefined or missing ID');
     }
   };
-
-  useEffect(() => {
-    fetchUser();
-  }, [userInfo]);
 
   useEffect(() => {
     // Ensure that the address list is updated after creating a new address
@@ -445,14 +448,14 @@ const CheckoutForm: React.FC = () => {
                 <div>
                   {firstStageCompleted ? (
                     <p className='font-clashmd text-xs text-myGray lg:font-clash lg:text-base'>
-                      {selectedMethod}
+                      {selectedDeliveryMethod}
                     </p>
                   ) : (
                     <RadioGroup.Root
                       className='flex flex-col gap-5 font-clashmd text-xs text-myGray lg:flex-row lg:items-center lg:gap-60 lg:font-clash lg:text-base'
-                      defaultValue={selectedMethod}
+                      defaultValue={selectedDeliveryMethod}
                       aria-label='Delivery Method'
-                      onValueChange={setSelectedMethod}
+                      onValueChange={setSelectedDeliveryMethod}
                     >
                       <RadioItem
                         id='r1'
@@ -468,13 +471,13 @@ const CheckoutForm: React.FC = () => {
                   )}
 
                   <div className='mt-5 lg:mt-8'>
-                    {selectedMethod === 'Door delivery' && (
+                    {selectedDeliveryMethod === 'Door delivery' && (
                       <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
                         Delivery between {deliveryDates.start} and{' '}
                         {deliveryDates.end}
                       </p>
                     )}
-                    {selectedMethod === 'Pickup delivery' && (
+                    {selectedDeliveryMethod === 'Pickup delivery' && (
                       <p className='text-[10px] text-[#7C7C7C] lg:text-base'>
                         Available for pickup between {deliveryDates.start} and{' '}
                         {deliveryDates.end}
@@ -592,7 +595,7 @@ const CheckoutForm: React.FC = () => {
         </div>
 
         <OrderSummary
-          deliveryMethod={selectedMethod}
+          deliveryMethod={selectedDeliveryMethod}
           firstStage={firstStageCompleted}
           isChange={isChange}
           setFirstStageCompleted={setFirstStageCompleted}

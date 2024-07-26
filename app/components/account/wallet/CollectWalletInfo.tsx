@@ -212,7 +212,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({
   setDob,
 }) => {
   return (
-    <div className='min-w-full rounded-[15px] bg-white lg:min-w-[626px] lg:rounded-[30px]'>
+    <div className='min-w-full px-[3%] rounded-[15px] bg-white lg:min-w-[626px] lg:rounded-[30px]'>
       <div>
         <p className='mb-8 text-center font-clashmd text-sm lg:mb-10 lg:text-start lg:text-base'>
           Personal Information
@@ -275,18 +275,20 @@ const PhoneBox: React.FC<PhoneBoxProps> = ({
 }) => {
   const handlePhoneChange = (e) => {
     const inputValue = e.target.value;
-    const isNumber = /^(\d*)?$/.test(inputValue);
-
-    if (!isNumber || (inputValue.length > 0 && !/^\d+$/.test(inputValue))) {
+    // Allow digits and the '+' character at the beginning
+    const isNumber = /^[+]?\d*$/.test(inputValue);
+  
+    if (!isNumber) {
       setError('Invalid Phone Number format');
     } else {
       setError('');
       setPhoneNumber(inputValue);
     }
   };
+  
 
   return (
-    <div className='min-w-full rounded-[15px] bg-white lg:min-w-[626px] lg:rounded-[30px]'>
+    <div className='min-w-full px-[3%] rounded-[15px] bg-white lg:min-w-[626px] lg:rounded-[30px]'>
       <div>
         <p className='mb-8 text-center font-clashmd text-sm lg:mb-10 lg:text-start lg:text-base'>
           Phone Number
@@ -346,7 +348,7 @@ const BvnBox: React.FC<BvnBoxProps> = ({
     }
   };
   return (
-    <div className='w-full bg-white lg:min-w-[626px] lg:max-w-[626px] lg:rounded-[30px] lg:py-5'>
+    <div className='w-full px-[3%] bg-white lg:min-w-[626px] lg:max-w-[626px] lg:rounded-[30px] lg:py-5'>
       <div>
         <p className='mb-8 text-center font-clashmd text-sm lg:mb-10 lg:text-start lg:text-base'>
           Bank Verification Number

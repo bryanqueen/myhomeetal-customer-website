@@ -15,6 +15,7 @@ import { useAddressBook } from '@/app/addressBookProvider';
 import authUtils from '@/app/utils/authUtils';
 import toast from 'react-hot-toast';
 import { numberToWords } from '@/app/utils/helpers';
+import productService from '@/app/services/productService';
 
 interface Address {
   id: number;
@@ -25,6 +26,7 @@ interface Address {
 interface UserInfo {
   firstname: string;
   lastname: string;
+  id: string;
 }
 
 const CheckoutForm: React.FC = () => {
@@ -42,6 +44,7 @@ const CheckoutForm: React.FC = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [myAddress, setMyAddress] = useState('');
+  const [error, setError] = useState('');
   const [myindex, setIndex] = useState<number | null>(null);
   const [id, setId] = useState<number | null>(null);
 
@@ -77,6 +80,27 @@ const CheckoutForm: React.FC = () => {
     setUserInfo(fetchedUserInfo);
   }, []);
 
+  const fetchUser = async () => {
+    if (userInfo) {
+      try {
+        const res = await productService.getUserDetails(userInfo.id);
+        if (res.status === 200) {
+          console.log(res.data);
+        } else {
+          console.log('Failed to fetch user details:', res);
+        }
+      } catch (error) {
+        console.log('Error fetching user details:', error);
+      }
+    } else {
+      console.log('User info is undefined or missing ID');
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, [userInfo]);
+
   useEffect(() => {
     // Ensure that the address list is updated after creating a new address
     setSelectedAddress(addresses.length > 0 ? addresses[0] : null);
@@ -84,6 +108,19 @@ const CheckoutForm: React.FC = () => {
 
   const handleAddressClick = (address) => {
     setSelectedAddress(address);
+  };
+
+  const handlePhoneChange = (e) => {
+    const inputValue = e.target.value;
+    // Allow digits and the '+' character at the beginning
+    const isNumber = /^[+]?\d*$/.test(inputValue);
+
+    if (!isNumber) {
+      setError('Invalid Phone Number format');
+    } else {
+      setError('');
+      setPhoneNumber(inputValue);
+    }
   };
 
   const handleEdit = (
@@ -135,7 +172,8 @@ const CheckoutForm: React.FC = () => {
                     <Input
                       name='phoneNumber'
                       value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      onChange={handlePhoneChange}
+                      errorKey={error}
                       labelKey='Phone Number'
                       placeholder='+234 9073872270'
                       labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
@@ -166,18 +204,19 @@ const CheckoutForm: React.FC = () => {
                   onClick={(e) => e.stopPropagation()}
                   className='mt-10 rounded-xl bg-[#f4f4f4] px-5 py-10 lg:mx-auto lg:mt-24 lg:block lg:max-w-[582px] lg:rounded-2xl'
                 >
-                  <div className='grid gap-5 lg:max-w-[503px]'>
+                  <div className='mx-auto grid gap-5 lg:max-w-[503px]'>
                     <Input
                       name='address'
                       onChange={(e) => setMyAddress(e.target.value)}
                       labelKey='Delevery Address'
                       placeholder='10, Uliot street, Bariga, Lagos Nigeria'
                       labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
-                      inputClassName='h-[50px] lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
+                      inputClassName='h-[50px] w-full lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
                     />
                     <Input
                       name='phoneNumber'
-                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      onChange={handlePhoneChange}
+                      errorKey={error}
                       labelKey='Phone Number'
                       placeholder='+234 9073872270'
                       labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
@@ -268,6 +307,14 @@ const CheckoutForm: React.FC = () => {
                     className='text-xs text-primary lg:font-clashmd lg:text-base'
                   >
                     Continue Checkout
+                  </button>
+                )}
+                {firstStageCompleted && (
+                  <button
+                    onClick={() => setFirstStageCompleted(false)}
+                    className='text-xs text-primary lg:font-clashmd lg:text-base'
+                  >
+                    Modify Checkout
                   </button>
                 )}
               </div>
@@ -516,11 +563,7 @@ const CheckoutForm: React.FC = () => {
                     aria-label='Pay with wallet'
                     onValueChange={setSelectedPaymentMethod}
                   >
-                    <RadioItem
-                      id='r3'
-                      value='Card'
-                      labelKey='Online payment'
-                    />
+                    <RadioItem id='r3' value='Card' labelKey='Online payment' />
                     <RadioItem
                       id='r4'
                       value='Wallet'

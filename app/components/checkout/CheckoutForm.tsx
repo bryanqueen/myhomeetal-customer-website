@@ -566,7 +566,7 @@ const CheckoutForm: React.FC = () => {
                     aria-label='Pay with wallet'
                     onValueChange={setSelectedPaymentMethod}
                   >
-                    <RadioItem id='r3' value='Card' labelKey='Online payment' />
+                    <RadioItem id='r3' value='Online' labelKey='Online payment' />
                     <RadioItem
                       id='r4'
                       value='Wallet'
@@ -576,7 +576,7 @@ const CheckoutForm: React.FC = () => {
                 )}
 
                 <div className='mt-5 transition-all lg:mt-8'>
-                  {selectedPaymentMethod === 'Card' && (
+                  {selectedPaymentMethod === 'Online' && (
                     <p className='pl-1 text-[10px] text-[#7C7C7C] lg:pl-0 lg:text-base'>
                       Secure, fast, and efficient. Use your credit/debit card or
                       bank account to finalize your purchase instantly.

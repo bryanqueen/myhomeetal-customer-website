@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import productService from '@/app/services/productService';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import SearchForm from '@/app/components/forms/SearchForm';

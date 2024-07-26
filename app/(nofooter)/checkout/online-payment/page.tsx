@@ -52,7 +52,8 @@ export default function OnlinePaymentPage() {
           <div className='flex items-center'>
             <div className='w-fit'>
               <h1 className='font-clashmd text-xl text-black lg:text-[31px]'>
-                Pay <ProductPrice priceInNGN={cartTotal} region={region} /> with
+                Pay <ProductPrice priceInNGN={cartTotal + 60} region={region} />{' '}
+                with
               </h1>
               <p className='mt-1 max-w-[80%] text-xs text-[#525252] lg:max-w-[500px] lg:text-base lg:leading-[19.68px]'>
                 All transactions are safe and secure. Your financial information
@@ -78,7 +79,10 @@ export default function OnlinePaymentPage() {
 
           {activePaymentMethod && (
             <div
-              onClick={() => setActivePaymentMethod('')}
+              onClick={() => {
+                setActivePaymentMethod('');
+                window.location.reload();
+              }}
               className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black/50'
             >
               {renderPaymentComponent()}

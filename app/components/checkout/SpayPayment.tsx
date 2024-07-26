@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Script from 'next/script';
 import toast from 'react-hot-toast';
 import authUtils from '@/app/utils/authUtils';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface UserInfo {
   firstname: string;
@@ -14,8 +15,12 @@ interface PayWithSpayProps {
 }
 
 const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
+  const router = useRouter();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [scriptLoaded, setScriptLoaded] = useState(false);
+  const searchParams = useSearchParams();
+  const orderId = decodeURIComponent(searchParams.get('order') || '');
+  const deliveryFee = 60;
 
   useEffect(() => {
     // Simulate fetching user info
@@ -29,9 +34,9 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
     if (scriptLoaded && userInfo) {
       window.payWithSpay = function () {
         const handler = {
-          amount: cartTotal,
+          amount: cartTotal + deliveryFee,
           currency: 'NGN',
-          reference: 'myhomeetal234556739',
+          reference: `myhomeetal-${orderId}`,
           merchantCode: 'MCH_la8whiqumgh489i',
           customer: {
             firstName: userInfo?.firstname,
@@ -40,12 +45,18 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
             email: userInfo?.email,
           },
           callback: function (response) {
-            if (response?.status === 'SUCCESS') {
-              toast.success('Payment successful');
+            if (response.status === 'FAILED') {
+              toast.error('payment failed, please try again!');
+            } else if (response.status === 'SUCCESSFUL') {
+              // Clear the cart storage from local storage
+              localStorage.removeItem('react-use-cart');
+              router.push(
+                `/order-confirmed?id=${orderId}-${response.amount}-${response.paymentMethod}`
+              );
             }
           },
           onClose: function () {
-            console.log('do something before closing');
+            window.location.reload();
           },
         };
 

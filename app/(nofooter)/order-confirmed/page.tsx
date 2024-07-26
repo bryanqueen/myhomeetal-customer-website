@@ -5,8 +5,23 @@ import Button from '@components/Button';
 import { ROUTES } from '@utils/routes';
 import ProductPrice from '@/app/components/product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 function OrderConfirmedPage() {
+  const searchParams = useSearchParams();
+  const [orderItems, setOrderItems] = useState([]);
+  const orderInfo = decodeURIComponent(searchParams.get('id') || '');
+  const order = orderInfo.split('-');
+
+  useEffect(() => {
+    // Retrieve orderItems from local storage
+    const storedOrderItems = localStorage.getItem('orderItems');
+    if (storedOrderItems) {
+      setOrderItems(JSON.parse(storedOrderItems));
+    }
+  }, []);
+
   return (
     <main className='pb-20 pt-20 lg:pt-0'>
       <div className='flex flex-col items-center gap-5 px-[3%] lg:gap-10'>
@@ -21,15 +36,21 @@ function OrderConfirmedPage() {
           <h2 className='mb-2 mt-4 text-center font-clashmd text-sm lg:text-[39px]'>
             Order Placed Successfully!
           </h2>
-          <p className='text-center text-[10px] text-[#979797] lg:text-base lg:text-myGray'>
-            Order ID: #1562792771583
-          </p>
+          {order && (
+            <p className='text-center text-[10px] text-[#979797] lg:text-base lg:text-myGray'>
+              Order ID: #{order[0]}
+            </p>
+          )}
         </div>
-        <div className='lg:mt-10 min-w-full lg:mb-10'>
-          <OrderSummary />
+        <div className='min-w-full lg:mb-10 lg:mt-10'>
+          <OrderSummary
+            amount={order[1]}
+            paymentMethod={order[2].toLowerCase()}
+            orderItems={orderItems}
+          />
         </div>
         <Button
-          className='mb-3 min-w-full rounded-xl border-0 p-3 lg:p-5 font-clashmd text-base shadow-none lg:min-w-[600px]'
+          className='mb-3 min-w-full rounded-xl border-0 p-3 font-clashmd text-base shadow-none lg:min-w-[600px] lg:p-5'
           linkType='rel'
           href={ROUTES.HOME}
         >
@@ -40,7 +61,7 @@ function OrderConfirmedPage() {
   );
 }
 
-const OrderSummary = () => {
+const OrderSummary = ({ amount, paymentMethod, orderItems }) => {
   const { region } = useRegion();
   return (
     <div className='w-full pb-5 pt-12 lg:rounded-[20px] lg:border lg:border-[#E4E7EC] lg:px-10'>
@@ -53,20 +74,25 @@ const OrderSummary = () => {
             Order Summary
           </p>
         </div>
-        <div className='grid gap-3 border-[#F4F4F4] px-2 lg:block lg:rounded-2xl lg:border lg:p-3 lg:px-5'>
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-        </div>
+        {orderItems && (
+          <div className='grid gap-3 border-[#F4F4F4] px-2 lg:block lg:rounded-2xl lg:border lg:p-3 lg:px-5'>
+            {orderItems.map((item: any) => (
+              <OrderItem
+                name={item.name}
+                key={item.product}
+                price={item.price}
+                images={item.images}
+                brand={item.brand}
+              />
+            ))}
+          </div>
+        )}
       </div>
       <div className='mt-5 w-full rounded-[10px] border border-[#F4F4F4] p-5 px-5 lg:rounded-2xl lg:border-[#E4E7EC]'>
         <div className='mb-4 flex items-center justify-between text-[10px] text-myGray lg:text-base'>
           <span>Amount:</span>
           <ProductPrice
-            priceInNGN={24000}
+            priceInNGN={Number(amount)}
             region={region}
             className='font-clashmd text-sm lg:text-base'
           />
@@ -74,7 +100,7 @@ const OrderSummary = () => {
         <div className='flex items-center justify-between text-[10px] text-myGray lg:text-base'>
           <span>Payment method:</span>
           <span className='font-clashmd'>
-            Online payment - flutterwave card payment
+            Online payment - spay {paymentMethod} payment
           </span>
         </div>
       </div>
@@ -82,7 +108,7 @@ const OrderSummary = () => {
   );
 };
 
-const OrderItem = () => {
+const OrderItem = ({ name, images, brand, price }) => {
   const { region } = useRegion();
   return (
     <div className='grid gap-3 rounded-[7.33px] border-[0.46px] border-[#F4F4F4] px-3 py-5 lg:border-0 lg:border-b lg:px-0 lg:last:border-b-0'>
@@ -90,7 +116,7 @@ const OrderItem = () => {
         <div className='flex items-center gap-4 lg:max-w-[583px] lg:items-start lg:gap-5'>
           <div>
             <Image
-              src='/images/product/save.png'
+              src={images[0]}
               alt='product image'
               width={95}
               height={95}
@@ -100,20 +126,19 @@ const OrderItem = () => {
           </div>
           <div className='grid gap-1'>
             <p className='max-w-[194px] font-clashmd text-[10px] text-myGray lg:max-w-full lg:text-base'>
-              Samsung Galaxy A14 6.6&quot; 4GB RAM/64GB ROM Android 13 - Light
-              Green
+              {name}
             </p>
             <div className='flex items-center gap-2 text-[10px] text-myGray lg:text-sm'>
               <span>Brand: </span>
               <span className='text-[#FF0003] lg:rounded-full lg:bg-[#FFF1F1] lg:px-3 lg:py-2 lg:text-myGray'>
-                Samsung
+                {brand}
               </span>
             </div>
           </div>
         </div>
         <div className='min-w-fit'>
           <ProductPrice
-            priceInNGN={3450}
+            priceInNGN={price}
             region={region}
             className='font-clashmd text-sm text-black lg:text-[20px] lg:text-[#989898]'
           />

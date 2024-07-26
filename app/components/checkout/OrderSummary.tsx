@@ -3,13 +3,14 @@
 import { useCart } from 'react-use-cart';
 
 import Button from '@components/Button';
-import { ROUTES } from '@utils/routes';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import Input from '../Input';
 import productService from '@/app/services/productService';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { jwtVerify } from 'jose';
 
 interface Address {
   id: number;
@@ -35,9 +36,40 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   selectedPayment,
 }) => {
   const { cartTotal, totalItems, items } = useCart();
+  const router = useRouter();
+  const [isTokenValid, setIsTokenValid] = useState(true); // State to track token validity
   const { region } = useRegion();
   const [orderId, setOrderId] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Function to check token validity
+  const checkTokenValidity = async () => {
+    const token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('AUTH_TOKEN='));
+    if (token) {
+      const tokenValue = token.split('=')[1];
+      try {
+        await jwtVerify(
+          tokenValue,
+          new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET)
+        );
+      } catch (error) {
+        if (error.name === 'JWTExpired' || error.message.includes('exp')) {
+          console.error('JWT expired:', error);
+        } else {
+          console.error('JWT verification failed:', error);
+        }
+        setIsTokenValid(false);
+      }
+    } else {
+      setIsTokenValid(false);
+    }
+  };
+
+  useEffect(() => {
+    checkTokenValidity(); // Check token validity on component mount
+  }, []);
 
   const handleFirstStage = async () => {
     if (address && deliveryMethod && selectedPayment) {
@@ -50,13 +82,22 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
 
   const deliveryFee = 60;
 
-  /* const handleCheckout = async() => {
+  const handleCheckout = async () => {
     setLoading(true);
+    // Check if the token is valid before proceeding
+    if (!isTokenValid) {
+      // Redirect to login if the token is invalid
+      return router.push('/login');
+    }
+
     try {
       const orderItems = items.map((item) => ({
         product: item.id,
         qty: item.quantity,
         price: item.price,
+        images: item.images,
+        name: item.productTitle,
+        brand: item.brand,
       }));
       const payload = {
         address: address.email,
@@ -67,23 +108,20 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
       };
       const res = await productService.createOrder(payload);
       if (res.status === 200) {
-        setFirstStageCompleted(true);
-        setOrderId(res.data?.newOrder?.orderId);
-        setLoading(false);
-        const checkoutState = {
-          address,
-          firstStage: true,
-          deliveryMethod,
-          selectedPayment,
-        };
-        localStorage.setItem('checkoutState', JSON.stringify(checkoutState));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const orderId = res.data?.newOrder?.orderId;
+
+        // Store orderItems to local storage
+        localStorage.setItem('orderItems', JSON.stringify(orderItems));
+
+        if (selectedPayment === 'Online') {
+          router.push(`/checkout/online-payment?order=${orderId}`);
+        }
       }
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
-  } */
+  };
 
   return (
     <div className='h-fit rounded-[13.11px] bg-[#F4F4F4] lg:rounded-2xl'>
@@ -138,13 +176,18 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
       <div className='px-4 pb-5'>
         {firstStage ? (
           <Button
-            disabled={isChange === true}
-            linkType='rel'
-            href={ROUTES.ONLINE}
+            disabled={isChange === true || loading === true}
+            loading={loading}
+            onClick={handleCheckout}
             className='mt-8 w-full rounded-[10px] border-0 p-4 font-clashmd text-base shadow-none lg:rounded-full'
           >
             <span>
-              Checkout (<ProductPrice priceInNGN={cartTotal + deliveryFee} region={region} />)
+              Checkout (
+              <ProductPrice
+                priceInNGN={cartTotal + deliveryFee}
+                region={region}
+              />
+              )
             </span>
           </Button>
         ) : (

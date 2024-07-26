@@ -296,7 +296,7 @@ const CheckoutForm: React.FC = () => {
                 </p>
               </div>
               <div>
-                {addresses.length > 0 && !isChange && !firstStageCompleted && (
+                {addresses?.length > 0 && !isChange && !firstStageCompleted && (
                   <button
                     onClick={() => setIsChange(!isChange)}
                     className='text-xs text-[#8B1A1A] lg:font-clashmd lg:text-base'
@@ -322,7 +322,7 @@ const CheckoutForm: React.FC = () => {
                 )}
               </div>
             </div>
-            {addresses.length > 0 ? (
+            {addresses?.length > 0 ? (
               <div>
                 {!isChange ? (
                   <div className='mt-10 rounded-[10px] bg-[#F4F4F4] px-3 py-5 lg:rounded-2xl lg:px-9'>

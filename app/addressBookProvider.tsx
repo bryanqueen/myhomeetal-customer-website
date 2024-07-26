@@ -70,7 +70,7 @@ export const AddressBookProvider: React.FC<{ children: ReactNode }> = ({
 
   const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(() => {
     if (typeof window !== 'undefined') {
-      const storedMethod = localStorage.getItem('selectedPaymentMethod');
+      const storedMethod = localStorage.getItem('selectedDeliveryMethod');
       return storedMethod || '';
     }
     return '';

@@ -29,7 +29,7 @@ export default function MobileCategoryContainer({
   return (
     <div>
       {/**Mobile Category Header */}
-      <div className='fixed left-0 right-0 top-[155px] z-10 flex h-[40px] items-center justify-between bg-[#F4F4F4] pl-[14px] pr-[10px] lg:hidden'>
+      <div className='fixed left-0 right-0 top-[163px] z-10 flex h-[40px] items-center justify-between bg-[#F4F4F4] pl-[14px] pr-[10px] lg:hidden'>
         {products && (
           <p className='text-[8px] md:text-sm'>
             Showing over {products.length} results for &quot;{categoryName}

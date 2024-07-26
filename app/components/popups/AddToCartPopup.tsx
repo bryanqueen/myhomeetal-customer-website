@@ -7,10 +7,14 @@ import ClientOnly from '../ClientOnly';
 import { usePopup } from '@/app/PopupProvider';
 import MobileCartItem from '../cart/MobileCartItem';
 
-export default function AddToCartPopup({ data }: any) {
+export default function AddToCartPopup({ data }: { data: any }) {
   const { isPopupVisible, hidePopup } = usePopup();
   const { items } = useCart();
   const itemInCart = items.find((item) => item.id === data?._id);
+
+  if (!data) {
+    return null; // Return null if data is undefined or null
+  }
 
   return (
     <ClientOnly>

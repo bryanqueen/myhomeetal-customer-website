@@ -16,7 +16,6 @@ import { notFound, useRouter } from 'next/navigation';
 import productService from '@/app/services/productService';
 import ClientOnly from '../ClientOnly';
 import { useEffect, useState } from 'react';
-import { jwtVerify } from 'jose';
 import toast from 'react-hot-toast';
 
 const ProductOverview = ({ data }: any) => {
@@ -27,31 +26,6 @@ const ProductOverview = ({ data }: any) => {
 
   const handleBack = () => {
     router.back();
-  };
-
-  // Function to check token validity
-  const checkTokenValidity = async () => {
-    const token = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('AUTH_TOKEN='));
-    if (token) {
-      const tokenValue = token.split('=')[1];
-      try {
-        await jwtVerify(
-          tokenValue,
-          new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET)
-        );
-      } catch (error) {
-        if (error.name === 'JWTExpired' || error.message.includes('exp')) {
-          console.error('JWT expired:', error);
-        } else {
-          console.error('JWT verification failed:', error);
-        }
-        setIsTokenValid(false);
-      }
-    } else {
-      setIsTokenValid(false);
-    }
   };
 
   //fetch all saved items
@@ -70,27 +44,20 @@ const ProductOverview = ({ data }: any) => {
   };
 
   useEffect(() => {
-    checkTokenValidity(); // Check token validity on component mount
     fetchSavedItems();
   }, []);
 
   const savedItem = async () => {
-    // Check if the token is valid before proceeding
-    if (!isTokenValid) {
-      // Redirect to login if the token is invalid
-      return router.push('/login');
-    }
-
     // Check if the item is already saved
     if (savedItems.includes(id)) {
       toast.error('Item already saved');
       return;
     }
-
+  
     try {
       const payload = { authMethod: data?._id };
       const res = await productService.saveProduct({ payload, id });
-
+  
       // Check the response status
       if (res.status === 200) {
         toast.success('Saved item');
@@ -99,8 +66,14 @@ const ProductOverview = ({ data }: any) => {
         toast.error('Failed to save item. Please try again.');
       }
     } catch (error) {
-      console.error('Error in saving item:', error);
-      toast.error('An error occurred while saving the item. Please try again.');
+      if (error.response && error.response.status === 401) {
+        // JWT expired or unauthorized, redirect to login page
+        router.push('/login');
+      } else {
+        // Handle other errors
+        console.error('Error in saving item:', error);
+        toast.error('An error occurred while saving the item. Please try again.');
+      }
     }
   };
 

@@ -7,26 +7,38 @@ import ClientOnly from '../ClientOnly';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import productService from '@/app/services/productService';
-import { notFound } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import authUtils from '@/app/utils/authUtils';
 
 export default function ReferralDashBoard2() {
   const [code, setCode] = useState();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const fetchedUserInfo = await authUtils.getUserInfo();
-      if (fetchedUserInfo) {
-        const res = await productService.getUserDetails(fetchedUserInfo.id);
-        if (!res || !res.data) {
-          console.log('id not found');
-          return notFound();
+      try {
+        const fetchedUserInfo = await authUtils.getUserInfo();
+        if (fetchedUserInfo) {
+          const res = await productService.getUserDetails(fetchedUserInfo.id);
+          if (!res || !res.data) {
+            console.log('id not found');
+            return notFound();
+          }
+          setCode(res.data.referralCode);
         }
-        setCode(res.data.referralCode);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          // JWT expired or unauthorized, redirect to login page
+          router.push('/login');
+        } else {
+          // Handle other errors
+          console.error('An error occurred:', error);
+        }
       }
     };
+    
     fetchUserInfo();
-  }, []);
+  }, [router]);
 
   const referralLink = `https://www.myhomeetal.com/register?code=${code}`;
 
@@ -42,7 +54,7 @@ export default function ReferralDashBoard2() {
   };
   return (
     <div className='relative flex h-[256px] w-full items-center justify-center overflow-hidden rounded-2xl bg-primaryBg lg:h-[493px] lg:justify-between lg:rounded-3xl lg:pl-[5%]'>
-      <div className='z-20 lg:z-0'>
+      <div className='z-10 lg:z-0'>
         <div className='mx-auto mb-8 max-w-[224px] lg:mx-0 lg:max-w-[460px]'>
           <h1 className='mb-3 text-center font-clashmd text-xs text-white lg:mb-4 lg:max-w-[352px] lg:text-start lg:text-[39px] lg:leading-[47.97px]'>
             Welcome to our referral program

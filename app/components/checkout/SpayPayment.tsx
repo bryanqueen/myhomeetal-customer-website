@@ -48,8 +48,6 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
             if (response.status === 'FAILED') {
               toast.error('payment failed, please try again!');
             } else if (response.status === 'SUCCESSFUL') {
-              // Clear the cart storage from local storage
-              localStorage.removeItem('react-use-cart');
               router.push(
                 `/order-confirmed?id=${orderId}-${response.amount}-${response.paymentMethod}`
               );

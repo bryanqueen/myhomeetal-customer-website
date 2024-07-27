@@ -16,7 +16,7 @@ const PayWithSpay = dynamic(
 );
 
 export default function OnlinePaymentPage() {
-  const { items, cartTotal } = useCart();
+  const { cartTotal } = useCart();
   const { region } = useRegion();
   const router = useRouter();
 

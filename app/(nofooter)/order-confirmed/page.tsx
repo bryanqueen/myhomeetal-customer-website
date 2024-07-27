@@ -6,7 +6,7 @@ import { ROUTES } from '@utils/routes';
 import ProductPrice from '@/app/components/product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 function OrderConfirmedPage() {
   const searchParams = useSearchParams();
@@ -14,7 +14,14 @@ function OrderConfirmedPage() {
   const orderInfo = decodeURIComponent(searchParams.get('id') || '');
   const order = orderInfo.split('-');
 
+  const clearCart = () => {
+    console.log('clearing cart');
+    localStorage.removeItem('react-use-cart');
+  };
+
   useEffect(() => {
+    // Clear the cart storage from local storage
+    clearCart();
     // Retrieve orderItems from local storage
     const storedOrderItems = localStorage.getItem('orderItems');
     if (storedOrderItems) {
@@ -23,41 +30,43 @@ function OrderConfirmedPage() {
   }, []);
 
   return (
-    <main className='pb-20 pt-20 lg:pt-0'>
-      <div className='flex flex-col items-center gap-5 px-[3%] lg:gap-10'>
-        <div className='mt-20 grid justify-items-center text-center'>
-          <Image
-            src='/images/confetti.png'
-            alt='Logo'
-            width={76}
-            height={76}
-            loading='lazy'
-          />
-          <h2 className='mb-2 mt-4 text-center font-clashmd text-sm lg:text-[39px]'>
-            Order Placed Successfully!
-          </h2>
-          {order && (
-            <p className='text-center text-[10px] text-[#979797] lg:text-base lg:text-myGray'>
-              Order ID: #{order[0]}
-            </p>
-          )}
+    <Suspense>
+      <main className='pb-20 pt-20 lg:pt-0'>
+        <div className='flex flex-col items-center gap-5 px-[3%] lg:gap-10'>
+          <div className='mt-20 grid justify-items-center text-center'>
+            <Image
+              src='/images/confetti.png'
+              alt='Logo'
+              width={76}
+              height={76}
+              loading='lazy'
+            />
+            <h2 className='mb-2 mt-4 text-center font-clashmd text-sm lg:text-[39px]'>
+              Order Placed Successfully!
+            </h2>
+            {order && (
+              <p className='text-center text-[10px] text-[#979797] lg:text-base lg:text-myGray'>
+                Order ID: #{order[0]}
+              </p>
+            )}
+          </div>
+          <div className='min-w-full lg:mb-10 lg:mt-10'>
+            <OrderSummary
+              amount={order[1]}
+              paymentMethod={order[2].toLowerCase()}
+              orderItems={orderItems}
+            />
+          </div>
+          <Button
+            className='mb-3 min-w-full rounded-xl border-0 p-3 font-clashmd text-base shadow-none lg:min-w-[600px] lg:p-5'
+            linkType='rel'
+            href={ROUTES.HOME}
+          >
+            Continue Shopping
+          </Button>
         </div>
-        <div className='min-w-full lg:mb-10 lg:mt-10'>
-          <OrderSummary
-            amount={order[1]}
-            paymentMethod={order[2].toLowerCase()}
-            orderItems={orderItems}
-          />
-        </div>
-        <Button
-          className='mb-3 min-w-full rounded-xl border-0 p-3 font-clashmd text-base shadow-none lg:min-w-[600px] lg:p-5'
-          linkType='rel'
-          href={ROUTES.HOME}
-        >
-          Continue Shopping
-        </Button>
-      </div>
-    </main>
+      </main>
+    </Suspense>
   );
 }
 

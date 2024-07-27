@@ -67,9 +67,9 @@ export default async function Home() {
     await Promise.all(
       topCategories.map(async (category) => {
         const productsRes = await productService.getProductsByCategory(
-          category._id
+          category?._id
         );
-        productsByCategory[category._id] = productsRes.data;
+        productsByCategory[category?._id] = productsRes.data;
       })
     );
   } catch (error) {

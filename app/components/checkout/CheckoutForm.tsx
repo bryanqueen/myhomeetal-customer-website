@@ -15,7 +15,6 @@ import { useAddressBook } from '@/app/addressBookProvider';
 import authUtils from '@/app/utils/authUtils';
 import toast from 'react-hot-toast';
 import { numberToWords } from '@/app/utils/helpers';
-import productService from '@/app/services/productService';
 
 interface Address {
   id: number;
@@ -86,23 +85,6 @@ const CheckoutForm: React.FC = () => {
     calculateDeliveryDates();
     setUserInfo(fetchedUserInfo);
   }, []);
-
-  const fetchUser = async () => {
-    if (userInfo) {
-      try {
-        const res = await productService.getUserDetails(userInfo.id);
-        if (res.status === 200) {
-          console.log(res.data);
-        } else {
-          console.log('Failed to fetch user details:', res);
-        }
-      } catch (error) {
-        console.log('Error fetching user details:', error);
-      }
-    } else {
-      console.log('User info is undefined or missing ID');
-    }
-  };
 
   useEffect(() => {
     // Ensure that the address list is updated after creating a new address

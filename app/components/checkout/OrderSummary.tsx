@@ -7,10 +7,9 @@ import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import Input from '../Input';
 import productService from '@/app/services/productService';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { jwtVerify } from 'jose';
 
 interface Address {
   id: number;
@@ -37,39 +36,8 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
 }) => {
   const { cartTotal, totalItems, items } = useCart();
   const router = useRouter();
-  const [isTokenValid, setIsTokenValid] = useState(true); // State to track token validity
   const { region } = useRegion();
-  const [orderId, setOrderId] = useState('');
   const [loading, setLoading] = useState(false);
-
-  // Function to check token validity
-  const checkTokenValidity = async () => {
-    const token = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('AUTH_TOKEN='));
-    if (token) {
-      const tokenValue = token.split('=')[1];
-      try {
-        await jwtVerify(
-          tokenValue,
-          new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET)
-        );
-      } catch (error) {
-        if (error.name === 'JWTExpired' || error.message.includes('exp')) {
-          console.error('JWT expired:', error);
-        } else {
-          console.error('JWT verification failed:', error);
-        }
-        setIsTokenValid(false);
-      }
-    } else {
-      setIsTokenValid(false);
-    }
-  };
-
-  useEffect(() => {
-    checkTokenValidity(); // Check token validity on component mount
-  }, []);
 
   const handleFirstStage = async () => {
     if (address && deliveryMethod && selectedPayment) {
@@ -84,11 +52,6 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
 
   const handleCheckout = async () => {
     setLoading(true);
-    // Check if the token is valid before proceeding
-    if (!isTokenValid) {
-      // Redirect to login if the token is invalid
-      return router.push('/login');
-    }
 
     try {
       const orderItems = items.map((item) => ({
@@ -113,12 +76,25 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
         // Store orderItems to local storage
         localStorage.setItem('orderItems', JSON.stringify(orderItems));
 
+        // Store orderItems to local storage
+        localStorage.setItem('phone', JSON.stringify(address.phoneNumber));
+
         if (selectedPayment === 'Online') {
           router.push(`/checkout/online-payment?order=${orderId}`);
         }
       }
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status === 401) {
+        // JWT expired or unauthorized, redirect to login page
+        router.push('/login');
+      } else {
+        // Handle other errors
+        console.error('Error in creating order:', error);
+        toast.error(
+          'An error occurred while processing your order. Please try again.'
+        );
+      }
+    } finally {
       setLoading(false);
     }
   };

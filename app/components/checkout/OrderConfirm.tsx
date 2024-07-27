@@ -14,13 +14,12 @@ export default function OrderConfirm() {
   const orderInfo = decodeURIComponent(searchParams.get('id') || '');
   const order = orderInfo.split('-');
 
-  const clearCart = () => {
-    localStorage.removeItem('react-use-cart');
+  const clearStage = () => {
+    localStorage.removeItem('firstStageCompleted');
   };
 
   useEffect(() => {
-    // Clear the cart storage from local storage
-    clearCart();
+    clearStage();
     // Retrieve orderItems from local storage
     const storedOrderItems = localStorage.getItem('orderItems');
     if (storedOrderItems) {

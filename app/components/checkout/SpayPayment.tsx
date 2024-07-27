@@ -17,16 +17,28 @@ interface PayWithSpayProps {
 const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
   const router = useRouter();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [phone, setPhone] = useState('');
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const searchParams = useSearchParams();
   const orderId = decodeURIComponent(searchParams.get('order') || '');
   const deliveryFee = 60;
+
+  const clearCart = () => {
+    localStorage.removeItem('react-use-cart');
+  };
 
   useEffect(() => {
     // Simulate fetching user info
     const fetchedUserInfo = authUtils.getUserInfo();
     if (fetchedUserInfo) {
       setUserInfo(fetchedUserInfo);
+    }
+
+    const storedphone = localStorage.getItem('phone');
+    if (storedphone) {
+      setPhone(JSON.parse(storedphone));
+    } else {
+      console.error('No order items found in local storage.');
     }
   }, []);
 
@@ -41,13 +53,15 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
           customer: {
             firstName: userInfo?.firstname,
             lastName: userInfo?.lastname,
-            phone: '0813575SPAY',
+            phone: phone,
             email: userInfo?.email,
           },
           callback: function (response) {
             if (response.status === 'FAILED') {
               toast.error('payment failed, please try again!');
             } else if (response.status === 'SUCCESSFUL') {
+              // Clear the cart storage from local storage
+              clearCart();
               router.push(
                 `/order-confirmed?id=${orderId}-${response.amount}-${response.paymentMethod}`
               );

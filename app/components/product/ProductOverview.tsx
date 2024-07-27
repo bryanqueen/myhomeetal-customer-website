@@ -52,6 +52,7 @@ const ProductOverview = ({ data }: any) => {
     // Check if the item is already saved
     if (savedItems.includes(id)) {
       toast.error('Item already saved');
+      setLoading(false);
       return;
     }
   

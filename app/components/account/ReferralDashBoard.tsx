@@ -5,25 +5,37 @@ import ClientOnly from '../ClientOnly';
 import toast from 'react-hot-toast';
 import authUtils from '@/app/utils/authUtils';
 import productService from '@/app/services/productService';
-import { notFound } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 
 export default function ReferralDashBoard() {
   const [code, setCode] = useState();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const fetchedUserInfo = await authUtils.getUserInfo();
-      if (fetchedUserInfo) {
-        const res = await productService.getUserDetails(fetchedUserInfo.id);
-        if (!res || !res.data) {
-          console.log('id not found');
-          return notFound();
+      try {
+        const fetchedUserInfo = await authUtils.getUserInfo();
+        if (fetchedUserInfo) {
+          const res = await productService.getUserDetails(fetchedUserInfo.id);
+          if (!res || !res.data) {
+            console.log('id not found');
+            return notFound();
+          }
+          setCode(res.data.referralCode);
         }
-        setCode(res.data.referralCode);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          // JWT expired or unauthorized, redirect to login page
+          router.push('/login');
+        } else {
+          // Handle other errors
+          console.error('An error occurred:', error);
+        }
       }
     };
+    
     fetchUserInfo();
-  }, []);
+  }, [router]);
 
   const referralLink = `https://www.myhomeetal.com/register?code=${code}`;
 

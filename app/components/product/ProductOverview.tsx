@@ -19,8 +19,8 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 const ProductOverview = ({ data }: any) => {
-  const [isTokenValid, setIsTokenValid] = useState(true); // State to track token validity
   const [savedItems, setSavedItems] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const id = data?._id;
 
@@ -48,6 +48,7 @@ const ProductOverview = ({ data }: any) => {
   }, []);
 
   const savedItem = async () => {
+    setLoading(true);
     // Check if the item is already saved
     if (savedItems.includes(id)) {
       toast.error('Item already saved');
@@ -61,16 +62,20 @@ const ProductOverview = ({ data }: any) => {
       // Check the response status
       if (res.status === 200) {
         toast.success('Saved item');
+        setLoading(false);
       } else {
         // Handle unexpected response status
         toast.error('Failed to save item. Please try again.');
+        setLoading(false);
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
         // JWT expired or unauthorized, redirect to login page
+        setLoading(false);
         router.push('/login');
       } else {
         // Handle other errors
+        setLoading(false);
         console.error('Error in saving item:', error);
         toast.error('An error occurred while saving the item. Please try again.');
       }
@@ -211,9 +216,13 @@ const ProductOverview = ({ data }: any) => {
 
                     <button
                       onClick={savedItem}
-                      className='flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'
+                      className='flex h-[60px] relative min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'
                     >
                       <HeartAdd size='24' color='#ffffff' variant='Bulk' />
+                      {loading && (
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      )}
+                      
                     </button>
                   </div>
                 </ClientOnly>

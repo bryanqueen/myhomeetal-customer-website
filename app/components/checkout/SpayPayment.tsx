@@ -3,6 +3,7 @@ import Script from 'next/script';
 import toast from 'react-hot-toast';
 import authUtils from '@/app/utils/authUtils';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useCart } from 'react-use-cart';
 
 interface UserInfo {
   firstname: string;
@@ -22,10 +23,7 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
   const searchParams = useSearchParams();
   const orderId = decodeURIComponent(searchParams.get('order') || '');
   const deliveryFee = 60;
-
-  const clearCart = () => {
-    localStorage.removeItem('react-use-cart');
-  };
+  const {emptyCart} = useCart();
 
   useEffect(() => {
     // Simulate fetching user info
@@ -61,7 +59,7 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
               toast.error('payment failed, please try again!');
             } else if (response.status === 'SUCCESSFUL') {
               // Clear the cart storage from local storage
-              clearCart();
+              emptyCart();
               router.push(
                 `/order-confirmed?id=${orderId}-${response.amount}-${response.paymentMethod}`
               );

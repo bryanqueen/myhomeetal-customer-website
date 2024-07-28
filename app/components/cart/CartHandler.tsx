@@ -1,10 +1,8 @@
 'use client';
 
 import { useCart, Item } from 'react-use-cart';
-import { useEffect, useState } from 'react';
 import { ShoppingCart } from 'iconsax-react';
 import Button from '@components/Button';
-import { ROUTES } from '@/app/utils/routes';
 import { usePopup } from '@/app/PopupProvider';
 
 interface Props {

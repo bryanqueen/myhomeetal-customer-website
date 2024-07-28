@@ -6,12 +6,8 @@ import ClientOnly from '../ClientOnly';
 import Button from '../Button';
 
 export default function MobileCartSummary() {
-  const { items, removeItem, cartTotal } = useCart();
+  const { cartTotal, emptyCart } = useCart();
   const { region } = useRegion();
-
-  const clearCart = () => {
-    items?.forEach((item) => removeItem(item.id));
-  };
   return (
     <ClientOnly>
       <div>
@@ -39,7 +35,7 @@ export default function MobileCartSummary() {
             Checkout now
           </Button>
           <div className='mt-4 flex items-center justify-center '>
-            <button onClick={clearCart} className='text-xs text-[#5E5E5E]'>Remove all</button>
+            <button onClick={emptyCart} className='text-xs text-[#5E5E5E]'>Remove all</button>
           </div>
         </div>
       </div>

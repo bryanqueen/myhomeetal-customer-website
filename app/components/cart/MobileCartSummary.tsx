@@ -4,10 +4,17 @@ import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import ClientOnly from '../ClientOnly';
 import Button from '../Button';
+import { useAddressBook } from '@/app/addressBookProvider';
 
 export default function MobileCartSummary() {
   const { cartTotal, emptyCart } = useCart();
   const { region } = useRegion();
+  const {setFirstStageCompleted} = useAddressBook();
+
+  const clear = () => {
+    setFirstStageCompleted(false);
+    emptyCart();
+  }
   return (
     <ClientOnly>
       <div>
@@ -35,7 +42,7 @@ export default function MobileCartSummary() {
             Checkout now
           </Button>
           <div className='mt-4 flex items-center justify-center '>
-            <button onClick={emptyCart} className='text-xs text-[#5E5E5E]'>Remove all</button>
+            <button onClick={clear} className='text-xs text-[#5E5E5E]'>Remove all</button>
           </div>
         </div>
       </div>

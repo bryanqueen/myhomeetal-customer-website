@@ -14,12 +14,7 @@ export default function OrderConfirm() {
   const orderInfo = decodeURIComponent(searchParams.get('id') || '');
   const order = orderInfo.split('-');
 
-  const clearStage = () => {
-    localStorage.removeItem('firstStageCompleted');
-  };
-
   useEffect(() => {
-    clearStage();
     // Retrieve orderItems from local storage
     const storedOrderItems = localStorage.getItem('orderItems');
     if (storedOrderItems) {

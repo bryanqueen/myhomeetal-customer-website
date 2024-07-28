@@ -36,7 +36,7 @@ const ProductOverview = ({ data }: any) => {
         console.log('id not found');
         return notFound();
       }
-      setSavedItems(res.data.savedItems);
+      setSavedItems(res?.data?.savedItems);
     } catch (error) {
       console.error('Error in ProductPage:', error);
       return notFound();

@@ -12,7 +12,7 @@ export default function AddToCartPopup({ data }: { data: any }) {
   const { items } = useCart();
   const itemInCart = items.find((item) => item.id === data?._id);
 
-  if (!data) {
+  if (!data || !isPopupVisible) {
     return null; // Return null if data is undefined or null
   }
 

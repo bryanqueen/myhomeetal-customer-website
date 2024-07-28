@@ -75,7 +75,7 @@ export default function PersonalInformationForm({
               placeholder='*********'
             />
             <div className='grid gap-2'>
-              <PhoneInputComponent />
+         
             </div>
           </div>
         </div>
@@ -139,7 +139,6 @@ export default function PersonalInformationForm({
                 <label className='font-clashmd text-[8px] text-black lg:text-base lg:text-myGray'>
                   Phone Number
                 </label>
-                <PhoneInputComponent />
               </div>
             </div>
           </div>

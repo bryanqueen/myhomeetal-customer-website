@@ -6,6 +6,101 @@ a:not(.btn):hover {
   /* text-decoration: underline; */
 }
 
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 30px;
+}
+
+.spinner {
+  border: 1px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 1px solid #ED2224;
+  border-right: 1px solid #ED2224;
+  width: 18px;
+  height: 18px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.checkmark {
+  color: #4caf50;
+  font-size: 30px;
+}
+
+.hidden {
+  display: none;
+}
+
+.date-picker-container {
+  position: relative;
+  display: inline-block;
+}
+
+.open-modal-btn {
+  background-color: #f00;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.date-picker-calendar {
+  margin-bottom: 20px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-btn,
+.save-btn {
+  background-color: #f00;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-btn {
+  background-color: #1B691B;
+}
+
+
 /* Hide the default checkbox */
 input[type='checkbox'] {
   -webkit-appearance: none;

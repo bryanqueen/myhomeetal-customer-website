@@ -1,38 +1,40 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
 interface PhoneInputComponentProps {
+  value: string;
   onChange: (value: string) => void;
 }
 
-const PhoneInputComponent = () => {
+const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({
+  value,
+  onChange,
+}) => {
   const inputStyle: React.CSSProperties = {
-    border: '0',
-    borderRadius: '16px',
+    border: '1px solid #D9D9D9',
+    borderRadius: '10px',
     width: '100%',
-    height: '56px',
-    paddingLeft: '60px',
+    height: '70px',
+    paddingLeft: '70px',
   };
   const mobileinputStyle: React.CSSProperties = {
     border: '0',
     borderRadius: '10px',
     width: '100%',
     height: '60px',
-    paddingLeft: '60px',
-    background: 'white',
+    paddingLeft: '70px',
+    background: '#F4F4F4',
+    fontSize: '14px',
   };
 
   const buttonStyle: React.CSSProperties = {
-    borderTopLeftRadius: '16px',
-    borderBottomLeftRadius: '16px',
-    borderTop: '0px',
-    borderBottom: '0px',
-    borderLeft: '0px',
-    borderRight: '1px',
+    borderTopLeftRadius: '10px',
+    borderBottomLeftRadius: '10px',
+    border: '1px solid #00000039',
     background: 'white',
-    padding: '0 5px 0 5px',
+    padding: '0 10px 0 10px',
   };
   const mobilebuttonStyle: React.CSSProperties = {
     borderTopLeftRadius: '10px',
@@ -40,26 +42,29 @@ const PhoneInputComponent = () => {
     borderTop: '0px',
     borderBottom: '0px',
     borderLeft: '0px',
-    borderRight: '1px',
-    background: 'white',
-    padding: '0 5px 0 5px',
+    borderRight: '1px solid #d9d9d9',
+    background: '#F4F4F4',
+    padding: '0 10px 0 10px',
   };
 
   return (
     <div>
       <div className='hidden lg:block'>
         <PhoneInput
-          country={'ng'} // Default country code (e.g., 'us' for the USA)
-          enableSearch={true} // Enables search functionality for countries
+          country={'ng'} // Default country code
+          value={value}
+          onChange={onChange}
+          onlyCountries={['ng']} // Limit to Nigeria only
           inputStyle={inputStyle}
           buttonStyle={buttonStyle}
-          containerClass='phone-input-container'
         />
       </div>
       <div className='lg:hidden'>
         <PhoneInput
-          country={'ng'} // Default country code (e.g., 'us' for the USA)
-          enableSearch={true} // Enables search functionality for countries
+          country={'ng'} // Default country code
+          value={value}
+          onChange={onChange}
+          onlyCountries={['ng']} // Limit to Nigeria only
           inputStyle={mobileinputStyle}
           buttonStyle={mobilebuttonStyle}
         />

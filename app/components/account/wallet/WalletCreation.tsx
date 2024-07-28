@@ -26,8 +26,8 @@ const WalletCreation = () => {
           My Wallet{' '}
         </p>
       </div>
-      <div className='flex flex-col gap-20 xl:flex-row'>
-        <div className='hidden shrink-0 gap-3 lg:grid'>
+      <div className='flex flex-col justify-center gap-20 lg:relative xl:flex-row'>
+        <div className='absolute left-5 hidden shrink-0 gap-3 lg:grid'>
           <h1 className='font-clashmd text-3xl text-myGray'>My Wallet</h1>
           <span className='text-base text-myGray'>Lets setup your wallet</span>
         </div>
@@ -35,6 +35,7 @@ const WalletCreation = () => {
           <StepsIndicator currentStep={1} />
         </div>
       </div>
+      <div className='hidden h-10 lg:block'></div>
       <CollectWalletInfo />
     </div>
   );

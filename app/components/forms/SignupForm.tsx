@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { signIn } from "next-auth/react";
 
 import { useSignup } from './hooks/useSignUp';
 
@@ -147,7 +148,7 @@ const SignupForm = () => {
           >
             <Image src='/icons/facebook.svg' width='20' height='20' alt='' />
           </Button>
-          <Button
+          <Button onClick={() => {signIn('google')}}
             className='rounded-lg border-0 bg-[#FFE0E0] p-3 text-black shadow-none'
             fit
           >

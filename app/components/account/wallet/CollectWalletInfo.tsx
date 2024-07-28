@@ -11,20 +11,12 @@ import PhoneInputComponent from '../phoneNumber';
 import Input from '../../Input';
 import authUtils from '@/app/utils/authUtils';
 import productService from '@/app/services/productService';
-import { User } from '@/app/utils/types';
 import toast from 'react-hot-toast';
-
-interface UserInfo {
-  firstname: string;
-  lastname: string;
-  email: string;
-  phone?: string;
-}
+import Image from 'next/image';
+import DatePickerModal from './DatePickerModal';
 
 const CollectWalletInfo = () => {
   const router = useRouter();
-
-  const [isWallet, setIsWallet] = useState(false);
 
   useEffect(() => {
     const fetchedUserInfo = authUtils.getUserInfo();
@@ -40,7 +32,7 @@ const CollectWalletInfo = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState('Male');
   const [dob, setDob] = useState('');
   const [isPersonalInfoCompleted, setIsPersonalInfoCompleted] = useState(false);
   const [isPersonalDialogOpen, setIsPersonalDialogOpen] = useState(false);
@@ -55,7 +47,10 @@ const CollectWalletInfo = () => {
   const [isBvnCompleted, setIsBvnCompleted] = useState(false);
   const [error, setError] = useState('');
 
+  const [loading, setLoading] = useState(false);
+
   const handleContinueSetup = async () => {
+    setLoading(true);
     if (isPersonalInfoCompleted && isPhoneNumberCompleted && isBvnCompleted) {
       try {
         const payload = {
@@ -72,17 +67,19 @@ const CollectWalletInfo = () => {
         };
         const res = await productService.createWallet(payload);
         if (res.status === 200) {
-          router.push(
-            `/account/my-wallet/verification?email=${encodeURIComponent(email)}`
-          );
+          router.push(`/account/my-wallet/verification`);
+          setLoading(false);
         } else {
           console.error('Failed to create wallet. Status:', res.status);
+          setLoading(false);
         }
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     } else {
       toast.error('Incomplete setup information.');
+      setLoading(false);
     }
   };
 
@@ -182,12 +179,14 @@ const CollectWalletInfo = () => {
           onOpenChange={setIsBvnDialogOpen} // Handle open state change
         />
       </div>
-      <button
+      <Button
         onClick={handleContinueSetup}
-        className='mt-16 flex h-[50px] w-full items-center justify-center rounded-[10px] bg-primary font-clashmd text-base text-white lg:mt-20 lg:h-[60px] lg:p-5'
+        disabled={loading}
+        loading={loading}
+        className='mt-16 flex h-[50px] w-full items-center justify-center rounded-[10px] border-0 bg-primary font-clashmd text-base text-white shadow-none lg:mt-20 lg:h-[60px] lg:p-5'
       >
         Continue Setup
-      </button>
+      </Button>
     </div>
   );
 };
@@ -211,10 +210,14 @@ const PersonalInfo: React.FC<PersonalProps> = ({
   setGender,
   setDob,
 }) => {
+  const [isGenderToggle, setIsGenderToggle] = useState(false);
+  const handleDateSelect = (date: string) => {
+    setDob(date);
+  };
   return (
-    <div className='min-w-full px-[3%] rounded-[15px] bg-white lg:min-w-[626px] lg:rounded-[30px]'>
+    <div className='min-w-full rounded-[15px] bg-white px-[3%] lg:min-w-[626px] lg:rounded-[30px]'>
       <div>
-        <p className='mb-8 text-center font-clashmd text-sm lg:mb-10 lg:text-start lg:text-base'>
+        <p className='mb-8 text-center font-clashmd text-sm lg:mb-8 lg:text-start lg:text-base'>
           Personal Information
         </p>
         <div className='grid gap-5'>
@@ -227,28 +230,74 @@ const PersonalInfo: React.FC<PersonalProps> = ({
             labelClassName=' text-black font-clashmd text-[8px] lg:text-xs'
             inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
           />
-          <Input
-            name='gender'
-            labelKey='Gender'
-            value={gender}
-            placeholder='Male'
-            onChange={(e) => setGender(e.target.value)}
-            labelClassName=' text-black font-clashmd text-[8px] lg:text-xs'
-            inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
-          />
-          <Input
-            name='date_of_birth'
-            labelKey='Date of Birth'
-            placeholder='2023-09-04'
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
-            labelClassName=' text-black font-clashmd text-[8px] lg:text-xs'
-            inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
-          />
+
+          <div>
+            <label className='font-clashmd text-[8px] text-black lg:text-xs'>
+              Gender
+            </label>
+            <div
+              onClick={() => setIsGenderToggle(!isGenderToggle)}
+              className='rounded-[10px] bg-[#F4F4F4] px-2 lg:border lg:border-[#D9D9D9] lg:bg-white lg:px-5'
+            >
+              {gender === 'Male' ? (
+                <div className='flex h-[60px] items-center justify-between px-3 text-sm lg:h-[70px] lg:px-0'>
+                  Male
+                  <Image
+                    src='/Male.svg'
+                    width={15}
+                    height={15}
+                    alt='male icon'
+                  />
+                </div>
+              ) : (
+                <div className='flex h-[60px] items-center justify-between px-3 text-sm lg:h-[70px] lg:px-0'>
+                  Female
+                  <Image
+                    src='/Female.svg'
+                    width={15}
+                    height={15}
+                    alt='female icon'
+                  />
+                </div>
+              )}
+              {isGenderToggle && (
+                <div className='grid gap-2 pb-4 transition-all'>
+                  <div
+                    onClick={() => setGender('Male')}
+                    className={`flex h-[60px] cursor-pointer items-center justify-between rounded-xl px-4 text-xs transition-colors ${gender === 'Male' ? 'bg-[#FFC9CA]' : 'bg-white'} border-[0.5px] border-[#F4F4F4] text-myGray`}
+                  >
+                    Male
+                    <Image
+                      src='/Male.svg'
+                      width={15}
+                      height={15}
+                      alt='male icon'
+                    />
+                  </div>
+                  <div
+                    onClick={() => setGender('Female')}
+                    className={`flex h-[50px] cursor-pointer items-center justify-between rounded-xl px-4 text-xs transition-colors ${gender === 'Female' ? 'bg-[#FFC9CA]' : 'bg-white'} border-[0.5px] border-[#F4F4F4] text-myGray`}
+                  >
+                    Female
+                    <Image
+                      src='/Female.svg'
+                      width={15}
+                      height={15}
+                      alt='female icon'
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <label className='font-clashmd text-[8px] text-black lg:text-xs'>
+            Date of Birth
+          </label>
+          <DatePickerModal onDateSelect={handleDateSelect} />
         </div>
         <button
           onClick={submit}
-          className={`mt-7 w-full rounded-[10px] lg:mb-3 lg:mt-20 ${email && gender && dob ? 'bg-primary' : 'bg-[#989898]'}  h-[50px] px-6 font-clashmd text-base text-white lg:h-[55px]`}
+          className={`mt-7 w-full rounded-[10px] lg:mb-3 lg:mt-10 ${email && gender && dob ? 'bg-primary' : 'bg-[#989898]'}  h-[50px] px-6 font-clashmd text-base text-white lg:h-[55px]`}
         >
           Submit
         </button>
@@ -273,45 +322,54 @@ const PhoneBox: React.FC<PhoneBoxProps> = ({
   error,
   setError,
 }) => {
-  const handlePhoneChange = (e) => {
+  /*const handlePhoneChange = (e) => {
     const inputValue = e.target.value;
     // Allow digits and the '+' character at the beginning
     const isNumber = /^[+]?\d*$/.test(inputValue);
-  
+
     if (!isNumber) {
       setError('Invalid Phone Number format');
     } else {
       setError('');
       setPhoneNumber(inputValue);
     }
+  };*/
+
+  const handlePhoneChange = (value: string) => {
+    // Allow digits and the '+' character at the beginning
+    const isNumber = /^[+]?\d*$/.test(value);
+
+    if (!isNumber) {
+      setError('Invalid Phone Number format');
+    } else {
+      setError('');
+      setPhoneNumber(value);
+    }
   };
-  
 
   return (
-    <div className='min-w-full px-[3%] rounded-[15px] bg-white lg:min-w-[626px] lg:rounded-[30px]'>
+    <div className='min-w-full rounded-[15px] bg-white px-[3%] lg:min-w-[626px] lg:rounded-[30px]'>
       <div>
         <p className='mb-8 text-center font-clashmd text-sm lg:mb-10 lg:text-start lg:text-base'>
           Phone Number
         </p>
-        <div>
-          <div>
-            <Input
-              name='phone'
-              labelKey='Phone Number'
-              value={phoneNumber}
-              onChange={handlePhoneChange}
-              errorKey={error}
-              labelClassName=' text-black font-clashmd text-[8px] lg:text-xs'
-              inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
-            />
-          </div>
-          <button
-            onClick={submit}
-            className={`mt-10 w-full rounded-[10px] lg:mb-3 lg:mt-20 ${phoneNumber ? 'bg-primary' : 'bg-[#989898]'}  h-[50px] px-6 font-clashmd text-base text-white lg:h-[55px]`}
-          >
-            Submit
-          </button>
+
+        <div className='grid gap-3'>
+          <label className='pl-5 font-clashmd text-[8px] text-black lg:text-xs'>
+            Phone Number
+          </label>
+          <PhoneInputComponent
+            value={phoneNumber}
+            onChange={handlePhoneChange}
+          />
+          {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
+        <button
+          onClick={submit}
+          className={`mt-10 w-full rounded-[10px] lg:mb-3 lg:mt-20 ${phoneNumber ? 'bg-primary' : 'bg-[#989898]'}  h-[50px] px-6 font-clashmd text-base text-white lg:h-[55px]`}
+        >
+          Submit
+        </button>
       </div>
     </div>
   );
@@ -348,7 +406,7 @@ const BvnBox: React.FC<BvnBoxProps> = ({
     }
   };
   return (
-    <div className='w-full px-[3%] bg-white lg:min-w-[626px] lg:max-w-[626px] lg:rounded-[30px] lg:py-5'>
+    <div className='w-full bg-white px-[3%] lg:min-w-[626px] lg:max-w-[626px] lg:rounded-[30px] lg:py-5'>
       <div>
         <p className='mb-8 text-center font-clashmd text-sm lg:mb-10 lg:text-start lg:text-base'>
           Bank Verification Number

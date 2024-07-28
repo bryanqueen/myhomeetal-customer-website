@@ -28,8 +28,8 @@ export default function AddFundPage() {
           My Wallet{' '}
         </p>
       </div>
-      <div className='mb-10 flex flex-col gap-5 pt-10 lg:pt-0 xl:flex-row'>
-        <div className='hidden shrink-0 gap-3 lg:grid'>
+      <div className='mb-10 flex flex-col lg:relative justify-center gap-5 pt-10 lg:pt-0 xl:flex-row'>
+        <div className='hidden absolute left-5 shrink-0 gap-3 lg:grid'>
           <h1 className='font-clashmd text-3xl text-myGray'>My Wallet</h1>
         </div>
         <StepsIndicator currentStep={3} />

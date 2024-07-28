@@ -62,7 +62,7 @@ const ProductOverview = ({ data }: any) => {
   
       // Check the response status
       if (res.status === 200) {
-        toast.success('Saved item');
+        toast.success('Item Saved');
         setLoading(false);
       } else {
         // Handle unexpected response status

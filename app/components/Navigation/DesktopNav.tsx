@@ -98,6 +98,7 @@ const DesktopNav = () => {
             link: `/category/${category.name}?categoryId=${category._id}`,
           }))}
           contentClassName='grid list-none gap-x-3 sm:grid-cols-[1fr_1fr_1fr] w-[50vw]'
+          position='left-20'
         />
         <Link
           href='/deals'
@@ -142,7 +143,7 @@ const DesktopNav = () => {
                 </>
               }
               items={myAccount}
-              position='-right-1/2'
+              position=''
             >
               {hasCookie(constants.AUTH_TOKEN) && (
                 <>
@@ -199,7 +200,7 @@ const DesktopNav = () => {
           }
           items={help}
           contentClassName='w-[243px]'
-          position='-right-1/2'
+          position='right-[30px]'
         ></NavDropdown>
         <ClientOnly>
           <NavDropdown
@@ -218,7 +219,7 @@ const DesktopNav = () => {
               </>
             }
             contentClassName='right-0 p-2 w-[257px]'
-            position='right-[-30px]'
+            position='right-[30px]'
           >
             <NavCart />
 

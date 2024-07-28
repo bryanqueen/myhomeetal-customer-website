@@ -50,7 +50,7 @@ const NavDropdown = ({
   }, [isOpen]);
 
   const contentRootClassName = cn(
-    'absolute top-[70px] min-w-64 overflow-hidden rounded-3xl bg-white p-0 transition-opacity duration-300 ease-out z-50',
+    'absolute top-[110px] min-w-64 overflow-hidden rounded-3xl bg-white p-0 transition-opacity duration-300 ease-out z-50',
     {
       'opacity-100': isOpen,
       'opacity-0': !isOpen,
@@ -59,7 +59,7 @@ const NavDropdown = ({
   );
 
   return (
-    <div className='relative flex items-center'>
+    <div className=' flex items-center'>
       <button
         className='flex w-full items-center justify-between gap-1 text-base hover:text-[#8B1A1A] font-clashmd text-myGray transition'
         aria-expanded={isOpen ? 'true' : 'false'}
@@ -70,7 +70,7 @@ const NavDropdown = ({
       </button>
       <ClientOnly>
         {isOpen && (
-          <div className='fixed inset-0 top-[83px] bg-black bg-opacity-50 z-40' onClick={() => onToggle(false)}></div>
+          <div className='absolute h-screen inset-0 top-[83px] bg-black bg-opacity-50 z-40' onClick={() => onToggle(false)}></div>
         )}
         <div
           className={contentRootClassName}

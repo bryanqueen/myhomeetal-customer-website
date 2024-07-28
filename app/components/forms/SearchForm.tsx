@@ -167,6 +167,7 @@ const SearchForm = () => {
             <div className='grid gap-3'>
               {suggestedProducts.map((product) => (
                 <Link
+                onClick={() => handleDropdownToggle(id, false)}
                   href={`/item/${product?._id}`}
                   key={product._id}
                   className='flex items-center gap-3 text-sm text-[#656565] lg:text-base'

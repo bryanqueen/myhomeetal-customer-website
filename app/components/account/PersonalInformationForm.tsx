@@ -179,7 +179,7 @@ export default function PersonalInformationForm({
               />
               <span
                 onClick={() => setShowPassword(!showPassword)}
-                className='absolute bottom-[14px] right-10 cursor-pointer text-[#717171]'
+                className='absolute bottom-[18px] right-5 cursor-pointer text-[#717171]'
               >
                 {showPassword ? (
                   <EyeSlashIcon width={20} />

@@ -12,12 +12,14 @@ const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({
   value,
   onChange,
 }) => {
+  
   const inputStyle: React.CSSProperties = {
     border: '1px solid #D9D9D9',
     borderRadius: '10px',
     width: '100%',
     height: '70px',
     paddingLeft: '70px',
+    fontSize: '14px',
   };
   const mobileinputStyle: React.CSSProperties = {
     border: '0',
@@ -26,7 +28,7 @@ const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({
     height: '60px',
     paddingLeft: '70px',
     background: '#F4F4F4',
-    fontSize: '14px',
+    fontSize: '12px',
   };
 
   const buttonStyle: React.CSSProperties = {

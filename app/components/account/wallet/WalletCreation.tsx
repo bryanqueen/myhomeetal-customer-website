@@ -2,18 +2,16 @@ import CollectWalletInfo from '@components/account/wallet/CollectWalletInfo';
 import StepsIndicator from './StepIndicator';
 import Button from '../../Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
-import { headers } from 'next/headers';
+import { useRouter } from 'next/navigation';
 
 const WalletCreation = () => {
-  //const headersList = headers();
-  //const previousPath = headersList.get('referer') || '';
+  const router = useRouter();
   return (
     <div className='px-[3%] lg:px-0'>
       <div className='sticky top-[83px] z-20 flex items-center justify-center bg-white py-5 pl-1 lg:hidden'>
         <Button
-          
+          onClick={router.back}
           className='absolute left-[2%] justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
-          linkType='rel'
           variant='ghost'
         >
           <ArrowLeftIcon

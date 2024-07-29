@@ -44,10 +44,10 @@ const Verification: React.FC = () => {
             />
 
             <div>
-              <h2 className='mx-auto mb-2 max-w-[377px] text-center font-clashmd text-[25px] leading-[30.75px]'>
+              <h2 className='mx-auto max-w-[50%] mb-2 lg:max-w-[377px] text-center font-clashmd text-base lg:text-[25px] lg:leading-[30.75px]'>
                 Your details have been successfully verified!
               </h2>
-              <p className='mx-auto max-w-[404px] text-center text-base leading-[19.68px]'>
+              <p className='mx-auto max-w-[80%] lg:max-w-[404px] text-center text-xs lg:text-base lg:leading-[19.68px]'>
                 Congratulations! We have successfully verified the information
                 you provided. Your wallet is now ready for use.
               </p>
@@ -64,10 +64,10 @@ const Verification: React.FC = () => {
         </div>
       ) : (
         <div>
-          <h2 className='mb-4 font-clashmd text-[25px]'>
+          <h2 className='mb-4 font-clashmd text-xs lg:text-[25px]'>
             Verifying Your Details
           </h2>
-          <p className='mb-8 max-w-[494px] text-base leading-[19.68px]'>
+          <p className='mb-8 text-xs max-w-[80%] lg:max-w-[494px] lg:text-base lg:leading-[19.68px]'>
             We are currently verifying the data you submitted to ensure
             everything is accurate and up to date. This process might take a few
             moments.
@@ -75,7 +75,7 @@ const Verification: React.FC = () => {
           <div className='grid gap-3'>
             {steps.map((step, index) => (
               <div key={index} className='flex items-center gap-5'>
-                <p className='font-clashmd text-sm'>{step}</p>
+                <p className='font-clashmd text-xs lg:text-sm'>{step}</p>
                 <div className='flex items-center'>
                   <div className={`loader`}>
                     {currentStep > index ? (

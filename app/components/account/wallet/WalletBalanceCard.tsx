@@ -33,9 +33,11 @@ const WalletBalanceCard: React.FC<WalletAccountProps> = ({ wallet }) => {
       <div className='flex flex-col items-center justify-center rounded-[10px] bg-[#FFE8E8] py-[38px] lg:hidden'>
         <div className='grid w-fit gap-3'>
           <p className='text-[10px]'>Available Balance:</p>
-          <p className='text-end font-clashmd text-[25px]'>{wallet.balance}</p>
+          <p className='text-end font-clashmd text-[25px]'>
+            {wallet.balance === 0 ? '0.00' : wallet.balance}
+          </p>
           <p className='text-[10px] text-myGray'>
-            Total Spend: - <span className='text-black'>0.00</span>
+            Total Spent: - <span className='text-black'>0.00</span>
           </p>
         </div>
 
@@ -56,12 +58,10 @@ const WalletBalanceCard: React.FC<WalletAccountProps> = ({ wallet }) => {
       <div className='my-5 hidden rounded-3xl bg-[#FFF1F1] bg-[image:url(/images/account/info-bg-sm.png)] bg-contain bg-[position:110%] bg-no-repeat px-5 py-8 md:rounded-2xl lg:block lg:bg-[image:url(/images/account/my-wallet-bg.png)] lg:bg-[size:initial]'>
         <p className='font-clashmd text-[39px] text-myGray'>
           <span className='mr-4 inline'>Balance:</span>
-          <span>{wallet.balance}</span>
+          <span> {wallet.balance === 0 ? '0.00' : wallet.balance}</span>
         </p>
         <div className='mb-3 mt-1 hidden text-gray-500 lg:block'>
-          <p className='text-base text-myGray'>
-            Total spend - <ProductPrice region={region} priceInNGN={0.0} />
-          </p>
+          <p className='text-base text-myGray'>Total spent - 0.00</p>
           <div className='mt-5 flex min-w-fit gap-5 rounded-full p-2 text-sm'>
             <MyDialog
               trigger={

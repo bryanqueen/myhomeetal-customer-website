@@ -228,7 +228,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({
             onChange={(e) => setEmail(e.target.value)}
             placeholder='example@gmail.com'
             labelClassName=' text-black font-clashmd text-[8px] lg:text-xs'
-            inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
+            inputClassName='lg:border text-xs lg:text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
           />
 
           <div>
@@ -240,7 +240,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({
               className='rounded-[10px] bg-[#F4F4F4] px-2 lg:border lg:border-[#D9D9D9] lg:bg-white lg:px-5'
             >
               {gender === 'Male' ? (
-                <div className='flex h-[60px] items-center justify-between px-3 text-sm lg:h-[70px] lg:px-0'>
+                <div className='flex h-[60px] items-center justify-between px-3 text-xs lg:text-sm lg:h-[70px] lg:px-0'>
                   Male
                   <Image
                     src='/Male.svg'
@@ -264,7 +264,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({
                 <div className='grid gap-2 pb-4 transition-all'>
                   <div
                     onClick={() => setGender('Male')}
-                    className={`flex h-[60px] cursor-pointer items-center justify-between rounded-xl px-4 text-xs transition-colors ${gender === 'Male' ? 'bg-[#FFC9CA]' : 'bg-white'} border-[0.5px] border-[#F4F4F4] text-myGray`}
+                    className={`flex h-[50px] cursor-pointer items-center justify-between rounded-xl px-4 text-xs transition-colors ${gender === 'Male' ? 'bg-[#FFC9CA]' : 'bg-white'} border-[0.5px] border-[#F4F4F4] text-myGray`}
                   >
                     Male
                     <Image
@@ -322,18 +322,6 @@ const PhoneBox: React.FC<PhoneBoxProps> = ({
   error,
   setError,
 }) => {
-  /*const handlePhoneChange = (e) => {
-    const inputValue = e.target.value;
-    // Allow digits and the '+' character at the beginning
-    const isNumber = /^[+]?\d*$/.test(inputValue);
-
-    if (!isNumber) {
-      setError('Invalid Phone Number format');
-    } else {
-      setError('');
-      setPhoneNumber(inputValue);
-    }
-  };*/
 
   const handlePhoneChange = (value: string) => {
     // Allow digits and the '+' character at the beginning
@@ -419,7 +407,7 @@ const BvnBox: React.FC<BvnBoxProps> = ({
               onChange={(e) => setFullName(e.target.value)}
               placeholder='Enter your Full Name'
               labelClassName='pl-4 text-black font-clashmd text-[8px] lg:text-xs'
-              inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
+              inputClassName='lg:border text-xs lg:text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
             />
           </div>
           <div className='mt-5'>
@@ -430,7 +418,7 @@ const BvnBox: React.FC<BvnBoxProps> = ({
               placeholder='Enter your unique 11 digit number'
               onChange={handleBvnChange}
               labelClassName='pl-4 text-black font-clashmd text-[8px] lg:text-xs'
-              inputClassName='lg:border text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
+              inputClassName='lg:border text-xs lg:text-sm placeholder:text-[#53535399] placeholder:text-[10px] lg:placeholder:text-xs h-[60px] lg:placeholder:text-myGray bg-[#F4F4F4] rounded-[10px] lg:h-[70px] lg:border-[#D9D9D9] lg:bg-white'
             />
           </div>
           <button

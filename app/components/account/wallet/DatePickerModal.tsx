@@ -24,7 +24,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ onDateSelect }) => {
   return (
     <div className='date-picker-container'>
       <button
-        className='flex h-[60px] w-full items-center justify-between rounded-[10px] bg-[#F4F4F4] px-5 text-sm lg:h-[70px] lg:border lg:border-[#D9D9D9] lg:bg-white'
+        className='flex h-[60px] w-full items-center justify-between rounded-[10px] bg-[#F4F4F4] px-5 text-xs lg:h-[70px] lg:border lg:border-[#D9D9D9] lg:bg-white lg:text-sm'
         onClick={() => setShowModal(true)}
       >
         {startDate ? (
@@ -33,7 +33,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ onDateSelect }) => {
           <span>Select Date of Birth</span>
         )}
 
-        <Image src='/Calendar.svg' width={15} height={15} alt='female icon' />
+        <Image src='/Calendar.svg' width={15} height={15} alt='calendar icon' />
       </button>
 
       {showModal && (

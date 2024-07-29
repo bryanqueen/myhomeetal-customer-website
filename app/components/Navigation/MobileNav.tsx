@@ -200,7 +200,7 @@ const MobileNav = () => {
                   onClick={() => setActiveNav('myAccount')}
                 />
                 <div className='absolute bottom-0 left-0 right-0 rounded-t-[2rem] bg-white p-5 font-medium shadow'>
-                  <p className='pb-5 pt-3'>My Account</p>
+                  <p className='pb-5 pt-3 text-center'>My Account</p>
                   <ul className='grid gap-3'>
                     <li>
                       <Button

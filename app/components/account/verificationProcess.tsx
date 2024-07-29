@@ -64,7 +64,7 @@ const Verification: React.FC = () => {
         </div>
       ) : (
         <div>
-          <h2 className='mb-4 font-clashmd text-xs lg:text-[25px]'>
+          <h2 className='mb-4 font-clashmd text-base lg:text-[25px]'>
             Verifying Your Details
           </h2>
           <p className='mb-8 text-xs max-w-[80%] lg:max-w-[494px] lg:text-base lg:leading-[19.68px]'>

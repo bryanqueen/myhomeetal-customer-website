@@ -51,11 +51,15 @@ const apiUtils = {
     );
     return res;
   },
-  deleteRequest: async (url: string) => {
-    const res = await axios.delete(
-      `${constants.V1_BASE_API_URL}${url}`,
-      axiosConfig
-    );
+  deleteRequest: async (url: string, payload?: any) => {
+    const axiosConfig = {
+      data: payload, // Ensure the payload is passed correctly
+      headers: {
+        // Your headers here
+      },
+    };
+
+    const res = await axios.delete(`${constants.V1_BASE_API_URL}${url}`, axiosConfig);
     return res;
   },
   getMultipleRequests: async (urls: string[]) => {

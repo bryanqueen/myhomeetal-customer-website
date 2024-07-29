@@ -83,6 +83,10 @@ const productService = {
   addItemToCart: async (payload: { product: string; quantity: number }) => {
     return await apiUtils.postRequest(`${api.ORDERS}add_to_cart/`, payload);
   },
+
+  deleteUser: async (payload: { password: string }) => {
+    return await apiUtils.deleteRequest(`${api.DELETE_USER}`, payload);
+  },
   removeItemFromCart: async (payload: { item_id: string }) => {
     return await apiUtils.postRequest(
       `${api.ORDERS}remove_from_cart/`,

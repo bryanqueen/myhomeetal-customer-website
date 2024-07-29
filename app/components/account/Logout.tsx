@@ -11,7 +11,7 @@ const LogoutDialog = () => {
   const { handleLogout, loading } = useLogout();
 
   return (
-    <div className='flex w-[full] px-[3%] lg:w-[70vw] max-w-[400px] flex-col items-center gap-4 py-5 px-0 lg:px-3 text-center'>
+    <div className='flex w-[full] px-[3%] lg:w-[70vw] max-w-[400px] flex-col items-center gap-4 py-5 lg:px-3 text-center'>
       <div className='h-16 w-16 rounded-full bg-[#FFC5C6]' />
       <div className=''>
         <p className='mb-3 font-clashmd text-center text-xl lg:text-2xl text-myGray'>

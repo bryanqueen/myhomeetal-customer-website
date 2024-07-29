@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
-import { Trash } from 'iconsax-react';
-
 import Button from '@/app/components/Button';
-import Input from '@/app/components/Input';
+
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import { headers } from 'next/headers';
+import CloseAccountForm from '@/app/components/forms/CloseAccountForm';
 
 export const metadata: Metadata = {
   title: 'Close Account | Myhomeetal',
@@ -50,23 +49,7 @@ function CloseAccountPage() {
           that&apos;s what you want, please proceed with entering your password
           to confirm that it&apos;s you.
         </p>
-        <form action='' className='grid w-full gap-5'>
-          <Input
-            type='password'
-            name='password'
-            placeholder='Enter Password'
-            labelKey='Password'
-            labelClassName='text-[#989898] hidden lg:block text-base'
-            required
-            inputClassName='lg:rounded-2xl text-sm lg:h-[56px] placeholder:text-xs rounded-[10px] h-[60px] bg-[#f4f4f4] placeholder:text-[#989898] lg:placeholder:text-base'
-          />
-          <Button className='mt-8 h-[50px] w-full rounded-[10px] border-0 px-6 py-3 font-clashmd text-base text-white shadow-none lg:mt-0 lg:rounded-[8px] lg:font-clash'>
-            <span className='flex items-center gap-3 lg:gap-1'>
-              <Trash variant='Bold' size={20} />
-              Delete Account
-            </span>
-          </Button>
-        </form>
+        <CloseAccountForm />
       </div>
     </main>
   );

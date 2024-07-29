@@ -14,11 +14,14 @@ const WalletCreation = () => {
           className='absolute left-[2%] justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
           variant='ghost'
         >
+          <span className='flex items-center'>
           <ArrowLeftIcon
             width={17}
             className=' mr-[2px] mt-[-1px] lg:mr-1 lg:mt-[-3px]'
           />
           Back
+          </span>
+          
         </Button>
         <p className='text-center font-clashmd text-xs text-myGray lg:hidden'>
           My Wallet{' '}

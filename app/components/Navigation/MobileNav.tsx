@@ -109,7 +109,7 @@ const MobileNav = () => {
 
       <div className={navClassName}>
         {isNavActive('main') && (
-          <div className='fixed bottom-0 left-0 right-0 top-0 bg-white transition-all duration-300 ease-out'>
+          <div className='fixed bottom-0 left-0 h-screen right-0 top-0 bg-white transition-all duration-300 ease-out'>
             <div className='mt-12 flex items-center justify-end px-[3%] pb-3'>
               <button onClick={() => setActiveNav(null)}>
                 <XMarkIcon width={30} />
@@ -144,7 +144,7 @@ const MobileNav = () => {
         {isNavActive('myAccount') && (
           <>
             {hasCookie(constants.AUTH_TOKEN) ? (
-              <div className='fixed bottom-0 left-0 right-0 top-0 bg-white'>
+              <div className='fixed h-screen bottom-0 left-0 right-0 top-0 bg-white'>
                 <div className='mt-12 flex items-center justify-between px-[3%] pb-3'>
                   <h2 className='font-clashmd text-base text-myGray'>
                     My Account

@@ -46,12 +46,12 @@ export default async function Home() {
       productService.getTopProductCategories(),
     ]);
 
-    if (!productCategoriesRes || !productCategoriesRes.data) {
+    if (!productCategoriesRes || !productCategoriesRes?.data) {
       console.log('Product categories not found');
       return notFound();
     }
 
-    if (!topProductCategoriesRes || !topProductCategoriesRes.data) {
+    if (!topProductCategoriesRes || !topProductCategoriesRes?.data) {
       console.log('Top product categories not found');
       return notFound();
     }
@@ -69,7 +69,7 @@ export default async function Home() {
         const productsRes = await productService.getProductsByCategory(
           category?._id
         );
-        productsByCategory[category?._id] = productsRes.data;
+        productsByCategory[category?._id] = productsRes?.data;
       })
     );
   } catch (error) {
@@ -118,10 +118,10 @@ export default async function Home() {
             topCategories.slice(0, 6).map((category) => {
               return (
                 <Category
-                  key={category._id}
-                  title={category.name}
-                  id={category._id}
-                  products={productsByCategory[category._id]}
+                  key={category?._id}
+                  title={category?.name}
+                  id={category?._id}
+                  products={productsByCategory[category?._id]}
                 />
               );
             })}

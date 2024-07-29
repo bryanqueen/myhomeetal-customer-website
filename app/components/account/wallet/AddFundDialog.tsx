@@ -8,8 +8,24 @@ import Image from 'next/image';
 import Button from '@components/Button';
 import Input from '@components/Input';
 
-const AddFundDialog = () => {
-  const accountNumber = '9840582103';
+interface Wallet {
+  _id: string;
+  user: string;
+  account_no: string;
+  bvn: string;
+  mobile_number: string;
+  bank_name: string;
+  balance: number;
+  transactions: string[];
+  __v: number;
+}
+
+interface WalletAccountProps {
+  wallet: Wallet;
+}
+
+const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
+  const accountNumber = wallet.account_no;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(accountNumber).then(
@@ -38,9 +54,15 @@ const AddFundDialog = () => {
     }
   };
 
-  const handleAmountChange = (e) => {
-    const inputValue = e.target.value;
-
+  const formatNumberWithCommas = (value: string): string => {
+    const number = parseFloat(value.replace(/,/g, ''));
+    if (isNaN(number)) return value;
+    return number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+  
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>, setAmount: (value: string) => void, setError: (value: string) => void, setVat: (value: number) => void) => {
+    const inputValue = e.target.value.replace(/,/g, ''); // Remove commas
+  
     // Check if the input is empty
     if (inputValue === '') {
       setError(''); // Clear the error if the input is empty
@@ -48,16 +70,15 @@ const AddFundDialog = () => {
       setVat(0); // Reset VAT to 0
       return; // Exit the function early
     }
-
-    const isValidAmount = /^\d+(\.\d{2})?$/.test(inputValue); // Allow decimals
-
+  
+    const isValidAmount = /^\d+(\.\d{0,2})?$/.test(inputValue); // Allow decimals with up to two decimal places
+  
     if (!isValidAmount) {
-      setError(
-        'Invalid amount format. Please enter numbers only, optionally with a decimal point.'
-      );
+      setError('Invalid amount format. Please enter numbers only, optionally with a decimal point.');
     } else {
       setError('');
-      setAmount(inputValue);
+      const formattedValue = formatNumberWithCommas(inputValue);
+      setAmount(formattedValue);
       const calculatedVat = parseFloat(inputValue) * 0.006; // Use parseFloat for decimal calculations
       setVat(calculatedVat);
     }
@@ -70,7 +91,7 @@ const AddFundDialog = () => {
   return (
     <div>
       {!isFundAccount ? (
-        <div className='flex w-full flex-col gap-4 px-2 py-5 lg:w-[80vw]'>
+        <div className='flex w-full flex-col gap-4 px-2 py-5 lg:w-[50vw]'>
           <div className='pb-5'>
             <p className='text-center font-clashmd text-base'>Fund Account</p>
           </div>
@@ -80,14 +101,15 @@ const AddFundDialog = () => {
                 <Input
                   name='amount'
                   labelKey='Enter Amount'
-                  placeholder='₦150,000.00'
-                  onChange={handleAmountChange}
+                  placeholder='150,000.00'
+                  onChange={(e) => handleAmountChange(e, setAmount, setError, setVat)}
                   errorKey={error}
                   variant='outline'
                   inputClassName='py-5 border-[#D9D9D9] text-sm rounded-[10px] placeholder:text-xs placeholder:text-black'
                   labelClassName='text-myGray text-xs font-clashmd pl-4'
                 />
                 <p className='absolute right-5 top-14 text-[10px]'>Plus Vat</p>
+                <p className='absolute left-3 top-[51px] text-[14px]'>₦</p>
               </div>
               <p className='pl-4 pt-1 text-[10px] text-myGray'>
                 0.6 % Fee on all transaction:{' '}
@@ -157,8 +179,8 @@ const AddFundDialog = () => {
                 using your preferred banking method.
               </p>
               <div className='flex items-center gap-4'>
-                <p className='font-clashmd text-base text-myGray lg:text-[25px]'>
-                  Paystack titan <span className='mx-1'>|</span>{' '}
+                <p className='font-clashmd text-base capitalize text-myGray lg:text-[25px]'>
+                  {wallet.bank_name?.toLowerCase()} <span className='mx-1'>|</span>{' '}
                   <span className='text-primary' id='accountNumber'>
                     {accountNumber}
                   </span>

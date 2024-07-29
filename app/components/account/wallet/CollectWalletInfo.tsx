@@ -17,7 +17,7 @@ import DatePickerModal from './DatePickerModal';
 
 const CollectWalletInfo = () => {
   const router = useRouter();
-
+ 
   useEffect(() => {
     const fetchedUserInfo = authUtils.getUserInfo();
     if (fetchedUserInfo) {

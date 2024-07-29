@@ -1,16 +1,30 @@
 'use client';
 import { useState } from 'react';
+interface Wallet {
+  _id: string;
+  user: string;
+  account_no: string;
+  bvn: string;
+  mobile_number: string;
+  bank_name: string;
+  balance: number;
+  transactions: string[];
+  __v: number;
+}
 
-const RecentTransactions = () => {
-  const [isTransaction, setIsTransaction] = useState(false);
+interface WalletAccountProps {
+  wallet: Wallet;
+}
+
+const RecentTransactions: React.FC<WalletAccountProps> = ({ wallet }) => {
   return (
     <div>
       <p className='mb-3 text-center font-clashmd text-xs text-black lg:text-start lg:text-base lg:text-myGray'>
         Recent transactions
       </p>
       <div className='lg:hidden'>
-        {isTransaction ? (
-          <div className='max-w-full px-3 grid gap-5'>
+        {wallet.transactions.length > 0 ? (
+          <div className='grid max-w-full gap-5 px-3'>
             {[0, 0, 0, 0, 0, 0].map((V, i) => (
               <div
                 key={i}
@@ -40,7 +54,7 @@ const RecentTransactions = () => {
           <p className='font-clashmd text-base text-myGray'>Items</p>
           <p className='font-clashmd text-base text-myGray'>Amount</p>
         </div>
-        {isTransaction ? (
+        {wallet.transactions.length > 0 ? (
           <div className='max-w-full'>
             {[0, 0, 0, 0, 0, 0].map((V, i) => (
               <div key={i} className='flex justify-between gap-3 py-4'>

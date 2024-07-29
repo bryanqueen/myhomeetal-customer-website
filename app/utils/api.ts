@@ -15,6 +15,7 @@ const api = {
   DELIVERY_ADDRESS: '',
   ORDERS: 'order/create-order',
   WALLET: 'wallet/create',
+  GET_WALLET:'wallet',
 };
 
 export { api };

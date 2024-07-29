@@ -17,6 +17,7 @@ import productService from '@/app/services/productService';
 import ClientOnly from '../ClientOnly';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { jwtVerify } from 'jose';
 
 const ProductOverview = ({ data }: any) => {
   const [savedItems, setSavedItems] = useState<string[]>([]);
@@ -47,9 +48,22 @@ const ProductOverview = ({ data }: any) => {
     fetchSavedItems();
   }, []);
 
+  // Function to verify JWT token
+  const verifyToken = async (token) => {
+    try {
+      const secret = new TextEncoder().encode(
+        process.env.NEXT_PUBLIC_JWT_SECRET
+      );
+      await jwtVerify(token, secret);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   const savedItem = async () => {
     setLoading(true);
-    // Check if the item is already saved
+  
     if (savedItems.includes(id)) {
       toast.error('Item already saved');
       setLoading(false);
@@ -57,31 +71,37 @@ const ProductOverview = ({ data }: any) => {
     }
   
     try {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('AUTH_TOKEN='))
+        ?.split('=')[1];
+  
+      if (!token || !(await verifyToken(token))) {
+        toast.error('Session expired. Redirecting to login...');
+        
+        // Redirect to login with callbackUrl parameter
+        router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
+        setLoading(false);
+        return;
+      }
+  
       const payload = { authMethod: data?._id };
       const res = await productService.saveProduct({ payload, id });
   
-      // Check the response status
       if (res.status === 200) {
         toast.success('Item Saved');
         setLoading(false);
       } else {
-        // Handle unexpected response status
         toast.error('Failed to save item. Please try again.');
         setLoading(false);
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        // JWT expired or unauthorized, redirect to login page
-        setLoading(false);
-        router.push('/login');
-      } else {
-        // Handle other errors
-        setLoading(false);
-        console.error('Error in saving item:', error);
-        toast.error('An error occurred while saving the item. Please try again.');
-      }
+      setLoading(false);
+      console.error('Error in saving item:', error);
+      toast.error('An error occurred while saving the item. Please try again.');
     }
   };
+  
 
   const breadCrumb = [
     {
@@ -217,13 +237,12 @@ const ProductOverview = ({ data }: any) => {
 
                     <button
                       onClick={savedItem}
-                      className='flex h-[60px] relative min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'
+                      className='relative flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'
                     >
                       <HeartAdd size='24' color='#ffffff' variant='Bulk' />
                       {loading && (
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                        <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75'></span>
                       )}
-                      
                     </button>
                   </div>
                 </ClientOnly>

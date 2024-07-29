@@ -44,6 +44,9 @@ const productService = {
   getOrder: async (id: string) => {
     return await apiUtils.getRequest(`${api.ORDERS}${id}/`);
   },
+  getWallet: async () => {
+    return await apiUtils.getRequest(`${api.GET_WALLET}`);
+  },
   createOrder: async (payload: {
     address: string;
     orderPrice: number;

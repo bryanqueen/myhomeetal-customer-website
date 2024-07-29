@@ -55,7 +55,7 @@ const Verification: React.FC = () => {
 
             <Button
               linkType='rel'
-              href='/account/my-wallet/add-funds'
+              href={`/account/my-wallet?fund=${'account'}`}
               className='h-[56px] w-full rounded-full border-0 font-clashmd text-base shadow-none'
             >
               Navigate to wallet page

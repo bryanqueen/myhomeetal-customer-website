@@ -3,6 +3,8 @@ import RecentTransactions from '@components/account/wallet/RecentTransactions';
 import { headers } from 'next/headers';
 import Button from '@/app/components/Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
+import { useSearchParams } from 'next/navigation';
+import StepsIndicator from './StepIndicator';
 
 interface Wallet {
   _id: string;
@@ -21,6 +23,8 @@ interface WalletAccountProps {
 }
 
 const WalletAccount: React.FC<WalletAccountProps> = ({ wallet }) => {
+  const searchParams = useSearchParams();
+  const funds = decodeURIComponent(searchParams.get('fund') || '');
   //const headersList = headers();
   //const previousPath = headersList.get('referer') || '';
   return (
@@ -41,9 +45,15 @@ const WalletAccount: React.FC<WalletAccountProps> = ({ wallet }) => {
           My Wallet{' '}
         </p>
       </div>
-      <h1 className='hidden font-clashmd text-3xl text-myGray lg:block'>
-        My Wallet
-      </h1>
+      <div className='mb-10 flex flex-col lg:relative justify-center gap-5 pt-10 lg:pt-0 xl:flex-row'>
+        <div className='hidden absolute left-5 shrink-0 gap-3 lg:grid'>
+          <h1 className='font-clashmd text-3xl text-myGray'>My Wallet</h1>
+        </div>
+        {funds && (
+        <StepsIndicator currentStep={3} />
+      )}
+      </div>
+      
       <WalletBalanceCard wallet={wallet} />
       <div className='my-10'>
         <RecentTransactions wallet={wallet} />

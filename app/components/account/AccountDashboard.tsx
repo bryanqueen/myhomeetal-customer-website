@@ -6,7 +6,7 @@ import ClientOnly from '../ClientOnly';
 interface UserInfo {
   firstname: string;
   email: string;
-  phone?: string;
+  phone_number?: string;
 }
 
 interface AccountDashboardProps {
@@ -43,8 +43,8 @@ export default function AccountDashboard({ userInfo }: AccountDashboardProps) {
               <div className='max-w-[189px]'>
                 <div className='rounded-[10px] border-[0.5px] border-dotted border-black px-4 py-3 text-[8px] text-[#525252]'>
                   <p className='mb-1'>Email address: {userInfo.email}</p>
-                  {userInfo?.phone ? (
-                    <p className=''>Phone number: {userInfo.phone}</p>
+                  {userInfo?.phone_number ? (
+                    <p className=''>Phone number: +{userInfo.phone_number}</p>
                   ) : (
                     <p className=''>Add Phone Number</p>
                   )}
@@ -58,8 +58,8 @@ export default function AccountDashboard({ userInfo }: AccountDashboardProps) {
             </p>
             <div className='mt-5 flex max-w-fit gap-5 rounded-full border border-dotted border-[#BDBDBD] p-2 px-5 text-base text-[#525252]'>
               <span className='shrink-0'>Email address: {userInfo.email}</span>
-              {userInfo?.phone ? (
-                <p className=''>Phone number: {userInfo.phone}</p>
+              {userInfo?.phone_number ? (
+                <p className=''>Phone number: +{userInfo.phone_number}</p>
               ) : (
                 <p className=''>Add Phone Number</p>
               )}

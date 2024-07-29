@@ -8,8 +8,18 @@ const productService = {
   getUserDetails: async (id?: string) => {
     return await apiUtils.getRequest(`${api.GET_USER}${id}`);
   },
+
   saveProduct: async ({ payload, id }: { payload: any; id: string }) => {
     return await apiUtils.postRequest(`user/save-item/${id}`, payload);
+  },
+  updateUser: async (payload: {
+    firstName: string;
+    lastName: string;
+    phone_number: string;
+    email: string;
+    password: string;
+  }) => {
+    return await apiUtils.putRequest(`user/edit-profile`, payload);
   },
   getSavedProducts: async (id?: string) => {
     return await apiUtils.getRequest(`user/saved-items`);

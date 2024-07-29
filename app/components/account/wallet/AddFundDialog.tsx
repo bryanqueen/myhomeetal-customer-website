@@ -121,7 +121,7 @@ const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
                   labelClassName='text-myGray text-xs font-clashmd pl-4'
                 />
                 <p className='absolute right-5 top-14 text-[10px]'>Plus Vat</p>
-                <span className='absolute left-3 top-[50px] text-[14px]'>₦</span>
+                <span className='absolute left-3 top-[48.5px] lg:top-[50px] text-[14px]'>₦</span>
               </div>
               <p className='pl-4 pt-2 text-[10px] text-myGray'>
                 0.6 % Fee on all transaction:{' '}

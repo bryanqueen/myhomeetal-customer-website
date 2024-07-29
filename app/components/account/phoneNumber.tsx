@@ -6,22 +6,32 @@ import 'react-phone-input-2/lib/style.css';
 interface PhoneInputComponentProps {
   value: string;
   onChange: (value: string) => void;
+  inputStyle?: React.CSSProperties;
+  buttonStyle?: React.CSSProperties;
+  mobileInputStyle?: React.CSSProperties;
+  mobileButtonStyle?: React.CSSProperties;
+  disabled?: boolean;
 }
 
 const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({
   value,
   onChange,
+  inputStyle,
+  buttonStyle,
+  mobileInputStyle,
+  mobileButtonStyle,
+  disabled,
 }) => {
-  
-  const inputStyle: React.CSSProperties = {
+  const defaultInputStyle: React.CSSProperties = {
     border: '1px solid #D9D9D9',
     borderRadius: '10px',
     width: '100%',
     height: '70px',
     paddingLeft: '70px',
     fontSize: '14px',
+    pointerEvents: disabled ? 'none' : 'auto',
   };
-  const mobileinputStyle: React.CSSProperties = {
+  const defaultMobileInputStyle: React.CSSProperties = {
     border: '0',
     borderRadius: '10px',
     width: '100%',
@@ -29,16 +39,18 @@ const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({
     paddingLeft: '70px',
     background: '#F4F4F4',
     fontSize: '12px',
+    pointerEvents: disabled ? 'none' : 'auto',
   };
 
-  const buttonStyle: React.CSSProperties = {
+  const defaultButtonStyle: React.CSSProperties = {
     borderTopLeftRadius: '10px',
     borderBottomLeftRadius: '10px',
     border: '1px solid #00000039',
     background: 'white',
     padding: '0 10px 0 10px',
+    pointerEvents: disabled ? 'none' : 'auto',
   };
-  const mobilebuttonStyle: React.CSSProperties = {
+  const defaultMobileButtonStyle: React.CSSProperties = {
     borderTopLeftRadius: '10px',
     borderBottomLeftRadius: '10px',
     borderTop: '0px',
@@ -47,6 +59,7 @@ const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({
     borderRight: '1px solid #d9d9d9',
     background: '#F4F4F4',
     padding: '0 10px 0 10px',
+    pointerEvents: disabled ? 'none' : 'auto',
   };
 
   return (
@@ -57,8 +70,8 @@ const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({
           value={value}
           onChange={onChange}
           onlyCountries={['ng']} // Limit to Nigeria only
-          inputStyle={inputStyle}
-          buttonStyle={buttonStyle}
+          inputStyle={{ ...defaultInputStyle, ...inputStyle }}
+          buttonStyle={{ ...defaultButtonStyle, ...buttonStyle }}
         />
       </div>
       <div className='lg:hidden'>
@@ -67,8 +80,8 @@ const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({
           value={value}
           onChange={onChange}
           onlyCountries={['ng']} // Limit to Nigeria only
-          inputStyle={mobileinputStyle}
-          buttonStyle={mobilebuttonStyle}
+          inputStyle={{ ...defaultMobileInputStyle, ...mobileInputStyle }}
+          buttonStyle={{ ...defaultMobileButtonStyle, ...mobileButtonStyle }}
         />
       </div>
     </div>

@@ -166,7 +166,7 @@ export default function PersonalInformationForm({
                 inputClassName='border-0 h-[65px] rounded-[10px] text-xs placeholder:text-[#989898]'
               />
             </div>
-            <div>
+            <div className='relative'>
               <Input
                 name='password'
                 value={password}

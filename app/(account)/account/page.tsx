@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
+import { HomeSkeleton } from '@/app/components/loader';
 
 interface UserInfo {
   firstname: string;
@@ -67,7 +68,7 @@ export default function AccountPage() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <HomeSkeleton />;
   }
 
   if (!userInfo) {
@@ -82,11 +83,14 @@ export default function AccountPage() {
           className='absolute left-[2%] justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
           variant='ghost'
         >
+          <span className='flex items-center'>
           <ArrowLeftIcon
             width={17}
             className=' mr-[2px] mt-[-1px] lg:mr-1 lg:mt-[-3px]'
           />
           Back
+          </span>
+          
         </Button>
         <p className='text-center font-clashmd text-xs text-myGray lg:hidden'>
           Personal Info

@@ -123,7 +123,7 @@ const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
                 <p className='absolute right-5 top-14 text-[10px]'>Plus Vat</p>
                 <span className='absolute left-3 top-[50px] text-[14px]'>₦</span>
               </div>
-              <p className='pl-4 pt-1 text-[10px] text-myGray'>
+              <p className='pl-4 pt-2 text-[10px] text-myGray'>
                 0.6 % Fee on all transaction:{' '}
                 <span className='text-[#F68182]'>₦{amount}</span> &times; 0.006
                 =<span className='text-[#F68182]'>₦{vat.toFixed(2)}</span>

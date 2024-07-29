@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import LoginForm from '@components/forms/LoginForm';
 import Link from 'next/link';
 import Logo from '@/app/components/Logo';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Login | Myhomeetal',
@@ -24,7 +25,10 @@ export default function LoginPage() {
           </Link>
         </div>
       </div>
+      <Suspense>
       <LoginForm />
+      </Suspense>
+      
       <div className='mt-10'>
         <p className='text-center text-[10px] text-black'>
           © Copyright {currentYear}- Myhomeetal | All Rights Reserved

@@ -117,7 +117,7 @@ const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
                   }
                   errorKey={error}
                   variant='outline'
-                  inputClassName='py-5 border-[#D9D9D9] text-sm rounded-[10px] placeholder:text-xs placeholder:text-black'
+                  inputClassName='py-5 border-[#D9D9D9] text-xs lg:text-sm rounded-[10px] placeholder:text-xs placeholder:text-black'
                   labelClassName='text-myGray text-xs font-clashmd pl-4'
                 />
                 <p className='absolute right-5 top-14 text-[10px]'>Plus Vat</p>

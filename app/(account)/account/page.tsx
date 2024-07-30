@@ -4,19 +4,12 @@ import Button from '@/app/components/Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import PersonalInformationForm from '@/app/components/account/PersonalInformationForm';
 import productService from '@/app/services/productService';
-import { cookies, headers } from 'next/headers';
 import { constants } from '@/app/utils/constants';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import { HomeSkeleton } from '@/app/components/loader';
-
-interface UserInfo {
-  firstname: string;
-  email: string;
-  phone?: string;
-}
 
 export default function AccountPage() {
   const [userInfo, setUserInfo] = useState(null);

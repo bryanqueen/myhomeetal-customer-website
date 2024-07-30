@@ -13,7 +13,7 @@ export default function AuthLayout({
   return (
     <>
       <TopBanner />
-      <main className='lg:flex w-full lg:items-center lg:gap-16 px-4 py-10 lg:justify-between lg:px-0'>
+      <main className='lg:flex w-full lg:gap-16 px-4 py-10 lg:justify-between lg:px-0'>
         <div className='lg:ml-16'>
           <div className='mb-7 hidden lg:block'>
             <Link href='/'>

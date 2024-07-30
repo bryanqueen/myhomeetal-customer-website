@@ -23,12 +23,11 @@ export default function PersonalInformationForm({
 }: AccountDashboardProps) {
   const [firstName, setFirstName] = useState(userInfo?.firstname || '');
   const [lastName, setLastName] = useState(userInfo?.lastname || '');
+  const [password, setPassword] = useState(userInfo?.password || '');
   const [error, setError] = useState('');
   const [email, setEmail] = useState(userInfo?.email || '');
   const [phone, setPhone] = useState(userInfo?.phone_number || '');
-  const [password, setPassword] = useState(userInfo?.password || '');
   const [editMode, setEditMode] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setloading] = useState(false);
 
   const handlePhoneChange = (value: string) => {
@@ -51,8 +50,9 @@ export default function PersonalInformationForm({
   }, [userInfo, editMode]);
 
   const customInputStyle: React.CSSProperties = {
-    height: '55px',
+    height: '50px',
     border: '0px',
+    borderRadius: '16px',
   };
   const customMobileInputStyle: React.CSSProperties = {
     height: '60px',
@@ -62,6 +62,8 @@ export default function PersonalInformationForm({
 
   const customButtonStyle: React.CSSProperties = {
     border: '0px',
+    borderTopLeftRadius: '16px',
+    borderBottomLeftRadius: '16px',
   };
 
   const customMobileButtonStyle: React.CSSProperties = {
@@ -111,7 +113,7 @@ export default function PersonalInformationForm({
               <button
                 disabled={loading}
                 type='submit'
-                className={`relative flex items-center gap-[2px] text-[10px] text-primary ${loading ? 'cursor-not-allowed' : ''}`}
+                className={`relative mb-5 flex items-center gap-[6px] text-[10px] text-primary ${loading ? 'cursor-not-allowed' : ''}`}
               >
                 {loading && (
                   <span className='relative flex h-3 w-3'>
@@ -166,28 +168,6 @@ export default function PersonalInformationForm({
                 inputClassName='border-0 h-[65px] rounded-[10px] text-xs placeholder:text-[#989898]'
               />
             </div>
-            <div className='relative'>
-              <Input
-                name='password'
-                value={password}
-                type={showPassword ? 'text' : 'password'}
-                variant='outline'
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={!editMode}
-                inputClassName='bg-white h-[60px] lg:h-[56px] border-0 rounded-[10px] lg:rounded-2xl placeholder:text-[#989898]'
-                placeholder='*********'
-              />
-              <span
-                onClick={() => setShowPassword(!showPassword)}
-                className='absolute bottom-[18px] right-5 cursor-pointer text-[#717171]'
-              >
-                {showPassword ? (
-                  <EyeSlashIcon width={20} />
-                ) : (
-                  <EyeIcon width={20} />
-                )}
-              </span>
-            </div>
             <div className='grid gap-2'>
               <PhoneInputComponent
                 mobileInputStyle={customMobileInputStyle}
@@ -213,7 +193,7 @@ export default function PersonalInformationForm({
               <button
                 disabled={loading}
                 type='submit'
-                className={`relative flex items-center gap-[2px] font-clashmd text-base text-primary ${loading ? 'cursor-not-allowed' : ''}`}
+                className={`relative mr-5 flex items-center gap-[6px] font-clashmd text-base text-primary ${loading ? 'cursor-not-allowed' : ''}`}
               >
                 {loading && (
                   <span className='relative flex h-3 w-3'>
@@ -258,44 +238,19 @@ export default function PersonalInformationForm({
                 labelClassName='text-myGray font-clashmd text-base'
               />
             </div>
-            <Input
-              name='email'
-              labelKey='Email adress'
-              type='text'
-              variant='outline'
-              inputClassName='border-0 rounded-2xl mb-3 placeholder:text-black'
-              value={email}
-              disabled={!editMode}
-              onChange={(e) => setEmail(e.target.value)}
-              labelClassName='text-myGray font-clashmd text-base'
-            />
             <div className='mb-5 grid gap-5 md:grid-cols-2'>
-              <div className='relative'>
-                <Input
-                  name='password'
-                  labelKey='Password'
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={!editMode}
-                  variant='outline'
-                  inputClassName='bg-[#F4F4F4] lg:bg-white h-[60px] lg:h-[56px] border-0 rounded-[10px] lg:rounded-2xl placeholder:text-black'
-                  placeholder='*********'
-                  labelClassName='lg:text-myGray lg:text-base text-black text-[8px] font-clashmd'
-                />
-                <span
-                  onClick={() => setShowPassword(!showPassword)}
-                  className='absolute bottom-[18px] right-5 cursor-pointer text-[#717171]'
-                >
-                  {showPassword ? (
-                    <EyeSlashIcon width={20} />
-                  ) : (
-                    <EyeIcon width={20} />
-                  )}
-                </span>
-              </div>
-
-              <div className='grid gap-2'>
+              <Input
+                name='email'
+                labelKey='Email adress'
+                type='text'
+                variant='outline'
+                inputClassName='border-0 rounded-2xl mb-3 placeholder:text-black'
+                value={email}
+                disabled={!editMode}
+                onChange={(e) => setEmail(e.target.value)}
+                labelClassName='text-myGray font-clashmd text-base'
+              />
+              <div className='grid gap-1'>
                 <label className='font-clashmd text-[8px] text-black lg:text-base lg:text-myGray'>
                   Phone Number
                 </label>

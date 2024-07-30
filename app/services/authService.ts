@@ -14,7 +14,13 @@ export interface LoginPayload {
 }
 
 export interface ForgotPasswordPayload {
-  email: string
+  email: string;
+}
+
+export interface ResetPasswordPayload {
+  email: string;
+  otp: string;
+  password: string;
 }
 
 const authService = {
@@ -25,8 +31,11 @@ const authService = {
     return await apiUtils.postRequest(`${api.LOGIN}`, payload);
   },
   forgotPassword: async (payload?: ForgotPasswordPayload) => {
-    return await apiUtils.postRequest(`${api.FORGET_PASSWORD}`, payload)
-  }
+    return await apiUtils.postRequest(`${api.FORGET_PASSWORD}`, payload);
+  },
+  resetPassword: async (payload?: ResetPasswordPayload) => {
+    return await apiUtils.postRequest(`${api.SET_NEW_PASSWORD}`, payload);
+  },
 };
 
 export { authService };

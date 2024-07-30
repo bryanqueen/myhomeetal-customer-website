@@ -1,16 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import OtpInput from 'react-otp-input';
-
 import Button from '@components/Button';
-import Input from '@components/Input';
-import { ROUTES } from '@utils/routes';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';

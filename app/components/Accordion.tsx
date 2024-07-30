@@ -16,7 +16,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ question, answer }) => {
   return (
     <div className='mb-4'>
       <button
-        className='w-full rounded-[10px] lg:rounded-2xl bg-[#FFF1F1] p-4 px-6 text-left focus:outline-none'
+        className='w-full rounded-[10px] bg-[#FFF1F1] p-4 px-6 text-left focus:outline-none lg:rounded-2xl'
         onClick={toggleOpen}
       >
         <h3 className='font-clashmd text-xs text-myGray lg:text-xl'>
@@ -24,7 +24,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ question, answer }) => {
         </h3>
         {isOpen && (
           <div className='py-4'>
-            <p className='text-[10px] lg:italic text-[#525252] lg:text-base'>
+            <p className='text-[10px] text-[#525252] lg:text-base lg:italic'>
               {answer}
             </p>
           </div>

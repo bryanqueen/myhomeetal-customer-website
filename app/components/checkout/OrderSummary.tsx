@@ -41,7 +41,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   const [loading, setLoading] = useState(false);
   const [useMyPoints, setUseMyPoints] = useState(false);
   const [point, setPoint] = useState(null);
-  const [deliveryFee, setDeliveryFee] = useState(null);
+  const [deliveryFee, setDeliveryFee] = useState(0);
   const [totalAmount, setTotalAmount] = useState(cartTotal + deliveryFee);
 
   const handleFirstStage = async () => {
@@ -88,8 +88,12 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
         // Store orderItems to local storage
         localStorage.setItem('orderItems', JSON.stringify(orderItems));
 
-        // Store orderItems to local storage
-        localStorage.setItem('phone', JSON.stringify(address.phoneNumber));
+        // Store phone number and total amount to local storage
+        const phoneAmount = {
+          phone: address.phoneNumber,
+          totalAmount: totalAmount,
+        };
+        localStorage.setItem('phoneAmount', JSON.stringify(phoneAmount));
 
         if (selectedPayment === 'Online') {
           router.push(`/checkout/online-payment?order=${orderId}`);
@@ -120,17 +124,17 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   }, [cartTotal, deliveryFee, useMyPoints, point]);
 
   useEffect(() => {
-    if (address) {
-      // Find the selected location based on the address's LGA
+    if (deliveryMethod === 'Pickup delivery') {
+      setDeliveryFee(0);
+    } else if (address) {
+      // Recalculate delivery fee if deliveryMethod is not 'pickup'
       const selectedLocation = locations.find(
         (location) => location.name === address.lga
       );
-
-      // Set the delivery fee based on the selected location's fee
-      setDeliveryFee(selectedLocation ? selectedLocation.fee : 0);
-      setTotalAmount(cartTotal + selectedLocation.fee);
+      const fee = selectedLocation ? selectedLocation.fee : 0;
+      setDeliveryFee(fee);
     }
-  }, [address, locations]);
+  }, [deliveryMethod, address]);
 
   useEffect(() => {
     const fetchReferral = async () => {
@@ -154,12 +158,19 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
           <div className='relative m-4 mt-10 h-fit lg:mt-4'>
             <div className='flex items-center gap-4 py-5'>
               <Ticket color='#F68182' size={24} />
-              <span className='lg:text-[15px] text-[#2A2A2A] font-clashmd text-xs'>Use Promo code</span>
+              <span className='font-clashmd text-xs text-[#2A2A2A] lg:text-[15px]'>
+                Use Promo code
+              </span>
             </div>
             <div className='flex items-center justify-between'>
-              <p className='text-xs lg:text-base text-primary'>MyPoints</p>
+              <p className='text-xs text-primary lg:text-base'>MyPoints</p>
               <div className='flex items-center gap-3'>
-                <label className='text-xs font-clashmd lg:text-base lg:font-clash' htmlFor='useMyPoints'>₦{point} Available</label>
+                <label
+                  className='font-clashmd text-xs  lg:text-base'
+                  htmlFor='useMyPoints'
+                >
+                  ₦{point} Available
+                </label>
                 <input
                   type='checkbox'
                   id='useMyPoints'
@@ -178,7 +189,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
               <div className='mb-3 flex items-center justify-between text-xs text-myGray lg:text-base'>
                 <span>Order total ({totalItems})</span>
                 <ProductPrice
-                  className='font-clashmd lg:font-clash'
+                  className='font-clashmd '
                   priceInNGN={cartTotal}
                   region={region}
                 />
@@ -187,14 +198,14 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
                 <span>Delivery fee</span>
                 <ProductPrice
                   priceInNGN={deliveryFee}
-                  className='font-clashmd lg:font-clash'
+                  className='font-clashmd '
                   region={region}
                 />
               </div>
               {useMyPoints && (
-                <div className='flex pt-3 items-center justify-between text-xs text-myGray lg:text-base'>
+                <div className='flex items-center justify-between pt-3 text-xs text-myGray lg:text-base'>
                   <span>Mypoints</span>
-                  <p className='font-clashmd lg:font-clash text-[#E33536]'>-{point}</p>
+                  <p className='font-clashmd text-[#E33536] '>-{point}</p>
                 </div>
               )}
             </div>

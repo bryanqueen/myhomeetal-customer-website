@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { ArrowRight } from 'iconsax-react';
-
 import OrderSummary from './OrderSummary';
 import Input from '@components/Input';
 import RadioItem from '@components/RadioItem';

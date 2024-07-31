@@ -5,6 +5,7 @@ import authUtils from '@/app/utils/authUtils';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCart } from 'react-use-cart';
 import { useAddressBook } from '@/app/addressBookProvider';
+import Button from '../Button';
 
 interface UserInfo {
   firstname: string;
@@ -12,61 +13,50 @@ interface UserInfo {
   email: string;
 }
 
-interface PayWithSpayProps {
-  cartTotal: number;
+interface PhoneAmount {
+  phone: string;
+  totalAmount: number;
 }
 
-const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
+interface PayWithSpayProps {
+  userInfo: UserInfo;
+  phoneAmount: PhoneAmount;
+}
+
+const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
   const router = useRouter();
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  const [phone, setPhone] = useState('');
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const searchParams = useSearchParams();
   const orderId = decodeURIComponent(searchParams.get('order') || '');
-  const deliveryFee = 60;
-  const {setFirstStageCompleted} = useAddressBook();
-  const {emptyCart} = useCart();
+  const { setFirstStageCompleted } = useAddressBook();
+  const { emptyCart } = useCart();
 
   const clear = () => {
     setFirstStageCompleted(false);
     emptyCart();
-  }
-
-  useEffect(() => {
-    // Simulate fetching user info
-    const fetchedUserInfo = authUtils.getUserInfo();
-    if (fetchedUserInfo) {
-      setUserInfo(fetchedUserInfo);
-    }
-
-    const storedphone = localStorage.getItem('phone');
-    if (storedphone) {
-      setPhone(JSON.parse(storedphone));
-    } else {
-      console.error('No order items found in local storage.');
-    }
-  }, []);
+  };
 
   useEffect(() => {
     if (scriptLoaded && userInfo) {
       window.payWithSpay = function () {
         const handler = {
-          amount: cartTotal + deliveryFee,
+          amount: phoneAmount.totalAmount,
           currency: 'NGN',
           reference: `myhomeetal-${orderId}`,
           merchantCode: 'MCH_la8whiqumgh489i',
           customer: {
             firstName: userInfo?.firstname,
             lastName: userInfo?.lastname,
-            phone: phone,
+            phone: phoneAmount.phone,
             email: userInfo?.email,
           },
           callback: function (response) {
             if (response.status === 'FAILED') {
               toast.error('payment failed, please try again!');
+              router.push('/checkout');
             } else if (response.status === 'SUCCESSFUL') {
               // Clear the cart storage from local storage
-             clear();
+              clear();
               router.push(
                 `/order-confirmed?id=${orderId}-${response.amount}-${response.paymentMethod}`
               );
@@ -84,7 +74,7 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
         }
       };
     }
-  }, [scriptLoaded, userInfo, cartTotal]);
+  }, [scriptLoaded, userInfo, phoneAmount?.totalAmount]);
 
   return (
     <>
@@ -103,7 +93,7 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
         rel='stylesheet'
       />
       <button
-        className='rounded-xl bg-white px-10 py-4 font-clashmd text-base'
+        className='h-[60px] bg-primary w-full rounded-full border-0 font-clashmd text-base shadow-none'
         id='payWithSpay'
         onClick={(e) => {
           e.stopPropagation();
@@ -119,7 +109,7 @@ const PayWithSpay = ({ cartTotal }: PayWithSpayProps) => {
         }}
         disabled={!userInfo}
       >
-        Pay With Spay
+        Make Payment
       </button>
     </>
   );

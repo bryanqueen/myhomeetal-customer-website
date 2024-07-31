@@ -52,7 +52,7 @@ const ReferralEarningDashboard: React.FC<ReferralDisplayProps> = ({
           </div>
 
           <p className='font-clashsm text-base text-[#1D2739] lg:text-[32px]'>
-            {totalEarnings} <span className='text-2xl'>pts</span>
+            {totalEarnings} <span className='lg:text-2xl text-xs'>pts</span>
           </p>
         </div>
       </div>

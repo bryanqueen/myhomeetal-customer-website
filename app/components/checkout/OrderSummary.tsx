@@ -9,8 +9,6 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { Ticket } from 'iconsax-react';
-import * as RadioGroup from '@radix-ui/react-radio-group';
-import RadioItem from '../RadioItem';
 import { locations } from '@/app/utils/constants';
 
 interface Address {
@@ -156,12 +154,12 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
           <div className='relative m-4 mt-10 h-fit lg:mt-4'>
             <div className='flex items-center gap-4 py-5'>
               <Ticket color='#F68182' size={24} />
-              <span className='text-[15px] text-[#2A2A2A]'>Use Promo code</span>
+              <span className='lg:text-[15px] text-[#2A2A2A] font-clashmd text-xs'>Use Promo code</span>
             </div>
             <div className='flex items-center justify-between'>
-              <p className='text-base text-primary'>MyPoints</p>
+              <p className='text-xs lg:text-base text-primary'>MyPoints</p>
               <div className='flex items-center gap-3'>
-                <label htmlFor='useMyPoints'>₦{point} Available</label>
+                <label className='text-xs font-clashmd lg:text-base lg:font-clash' htmlFor='useMyPoints'>₦{point} Available</label>
                 <input
                   type='checkbox'
                   id='useMyPoints'

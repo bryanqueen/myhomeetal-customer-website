@@ -1,21 +1,28 @@
 'use client';
-import { useRegion } from '@/app/RegionProvider';
-import ProductPrice from '../product/ProductPrice';
 import { Box } from 'iconsax-react';
 
-interface UserInfo {
-  points: number;
-  referralCode: string;
-  referrals: [];
+interface Referral {
+  id: string;
+  firstname: string;
+  lastname: string;
+  pointsContributed: number;
+  type: 'signedUp' | 'purchased';
 }
 
-interface AccountDashboardProps {
-  userInfo: UserInfo | null;
+interface ReferralsInfo {
+  combinedReferrals: Referral[];
+  totalEarnings: number;
+  totalReferrals: number;
 }
 
+interface ReferralDisplayProps {
+  referralsInfo: ReferralsInfo;
+}
 
-export default function ReferralEarningDashboard({ userInfo }: AccountDashboardProps) {
-  const { region } = useRegion();
+const ReferralEarningDashboard: React.FC<ReferralDisplayProps> = ({
+  referralsInfo,
+}) => {
+  const { totalEarnings, totalReferrals } = referralsInfo;
   return (
     <div className='mt-7 grid w-full gap-4 lg:h-[195px] lg:grid-cols-2'>
       <div className='flex h-[62px] w-full items-center justify-center rounded-xl border border-[#E4E7EC] pl-5 lg:h-full lg:justify-start'>
@@ -29,7 +36,7 @@ export default function ReferralEarningDashboard({ userInfo }: AccountDashboardP
             </p>
           </div>
           <p className='font-clashsm text-base text-[#1D2739] lg:text-[32px]'>
-            {userInfo.referrals.length}
+            {totalReferrals}
           </p>
         </div>
       </div>
@@ -43,10 +50,14 @@ export default function ReferralEarningDashboard({ userInfo }: AccountDashboardP
               Total Earnings
             </p>
           </div>
-          
-          <p className='font-clashsm text-base text-[#1D2739] lg:text-[32px]'>{userInfo.points} <span className='text-2xl'>pts</span></p>
+
+          <p className='font-clashsm text-base text-[#1D2739] lg:text-[32px]'>
+            {totalEarnings} <span className='text-2xl'>pts</span>
+          </p>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default ReferralEarningDashboard;

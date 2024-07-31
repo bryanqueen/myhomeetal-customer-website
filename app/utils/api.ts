@@ -9,6 +9,7 @@ const api = {
   SET_NEW_PASSWORD: 'user/reset-pass',
   UPDATE_USER: 'user/edit-account',
   GET_USER: 'user/',
+  GET_REFERRALS: 'user/referrals',
   DELETE_USER: 'user/delete-account',
   DELIVERY_ADDRESS: '',
   ORDERS: 'order/create-order',

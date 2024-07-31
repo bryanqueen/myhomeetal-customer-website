@@ -1,11 +1,8 @@
 'use client';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ClientOnly from '../ClientOnly';
 import toast from 'react-hot-toast';
-import authUtils from '@/app/utils/authUtils';
-import productService from '@/app/services/productService';
-import { notFound, useRouter } from 'next/navigation';
 
 interface UserInfo {
   points: number;
@@ -18,7 +15,6 @@ interface AccountDashboardProps {
 }
 
 export default function ReferralDashBoard({ userInfo }: AccountDashboardProps) {
-
   const referralLink = `https://www.myhomeetal.com/register?code=${userInfo.referralCode}`;
 
   const copyToClipboard = () => {

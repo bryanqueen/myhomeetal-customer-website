@@ -14,6 +14,11 @@ import toast from 'react-hot-toast';
 
 export default function ReferralPage() {
   const [userInfo, setUserInfo] = useState(null);
+  const [referralsInfo, setReferralsInfo] = useState({
+    combinedReferrals: [],
+    totalEarnings: 0,
+    totalReferrals: 0,
+  });
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -40,16 +45,36 @@ export default function ReferralPage() {
 
       if (parsedUserInfo?.id) {
         try {
-          const res = await productService.getUserDetails(parsedUserInfo?.id);
-          if (res.status === 200) {
-            setUserInfo(res?.data);
+          const [userDetails, referrals] = await Promise.all([
+            productService.getUserDetails(parsedUserInfo.id),
+            productService.getUserReferrals(),
+          ]);
+
+          if (userDetails.status === 200) {
+            setUserInfo(userDetails.data);
           } else {
-            console.log('Failed to fetch user details:', res);
+            console.log('Failed to fetch user details:', userDetails);
             toast.error('Failed to fetch user details');
           }
+
+          if (referrals.status === 200) {
+            const { signedUp = [], purchased = [] } = referrals.data.data.referrals || {};
+            const combinedReferrals = [
+              ...signedUp.map(referral => ({ ...referral, type: 'signedUp' })),
+              ...purchased.map(referral => ({ ...referral, type: 'purchased' })),
+            ];
+            setReferralsInfo({
+              combinedReferrals,
+              totalEarnings: referrals.data.data.totalEarnings,
+              totalReferrals: referrals.data.data.totalReferrals,
+            });
+          } else {
+            console.log('Failed to fetch referrals:', referrals);
+            toast.error('Failed to fetch referrals');
+          }
         } catch (error) {
-          console.log('Error fetching user details:', error);
-          toast.error('Error fetching user details');
+          console.log('Error fetching user details or referrals:', error);
+          toast.error('Error fetching user details or referrals');
         }
       } else {
         console.log('User info is undefined or missing ID');
@@ -87,13 +112,13 @@ export default function ReferralPage() {
         </p>
       </div>
       <section>
-        <ReferralDashBoard userInfo={userInfo}/>
+        <ReferralDashBoard userInfo={userInfo} />
       </section>
       <section>
-        <ReferralEarningDashboard userInfo={userInfo}/>
+        <ReferralEarningDashboard referralsInfo={referralsInfo} />
       </section>
       <section>
-       {/* <ReferralTable userInfo={userInfo} />*/}
+        <ReferralTable userInfo={userInfo} referralsInfo={referralsInfo} />
       </section>
     </main>
   );

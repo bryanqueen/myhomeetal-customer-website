@@ -8,6 +8,9 @@ const productService = {
   getUserDetails: async (id?: string) => {
     return await apiUtils.getRequest(`${api.GET_USER}${id}`);
   },
+  getUserReferrals: async () => {
+    return await apiUtils.getRequest(`${api.GET_REFERRALS}`);
+  },
 
   saveProduct: async ({ payload, id }: { payload: any; id: string }) => {
     return await apiUtils.postRequest(`user/save-item/${id}`, payload);

@@ -173,7 +173,7 @@ export default function AddressBook() {
                   name='address'
                   onChange={(e) => setAddress(e.target.value)}
                   labelKey='Delevery Address'
-                  placeholder='10, Uliot street, Bariga, Lagos Nigeria'
+                  placeholder='Enter a Valid address'
                   labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
                   inputClassName='h-[50px] lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
                 />
@@ -181,7 +181,7 @@ export default function AddressBook() {
                   name='phoneNumber'
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   labelKey='Phone Number'
-                  placeholder='+234 9073872270'
+                  placeholder='Enter your Phone Number'
                   labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
                   inputClassName='h-[50px] lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
                 />
@@ -293,7 +293,7 @@ export default function AddressBook() {
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   labelKey='Delevery Address'
-                  placeholder='10, Uliot street, Bariga, Lagos Nigeria'
+                  placeholder='Enter a Valid address'
                   labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
                   inputClassName='h-[56px] text-xs bg-white placeholder:text-sm placeholder:text-black'
                 />
@@ -302,7 +302,7 @@ export default function AddressBook() {
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   labelKey='Phone Number'
-                  placeholder='+234 9073872270'
+                  placeholder='Enter your Phone Number'
                   labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
                   inputClassName='h-[56px] text-xs bg-white placeholder:text-sm placeholder:text-black'
                 />

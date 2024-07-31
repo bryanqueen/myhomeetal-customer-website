@@ -277,7 +277,7 @@ const CheckoutForm: React.FC = () => {
                   <div className='hidden items-center justify-center lg:flex'>
                     <button
                       onClick={() => {
-                        if (myAddress && phoneNumber && selectedAddress) {
+                        if (myAddress && phoneNumber && selectedLocation) {
                           createAddress(
                             myAddress,
                             phoneNumber,
@@ -303,7 +303,7 @@ const CheckoutForm: React.FC = () => {
                 >
                   <button
                     onClick={() => {
-                      if (myAddress && phoneNumber && selectedAddress) {
+                      if (myAddress && phoneNumber && selectedLocation) {
                         createAddress(myAddress, phoneNumber, selectedLocation);
                         setMyAddress('');
                         setPhoneNumber('');

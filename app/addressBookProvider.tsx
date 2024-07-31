@@ -11,12 +11,13 @@ interface Address {
   id: number;
   email: string;
   phoneNumber: string;
+  lga: string;
 }
 
 interface AddressBookContextType {
   addresses: Address[];
-  createAddress: (email: string, phoneNumber: string) => void;
-  editAddress: (id: number, email: string, phoneNumber: string) => void;
+  createAddress: (email: string, phoneNumber: string, lga: string) => void;
+  editAddress: (id: number, email: string, phoneNumber: string, lga: string) => void;
   deleteAddress: (id: number) => void;
   saveAddress: () => void;
   firstStageCompleted: boolean;
@@ -88,19 +89,20 @@ export const AddressBookProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, [addresses, firstStageCompleted]);
 
-  const createAddress = (email: string, phoneNumber: string) => {
+  const createAddress = (email: string, phoneNumber: string, lga: string) => {
     const newAddress: Address = {
       id: addresses.length > 0 ? addresses[addresses.length - 1].id + 1 : 1,
       email,
       phoneNumber,
+      lga
     };
     setAddresses([...addresses, newAddress]);
   };
 
-  const editAddress = (id: number, email: string, phoneNumber: string) => {
+  const editAddress = (id: number, email: string, phoneNumber: string, lga: string) => {
     setAddresses(
       addresses.map((address) =>
-        address.id === id ? { ...address, email, phoneNumber } : address
+        address.id === id ? { ...address, email, phoneNumber, lga } : address
       )
     );
   };

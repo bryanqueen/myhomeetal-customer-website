@@ -13,6 +13,7 @@ import NoHistory from './NoHistory';
 import Dialog from '@components/Dialog';
 import Image from 'next/image';
 import { Close as CloseDialog } from '@radix-ui/react-dialog';
+import { locations } from '@/app/utils/constants';
 
 interface UserInfo {
   firstname: string;
@@ -37,6 +38,7 @@ export default function AddressBook() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [myindex, setIndex] = useState<number | null>(null);
   const [id, setId] = useState<number | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState('');
   const { addresses, createAddress, editAddress, deleteAddress, saveAddress } =
     useAddressBook();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -70,6 +72,10 @@ export default function AddressBook() {
   }, [isAddAddress, isEdit]);
 
   const addressInWords = numberToWords(myindex + 1);
+
+  const handleSelectChange = (event) => {
+    setSelectedLocation(event.target.value);
+  };
 
   return (
     <ClientOnly>
@@ -179,14 +185,31 @@ export default function AddressBook() {
                   labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
                   inputClassName='h-[50px] lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
                 />
+                <div className='grid gap-2'>
+                  <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
+                    City (only in Lagos*)
+                  </label>
+                  <select
+                    className='h-[50px] rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-2xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black'
+                    value={selectedLocation}
+                    onChange={handleSelectChange}
+                  >
+                    {locations.map((lga, i) => (
+                      <option key={i} value={lga.name}>
+                        {lga.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <div className='hidden items-center justify-center lg:flex'>
                 <button
                   onClick={() => {
-                    if (address && phoneNumber) {
-                      createAddress(address, phoneNumber);
+                    if (address && phoneNumber && selectedLocation) {
+                      createAddress(address, phoneNumber, selectedLocation);
                       setAddress('');
                       setPhoneNumber('');
+                      setSelectedLocation('');
                       toast.success('Address created successfully');
                       setIsAddAddress(false);
                     } else {
@@ -202,10 +225,11 @@ export default function AddressBook() {
             <div className='flex items-center justify-center lg:hidden'>
               <button
                 onClick={() => {
-                  if (address && phoneNumber) {
-                    createAddress(address, phoneNumber);
+                  if (address && phoneNumber && selectedLocation) {
+                    createAddress(address, phoneNumber, selectedLocation);
                     setAddress('');
                     setPhoneNumber('');
+                    setSelectedLocation('');
                     toast.success('Address created successfully');
                     setIsAddAddress(false);
                   } else {
@@ -235,13 +259,34 @@ export default function AddressBook() {
                   className='w-[7px] lg:w-[12px]'
                 />
               </button>
-              <p className='font-clashmd text-xs lg:text-base'>
-                Address {addressInWords}
-              </p>
-              <p className='max-w-[243px] text-[10px] lg:max-w-[497px] lg:text-sm'>
-                Ensure the details entered are accurate to avoid issues during
-                product delivery
-              </p>
+              <div className='lg:grid grid-cols-2 gap-5'>
+                <div>
+                  <p className='font-clashmd text-xs lg:text-base'>
+                    Address {addressInWords}
+                  </p>
+                  <p className='max-w-[243px] text-[10px] lg:max-w-[497px] lg:text-sm'>
+                    Ensure the details entered are accurate to avoid issues
+                    during product delivery
+                  </p>
+                </div>
+                <div className='hidden gap-2 lg:grid'>
+                  <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
+                    City (only in Lagos*)
+                  </label>
+                  <select
+                    className='h-[50px] rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black'
+                    value={selectedLocation}
+                    onChange={handleSelectChange}
+                  >
+                    {locations.map((lga, i) => (
+                      <option key={i} value={lga.name}>
+                        {lga.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
               <div className='grid gap-5 lg:mt-5 lg:grid-cols-2'>
                 <Input
                   name='address'
@@ -261,12 +306,28 @@ export default function AddressBook() {
                   labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
                   inputClassName='h-[56px] text-xs bg-white placeholder:text-sm placeholder:text-black'
                 />
+                <div className='grid gap-2 lg:hidden'>
+                  <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
+                    City (only in Lagos*)
+                  </label>
+                  <select
+                    className='h-[50px] rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black'
+                    value={selectedLocation}
+                    onChange={handleSelectChange}
+                  >
+                    {locations.map((lga, i) => (
+                      <option key={i} value={lga.name}>
+                        {lga.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
             <div className='flex items-center justify-center'>
               <button
                 onClick={() => {
-                  editAddress(id, address, phoneNumber);
+                  editAddress(id, address, phoneNumber, selectedLocation);
                   setAddress('');
                   setPhoneNumber('');
                   toast.success('Address updated successfully');

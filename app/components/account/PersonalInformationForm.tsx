@@ -23,7 +23,6 @@ export default function PersonalInformationForm({
 }: AccountDashboardProps) {
   const [firstName, setFirstName] = useState(userInfo?.firstname || '');
   const [lastName, setLastName] = useState(userInfo?.lastname || '');
-  const [password, setPassword] = useState(userInfo?.password || '');
   const [error, setError] = useState('');
   const [email, setEmail] = useState(userInfo?.email || '');
   const [phone, setPhone] = useState(userInfo?.phone_number || '');
@@ -80,7 +79,6 @@ export default function PersonalInformationForm({
         lastName,
         phone_number: phone,
         email,
-        password,
       };
       const res = await productService.updateUser(payload);
       if (res.status === 200) {

@@ -9,31 +9,39 @@ import ProductPrice from '@/app/components/product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import productService from '@/app/services/productService';
 import { notFound } from 'next/navigation';
-import authUtils from '@/app/utils/authUtils';
 import NoHistory from './NoHistory';
+import { HomeSkeleton } from '../loader';
 
-interface User {
-  id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
+interface Product {
+  _id: string;
+  productTitle: string;
+  brand: string;
+  price: number;
+  images: string[];
+  reviewsCount: number;
+  rating: number;
+  isProductNew: boolean;
 }
 
 export default function SaveItems() {
   const { region } = useRegion();
-  const [savedItems, setSavedItems] = useState<string[]>([]);
-  const [isItem, setIsItem] = useState(false);
+  const [savedItems, setSavedItems] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchSavedItems = async () => {
     try {
       const res = await productService.getSavedProducts();
       if (!res || !res.data) {
         console.log('id not found');
+        setLoading(false);
         return notFound();
       }
+      console.log(res);
       setSavedItems(res.data.savedItems);
+      setLoading(false);
     } catch (error) {
       console.error('Error in ProductPage:', error);
+      setLoading(false);
       return notFound();
     }
   };
@@ -42,9 +50,13 @@ export default function SaveItems() {
     fetchSavedItems();
   }, []);
 
+  if (loading) {
+    return <HomeSkeleton />;
+  }
+
   return (
     <div>
-      {!isItem ? (
+      {savedItems.length < 1 ? (
         <div className='py-32'>
           <NoHistory title='No Saved Item Yet' />
         </div>
@@ -58,27 +70,26 @@ export default function SaveItems() {
             </p>
           </div>
           <div className='grid gap-6 lg:my-10 lg:gap-9 lg:py-5'>
-            {[0, 0, 0, 0].map((V, i) => (
+            {savedItems.map((item) => (
               <div
-                key={i}
+                key={item._id}
                 className='flex h-[100px] items-center px-2 lg:block lg:h-[95px] lg:max-w-[833px] lg:px-0'
               >
-                <div className='flex gap-7 lg:gap-5'>
+                <div className='flex w-full gap-7 lg:gap-5'>
                   <Image
                     className='h-[62px] w-[58px] rounded-[12.63px] object-contain lg:h-[95px] lg:w-[95px] lg:rounded-3xl'
-                    src='/images/product/save.png'
+                    src={item.images[0]}
                     alt=''
                     width={95}
                     height={95}
                   />
-                  <div className='relative flex min-h-full items-center lg:hidden'>
+                  <div className='relative flex min-h-full w-full items-center lg:hidden'>
                     <div className='h-[50px]'>
                       <p className='mb-1 text-xs text-myGray'>
-                        Samsung Galaxy A14 6.6&quot; 4GB RAM/64GB ROM Android 13
-                        - Light Green
+                        {item.productTitle}
                       </p>
                       <ProductPrice
-                        priceInNGN={3000}
+                        priceInNGN={item.price}
                         region={region}
                         className='ml-2 font-clashmd text-xs text-myGray'
                       />
@@ -88,22 +99,21 @@ export default function SaveItems() {
                     </button>
                   </div>
 
-                  <div className='hidden items-center justify-between lg:flex'>
+                  <div className='hidden w-full items-center justify-between lg:flex'>
                     <div className='grid max-w-[475px] gap-2'>
                       <p className='text-base text-myGray '>
-                        Samsung Galaxy A14 6.6&quot; 4GB RAM/64GB ROM Android 13
-                        - Light Green
+                        {item.productTitle}
                       </p>
                       <div className='flex gap-1'>
                         <span className='text-sm text-myGray'>Brand: </span>
                         <span className='font-clashmd text-sm text-primary'>
-                          Samsung
+                          {item.brand}
                         </span>
                       </div>
                     </div>
                     <div className='flex h-full w-fit flex-col justify-between'>
                       <ProductPrice
-                        priceInNGN={3000}
+                        priceInNGN={item.price}
                         region={region}
                         className='text-end font-clashmd text-xl text-myGray'
                       />

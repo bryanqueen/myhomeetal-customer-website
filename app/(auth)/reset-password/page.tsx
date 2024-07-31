@@ -1,7 +1,7 @@
 import ResetPasswordForm from '@/app/components/forms/ResetPasswordForm';
 import Logo from '@/app/components/Logo';
 import Link from 'next/link';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 export default function ResetPage() {
   return (
@@ -17,7 +17,9 @@ export default function ResetPage() {
           Change <span className='text-primary'>Password</span>
         </p>
       </div>
-      <ResetPasswordForm />
+      <Suspense>
+        <ResetPasswordForm />
+      </Suspense>
     </main>
   );
 }

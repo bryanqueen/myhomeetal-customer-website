@@ -56,13 +56,13 @@ const Category: React.FC<CategoryProps> = ({
       {(products && products.length > 0) ? (
         <>
           {/* Mobile view */}
-          <div className='mt-10 grid grid-cols-2 justify-center gap-x-3 gap-y-7 md:hidden'>
+          <div className='mt-10 grid grid-cols-2 justify-center md:grid-cols-4  gap-x-3 gap-y-7 lg:hidden'>
             {mobileProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
           {/* Desktop view */}
-          <div className='mt-10 hidden grid-cols-4 justify-center gap-x-3 gap-y-7 md:grid lg:mt-7 lg:grid-cols-5 lg:gap-5'>
+          <div className='mt-10 hidden justify-center gap-x-3 gap-y-7 lg:grid lg:mt-7 lg:grid-cols-5 lg:gap-5'>
             {desktopProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}

@@ -15,11 +15,13 @@ import { useAddressBook } from '@/app/addressBookProvider';
 import authUtils from '@/app/utils/authUtils';
 import toast from 'react-hot-toast';
 import { numberToWords } from '@/app/utils/helpers';
+import { locations } from '@/app/utils/constants';
 
 interface Address {
   id: number;
   email: string;
   phoneNumber: string;
+  lga?: string;
 }
 
 interface UserInfo {
@@ -50,9 +52,11 @@ const CheckoutForm: React.FC = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [myAddress, setMyAddress] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState('');
   const [error, setError] = useState('');
   const [myindex, setIndex] = useState<number | null>(null);
   const [id, setId] = useState<number | null>(null);
+  const [deliveryFee, setDeliveryFee] = useState(0);
 
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
@@ -93,6 +97,15 @@ const CheckoutForm: React.FC = () => {
 
   const handleAddressClick = (address) => {
     setSelectedAddress(address);
+    const selectedLocation = locations.find(
+      (location) => location.name === address.lga
+    );
+
+    setDeliveryFee(selectedLocation.fee);
+  };
+
+  const handleSelectChange = (event) => {
+    setSelectedLocation(event.target.value);
   };
 
   const handlePhoneChange = (e) => {
@@ -132,18 +145,39 @@ const CheckoutForm: React.FC = () => {
           >
             {/**Edit container */}
             {isEdit && (
-              <div className='absolute top-[50%] mt-20 min-w-full translate-y-[-50%] px-[3%] lg:min-w-[1115px] lg:px-0'>
+              <div className='absolute top-[40%] mt-20 min-w-full translate-y-[-50%] px-[3%] lg:min-w-[1115px] lg:px-0'>
                 <div
                   onClick={(e) => e.stopPropagation()}
                   className='mx-auto rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:min-w-[1115px]'
                 >
-                  <p className='font-clashmd text-xs lg:text-base'>
-                    Address {addressInWords}
-                  </p>
-                  <p className='max-w-[243px] text-[10px] lg:max-w-[497px] lg:text-sm'>
-                    Ensure the details entered are accurate to avoid issues
-                    during product delivery
-                  </p>
+                  <div className='grid-cols-2 gap-5 lg:grid'>
+                    <div>
+                      <p className='font-clashmd text-xs lg:text-base'>
+                        Address {addressInWords}
+                      </p>
+                      <p className='max-w-[243px] text-[10px] lg:max-w-[497px] lg:text-sm'>
+                        Ensure the details entered are accurate to avoid issues
+                        during product delivery
+                      </p>
+                    </div>
+                    <div className='hidden gap-2 lg:grid'>
+                      <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
+                        City (only in Lagos*)
+                      </label>
+                      <select
+                        className='h-[50px] rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black'
+                        value={selectedLocation}
+                        onChange={handleSelectChange}
+                      >
+                        {locations.map((lga, i) => (
+                          <option key={i} value={lga.name}>
+                            {lga.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
                   <div className='mt-5 grid gap-5 lg:grid-cols-2'>
                     <Input
                       name='address'
@@ -164,12 +198,28 @@ const CheckoutForm: React.FC = () => {
                       labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
                       inputClassName='h-[56px] text-xs bg-white placeholder:text-sm placeholder:text-black'
                     />
+                    <div className='grid gap-2 lg:hidden'>
+                      <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
+                        City (only in Lagos*)
+                      </label>
+                      <select
+                        className='h-[50px] rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black'
+                        value={selectedLocation}
+                        onChange={handleSelectChange}
+                      >
+                        {locations.map((lga, i) => (
+                          <option key={i} value={lga.name}>
+                            {lga.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <div className='flex items-center justify-center'>
                   <button
                     onClick={() => {
-                      editAddress(id, myAddress, phoneNumber);
+                      editAddress(id, myAddress, phoneNumber, selectedLocation);
                       setMyAddress('');
                       setPhoneNumber('');
                       toast.success('Address updated successfully');
@@ -207,12 +257,32 @@ const CheckoutForm: React.FC = () => {
                       labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
                       inputClassName='h-[50px] lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
                     />
+                    <div className='grid gap-2'>
+                      <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
+                        City (only in Lagos*)
+                      </label>
+                      <select
+                        className='h-[50px] rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-2xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black'
+                        value={selectedLocation}
+                        onChange={handleSelectChange}
+                      >
+                        {locations.map((lga, i) => (
+                          <option key={i} value={lga.name}>
+                            {lga.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                   <div className='hidden items-center justify-center lg:flex'>
                     <button
                       onClick={() => {
-                        if (myAddress && phoneNumber) {
-                          createAddress(myAddress, phoneNumber);
+                        if (myAddress && phoneNumber && selectedAddress) {
+                          createAddress(
+                            myAddress,
+                            phoneNumber,
+                            selectedLocation
+                          );
                           setMyAddress('');
                           setPhoneNumber('');
                           toast.success('Address created successfully');
@@ -233,8 +303,8 @@ const CheckoutForm: React.FC = () => {
                 >
                   <button
                     onClick={() => {
-                      if (myAddress && phoneNumber) {
-                        createAddress(myAddress, phoneNumber);
+                      if (myAddress && phoneNumber && selectedAddress) {
+                        createAddress(myAddress, phoneNumber, selectedLocation);
                         setMyAddress('');
                         setPhoneNumber('');
                         toast.success('Address created successfully');
@@ -319,6 +389,9 @@ const CheckoutForm: React.FC = () => {
                       <p className='text-xs text-black lg:text-base'>
                         {selectedAddress?.phoneNumber}
                       </p>
+                      <p className='text-xs text-black lg:text-base'>
+                        {selectedAddress?.lga}
+                      </p>
                     </div>
                   </div>
                 ) : (
@@ -344,6 +417,7 @@ const CheckoutForm: React.FC = () => {
                           <p className='text-xs lg:text-base'>
                             {address?.phoneNumber}
                           </p>
+                          <p className='text-xs lg:text-base'>{address?.lga}</p>
                         </div>
                         <button
                           onClick={(e) => {
@@ -548,7 +622,11 @@ const CheckoutForm: React.FC = () => {
                     aria-label='Pay with wallet'
                     onValueChange={setSelectedPaymentMethod}
                   >
-                    <RadioItem id='r3' value='Online' labelKey='Online payment' />
+                    <RadioItem
+                      id='r3'
+                      value='Online'
+                      labelKey='Online payment'
+                    />
                     <RadioItem
                       id='r4'
                       value='Wallet'

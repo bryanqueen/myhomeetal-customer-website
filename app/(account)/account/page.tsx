@@ -6,7 +6,7 @@ import PersonalInformationForm from '@/app/components/account/PersonalInformatio
 import productService from '@/app/services/productService';
 import { constants } from '@/app/utils/constants';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import { HomeSkeleton } from '@/app/components/loader';
@@ -65,7 +65,7 @@ export default function AccountPage() {
   }
 
   if (!userInfo) {
-    return <div>User not found</div>;
+    return notFound();
   }
 
   return (

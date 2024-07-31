@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import productService from '@/app/services/productService';
 import { notFound } from 'next/navigation';
 import authUtils from '@/app/utils/authUtils';
+import NoHistory from './NoHistory';
 
 interface User {
   id: string;
@@ -92,7 +93,19 @@ const Notifications = () => {
     fetchNotification();
   }, [userInfo]); */
   return (
-    <div className='grid gap-5 lg:py-5'>
+    <div className='flex items-center justify-center h-[70vh]'>
+      <div className='m-auto grid max-w-xs justify-items-center gap-3 lg:max-w-[420px] lg:gap-6'>
+        <div className='h-16 w-16 rounded-full bg-[#FFC5C6]' />
+        <p className='text-center font-clashmd text-[25px] text-myGray lg:text-2xl'>
+          Your notification center is <br /> empty!
+        </p>
+        <p className='w-[80%] text-center text-xs text-myGray lg:w-full lg:text-sm'>
+          It looks like you don&rsquo;t have any notifications right now. Check
+          back soon for updates, alerts, and important messages!
+        </p>
+      </div>
+    </div>
+    /*<div className='grid gap-5 lg:py-5'>
       {notifications.map((notification, i) => (
         <div
           key={i}
@@ -140,7 +153,7 @@ const Notifications = () => {
           </div>
         </div>
       ))}
-    </div>
+    </div> */
   );
 };
 

@@ -141,7 +141,7 @@ const SignupForm = () => {
             sign in
           </Link>
         </p>
-        <div className='my-3 flex justify-center gap-3'>
+        <div className='my-3 hidden justify-center gap-3'>
           <Button
             className='rounded-lg border-0 bg-[#FFE0E0] p-3 text-black shadow-none'
             fit

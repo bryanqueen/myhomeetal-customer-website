@@ -47,7 +47,7 @@ const LoginForm = () => {
         Sign in to <span className='text-[#FF0003]'>Myhomeetal</span>
       </h1>
       {error && <p className='mb-2 text-center text-red-500'>{error}</p>}
-      <div className='grid gap-3 py-5'>
+      <div className=' gap-3 py-5 hidden'>
         <Button className='relative h-[56px] w-full rounded-[10px] border-0 bg-[#FFE0E0] font-clashmd text-[10px] text-black shadow-none lg:rounded-[16px] lg:font-clash lg:text-sm'>
           <span className='absolute left-10'>
             <Image src='/icons/google.svg' width='20' height='20' alt='' />

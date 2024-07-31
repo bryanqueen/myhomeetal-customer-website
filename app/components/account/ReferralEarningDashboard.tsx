@@ -3,7 +3,18 @@ import { useRegion } from '@/app/RegionProvider';
 import ProductPrice from '../product/ProductPrice';
 import { Box } from 'iconsax-react';
 
-export default function ReferralEarningDashboard() {
+interface UserInfo {
+  points: number;
+  referralCode: string;
+  referrals: [];
+}
+
+interface AccountDashboardProps {
+  userInfo: UserInfo | null;
+}
+
+
+export default function ReferralEarningDashboard({ userInfo }: AccountDashboardProps) {
   const { region } = useRegion();
   return (
     <div className='mt-7 grid w-full gap-4 lg:h-[195px] lg:grid-cols-2'>
@@ -18,7 +29,7 @@ export default function ReferralEarningDashboard() {
             </p>
           </div>
           <p className='font-clashsm text-base text-[#1D2739] lg:text-[32px]'>
-            0
+            {userInfo.referrals.length}
           </p>
         </div>
       </div>
@@ -32,11 +43,8 @@ export default function ReferralEarningDashboard() {
               Total Earnings
             </p>
           </div>
-          <ProductPrice
-            className='font-clashsm text-base text-[#1D2739] lg:text-[32px]'
-            region={region}
-            priceInNGN={0}
-          />
+          
+          <p className='font-clashsm text-base text-[#1D2739] lg:text-[32px]'>{userInfo.points} <span className='text-2xl'>pts</span></p>
         </div>
       </div>
     </div>

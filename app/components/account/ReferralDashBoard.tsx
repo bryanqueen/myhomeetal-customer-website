@@ -7,37 +7,19 @@ import authUtils from '@/app/utils/authUtils';
 import productService from '@/app/services/productService';
 import { notFound, useRouter } from 'next/navigation';
 
-export default function ReferralDashBoard() {
-  const [code, setCode] = useState();
-  const router = useRouter();
+interface UserInfo {
+  points: number;
+  referralCode: string;
+  referrals: [];
+}
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const fetchedUserInfo = await authUtils.getUserInfo();
-        if (fetchedUserInfo) {
-          const res = await productService.getUserDetails(fetchedUserInfo.id);
-          if (!res || !res.data) {
-            console.log('id not found');
-            return notFound();
-          }
-          setCode(res.data.referralCode);
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          // JWT expired or unauthorized, redirect to login page
-          router.push('/login');
-        } else {
-          // Handle other errors
-          console.error('An error occurred:', error);
-        }
-      }
-    };
-    
-    fetchUserInfo();
-  }, [router]);
+interface AccountDashboardProps {
+  userInfo: UserInfo | null;
+}
 
-  const referralLink = `https://www.myhomeetal.com/register?code=${code}`;
+export default function ReferralDashBoard({ userInfo }: AccountDashboardProps) {
+
+  const referralLink = `https://www.myhomeetal.com/register?code=${userInfo.referralCode}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(referralLink).then(

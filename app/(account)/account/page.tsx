@@ -39,9 +39,9 @@ export default function AccountPage() {
 
       if (parsedUserInfo?.id) {
         try {
-          const res = await productService.getUserDetails(parsedUserInfo.id);
+          const res = await productService.getUserDetails(parsedUserInfo?.id);
           if (res.status === 200) {
-            setUserInfo(res.data);
+            setUserInfo(res?.data);
           } else {
             console.log('Failed to fetch user details:', res);
             toast.error('Failed to fetch user details');

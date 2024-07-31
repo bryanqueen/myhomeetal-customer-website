@@ -23,8 +23,8 @@ const productService = {
   getSavedProducts: async (id?: string) => {
     return await apiUtils.getRequest(`user/saved-items`);
   },
-  removeSavedProduct: async (id?: string) => {
-    return await apiUtils.deleteRequest(`${api.GET_USER}saved-item`);
+  removeSavedProduct: async (payload: { productId: string }) => {
+    return await apiUtils.deleteRequest(`user/saved-item`, payload);
   },
   getProductsByCategory: async (id?: string) => {
     return await apiUtils.getRequest(`${api.PRODUCTS}/category/${id}`);

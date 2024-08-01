@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import Script from 'next/script';
 import toast from 'react-hot-toast';
-import authUtils from '@/app/utils/authUtils';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCart } from 'react-use-cart';
 import { useAddressBook } from '@/app/addressBookProvider';
-import Button from '../Button';
 
 interface UserInfo {
   firstname: string;

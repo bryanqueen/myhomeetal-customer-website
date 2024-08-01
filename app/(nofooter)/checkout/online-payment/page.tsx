@@ -1,5 +1,4 @@
 'use client';
-import Button from '@/app/components/Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -50,15 +49,6 @@ export default function OnlinePaymentPage() {
       console.error('No order items found in local storage.');
     }
   }, []);
-
-  const handlePayment = () => {
-    const payButton = document.getElementById('payWithSpayButton');
-    if (payButton) {
-      payButton.click();
-    } else {
-      console.error('Pay button not found');
-    }
-  };
 
   return (
     <main className='pb-20 pt-[100px] lg:pt-0'>

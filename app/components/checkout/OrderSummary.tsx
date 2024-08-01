@@ -10,6 +10,8 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { Ticket } from 'iconsax-react';
 import { locations } from '@/app/utils/constants';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface Address {
   id: number;
@@ -40,9 +42,20 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   const { region } = useRegion();
   const [loading, setLoading] = useState(false);
   const [useMyPoints, setUseMyPoints] = useState(false);
+  const [hasWallet, setHasWallet] = useState(false);
+  const [wallet, setWallet] = useState(null);
   const [point, setPoint] = useState(null);
   const [deliveryFee, setDeliveryFee] = useState(0);
+  const [orderId, setorderId] = useState('');
   const [totalAmount, setTotalAmount] = useState(cartTotal + deliveryFee);
+  const [walletNotFound, setWalletNotFound] = useState(false);
+  const [insufficient, setInsufficient] = useState(false);
+  const { emptyCart } = useCart();
+
+  const clear = () => {
+    setFirstStageCompleted(false);
+    emptyCart();
+  };
 
   const handleFirstStage = async () => {
     if (address && deliveryMethod && selectedPayment) {
@@ -84,7 +97,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
       const res = await productService.createOrder(payload);
       if (res.status === 200) {
         const orderId = res.data?.newOrder?.orderId;
-
+        setorderId(res.data?.newOrder?.orderId);
         // Store orderItems to local storage
         localStorage.setItem('orderItems', JSON.stringify(orderItems));
 
@@ -97,19 +110,39 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
 
         if (selectedPayment === 'Online') {
           router.push(`/checkout/online-payment?order=${orderId}`);
+        } else {
+          if (hasWallet) {
+            if (wallet.balance >= totalAmount) {
+              try {
+                const payload = {
+                  orderId: orderId,
+                  narration: 'Purchase',
+                  amount: totalAmount,
+                  from_account_number: wallet.account_no,
+                };
+
+                const res = await productService.payWithWallet(payload);
+                if (res.status === 200) {
+                  clear();
+                  router.push(
+                    `/order-confirmed?id=${orderId}-${totalAmount}-${selectedPayment}`
+                  );
+                }
+              } catch (error) {
+                console.log(error);
+                toast.error('Sorry an error occured. Please try again!');
+              }
+            } else {
+              setInsufficient(true);
+            }
+          } else {
+            setWalletNotFound(true);
+          }
         }
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        // JWT expired or unauthorized, redirect to login page
-        router.push('/login');
-      } else {
-        // Handle other errors
-        console.error('Error in creating order:', error);
-        toast.error(
-          'An error occurred while processing your order. Please try again.'
-        );
-      }
+      console.log(error);
+      toast.error('Sorry an error occured. Please try again!');
     } finally {
       setLoading(false);
     }
@@ -137,6 +170,21 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   }, [deliveryMethod, address]);
 
   useEffect(() => {
+    const fetchWallet = async () => {
+      try {
+        const res = await productService.getWallet();
+        if (res.status === 200 && res.data.account_no) {
+          setHasWallet(true);
+          setWallet(res.data);
+        } else {
+          setHasWallet(false);
+          setWallet(null);
+        }
+      } catch (error) {
+        console.error('Error fetching wallet:', error);
+      }
+    };
+
     const fetchReferral = async () => {
       try {
         const res = await productService.getUserReferrals();
@@ -147,12 +195,93 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
         console.log(error);
       }
     };
-
+    fetchWallet();
     fetchReferral();
   }, []);
 
   return (
     <div>
+      {walletNotFound && (
+        <div
+          onClick={() => setWalletNotFound(false)}
+          className='fixed bottom-0 left-0 right-0 top-0 z-20 flex min-h-screen items-center justify-center bg-black/50 px-[3%] lg:px-0'
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className='flex min-w-full flex-col items-center justify-center gap-9 rounded-2xl bg-white py-5 pb-10 lg:min-w-[552px]'
+          >
+            <div className='flex max-w-[458px] flex-col items-center justify-center gap-5'>
+              <Image
+                src='/images/failure.svg'
+                width={75}
+                height={75}
+                alt='success icon'
+              />
+              <p className='font-clashmd text-base text-myGray lg:text-[25px]'>
+                No Wallet Found
+              </p>
+              <p className='text-center text-xs lg:text-base'>
+                You do not have a wallet associated with your account.
+              </p>
+              <div className='grid min-w-full gap-3'>
+                <Link
+                  href='/account/my-wallet'
+                  className='flex h-[56px] w-full items-center justify-center rounded-xl bg-primary font-clashmd text-base text-white'
+                >
+                  set up a wallet
+                </Link>
+                <Link
+                  href={`/checkout/online-payment?order=${orderId}`}
+                  className='flex h-[56px] items-center justify-center rounded-xl bg-[#FFF1F1] font-clashmd text-base'
+                >
+                  Proceed with Online Payment
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {insufficient === true && (
+        <div
+          onClick={() => setInsufficient(false)}
+          className='fixed bottom-0 left-0 right-0 top-0 z-20 flex min-h-screen items-center justify-center bg-black/50 px-[3%] lg:px-0'
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className='flex min-w-full flex-col items-center justify-center gap-9 rounded-2xl bg-white py-5 pb-10 lg:min-w-[552px]'
+          >
+            <div className='flex max-w-[458px] flex-col items-center justify-center gap-5'>
+              <Image
+                src='/images/failure.svg'
+                width={75}
+                height={75}
+                alt='success icon'
+              />
+              <p className='font-clashmd text-base text-myGray lg:text-[25px]'>
+                Insufficient Balance
+              </p>
+              <p className='text-center text-xs lg:text-base'>
+                Your wallet balance is insufficient to complete this
+                transaction.
+              </p>
+              <div className='grid min-w-full gap-3'>
+                <Link
+                  href='/wallet/my-wallet'
+                  className='flex h-[56px] w-full items-center justify-center rounded-xl bg-primary font-clashmd text-base text-white'
+                >
+                  Fund wallet
+                </Link>
+                <Link
+                  href={`/checkout/online-payment?order=${orderId}`}
+                  className='flex h-[56px] items-center justify-center rounded-xl bg-[#FFF1F1] font-clashmd text-base'
+                >
+                  Proceed with Online Payment
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {point && (
         <div className='h-fit rounded-[13.11px] bg-[#F4F4F4] lg:rounded-2xl'>
           <div className='relative m-4 mt-10 h-fit lg:mt-4'>

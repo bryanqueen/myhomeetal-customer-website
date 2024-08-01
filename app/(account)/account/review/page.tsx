@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 
-import Notifications from '@/app/components/account/Notifications';
 import Button from '@/app/components/Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import { headers } from 'next/headers';
@@ -35,8 +34,8 @@ function ReviewPage() {
       <div className='hidden lg:block'>
         <h1 className='font-clashmd text-3xl text-myGray'>Rating & Reviews</h1>
         <p className='mt-2 text-base text-[#7C7C7C]'>
-          It seems you haven't completed any orders yet. Once you've made a
-          purchase, you'll be able to rate and review the products you receive.
+          It seems you haven&apos;t completed any orders yet. Once you&apos;ve made a
+          purchase, you&apos;ll be able to rate and review the products you receive.
           Happy shopping!
         </p>
       </div>

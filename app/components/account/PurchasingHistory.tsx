@@ -9,40 +9,6 @@ import productService from '@/app/services/productService';
 import { notFound } from 'next/navigation';
 import { HomeSkeleton } from '../loader';
 
-/*const ordersData = [
-  {
-    id: '#2349201',
-    product:
-      'Samsung Galaxy A14 6.6" 4GB RAM/64GB ROM Android 13 - Light Green',
-    status: 'Completed',
-    price: 2000, // Can be 'Pending', 'Completed', 'Cancelled', etc.
-  },
-  {
-    id: '#2349202',
-    product: 'Samsung Galaxy A14 6.6" 4GB RAM/64GB ROM Android 13 - Light Blue',
-    status: 'Pending',
-    price: 2000,
-  },
-  {
-    id: '#2349203',
-    product: 'Samsung Galaxy A14 6.6" 4GB RAM/64GB ROM Android 13 - Black',
-    status: 'Completed',
-    price: 2000,
-  },
-  {
-    id: '#2349204',
-    product: 'Samsung Galaxy A14 6.6" 4GB RAM/64GB ROM Android 13 - Red',
-    status: 'Ongoing',
-    price: 2000,
-  },
-  {
-    id: '#2349205',
-    product: 'Samsung Galaxy A14 6.6" 4GB RAM/64GB ROM Android 13 - White',
-    status: 'Completed',
-    price: 2000,
-  },
-]; */
-
 export default function PurchasingHistory() {
   const { region } = useRegion();
   const [loading, setLoading] = useState(true);
@@ -64,7 +30,7 @@ export default function PurchasingHistory() {
           // Extract products with their respective order statuses
           const extractedProducts = orders.flatMap((order) =>
             order.orderItems.map((item) => ({
-              productId: item.product,
+              productId: order.orderId,
               qty: item.qty,
               price: item.price,
               orderStatus: order.status,
@@ -92,7 +58,7 @@ export default function PurchasingHistory() {
           <NoHistory title='No Purchase History Yet' />
         </div>
       ) : (
-        <div className='grid gap-5 lg:mt-10'>
+        <div className='grid gap-5 lg:mt-10 pt-3 lg:pt-0'>
           {productsWithStatus.map((order, i) => (
             <div
               key={i}
@@ -105,7 +71,7 @@ export default function PurchasingHistory() {
                 width={95}
                 height={95}
               />
-              <div className='grid gap-1 lg:hidden'>
+              <div className='grid w-full gap-1 lg:hidden'>
                 <p className='mb-1 max-w-[475px] text-xs text-black'>
                   {order.product}
                 </p>
@@ -116,20 +82,20 @@ export default function PurchasingHistory() {
                 />
                 <div className='flex items-center justify-between'>
                   <p className='text-[10px] text-black'>
-                    Order ID : {order.id}
+                    Order ID : #{order.productId}
                   </p>
                   <p
                     className={cn('w-fit rounded-full px-[10px] py-[5px]', {
                       'bg-[#F8BCBC] font-clashmd text-[8px] text-[#8B1A1A]':
                         order.status === 'Completed',
                       'bg-[#BAD9F7] font-clashmd text-[8px] text-[#1673CC]':
-                        order.status === 'Pending',
+                        order.orderStatus === 'Not paid',
 
                       'bg-[#BAF7BA] font-clashmd text-[8px] text-[#1B691B]':
                         order.status === 'Ongoing',
                     })}
                   >
-                    {order.status}
+                    {order.orderStatus}
                   </p>
                 </div>
               </div>
@@ -138,20 +104,22 @@ export default function PurchasingHistory() {
                   <p className='mb-1 max-w-[475px] text-base text-black'>
                     {order.product}
                   </p>
-                  <div className='flex items-center gap-4'>
-                    <p className='text-sm text-black'>Order ID : {order.id}</p>
+                  <div className='flex items-center gap-5'>
+                    <p className='text-sm text-black'>
+                      Order ID : #{order.productId}
+                    </p>
                     <p
                       className={cn('w-fit rounded-full px-5 py-2', {
                         'bg-[#F8BCBC] text-[10px] text-[#8B1A1A] lg:text-sm':
                           order.status === 'Completed',
                         'bg-[#BAD9F7] text-[10px] text-[#1673CC] lg:text-sm':
-                          order.status === 'Pending',
+                          order.orderStatus === 'Not paid',
 
                         'bg-[#BAF7BA] text-[10px] text-[#1B691B] lg:text-sm':
                           order.status === 'Ongoing',
                       })}
                     >
-                      {order.status}
+                      {order.orderStatus}
                     </p>
                   </div>
                 </div>

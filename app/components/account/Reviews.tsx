@@ -129,7 +129,7 @@ export default function Reviews() {
                 </div>
               </div>
               <div className='mt-10 grid gap-2'>
-                <label className='text-xs text-black pl-4 lg:pl-0'>Detailed Review</label>
+                <label className='text-xs font-clashmd lg:font-clash text-black pl-4 lg:pl-0'>Detailed Review</label>
                 <textarea
                   className='input-box w-full bg-[#f4f4f4] lg:bg-white resize-none rounded-2xl p-5 text-sm placeholder:text-[#5E5E5E] focus:outline-primary'
                   rows={6}

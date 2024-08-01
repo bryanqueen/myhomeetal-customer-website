@@ -5,6 +5,9 @@ import Image from 'next/image';
 import cn from 'classnames';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
+import productService from '@/app/services/productService';
+import { notFound } from 'next/navigation';
+import { HomeSkeleton } from '../loader';
 
 /*const ordersData = [
   {
@@ -41,27 +44,56 @@ import { useRegion } from '@/app/RegionProvider';
 ]; */
 
 export default function PurchasingHistory() {
-  const [orders, setOrders] = useState([]);
   const { region } = useRegion();
+  const [loading, setLoading] = useState(true);
+  const [productsWithStatus, setProductsWithStatus] = useState([]);
 
-  useEffect(() =>{
-    const fetchOrders =  async() => {
-     try {
-      
-     } catch (error) {
-      console.log(error)
-     }
-    }
-  }, [])
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await productService.getAllOrders();
+
+        if (!res || !res.data) {
+          console.log('id not found');
+          setLoading(false);
+          return notFound();
+        }
+
+        if (res.status === 200) {
+          const orders = res.data;
+          // Extract products with their respective order statuses
+          const extractedProducts = orders.flatMap((order) =>
+            order.orderItems.map((item) => ({
+              productId: item.product,
+              qty: item.qty,
+              price: item.price,
+              orderStatus: order.status,
+            }))
+          );
+          setProductsWithStatus(extractedProducts);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  if (loading) {
+    return <HomeSkeleton />;
+  }
+
   return (
     <div>
-      {orders.length < 1 ? (
+      {productsWithStatus.length < 1 ? (
         <div className='flex min-h-[80vh] items-center justify-center'>
           <NoHistory title='No Purchase History Yet' />
         </div>
       ) : (
-        <div className='lg:mt-10 grid gap-5'>
-          {orders.map((order, i) => (
+        <div className='grid gap-5 lg:mt-10'>
+          {productsWithStatus.map((order, i) => (
             <div
               key={i}
               className='flex max-w-[957px] items-center gap-4 rounded-[20px] bg-[#F4F4F4]/95 px-3 py-4 lg:gap-10 lg:rounded-[28px] lg:bg-[#F4F4F4] lg:px-9 lg:py-[30px]'
@@ -73,7 +105,7 @@ export default function PurchasingHistory() {
                 width={95}
                 height={95}
               />
-              <div className='lg:hidden grid gap-1'>
+              <div className='grid gap-1 lg:hidden'>
                 <p className='mb-1 max-w-[475px] text-xs text-black'>
                   {order.product}
                 </p>

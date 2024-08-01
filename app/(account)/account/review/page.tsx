@@ -13,7 +13,7 @@ function ReviewPage() {
   const headersList = headers();
   const previousPath = headersList.get('referer') || '';
   return (
-    <main className='px-[3%] lg:px-0'>
+    <main className='px-[3%] lg:px-0 pb-20'>
       <div className='sticky top-[83px] z-20 flex items-center justify-center bg-white py-5 pl-1 lg:hidden'>
         <Button
           href={previousPath}
@@ -34,9 +34,8 @@ function ReviewPage() {
       <div className='hidden lg:block'>
         <h1 className='font-clashmd text-3xl text-myGray'>Rating & Reviews</h1>
         <p className='mt-2 text-base text-[#7C7C7C]'>
-          It seems you haven&apos;t completed any orders yet. Once you&apos;ve made a
-          purchase, you&apos;ll be able to rate and review the products you receive.
-          Happy shopping!
+          Rate and review your purchases to share your experiences and help
+          others make informed decisions.
         </p>
       </div>
 

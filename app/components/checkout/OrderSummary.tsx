@@ -266,7 +266,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
               </p>
               <div className='grid min-w-full gap-3'>
                 <Link
-                  href='/wallet/my-wallet'
+                  href='/account/my-wallet'
                   className='flex h-[56px] w-full items-center justify-center rounded-xl bg-primary font-clashmd text-base text-white'
                 >
                   Fund wallet

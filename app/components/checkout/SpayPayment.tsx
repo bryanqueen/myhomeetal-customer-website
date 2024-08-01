@@ -91,7 +91,7 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
         rel='stylesheet'
       />
       <button
-        className='h-[60px] bg-primary w-full rounded-full border-0 font-clashmd text-base shadow-none'
+        className='h-[60px] bg-[#FFF1F1] w-full rounded-full border-0 font-clashmd text-base shadow-none'
         id='payWithSpay'
         onClick={(e) => {
           e.stopPropagation();

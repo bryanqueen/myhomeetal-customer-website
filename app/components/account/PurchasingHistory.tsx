@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NoHistory from './NoHistory';
 import Image from 'next/image';
 import cn from 'classnames';
@@ -43,6 +43,16 @@ import { useRegion } from '@/app/RegionProvider';
 export default function PurchasingHistory() {
   const [orders, setOrders] = useState([]);
   const { region } = useRegion();
+
+  useEffect(() =>{
+    const fetchOrders =  async() => {
+     try {
+      
+     } catch (error) {
+      console.log(error)
+     }
+    }
+  }, [])
   return (
     <div>
       {orders.length < 1 ? (

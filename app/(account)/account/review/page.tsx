@@ -1,19 +1,20 @@
 import { Metadata } from 'next';
-import Button from '@/app/components/Button';
 
-import { headers } from 'next/headers';
+import Notifications from '@/app/components/account/Notifications';
+import Button from '@/app/components/Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
-import AddressBook from '@/app/components/account/AddressBook';
+import { headers } from 'next/headers';
+import Reviews from '@/app/components/account/Reviews';
 
 export const metadata: Metadata = {
-  title: 'Address Book | Myhomeetal',
+  title: 'Reviews and Ratings | Myhomeetal',
 };
 
-function AddressBookPage() {
+function ReviewPage() {
   const headersList = headers();
   const previousPath = headersList.get('referer') || '';
   return (
-    <main className='mx-[3%] pb-10 lg:mx-0'>
+    <main className='px-[3%] lg:px-0'>
       <div className='sticky top-[83px] z-20 flex items-center justify-center bg-white py-5 pl-1 lg:hidden'>
         <Button
           href={previousPath}
@@ -28,12 +29,21 @@ function AddressBookPage() {
           Back
         </Button>
         <p className='text-center font-clashmd text-xs text-myGray lg:hidden'>
-          Address Book
+          Rating & Reviews
         </p>
       </div>
-      <AddressBook />
+      <div className='hidden lg:block'>
+        <h1 className='font-clashmd text-3xl text-myGray'>Rating & Reviews</h1>
+        <p className='mt-2 text-base text-[#7C7C7C]'>
+          It seems you haven't completed any orders yet. Once you've made a
+          purchase, you'll be able to rate and review the products you receive.
+          Happy shopping!
+        </p>
+      </div>
+
+      <Reviews />
     </main>
   );
 }
 
-export default AddressBookPage;
+export default ReviewPage;

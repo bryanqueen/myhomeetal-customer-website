@@ -15,6 +15,7 @@ import {
   Shop,
   Bag,
   Profile2User,
+  Messages3,
 } from 'iconsax-react';
 
 import { ROUTES } from './routes';
@@ -58,39 +59,17 @@ export const accountNav = [
     link: ROUTES.ADDRESS_BOOK,
   },
   {
+    text: 'Rating & Reviews',
+    icon: <Messages3 variant='Bulk' />,
+    link: ROUTES.REVIEWS,
+  },
+  {
     text: 'Close Account',
     icon: <CloseSquare variant='Bulk' />,
     link: ROUTES.CLOSE_ACCOUNT,
   },
 ];
 
-export const accountNav2 = [
-  {
-    text: 'My Account',
-    icon: <UserTick variant='Bulk' />,
-    link: ROUTES.ACCOUNT,
-  },
-  {
-    text: 'My Orders',
-    icon: <Box variant='Bulk' />,
-    link: ROUTES.PURCHASING_HISTORY,
-  },
-  {
-    text: 'Inbox',
-    icon: <Messages variant='Bulk' />,
-    link: ROUTES.NOTIFICATIONS,
-  },
-  {
-    text: 'Saved Items',
-    icon: <HeartCircle variant='Bulk' />,
-    link: ROUTES.SAVED_ITEMS,
-  },
-  {
-    text: 'Logout',
-    icon: <LogoutIcon variant='Bulk' />,
-    dialog: { content: <LogoutDialog /> },
-  },
-];
 export const accountNav3 = [
   {
     text: 'Personal Information',
@@ -127,6 +106,11 @@ export const accountNav3 = [
     text: 'My Address',
     icon: <Location variant='Bulk' color='#292D32' />,
     link: ROUTES.ADDRESS_BOOK,
+  },
+  {
+    text: 'Rating & Reviews',
+    icon: <Messages3 variant='Bulk' />,
+    link: ROUTES.REVIEWS,
   },
   {
     text: 'Close Account',

@@ -145,33 +145,6 @@ const DesktopNav = () => {
               items={myAccount}
               position=''
             >
-              {hasCookie(constants.AUTH_TOKEN) && (
-                <>
-                  {accountNav2.map((item, i) => {
-                    const itemClassName =
-                      'flex select-none items-center gap-5 rounded-lg p-5 text-[15px] leading-none text-gray-500 no-underline outline-none transition-colors hover:bg-gray-50 focus-visible:shadow-[0_0_0_2px] bg-white shadow-none w-full';
-                    if (item.dialog)
-                      return (
-                        <Dialog
-                          key={i}
-                          trigger={
-                            <button className={itemClassName}>
-                              {item.icon}
-                              {item.text}
-                            </button>
-                          }
-                          content={item.dialog.content}
-                        />
-                      );
-                    return (
-                      <Link key={i} href={item.link} className={itemClassName}>
-                        {item.icon}
-                        {item.text}
-                      </Link>
-                    );
-                  })}
-                </>
-              )}
             </NavDropdown>
           )}
         </ClientOnly>

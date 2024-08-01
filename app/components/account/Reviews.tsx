@@ -107,7 +107,7 @@ export default function Reviews() {
       ) : (
         <div>
           {isReview ? (
-            <div className='mt-10 w-full rounded-2xl bg-[#F4F4F4] px-6 py-8'>
+            <div className='mt-10 w-full rounded-2xl lg:bg-[#F4F4F4] lg:px-6 py-8'>
               <div className='flex flex-col lg:flex-row items-center justify-between'>
                 <div>
                   <Image
@@ -121,7 +121,7 @@ export default function Reviews() {
                     {selectedProduct.product}
                   </p>
                 </div>
-                <div className='flex w-fit flex-col items-center justify-center gap-3 pr-[4%]'>
+                <div className='flex w-fit flex-col items-center justify-center gap-3 lg:pr-[4%]'>
                   <StarRating onRate={setRating} width={30.5} />
                   <p className='text-xs text-black'>
                     Select the stars to rate the product
@@ -129,16 +129,16 @@ export default function Reviews() {
                 </div>
               </div>
               <div className='mt-10 grid gap-2'>
-                <label className='text-xs text-black'>Detailed Review</label>
+                <label className='text-xs text-black pl-4 lg:pl-0'>Detailed Review</label>
                 <textarea
-                  className='input-box w-full resize-none rounded-2xl p-5 text-sm placeholder:text-[#5E5E5E] focus:outline-primary'
+                  className='input-box w-full bg-[#f4f4f4] lg:bg-white resize-none rounded-2xl p-5 text-sm placeholder:text-[#5E5E5E] focus:outline-primary'
                   rows={6}
                   placeholder='Tell us about your experience with the product.'
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                 ></textarea>
               </div>
-              <div className='mt-10 flex items-center justify-center'>
+              <div className='mt-10 flex items-center justify-center mx-[5%] lg:mx-0'>
                 <Button
                   onClick={handleReviewSubmit}
                   className='h-[50px] w-full max-w-[391px] rounded-full border-0 font-clashmd text-base shadow-none'

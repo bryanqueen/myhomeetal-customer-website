@@ -6,11 +6,18 @@ import Image from 'next/image';
 import ClientOnly from '../ClientOnly';
 import { usePopup } from '@/app/PopupProvider';
 import MobileCartItem from '../cart/MobileCartItem';
+import { useRouter } from 'next/navigation';
 
 export default function AddToCartPopup({ data }: { data: any }) {
   const { isPopupVisible, hidePopup } = usePopup();
   const { items } = useCart();
   const itemInCart = items.find((item) => item.id === data?._id);
+  const router = useRouter();
+
+  const handleGotoCheckout = () => {
+    hidePopup();
+    router.push('/checkout');
+  }
 
   if (!data && !isPopupVisible) {
     return null; // Return null if data is undefined or null
@@ -43,8 +50,7 @@ export default function AddToCartPopup({ data }: { data: any }) {
               </div>
               <div className='mt-3 flex items-center justify-center lg:mt-0'>
                 <Button
-                  href='/checkout'
-                  linkType='rel'
+                  onClick={handleGotoCheckout}
                   className='l:h-[60px] l:w-[461px] flex h-[50px] w-[250px] items-center justify-center rounded-full border-0 font-clashmd text-sm text-white shadow-none lg:text-base'
                 >
                   Go to Checkout

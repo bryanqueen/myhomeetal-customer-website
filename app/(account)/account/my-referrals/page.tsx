@@ -12,10 +12,24 @@ import { notFound, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
+interface Referral {
+  id: string;
+  firstname: string;
+  lastname: string;
+  pointsContributed: number;
+  status: string;
+}
+
+interface ReferralsInfo {
+  referrals: Referral[];
+  totalEarnings: number;
+  totalReferrals: number;
+}
+
 export default function ReferralPage() {
   const [userInfo, setUserInfo] = useState(null);
-  const [referralsInfo, setReferralsInfo] = useState({
-    combinedReferrals: [],
+  const [referralsInfo, setReferralsInfo] = useState<ReferralsInfo>({
+    referrals: [],
     totalEarnings: 0,
     totalReferrals: 0,
   });
@@ -58,13 +72,8 @@ export default function ReferralPage() {
           }
 
           if (referrals.status === 200) {
-            const { signedUp = [], purchased = [] } = referrals.data.data.referrals || {};
-            const combinedReferrals = [
-              ...signedUp.map(referral => ({ ...referral, type: 'signedUp' })),
-              ...purchased.map(referral => ({ ...referral, type: 'purchased' })),
-            ];
             setReferralsInfo({
-              combinedReferrals,
+              referrals: referrals.data.data.referrals,
               totalEarnings: referrals.data.data.totalEarnings,
               totalReferrals: referrals.data.data.totalReferrals,
             });

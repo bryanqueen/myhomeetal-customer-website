@@ -6,11 +6,11 @@ interface Referral {
   firstname: string;
   lastname: string;
   pointsContributed: number;
-  type: 'signedUp' | 'purchased';
+  status: string;
 }
 
 interface ReferralsInfo {
-  combinedReferrals: Referral[];
+  referrals: Referral[];
   totalEarnings: number;
   totalReferrals: number;
 }

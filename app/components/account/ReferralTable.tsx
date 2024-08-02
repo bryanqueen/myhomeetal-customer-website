@@ -12,25 +12,25 @@ interface Referral {
   firstname: string;
   lastname: string;
   pointsContributed: number;
-  type: 'signedUp' | 'purchased';
+  status: string;
 }
 
 interface ReferralsInfo {
-  combinedReferrals: Referral[];
+  referrals: Referral[];
   totalEarnings: number;
   totalReferrals: number;
 }
 
 interface ReferralDisplayProps {
   referralsInfo: ReferralsInfo;
-  userInfo: UserInfo | null;
+  userInfo: UserInfo
 }
 
 const ReferralTable: React.FC<ReferralDisplayProps> = ({
   referralsInfo,
   userInfo,
 }) => {
-  const { combinedReferrals } = referralsInfo;
+  const { referrals } = referralsInfo;
   const referralLink = `https://www.myhomeetal.com/referral?code=${userInfo?.referralCode}`;
 
   const copyToClipboard = () => {
@@ -66,7 +66,7 @@ const ReferralTable: React.FC<ReferralDisplayProps> = ({
                 </th>
               </tr>
             </thead>
-            {combinedReferrals.length < 1 ? (
+            {referrals.length < 1 ? (
               <div className='mx-auto mt-32 flex h-fit w-full max-w-[262px] flex-col items-center justify-center gap-5'>
                 <p className='text-center font-clashmd text-xs text-myGray lg:text-base'>
                   You dont have any referral yet share your link to earn{' '}
@@ -80,7 +80,7 @@ const ReferralTable: React.FC<ReferralDisplayProps> = ({
               </div>
             ) : (
               <tbody>
-                {combinedReferrals.map((referral, index) => (
+                {referrals.map((referral, index) => (
                   <tr key={index} className='flex'>
                     <td className='basis-[40%] whitespace-nowrap p-[10px] text-xs text-myGray lg:px-6 lg:py-4 lg:text-base'>
                       {referral.firstname}
@@ -89,9 +89,9 @@ const ReferralTable: React.FC<ReferralDisplayProps> = ({
 
                     <td className='flex basis-[30%] items-center justify-center p-[10px] lg:px-6 lg:py-4'>
                       <span
-                        className={`inline-block whitespace-nowrap rounded lg:px-2 lg:py-1 ${referral.type === 'signedUp' ? 'rounded-full bg-[#FFE0E0] px-2 py-1 text-[10px] text-myGray lg:px-4 lg:text-sm' : 'rounded-full bg-[#BAF7BA] px-2 py-1 text-[10px] text-myGray lg:px-4 lg:text-sm'}`}
+                        className={`inline-block whitespace-nowrap rounded lg:px-2 lg:py-1 ${referral.status === 'signed_up' ? 'rounded-full bg-[#FFE0E0] px-2 py-1 text-[10px] text-myGray lg:px-4 lg:text-sm' : 'rounded-full bg-[#BAF7BA] px-2 py-1 text-[10px] text-myGray lg:px-4 lg:text-sm'}`}
                       >
-                        {referral.type}
+                        {referral.status === 'signed_up' ? 'Signed Up' : 'Made A Purchase'}
                       </span>
                     </td>
                     <td className='grid basis-[30%] p-[10px] lg:px-6 lg:py-4'>

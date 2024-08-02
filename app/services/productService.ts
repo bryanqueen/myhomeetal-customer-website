@@ -1,9 +1,10 @@
-import { api } from '@utils/api';
-import { apiUtils } from '@/app/utils/apiUtils';
+import { api } from "../utils/api";
+import { apiUtils } from "../utils/apiUtils";
+
 
 const productService = {
   getAllProducts: async (params?: string) => {
-    return await apiUtils.getRequest(`${api.PRODUCTS}?${params}`);
+    return await apiUtils.getRequestWithCache(`${api.PRODUCTS}?${params}`);
   },
   getUserDetails: async (id?: string) => {
     return await apiUtils.getRequest(`${api.GET_USER}${id}`);
@@ -11,24 +12,13 @@ const productService = {
   getUserReferrals: async () => {
     return await apiUtils.getRequest(`${api.GET_REFERRALS}`);
   },
-
   saveProduct: async ({ payload, id }: { payload: any; id: string }) => {
     return await apiUtils.postRequest(`user/save-item/${id}`, payload);
   },
-  payWithWallet: async (payload: {
-    orderId: any;
-    narration: string;
-    amount: number;
-    from_account_number: any;
-  }) => {
+  payWithWallet: async (payload: { orderId: any; narration: string; amount: number; from_account_number: any }) => {
     return await apiUtils.postRequest(`payment/wallet`, payload);
   },
-  updateUser: async (payload: {
-    firstName: string;
-    lastName: string;
-    phone_number: string;
-    email: string;
-  }) => {
+  updateUser: async (payload: { firstName: string; lastName: string; phone_number: string; email: string }) => {
     return await apiUtils.putRequest(`user/edit-profile`, payload);
   },
   getSavedProducts: async (id?: string) => {
@@ -38,25 +28,22 @@ const productService = {
     return await apiUtils.deleteRequest(`user/saved-item`, payload);
   },
   getProductsByCategory: async (id?: string) => {
-    return await apiUtils.getRequest(`${api.PRODUCTS}/category/${id}`);
+    return await apiUtils.getRequestWithCache(`${api.PRODUCTS}/category/${id}`);
   },
   getProductCategories: async () => {
-    return await apiUtils.getRequest(`${api.PRODUCT_CATEGORIES}`);
+    return await apiUtils.getRequestWithCache(`${api.PRODUCT_CATEGORIES}`);
   },
   getTopProductCategories: async () => {
-    return await apiUtils.getRequest(`${api.TOP_PRODUCT_CATEGORIES}`);
+    return await apiUtils.getRequestWithCache(`${api.TOP_PRODUCT_CATEGORIES}`);
   },
   getProductDetail: async (id: string) => {
-    return await apiUtils.getRequest(`${api.PRODUCTS}${id}`);
+    return await apiUtils.getRequestWithCache(`${api.PRODUCTS}${id}`);
   },
   getPaymentDetail: async (id: string) => {
     return await apiUtils.getRequest(`${api.ORDERS}${id}/get_payment_detail/`);
   },
   confirmPayment: async ({ payload, id }: { payload: any; id: string }) => {
-    return await apiUtils.postRequest(
-      `${api.ORDERS}${id}/confirm_payment/`,
-      payload
-    );
+    return await apiUtils.postRequest(`${api.ORDERS}${id}/confirm_payment/`, payload);
   },
   getAllOrders: async () => {
     return await apiUtils.getRequest(`${api.GET_ORDERS}`);
@@ -70,52 +57,19 @@ const productService = {
   getAddress: async () => {
     return await apiUtils.getRequest(`${api.GET_ADDRESS}`);
   },
-  createAddress: async (payload: {
-    deliveryAddress: string;
-    phone_number: string;
-    city: string;
-  }) => {
+  createAddress: async (payload: { deliveryAddress: string; phone_number: string; city: string }) => {
     return await apiUtils.postRequest(`${api.GET_ADDRESS}`, payload);
   },
-  updateAddress: async (payload: {
-    addressId: string;
-    deliveryAddress: string;
-    phone_number: string;
-    city: string;
-  }) => {
+  updateAddress: async (payload: { addressId: string; deliveryAddress: string; phone_number: string; city: string }) => {
     return await apiUtils.putRequest(`${api.GET_ADDRESS}`, payload);
   },
-  createOrder: async (payload: {
-    address: string;
-    orderPrice: number;
-    orderItems: { product: string; qty: number; price: number }[];
-    deliveryMethod: string;
-    paymentMethod: string;
-  }) => {
+  createOrder: async (payload: { address: string; orderPrice: number; orderItems: { product: string; qty: number; price: number }[]; deliveryMethod: string; paymentMethod: string }) => {
     return await apiUtils.postRequest(`${api.ORDERS}`, payload);
   },
-  createWallet: async (payload: {
-    display_name: string;
-    bvn: string;
-    firstname: string;
-    currency: string;
-    lastname: string;
-    email: string;
-    date_of_birth: string;
-    gender: string;
-    email_alert: boolean;
-    mobile_number: string;
-  }) => {
+  createWallet: async (payload: { display_name: string; bvn: string; firstname: string; currency: string; lastname: string; email: string; date_of_birth: string; gender: string; email_alert: boolean; mobile_number: string }) => {
     return await apiUtils.postRequest(`${api.WALLET}`, payload);
   },
-  checkout: async ({
-    payload,
-  }: {
-    payload: {
-      collection_mode: string;
-      receiving_address: string;
-    };
-  }) => {
+  checkout: async ({ payload }: { payload: { collection_mode: string; receiving_address: string } }) => {
     return await apiUtils.postRequest(`${api.ORDERS}check_out/`, payload);
   },
   addItemToCart: async (payload: { product: string; quantity: number }) => {
@@ -128,10 +82,7 @@ const productService = {
     return await apiUtils.deleteRequest(`${api.GET_ADDRESS}`, payload);
   },
   removeItemFromCart: async (payload: { item_id: string }) => {
-    return await apiUtils.postRequest(
-      `${api.ORDERS}remove_from_cart/`,
-      payload
-    );
+    return await apiUtils.postRequest(`${api.ORDERS}remove_from_cart/`, payload);
   },
   getAllCartItems: async () => {
     return await apiUtils.getRequest(`${api.ORDERS}cart/`);

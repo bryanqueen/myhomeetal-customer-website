@@ -1,7 +1,13 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { constants } from './constants'; // Import your constants file
 import Cookie from 'js-cookie';
 
-import { constants } from './constants';
+interface CacheEntry {
+  data: AxiosResponse;
+  timestamp: number;
+}
+
+const cache = new Map<string, CacheEntry>(); // In-memory cache
 
 export interface MultiplePostRequestData {
   url: string;
@@ -27,73 +33,47 @@ axios.interceptors.request.use(
   }
 );
 
-const apiUtils = {
-  getRequest: async (url: string) => {
-    const res = await axios.get(
-      `${constants.V1_BASE_API_URL}${url}`,
-      axiosConfig
-    );
-    return res;
-  },
-  postRequest: async (url: string, payload: any) => {
-    const res = await axios.post(
-      `${constants.V1_BASE_API_URL}${url}`,
-      payload,
-      axiosConfig
-    );
-    return res;
-  },
-  putRequest: async (url: string, payload: any) => {
-    const res = await axios.put(
-      `${constants.V1_BASE_API_URL}${url}`,
-      payload,
-      axiosConfig
-    );
-    return res;
-  },
-  deleteRequest: async (url: string, payload?: any) => {
-    const axiosConfig = {
-      data: payload, // Ensure the payload is passed correctly
-      headers: {
-        // Your headers here
-      },
-    };
+const CACHE_DURATION = 86400 * 1000; // Cache duration in milliseconds (default: 1 day)
 
-    const res = await axios.delete(`${constants.V1_BASE_API_URL}${url}`, axiosConfig);
+const apiUtils = {
+  getRequestWithCache: async (url: string, cacheDuration = CACHE_DURATION): Promise<AxiosResponse> => {
+    const cacheKey = `${constants.V1_BASE_API_URL}${url}`;
+    const cachedResponse = cache.get(cacheKey);
+
+    if (cachedResponse && (Date.now() - cachedResponse.timestamp) < cacheDuration) {
+      return cachedResponse.data;
+    }
+
+    const res = await axios.get(cacheKey, axiosConfig);
+    cache.set(cacheKey, { data: res, timestamp: Date.now() });
     return res;
   },
-  getMultipleRequests: async (urls: string[]) => {
-    const requests = urls.map(
-      async (url: string) =>
-        await axios
-          .get(`${constants.V1_BASE_API_URL}${url}`, axiosConfig)
-          .catch((error) => error)
-    );
-    return await axios.all(requests).then(
-      axios.spread((...responses) => {
-        return responses.map(({ data }) => data);
-      })
-    );
+  getRequest: async (url: string): Promise<AxiosResponse> => {
+    return await axios.get(`${constants.V1_BASE_API_URL}${url}`, axiosConfig);
   },
-  postMultipleRequests: async (postData: MultiplePostRequestData[]) => {
-    const requests = postData.map(
-      async ({ url, payload }) =>
-        await axios
-          .post(`${constants.V1_BASE_API_URL}${url}`, payload, axiosConfig)
-          .catch((error) => error)
-    );
-    return await axios.all(requests).then(
-      axios.spread((...responses) => {
-        return responses.map(({ data }) => data);
-      })
-    );
+  postRequest: async (url: string, payload: any): Promise<AxiosResponse> => {
+    return await axios.post(`${constants.V1_BASE_API_URL}${url}`, payload, axiosConfig);
   },
-  getAPIErrorMessage: (error?: string) => {
-    if (error) {
-      return error;
-    } else {
-      return 'An error occured. Please try again.';
-    }
+  putRequest: async (url: string, payload: any): Promise<AxiosResponse> => {
+    return await axios.put(`${constants.V1_BASE_API_URL}${url}`, payload, axiosConfig);
+  },
+  deleteRequest: async (url: string, payload?: any): Promise<AxiosResponse> => {
+    const axiosConfigWithData = {
+      ...axiosConfig,
+      data: payload,
+    };
+    return await axios.delete(`${constants.V1_BASE_API_URL}${url}`, axiosConfigWithData);
+  },
+  getMultipleRequests: async (urls: string[]): Promise<any[]> => {
+    const requests = urls.map((url: string) => axios.get(`${constants.V1_BASE_API_URL}${url}`, axiosConfig).catch((error) => error));
+    return await axios.all(requests).then(axios.spread((...responses) => responses.map(({ data }) => data)));
+  },
+  postMultipleRequests: async (postData: { url: string; payload: any }[]): Promise<any[]> => {
+    const requests = postData.map(({ url, payload }) => axios.post(`${constants.V1_BASE_API_URL}${url}`, payload, axiosConfig).catch((error) => error));
+    return await axios.all(requests).then(axios.spread((...responses) => responses.map(({ data }) => data)));
+  },
+  getAPIErrorMessage: (error?: string): string => {
+    return error ? error : 'An error occurred. Please try again.';
   },
 };
 

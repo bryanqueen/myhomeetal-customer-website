@@ -1,9 +1,6 @@
 'use client';
-
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ProductCard from '@components/cards/ProductCard';
-import productService from '@/app/services/productService';
 import { MobileCategorySkeleton } from '../loader';
 
 interface Props {

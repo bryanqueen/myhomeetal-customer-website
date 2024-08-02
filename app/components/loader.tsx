@@ -14,6 +14,13 @@ export function MobileCategorySkeleton() {
     </div>
   );
 }
+export function CartSummarySkeleton() {
+  return (
+    <div className='flex flex-wrap justify-between gap-3'>
+      <div className='shimmer-animation h-[400px] w-full rounded-lg bg-gray-200'></div>
+    </div>
+  );
+}
 
 export function DesktopCategorySkeleton() {
   return (

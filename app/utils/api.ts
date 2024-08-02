@@ -16,6 +16,7 @@ const api = {
   GET_ORDERS: 'order/purchase-history',
   WALLET: 'wallet/create',
   GET_WALLET:'wallet',
+  GET_ADDRESS:'address/',
 };
 
 export { api };

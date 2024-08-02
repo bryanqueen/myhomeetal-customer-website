@@ -15,12 +15,15 @@ import authUtils from '@/app/utils/authUtils';
 import toast from 'react-hot-toast';
 import { numberToWords } from '@/app/utils/helpers';
 import { locations } from '@/app/utils/constants';
+import productService from '@/app/services/productService';
+import Button from '../Button';
+import { HomeSkeleton } from '../loader';
 
 interface Address {
-  id: number;
-  email: string;
-  phoneNumber: string;
-  lga?: string;
+  _id: string;
+  deliveryAddress: string;
+  phone_number: string;
+  city: string;
 }
 
 interface UserInfo {
@@ -30,10 +33,9 @@ interface UserInfo {
 }
 
 const CheckoutForm: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [addresses, setAddresses] = useState<Address[]>([]);
   const {
-    addresses,
-    createAddress,
-    editAddress,
     setFirstStageCompleted,
     firstStageCompleted,
     setSelectedDeliveryMethod,
@@ -54,7 +56,7 @@ const CheckoutForm: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [error, setError] = useState('');
   const [myindex, setIndex] = useState<number | null>(null);
-  const [id, setId] = useState<number | null>(null);
+  const [id, setId] = useState('');
   const [deliveryFee, setDeliveryFee] = useState(0);
 
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -100,7 +102,7 @@ const CheckoutForm: React.FC = () => {
       (location) => location.name === address.lga
     );
 
-    setDeliveryFee(selectedLocation.fee);
+    setDeliveryFee(selectedLocation?.fee);
   };
 
   const handleSelectChange = (event) => {
@@ -119,20 +121,107 @@ const CheckoutForm: React.FC = () => {
       setPhoneNumber(inputValue);
     }
   };
+  const addressInWords = numberToWords(myindex + 1);
 
+  //get user address
+  const getAddress = async () => {
+    try {
+      const res = await productService.getAddress();
+      if (res.status === 200) {
+        setAddresses(res?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  //create address
+  const createMyAddress = async () => {
+    setIsLoading(true);
+    if (myAddress && phoneNumber && selectedLocation) {
+      try {
+        const payload = {
+          deliveryAddress: myAddress,
+          phone_number: phoneNumber,
+          city: selectedLocation,
+        };
+        const res = await productService.createAddress(payload);
+        if (res.status === 200) {
+          setMyAddress('');
+          setPhoneNumber('');
+          setSelectedLocation('');
+          toast.success('Address created successfully');
+          setIsAddAddress(false);
+          setIsLoading(false);
+          getAddress();
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error('An error occured. Please try again!');
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      toast.error('All fields are required');
+    }
+  };
+
+  //edit address
   const handleEdit = (
     address: string,
     phone: string,
     index: number,
-    id: number
+    id: string,
+    lga: string
   ) => {
     setMyAddress(address);
     setPhoneNumber(phone);
     setIndex(index);
     setId(id);
+    setSelectedLocation(lga);
     setIsEdit(true);
   };
-  const addressInWords = numberToWords(myindex + 1);
+
+  const editMyAddress = async () => {
+    setIsLoading(true);
+    try {
+      const payload = {
+        addressId: id,
+        deliveryAddress: myAddress,
+        phone_number: phoneNumber,
+        city: selectedLocation,
+      };
+      const res = await productService.updateAddress(payload);
+      if (res.status === 200) {
+        setMyAddress('');
+        setPhoneNumber('');
+        toast.success('Address updated successfully');
+        setIsEdit(false);
+        setIsLoading(false);
+        getAddress();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('An error ocurred. Plese try again!');
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  //use efect actions
+  useEffect(() => {
+    const fetchedUserInfo = authUtils.getUserInfo();
+    setUserInfo(fetchedUserInfo);
+    getAddress();
+  }, []);
+
+  if (isLoading) {
+    return <HomeSkeleton />;
+  }
 
   return (
     <ClientOnly>
@@ -215,19 +304,18 @@ const CheckoutForm: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <div className='flex items-center justify-center'>
-                  <button
-                    onClick={() => {
-                      editAddress(id, myAddress, phoneNumber, selectedLocation);
-                      setMyAddress('');
-                      setPhoneNumber('');
-                      toast.success('Address updated successfully');
-                      setIsEdit(false);
-                    }}
-                    className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-[10px] bg-primary text-center font-clashmd text-base text-white lg:rounded-full'
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className='flex items-center justify-center'
+                >
+                  <Button
+                    onClick={editMyAddress}
+                    disabled={isLoading}
+                    loading={isLoading}
+                    className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-[10px] border-0 bg-primary text-center font-clashmd text-base text-white shadow-none lg:rounded-full'
                   >
                     Update Address
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
@@ -274,48 +362,28 @@ const CheckoutForm: React.FC = () => {
                     </div>
                   </div>
                   <div className='hidden items-center justify-center lg:flex'>
-                    <button
-                      onClick={() => {
-                        if (myAddress && phoneNumber && selectedLocation) {
-                          createAddress(
-                            myAddress,
-                            phoneNumber,
-                            selectedLocation
-                          );
-                          setMyAddress('');
-                          setPhoneNumber('');
-                          toast.success('Address created successfully');
-                          setIsAddAddress(false);
-                        } else {
-                          toast.error('All fields are required');
-                        }
-                      }}
-                      className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full bg-primary text-center font-clashmd text-base text-white'
+                    <Button
+                      onClick={createMyAddress}
+                      loading={isLoading}
+                      disabled={isLoading}
+                      className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full border-0 bg-primary text-center font-clashmd text-base text-white shadow-none'
                     >
                       Create a New Address
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 <div
                   onClick={(e) => e.stopPropagation()}
                   className='flex items-center justify-center lg:hidden'
                 >
-                  <button
-                    onClick={() => {
-                      if (myAddress && phoneNumber && selectedLocation) {
-                        createAddress(myAddress, phoneNumber, selectedLocation);
-                        setMyAddress('');
-                        setPhoneNumber('');
-                        toast.success('Address created successfully');
-                        setIsAddAddress(false);
-                      } else {
-                        toast.error('All fields are required');
-                      }
-                    }}
-                    className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] bg-primary text-center font-clashmd text-base text-white'
+                  <Button
+                    onClick={createMyAddress}
+                    loading={isLoading}
+                    disabled={isLoading}
+                    className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] border-0 bg-primary text-center font-clashmd text-base text-white shadow-none'
                   >
                     Create a New Address
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
@@ -383,13 +451,13 @@ const CheckoutForm: React.FC = () => {
                     </p>
                     <div className='flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-10'>
                       <p className='text-xs text-black lg:text-base'>
-                        {selectedAddress?.email}
+                        {selectedAddress?.deliveryAddress}
                       </p>
                       <p className='text-xs text-black lg:text-base'>
-                        {selectedAddress?.phoneNumber}
+                        {selectedAddress?.phone_number}
                       </p>
                       <p className='text-xs text-black lg:text-base'>
-                        {selectedAddress?.lga}
+                        {selectedAddress?.city}
                       </p>
                     </div>
                   </div>
@@ -397,10 +465,10 @@ const CheckoutForm: React.FC = () => {
                   <div className='mt-10'>
                     {addresses.map((address, index) => (
                       <div
-                        key={address.id}
+                        key={address._id}
                         onClick={() => handleAddressClick(address)}
                         className={`relative mt-3 rounded-[10px] lg:mt-10 ${
-                          address.id === selectedAddress.id
+                          address._id === selectedAddress._id
                             ? 'bg-primary text-white'
                             : 'bg-[#F4F4F4] text-black'
                         } px-3 py-7 lg:rounded-2xl lg:px-9 lg:py-5`}
@@ -411,25 +479,27 @@ const CheckoutForm: React.FC = () => {
                         </p>
                         <div className='flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-10'>
                           <p className='text-xs lg:text-base'>
-                            {address?.email}
+                            {address?.deliveryAddress}
                           </p>
                           <p className='text-xs lg:text-base'>
-                            {address?.phoneNumber}
+                            {address?.phone_number}
                           </p>
-                          <p className='text-xs lg:text-base'>{address?.lga}</p>
+                          <p className='text-xs lg:text-base'>
+                            {address?.city}
+                          </p>
                         </div>
                         <button
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent triggering the parent div's onClick
+                          onClick={() =>
                             handleEdit(
-                              address.email,
-                              address.phoneNumber,
+                              address?.deliveryAddress,
+                              address.phone_number,
                               index,
-                              address.id
-                            );
-                          }}
+                              address._id,
+                              address.city
+                            )
+                          }
                           className={`${
-                            address.id === selectedAddress.id
+                            address._id === selectedAddress._id
                               ? 'text-white'
                               : 'text-[#8B1A1A]'
                           } absolute right-2 top-[50%] h-20 w-20 translate-y-[-50%] text-sm lg:text-base`}

@@ -67,6 +67,24 @@ const productService = {
   getWallet: async () => {
     return await apiUtils.getRequest(`${api.GET_WALLET}`);
   },
+  getAddress: async () => {
+    return await apiUtils.getRequest(`${api.GET_ADDRESS}`);
+  },
+  createAddress: async (payload: {
+    deliveryAddress: string;
+    phone_number: string;
+    city: string;
+  }) => {
+    return await apiUtils.postRequest(`${api.GET_ADDRESS}`, payload);
+  },
+  updateAddress: async (payload: {
+    addressId: string;
+    deliveryAddress: string;
+    phone_number: string;
+    city: string;
+  }) => {
+    return await apiUtils.putRequest(`${api.GET_ADDRESS}`, payload);
+  },
   createOrder: async (payload: {
     address: string;
     orderPrice: number;
@@ -103,9 +121,11 @@ const productService = {
   addItemToCart: async (payload: { product: string; quantity: number }) => {
     return await apiUtils.postRequest(`${api.ORDERS}add_to_cart/`, payload);
   },
-
   deleteUser: async (payload: { password: string }) => {
     return await apiUtils.deleteRequest(`${api.DELETE_USER}`, payload);
+  },
+  deleteAddress: async (payload: { addressId: string }) => {
+    return await apiUtils.deleteRequest(`${api.GET_ADDRESS}`, payload);
   },
   removeItemFromCart: async (payload: { item_id: string }) => {
     return await apiUtils.postRequest(

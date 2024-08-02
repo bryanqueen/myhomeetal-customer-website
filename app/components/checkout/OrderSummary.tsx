@@ -12,12 +12,13 @@ import { Ticket } from 'iconsax-react';
 import { locations } from '@/app/utils/constants';
 import Image from 'next/image';
 import Link from 'next/link';
+import { CartSummarySkeleton } from '../loader';
 
 interface Address {
-  id: number;
-  email: string;
-  phoneNumber: string;
-  lga?: string;
+  _id: string;
+  deliveryAddress: string;
+  phone_number: string;
+  city: string;
 }
 
 interface DeliveryMethodProps {
@@ -88,7 +89,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
         brand: item.brand,
       }));
       const payload = {
-        address: address.email,
+        address: address.deliveryAddress,
         orderPrice: cartTotal, // Use itemsAmount directly for orderPrice
         orderItems: orderItems, // Use the transformed items for orderItems
         deliveryMethod: deliveryMethod,
@@ -103,7 +104,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
 
         // Store phone number and total amount to local storage
         const phoneAmount = {
-          phone: address.phoneNumber,
+          phone: address.phone_number,
           totalAmount: totalAmount,
         };
         localStorage.setItem('phoneAmount', JSON.stringify(phoneAmount));
@@ -162,9 +163,9 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
     } else if (address) {
       // Recalculate delivery fee if deliveryMethod is not 'pickup'
       const selectedLocation = locations.find(
-        (location) => location.name === address.lga
+        (location) => location.name === address.city
       );
-      const fee = selectedLocation ? selectedLocation.fee : 0;
+      const fee = selectedLocation ? selectedLocation?.fee : 0;
       setDeliveryFee(fee);
     }
   }, [deliveryMethod, address]);
@@ -282,7 +283,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
           </div>
         </div>
       )}
-      {point && (
+      {point ? (
         <div className='h-fit rounded-[13.11px] bg-[#F4F4F4] lg:rounded-2xl'>
           <div className='relative m-4 mt-10 h-fit lg:mt-4'>
             <div className='flex items-center gap-4 py-5'>
@@ -381,6 +382,10 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
               </Button>
             )}
           </div>
+        </div>
+      ) : (
+        <div className='mt-10 lg:mt-0'>
+          <CartSummarySkeleton />
         </div>
       )}
     </div>

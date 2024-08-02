@@ -2,9 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Input from '@/app/components/Input';
 import { Location, CloseSquare, Trash } from 'iconsax-react';
-
 import Button from '@/app/components/Button';
-import { useAddressBook } from '@/app/addressBookProvider';
 import toast from 'react-hot-toast';
 import authUtils from '@/app/utils/authUtils';
 import ClientOnly from '../ClientOnly';
@@ -14,20 +12,37 @@ import Dialog from '@components/Dialog';
 import Image from 'next/image';
 import { Close as CloseDialog } from '@radix-ui/react-dialog';
 import { locations } from '@/app/utils/constants';
+import productService from '@/app/services/productService';
+import { HomeSkeleton } from '../loader';
 
 interface UserInfo {
   firstname: string;
   lastname: string;
 }
 
+interface Address {
+  _id: string;
+  deliveryAddress: string;
+  phone_number: string;
+  city: string;
+}
+
 interface AddressCardProps {
-  id: number;
+  id: string;
   index: number | null;
   phone: string;
   address: string;
   firstname: string;
+  lga: string;
   lastname: string;
-  editfunc: (address: string, phone: string, index: number, id: number) => void; // Define the function type here
+  refresh: () => void;
+  editfunc: (
+    address: string,
+    phone: string,
+    index: number,
+    id: string,
+    lga: string
+  ) => void; // Define the function type here
   edit: boolean;
 }
 
@@ -37,29 +52,109 @@ export default function AddressBook() {
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [myindex, setIndex] = useState<number | null>(null);
-  const [id, setId] = useState<number | null>(null);
+  const [id, setId] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
-  const { addresses, createAddress, editAddress, deleteAddress, saveAddress } =
-    useAddressBook();
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  // const { addresses, createAddress, editAddress, deleteAddress, saveAddress } =
+  //  useAddressBook();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchedUserInfo = authUtils.getUserInfo();
-    setUserInfo(fetchedUserInfo);
-  }, []);
+  //get user address
+  const getAddress = async () => {
+    try {
+      const res = await productService.getAddress();
+      if (res.status === 200) {
+        setAddresses(res?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  //create address
+  const createMyAddress = async () => {
+    setIsLoading(true);
+    if (address && phoneNumber && selectedLocation) {
+      try {
+        const payload = {
+          deliveryAddress: address,
+          phone_number: phoneNumber,
+          city: selectedLocation,
+        };
+        const res = await productService.createAddress(payload);
+        if (res.status === 200) {
+          setAddress('');
+          setPhoneNumber('');
+          setSelectedLocation('');
+          toast.success('Address created successfully');
+          setIsAddAddress(false);
+          setIsLoading(false);
+          getAddress();
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error('An error occured. Please try again!');
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      toast.error('All fields are required');
+    }
+  };
+
+  //edit address
   const handleEdit = (
     address: string,
     phone: string,
     index: number,
-    id: number
+    id: string,
+    lga: string
   ) => {
     setAddress(address);
     setPhoneNumber(phone);
     setIndex(index);
     setId(id);
+    setSelectedLocation(lga);
     setIsEdit(true);
   };
+  const editMyAddress = async () => {
+    setIsLoading(true);
+    try {
+      const payload = {
+        addressId: id,
+        deliveryAddress: address,
+        phone_number: phoneNumber,
+        city: selectedLocation,
+      };
+      const res = await productService.updateAddress(payload);
+      if (res.status === 200) {
+        setAddress('');
+        setPhoneNumber('');
+        toast.success('Address updated successfully');
+        setIsEdit(false);
+        setIsLoading(false);
+        getAddress();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('An error ocurred. Plese try again!');
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  //use efect actions
+  useEffect(() => {
+    const fetchedUserInfo = authUtils.getUserInfo();
+    setUserInfo(fetchedUserInfo);
+    getAddress();
+  }, []);
+
   const addAddressRef = useRef<HTMLDivElement>(null);
   const editAddressRef = useRef<HTMLDivElement>(null);
 
@@ -76,6 +171,10 @@ export default function AddressBook() {
   const handleSelectChange = (event) => {
     setSelectedLocation(event.target.value);
   };
+
+  if (isLoading) {
+    return <HomeSkeleton />;
+  }
 
   return (
     <ClientOnly>
@@ -101,41 +200,45 @@ export default function AddressBook() {
             reach exactly where you want them.
           </p>
         </div>
-        {/**Address display container */}
-        {addresses.length > 0 ? (
-          <div className='grid gap-5 lg:mt-10 lg:w-fit lg:grid-cols-3'>
-            {addresses.map((address, index) => (
-              <AddressCard
-                index={index}
-                id={address.id}
-                key={address.id}
-                phone={address.phoneNumber}
-                address={address.email}
-                lastname={userInfo?.lastname}
-                firstname={userInfo?.firstname}
-                editfunc={handleEdit}
-                edit={isEdit}
-              />
-            ))}
-          </div>
-        ) : (
-          <div>
-            {!isAddAddress && (
-              <div className='flex h-[80vh] items-center justify-center'>
-                <NoHistory
-                  title='No Address added yet'
-                  buttonText='Add Address'
-                  bodyText="It looks like you haven't added an address yet. Ready to set up your delivery details? Add your address to start enjoying our tailored shopping experience."
-                  icon={<Location variant='Bold' size={20} />}
-                  onButtonClick={() => setIsAddAddress(true)}
+        <div className='pt-5'>
+          {/**Address display container */}
+          {addresses && addresses?.length > 0 ? (
+            <div className='grid gap-5 lg:mt-10 lg:w-fit lg:grid-cols-3'>
+              {addresses.map((address, index) => (
+                <AddressCard
+                  index={index}
+                  id={address._id}
+                  key={address._id}
+                  phone={address.phone_number}
+                  address={address.deliveryAddress}
+                  lastname={userInfo?.lastname}
+                  firstname={userInfo?.firstname}
+                  lga={address.city}
+                  editfunc={handleEdit}
+                  edit={isEdit}
+                  refresh={getAddress}
                 />
-              </div>
-            )}
-          </div>
-        )}
+              ))}
+            </div>
+          ) : (
+            <div>
+              {!isAddAddress && (
+                <div className='flex h-[80vh] items-center justify-center'>
+                  <NoHistory
+                    title='No Address added yet'
+                    buttonText='Add Address'
+                    bodyText="It looks like you haven't added an address yet. Ready to set up your delivery details? Add your address to start enjoying our tailored shopping experience."
+                    icon={<Location variant='Bold' size={20} />}
+                    onButtonClick={() => setIsAddAddress(true)}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
         {/**Mobile add address btn */}
-        {addresses.length > 0 && (
+        {addresses && addresses.length > 0 && (
           <div className='mt-14 lg:hidden'>
             <Button
               onClick={() => {
@@ -203,43 +306,25 @@ export default function AddressBook() {
                 </div>
               </div>
               <div className='hidden items-center justify-center lg:flex'>
-                <button
-                  onClick={() => {
-                    if (address && phoneNumber && selectedLocation) {
-                      createAddress(address, phoneNumber, selectedLocation);
-                      setAddress('');
-                      setPhoneNumber('');
-                      setSelectedLocation('');
-                      toast.success('Address created successfully');
-                      setIsAddAddress(false);
-                    } else {
-                      toast.error('All fields are required');
-                    }
-                  }}
-                  className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full bg-primary text-center font-clashmd text-base text-white'
+                <Button
+                  onClick={createMyAddress}
+                  loading={isLoading}
+                  disabled={isLoading}
+                  className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full border-0 bg-primary text-center font-clashmd text-base text-white shadow-none'
                 >
                   Create a New Address
-                </button>
+                </Button>
               </div>
             </div>
             <div className='flex items-center justify-center lg:hidden'>
-              <button
-                onClick={() => {
-                  if (address && phoneNumber && selectedLocation) {
-                    createAddress(address, phoneNumber, selectedLocation);
-                    setAddress('');
-                    setPhoneNumber('');
-                    setSelectedLocation('');
-                    toast.success('Address created successfully');
-                    setIsAddAddress(false);
-                  } else {
-                    toast.error('All fields are required');
-                  }
-                }}
-                className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] bg-primary text-center font-clashmd text-base text-white'
+              <Button
+                onClick={createMyAddress}
+                loading={isLoading}
+                disabled={isLoading}
+                className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] border-0 bg-primary text-center font-clashmd text-base text-white shadow-none'
               >
                 Create a New Address
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -259,7 +344,7 @@ export default function AddressBook() {
                   className='w-[7px] lg:w-[12px]'
                 />
               </button>
-              <div className='lg:grid grid-cols-2 gap-5'>
+              <div className='grid-cols-2 gap-5 lg:grid'>
                 <div>
                   <p className='font-clashmd text-xs lg:text-base'>
                     Address {addressInWords}
@@ -325,18 +410,14 @@ export default function AddressBook() {
               </div>
             </div>
             <div className='flex items-center justify-center'>
-              <button
-                onClick={() => {
-                  editAddress(id, address, phoneNumber, selectedLocation);
-                  setAddress('');
-                  setPhoneNumber('');
-                  toast.success('Address updated successfully');
-                  setIsEdit(false);
-                }}
-                className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-[10px] bg-primary text-center font-clashmd text-base text-white lg:rounded-full'
+              <Button
+                onClick={editMyAddress}
+                disabled={isLoading}
+                loading={isLoading}
+                className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-[10px] border-0 bg-primary text-center font-clashmd text-base text-white shadow-none lg:rounded-full'
               >
                 Update Address
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -350,16 +431,51 @@ const AddressCard: React.FC<AddressCardProps> = ({
   index,
   phone,
   address,
+  lga,
   firstname,
   lastname,
   editfunc,
+  refresh,
   edit,
 }) => {
-  const { deleteAddress } = useAddressBook();
+  //delete address
+  const deleteMyAddress = async () => {
+    try {
+      const payload = {
+        addressId: id,
+      };
+      const res = await productService.deleteAddress(payload);
+      if (res.status === 200) {
+        toast.success('Address deleted successfully');
+        // Fetch remaining addresses to check if this was the last address
+        const remainingAddressesResponse = await productService.getAddress();
+        const remainingAddresses = remainingAddressesResponse.data;
+
+        if (remainingAddresses.length === 0) {
+          // Refresh the page if no addresses are left
+          window.location.reload();
+        } else {
+          refresh();
+        }
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.status === 404 &&
+        error.response.data.error === 'No address found for this user'
+      ) {
+        toast.error('No addresses found for this user.');
+        // Handle the case where no addresses are found
+        window.location.reload();
+      } else {
+        toast.error('An error occurred. Please try again!');
+      }
+    }
+  };
   const addressInWords = numberToWords(index + 1);
   return (
-    <div className='flex w-full flex-col rounded-[10px] bg-[#F4F4F4] px-5 pt-4 lg:block lg:max-w-[262px] lg:items-center lg:rounded-2xl lg:py-4'>
-      <div className='mb-5 flex min-w-full items-end justify-between lg:mb-10'>
+    <div className='relative flex min-h-[193px] w-full flex-col rounded-[10px] bg-[#F4F4F4] px-5 pt-4 lg:block lg:min-h-[229px] lg:max-w-[262px] lg:items-center lg:rounded-2xl lg:py-4'>
+      <div className='mb-5 flex min-w-full items-end justify-between lg:mb-7'>
         <span className='text-sm text-[#7C7C7C] lg:text-base'>
           Address {addressInWords}
         </span>
@@ -369,7 +485,7 @@ const AddressCard: React.FC<AddressCardProps> = ({
               <CloseSquare variant='Bold' />
             </Button>
           }
-          content={<Delete id={id} deleteAddress={deleteAddress} />}
+          content={<Delete id={id} deleteAddress={deleteMyAddress} />}
         />
       </div>
       <div>
@@ -384,12 +500,12 @@ const AddressCard: React.FC<AddressCardProps> = ({
         </p>
       </div>
 
-      <div className='mt-5 flex items-center justify-center lg:mt-0 lg:block'>
+      <div className='absolute bottom-3 left-[50%] mt-5 flex w-fit translate-x-[-50%] items-center justify-center lg:mt-0 lg:block'>
         <Button
-          onClick={() => editfunc(address, phone, index, id)}
-          className='mb-3 w-full max-w-[224px] rounded-[8px] border-0 bg-white px-6 py-3 font-clashmd text-sm text-primary shadow-none lg:mb-0 lg:w-full lg:font-clash lg:text-base'
+          onClick={() => editfunc(address, phone, index, id, lga)}
+          className='w-full max-w-[224px] rounded-[8px] border-0 bg-white px-6 py-3 font-clashmd text-sm text-primary shadow-none lg:mb-0 lg:w-full lg:font-clash lg:text-base'
         >
-          <span className='flex items-center justify-center gap-3 lg:gap-2'>
+          <span className='flex items-center justify-center gap-3 whitespace-nowrap lg:gap-2'>
             <Location variant='Bold' size={20} />
             Edit Address
           </span>
@@ -400,8 +516,8 @@ const AddressCard: React.FC<AddressCardProps> = ({
 };
 
 interface LogoutCardProps {
-  id: number;
-  deleteAddress: (id: number) => void; // Define the function type here
+  id: string;
+  deleteAddress: (id: string) => void; // Define the function type here
 }
 
 const Delete: React.FC<LogoutCardProps> = ({ id, deleteAddress }) => {

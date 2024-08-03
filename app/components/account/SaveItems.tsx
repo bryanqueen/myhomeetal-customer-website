@@ -40,7 +40,7 @@ export default function SaveItems() {
         return notFound();
       }
       console.log(res);
-      setSavedItems(res?.data?.savedItems);
+      setSavedItems(res?.data?.savedItems.reverse());
       setLoading(false);
     } catch (error) {
       console.error('Error in ProductPage:', error);

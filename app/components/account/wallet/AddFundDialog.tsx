@@ -95,7 +95,7 @@ const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
   };
 
   const handleSentFund = () => {
-    setIsFundSuccess(false);
+    window.location.reload();
   };
 
   return (
@@ -121,7 +121,9 @@ const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
                   labelClassName='text-myGray text-xs font-clashmd pl-4'
                 />
                 <p className='absolute right-5 top-14 text-[10px]'>Plus Vat</p>
-                <span className='absolute left-3 top-[48.5px] lg:top-[50px] text-[14px]'>₦</span>
+                <span className='absolute left-3 top-[48.5px] text-[14px] lg:top-[50px]'>
+                  ₦
+                </span>
               </div>
               <p className='pl-4 pt-2 text-[10px] text-myGray'>
                 0.6 % Fee on all transaction:{' '}
@@ -133,10 +135,10 @@ const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
               <label className='pl-4 font-clashmd text-xs text-myGray'>
                 Select Payment Method
               </label>
-              <div className='mt-1 w-full rounded-[10px] border border-[#D9D9D9] px-2 lg:px-5 py-5'>
+              <div className='mt-1 w-full rounded-[10px] border border-[#D9D9D9] px-2 py-5 lg:px-5'>
                 <button
                   onClick={() => setIsPayMethodToggle(!isPayMethodToggle)}
-                  className='flex px-2 w-full items-center justify-between text-xs text-black'
+                  className='flex w-full items-center justify-between px-2 text-xs text-black'
                 >
                   Payment Method{' '}
                   <span>

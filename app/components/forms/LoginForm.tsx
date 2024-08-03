@@ -95,7 +95,7 @@ const LoginForm = () => {
         </div>
         <div className='flex items-center justify-between pb-5 pl-2 lg:pt-2 lg:px-5 lg:pb-4'>
           <Link href='/forgot-password' className='text-xs text-[#FF0003]'>Forgot Password?</Link>
-          <div className='hidden items-center gap-2 lg:flex'>
+          <div className='hidden items-center gap-2'>
             <input type='checkbox' name='' id='' />
             <p className='text-xs text-black'>Stay signed-in</p>
           </div>

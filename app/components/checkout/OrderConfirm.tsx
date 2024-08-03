@@ -74,7 +74,7 @@ const OrderSummary = ({ amount, paymentMethod, orderItems }) => {
           </p>
         </div>
         {orderItems && (
-          <div className='grid gap-3 border-[#F4F4F4] px-2 lg:block lg:rounded-2xl lg:border lg:p-3 lg:px-5'>
+          <div className='grid gap-3 border-[#F4F4F4] p-2 lg:block lg:rounded-2xl lg:border lg:p-3 lg:px-5'>
             {orderItems.map((item: any) => (
               <OrderItem
                 name={item.name}
@@ -99,7 +99,9 @@ const OrderSummary = ({ amount, paymentMethod, orderItems }) => {
         <div className='flex items-center justify-between text-[10px] text-myGray lg:text-base'>
           <span>Payment method:</span>
           <span className='font-clashmd'>
-            Online payment - spay {paymentMethod} payment
+            {paymentMethod === 'wallet'
+              ? 'Wallet payment'
+              : ` Online payment - spay ${paymentMethod} payment`}
           </span>
         </div>
       </div>

@@ -7,7 +7,7 @@ import productService from '@/app/services/productService';
 import { notFound } from 'next/navigation';
 import MobileCategoryContainer from '@/app/components/category/MobileCategoryContainer';
 import DesktopCategoryContainer from '@/app/components/category/DesktopCategoryContainer';
-import { MobileCategorySkeleton } from '@/app/components/loader';
+import { DesktopCategorySkeleton, MobileCategorySkeleton } from '@/app/components/loader';
 
 export interface PageProps {
   params?: any;
@@ -86,7 +86,7 @@ export default async function CategoryPage({
           </Suspense>
         </section>
         <section className='hidden lg:block'>
-          <Suspense fallback={'loading...'}>
+          <Suspense fallback={<DesktopCategorySkeleton />}>
             <DesktopCategoryContainer
               categoryName={categoryName}
               products={productsByCategory}

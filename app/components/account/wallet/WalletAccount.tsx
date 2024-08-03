@@ -33,13 +33,13 @@ const WalletAccount: React.FC<WalletAccountProps> = ({ wallet }) => {
           onClick={router.back}
           variant='ghost'
         >
-        <span className='flex items-center'>
-          <ArrowLeftIcon
-          width={17}
-          className=' mr-[2px] mt-[-1px] lg:mr-1 lg:mt-[-3px]'/>
-          Back
-        </span>
-          
+          <span className='flex items-center'>
+            <ArrowLeftIcon
+              width={17}
+              className=' mr-[2px] mt-[-1px] lg:mr-1 lg:mt-[-3px]'
+            />
+            Back
+          </span>
         </Button>
         <p className='text-center font-clashmd text-xs text-myGray lg:hidden'>
           My Wallet{' '}
@@ -49,7 +49,13 @@ const WalletAccount: React.FC<WalletAccountProps> = ({ wallet }) => {
         <div className='absolute left-5 hidden shrink-0 gap-3 lg:grid'>
           <h1 className='font-clashmd text-3xl text-myGray'>My Wallet</h1>
         </div>
-        {funds && <StepsIndicator currentStep={3} />}
+
+        {funds &&
+          (wallet.balance > 0 ? (
+            <StepsIndicator currentStep={4} />
+          ) : (
+            <StepsIndicator currentStep={3} />
+          ))}
       </div>
 
       <WalletBalanceCard wallet={wallet} />

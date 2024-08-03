@@ -23,7 +23,7 @@ interface ReferralsInfo {
 
 interface ReferralDisplayProps {
   referralsInfo: ReferralsInfo;
-  userInfo: UserInfo
+  userInfo: UserInfo;
 }
 
 const ReferralTable: React.FC<ReferralDisplayProps> = ({
@@ -69,7 +69,7 @@ const ReferralTable: React.FC<ReferralDisplayProps> = ({
             {referrals.length < 1 ? (
               <div className='mx-auto mt-32 flex h-fit w-full max-w-[262px] flex-col items-center justify-center gap-5'>
                 <p className='text-center font-clashmd text-xs text-myGray lg:text-base'>
-                  You dont have any referral yet share your link to earn{' '}
+                  You don&#39;t have any referral yet share your link to earn{' '}
                 </p>
                 <button
                   onClick={copyToClipboard}
@@ -83,15 +83,16 @@ const ReferralTable: React.FC<ReferralDisplayProps> = ({
                 {referrals.map((referral, index) => (
                   <tr key={index} className='flex'>
                     <td className='basis-[40%] whitespace-nowrap p-[10px] text-xs text-myGray lg:px-6 lg:py-4 lg:text-base'>
-                      {referral.firstname}
-                      {referral.lastname}
+                      <span className='mr-1'>{referral.firstname}</span> {referral.lastname}
                     </td>
 
                     <td className='flex basis-[30%] items-center justify-center p-[10px] lg:px-6 lg:py-4'>
                       <span
                         className={`inline-block whitespace-nowrap rounded lg:px-2 lg:py-1 ${referral.status === 'signed_up' ? 'rounded-full bg-[#FFE0E0] px-2 py-1 text-[10px] text-myGray lg:px-4 lg:text-sm' : 'rounded-full bg-[#BAF7BA] px-2 py-1 text-[10px] text-myGray lg:px-4 lg:text-sm'}`}
                       >
-                        {referral.status === 'signed_up' ? 'Signed Up' : 'Made A Purchase'}
+                        {referral.status === 'signed_up'
+                          ? 'Signed Up'
+                          : 'Made A Purchase'}
                       </span>
                     </td>
                     <td className='grid basis-[30%] p-[10px] lg:px-6 lg:py-4'>

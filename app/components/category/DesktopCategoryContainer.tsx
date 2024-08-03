@@ -26,7 +26,7 @@ export default function DesktopCategoryContainer({
   categoryName,
   products,
 }: CategoryProps) {
-  const [sortOption, setSortOption] = useState<string | null>('priceLowToHigh');
+  const [sortOption, setSortOption] = useState<string | null>('newestArrivals');
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000000000 });
   const [tempMinPrice, setTempMinPrice] = useState(20000);
   const [tempMaxPrice, setTempMaxPrice] = useState(70000);

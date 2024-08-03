@@ -10,13 +10,9 @@ type Spec = {
   desc: string;
 };
 
-type KeyFeatureProps = {
-  feature: string;
-};
-
 type DataProps = {
   description: string;
-  KeyFeatures: KeyFeatureProps[];
+  keyFeatures: string[];
   Specification: Spec[];
 };
 
@@ -33,7 +29,7 @@ export default function ProductInformationNew({
         <div className='mt-[150px] flex gap-5 px-[3%]'>
           <div className='w-full lg:basis-[65%]'>
             <ProductDetails dataDesc={data?.description} />
-            <KeyFeature dataFeature={data?.KeyFeatures} />
+            <KeyFeature dataFeature={data?.keyFeatures} />
             <Specification dataSpec={data?.Specification} />
             <Review />
           </div>

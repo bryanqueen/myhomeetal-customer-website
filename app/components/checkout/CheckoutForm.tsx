@@ -57,6 +57,9 @@ const CheckoutForm: React.FC = () => {
   const [error, setError] = useState('');
   const [myindex, setIndex] = useState<number | null>(null);
   const [id, setId] = useState('');
+  const [hasWallet, setHasWallet] = useState(false);
+  const [wallet, setWallet] = useState(null);
+  const [point, setPoint] = useState(null);
   const [deliveryFee, setDeliveryFee] = useState(0);
 
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -216,7 +219,40 @@ const CheckoutForm: React.FC = () => {
   useEffect(() => {
     const fetchedUserInfo = authUtils.getUserInfo();
     setUserInfo(fetchedUserInfo);
-    getAddress();
+
+    const fetchData = async () => {
+      try {
+        const [addressRes, walletRes, referralRes] = await Promise.all([
+          productService.getAddress(),
+          productService.getWallet(),
+          productService.getUserReferrals(),
+        ]);
+
+        if (addressRes.status === 200) {
+          setAddresses(addressRes.data);
+        }
+
+        if (walletRes.status === 200) {
+          if (walletRes.data.account_no) {
+            setHasWallet(true);
+            setWallet(walletRes.data);
+          } else {
+            setHasWallet(false);
+            setWallet(null);
+          }
+        }
+
+        if (referralRes.status === 200) {
+          setPoint(referralRes.data.data.totalEarnings);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   if (isLoading) {
@@ -730,6 +766,9 @@ const CheckoutForm: React.FC = () => {
           setFirstStageCompleted={setFirstStageCompleted}
           address={selectedAddress}
           selectedPayment={selectedPaymentMethod}
+          point={point}
+          wallet={wallet}
+          hasWallet={hasWallet}
         />
       </div>
     </ClientOnly>

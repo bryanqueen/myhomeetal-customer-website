@@ -21,6 +21,11 @@ interface Address {
   city: string;
 }
 
+interface wallet{
+  balance: number;
+  account_no:number;
+}
+
 interface DeliveryMethodProps {
   deliveryMethod: string;
   firstStage: boolean;
@@ -28,6 +33,9 @@ interface DeliveryMethodProps {
   setFirstStageCompleted: React.Dispatch<React.SetStateAction<boolean>>;
   address: Address;
   selectedPayment: string;
+  point: number;
+  wallet: wallet;
+  hasWallet: boolean;
 }
 
 const OrderSummary: React.FC<DeliveryMethodProps> = ({
@@ -37,15 +45,15 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   setFirstStageCompleted,
   address,
   selectedPayment,
+  point,
+  wallet,
+  hasWallet
 }) => {
   const { cartTotal, totalItems, items } = useCart();
   const router = useRouter();
   const { region } = useRegion();
   const [loading, setLoading] = useState(false);
   const [useMyPoints, setUseMyPoints] = useState(false);
-  const [hasWallet, setHasWallet] = useState(false);
-  const [wallet, setWallet] = useState(null);
-  const [point, setPoint] = useState(null);
   const [deliveryFee, setDeliveryFee] = useState(0);
   const [orderId, setorderId] = useState('');
   const [totalAmount, setTotalAmount] = useState(cartTotal + deliveryFee);
@@ -169,36 +177,6 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
       setDeliveryFee(fee);
     }
   }, [deliveryMethod, address]);
-
-  useEffect(() => {
-    const fetchWallet = async () => {
-      try {
-        const res = await productService.getWallet();
-        if (res.status === 200 && res.data.account_no) {
-          setHasWallet(true);
-          setWallet(res.data);
-        } else {
-          setHasWallet(false);
-          setWallet(null);
-        }
-      } catch (error) {
-        console.error('Error fetching wallet:', error);
-      }
-    };
-
-    const fetchReferral = async () => {
-      try {
-        const res = await productService.getUserReferrals();
-        if (res.status == 200) {
-          setPoint(res.data.data.totalEarnings);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchWallet();
-    fetchReferral();
-  }, []);
 
   return (
     <div>

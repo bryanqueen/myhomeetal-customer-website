@@ -5,6 +5,7 @@ import ProductOverview from '@/app/components/product/ProductOverview';
 import productService from '@/app/services/productService';
 import ProductInformationNew from '@/app/components/product/ProductInformationNew';
 import AddToCartPopup from '@/app/components/popups/AddToCartPopup';
+import toast from 'react-hot-toast';
 
 type Params = {
   id: string;
@@ -49,6 +50,7 @@ export default async function page({ params }: { params: Params }) {
       return notFound();
     }
     data = res?.data;
+    console.log(data)
   } catch (error) {
     console.error('Error fetching products:', error);
 
@@ -59,12 +61,14 @@ export default async function page({ params }: { params: Params }) {
         error.message.includes('timeout'))
     ) {
       console.error('Network error or timeout occurred:', error);
+    toast.error('Network error or timeout occurred');
       // Optionally, return a custom error page or message
       return notFound(); // You might want to handle it differently based on your application's needs
     }
 
     // Handle other types of errors
     console.error('An unexpected error occurred:', error);
+    toast.error('An unexpected error occurred:', error);
     // Optionally, return a custom error page or message
     return notFound(); // Again, adjust based on your needs
   }
@@ -77,7 +81,6 @@ export default async function page({ params }: { params: Params }) {
       <section>
         <ProductInformationNew data={data} />
       </section>
-
       {/*<ProductHeader data={data} />*/}
       <AddToCartPopup data={data} />
     </main>

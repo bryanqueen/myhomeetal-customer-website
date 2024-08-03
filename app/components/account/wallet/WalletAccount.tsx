@@ -49,13 +49,14 @@ const WalletAccount: React.FC<WalletAccountProps> = ({ wallet }) => {
         <div className='absolute left-5 hidden shrink-0 gap-3 lg:grid'>
           <h1 className='font-clashmd text-3xl text-myGray'>My Wallet</h1>
         </div>
-
-        {funds &&
-          (wallet.balance > 0 ? (
-            <StepsIndicator currentStep={4} />
-          ) : (
-            <StepsIndicator currentStep={3} />
-          ))}
+        <div className='pt-5 lg:pt-0'>
+          {funds &&
+            (wallet.balance > 0 ? (
+              <StepsIndicator currentStep={4} />
+            ) : (
+              <StepsIndicator currentStep={3} />
+            ))}
+        </div>
       </div>
 
       <WalletBalanceCard wallet={wallet} />

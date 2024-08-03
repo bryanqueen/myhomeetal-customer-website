@@ -27,14 +27,24 @@ export default function PurchasingHistory() {
 
         if (res.status === 200) {
           const orders = res.data;
-          // Extract products with their respective order statuses
-          const extractedProducts = orders.flatMap((order) =>
-            order.orderItems.map((item) => ({
-              productId: order.orderId,
-              qty: item.qty,
-              price: item.price,
-              orderStatus: order.status,
-            }))
+
+          // Reverse the order to show latest orders first
+          const reversedOrders = orders.reverse();
+
+          // Extract products with statuses of 'Pending' and 'Completed'
+          const extractedProducts = reversedOrders.flatMap((order) =>
+            order.orderItems
+              .filter((item) => 
+                order.status === 'Pending' || order.status === 'Completed'
+              )
+              .map((item) => ({
+                productId: order.orderId,
+                qty: item.qty,
+                productName: item.product.productTitle,
+                productImage: item.product.images[0],
+                price: item.price,
+                orderStatus: order.status,
+              }))
           );
           setProductsWithStatus(extractedProducts);
           setLoading(false);
@@ -66,14 +76,14 @@ export default function PurchasingHistory() {
             >
               <Image
                 className='h-[75px] w-[75px] rounded-[15px] object-contain lg:h-[95px] lg:w-[95px] lg:rounded-3xl'
-                src='/images/product/save.png'
+                src={order.productImage}
                 alt=''
                 width={95}
                 height={95}
               />
               <div className='grid w-full gap-1 lg:hidden'>
                 <p className='mb-1 max-w-[475px] text-xs text-black'>
-                  {order.product}
+                  {order.productName}
                 </p>
                 <ProductPrice
                   priceInNGN={order.price}
@@ -89,7 +99,7 @@ export default function PurchasingHistory() {
                       'bg-[#F8BCBC] font-clashmd text-[8px] text-[#8B1A1A]':
                         order.status === 'Completed',
                       'bg-[#BAD9F7] font-clashmd text-[8px] text-[#1673CC]':
-                        order.orderStatus === 'Not paid',
+                        order.orderStatus === 'Pending',
 
                       'bg-[#BAF7BA] font-clashmd text-[8px] text-[#1B691B]':
                         order.status === 'Ongoing',
@@ -102,7 +112,7 @@ export default function PurchasingHistory() {
               <div className='hidden w-full justify-between lg:flex'>
                 <div>
                   <p className='mb-1 max-w-[475px] text-base text-black'>
-                    {order.product}
+                    {order.productName}
                   </p>
                   <div className='flex items-center gap-5'>
                     <p className='text-sm text-black'>
@@ -113,7 +123,7 @@ export default function PurchasingHistory() {
                         'bg-[#F8BCBC] text-[10px] text-[#8B1A1A] lg:text-sm':
                           order.status === 'Completed',
                         'bg-[#BAD9F7] text-[10px] text-[#1673CC] lg:text-sm':
-                          order.orderStatus === 'Not paid',
+                          order.orderStatus === 'Pending',
 
                         'bg-[#BAF7BA] text-[10px] text-[#1B691B] lg:text-sm':
                           order.status === 'Ongoing',

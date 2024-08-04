@@ -197,7 +197,7 @@ const MainFooter: React.FC = () => {
                 </h2>
                 <ul className='mt-3'>
                   {content.items.map((item, i) => (
-                    <li className='mb-1 text-sm' key={i}>
+                    <li className='mb-2 text-sm' key={i}>
                       <Link href={item.link}>{item.title}</Link>
                     </li>
                   ))}

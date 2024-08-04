@@ -51,6 +51,10 @@ a:not(.btn):hover {
   background: white;
 }
 
+.bodyText {
+  @apply leading-[19.68px] text-base lg:text-xl lg:leading-[24.6px];
+}
+
 .phone-input-mobile input {
   background:#f4f4f4;
   width: 100%;

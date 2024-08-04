@@ -21,9 +21,9 @@ interface Address {
   city: string;
 }
 
-interface wallet{
+interface wallet {
   balance: number;
-  account_no:number;
+  account_no: number;
 }
 
 interface DeliveryMethodProps {
@@ -47,7 +47,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   selectedPayment,
   point,
   wallet,
-  hasWallet
+  hasWallet,
 }) => {
   const { cartTotal, totalItems, items } = useCart();
   const router = useRouter();
@@ -264,13 +264,16 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
       {point ? (
         <div className='h-fit rounded-[13.11px] bg-[#F4F4F4] lg:rounded-2xl'>
           <div className='relative m-4 mt-10 h-fit lg:mt-4'>
-            <div className='flex items-center gap-4 py-5'>
-              <Ticket color='#F68182' size={24} />
-              <span className='font-clashmd text-xs text-[#2A2A2A] lg:text-[15px]'>
-                Use Promo code
-              </span>
+            <div className='hidden'>
+              <div className='flex items-center gap-4 py-5'>
+                <Ticket color='#F68182' size={24} />
+                <span className='font-clashmd text-xs text-[#2A2A2A] lg:text-[15px]'>
+                  Use Promo code
+                </span>
+              </div>
             </div>
-            <div className='flex items-center justify-between'>
+
+            <div className='flex items-center justify-between pt-5'>
               <p className='text-xs text-primary lg:text-base'>MyPoints</p>
               <div className='flex items-center gap-3'>
                 <label

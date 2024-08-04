@@ -23,8 +23,8 @@ const Newsletter = () => {
         className='lg:hidden'
       />
       <div className='absolute flex h-fit w-fit flex-col items-center justify-center'>
-        <p className='mb-2 text-center text-[10px] text-white'>
-          get notified when we update our catalog
+        <p className='mb-2 text-center text-[10px] text-white uppercase'>
+        get notified when we update our catalog
         </p>
         <h2 className=' mb-8 max-w-[319px] text-center font-clashmd text-sm leading-[17.22px] text-white lg:mb-4 lg:max-w-[718px] lg:text-[39px] lg:leading-[47.97px]'>
           Sign up to newsletter and receive up to ₦1,000 discount for first

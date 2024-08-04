@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Link from 'next/link';
 import React from 'react';
 import Intercom from '@intercom/messenger-js-sdk';
@@ -12,63 +12,160 @@ import {
 import Logo from './Logo';
 import Newsletter from './Newsletter';
 
+interface Item {
+  title: string;
+  link: string;
+}
+
 interface Content {
   title: string;
-  items: string[];
+  items: Item[];
 }
 
 const contents: Content[] = [
   {
     title: 'User Information',
     items: [
-      'About Us',
-      'FAQs',
-      'Contact Us',
-      'Newsletter Signup',
-      'Returns and Refunds',
-      'Shipping & Delivery',
-      'Store Locator',
-      'Privacy Policy',
+      {
+        title: 'About Us',
+        link: '/about',
+      },
+      {
+        title: 'FAQs',
+        link: '/faqs',
+      },
+      {
+        title: 'Meet the Devs',
+        link: '/meet-the-devs',
+      },
+      {
+        title: 'Newsletter Signup',
+        link: '#newsletter',
+      },
+      {
+        title: 'Returns and Refunds',
+        link: '/help-center',
+      },
+      {
+        title: 'Shipping & Delivery',
+        link: '/help-center',
+      },
+      {
+        title: 'Store Locator',
+        link: '/store-locator',
+      },
+      {
+        title: 'Privacy Policy',
+        link: '/privacy-policy',
+      },
     ],
   },
   {
     title: 'Help & Support',
-    items: [' Chat with us', 'Help Center', 'Contact Us', 'Newsletter Signup'],
+    items: [
+      {
+        title: 'Chat with us',
+        link: '/help-center',
+      },
+      {
+        title: 'Help Center',
+        link: '/help-center',
+      },
+      {
+        title: 'Contact Us',
+        link: '/contact',
+      },
+      {
+        title: 'Newsletter Signup',
+        link: '#newsletter',
+      },
+    ],
   },
   {
     title: 'Useful Links',
     items: [
-      'Experience Center',
-      ' How to shop on Myhomeetal?',
-      'Myhomeetal?',
-      'Corporate and bulk purchases',
-      'Report a Product',
-      'Dispute Resolution Policy',
-      'Returns & Refund Timeline',
+      {
+        title: 'How to shop on Myhomeetal?',
+        link: '/help-center',
+      },
+      {
+        title: 'Myhomeetal?',
+        link: '/help-center',
+      },
+      {
+        title: 'Corporate and bulk purchases',
+        link: '/help-center',
+      },
+      {
+        title: 'Report a Product',
+        link: '/help-center',
+      },
+      {
+        title: 'Dispute Resolution Policy',
+        link: '/help-center',
+      },
+      {
+        title: 'Returns & Refund Timeline',
+        link: '/help-center',
+      },
     ],
   },
   {
     title: 'Partners & Shops',
     items: [
-      'Anker',
-      'Apple',
-      'Hisense',
-      'Lontor',
-      'Samsung',
-      'Hewellet Packard',
-      'See All',
+      {
+        title: 'Anker',
+        link: '/shop',
+      },
+      {
+        title: 'Hisense',
+        link: '/shop',
+      },
+      {
+        title: 'Lontor',
+        link: '/shop',
+      },
+      {
+        title: 'Samsung',
+        link: '/shop',
+      },
+      {
+        title: 'Hewellet Packard',
+        link: '/shop',
+      },
+      {
+        title: 'See All',
+        link: '/shop',
+      },
     ],
   },
   {
     title: 'Blog & Articles',
     items: [
-      'Everyday Use Notebooks',
-      'Apple',
-      'Hisense',
-      'Lontor',
-      'Samsung',
-      'Hewellet Packard',
-      'See All',
+      {
+        title: 'Everyday Use Notebooks',
+        link: '/blog',
+      },
+      {
+        title: 'Hisense',
+        link: '/blog',
+      },
+      {
+        title: 'Lontor',
+        link: '/blog',
+      },
+      {
+        title: 'Samsung',
+        link: '/blog',
+      },
+      {
+        title: 'Hewellet Packard',
+        link: '/blog',
+      },
+      {
+        title: 'See All',
+        link: '/blog',
+      },
     ],
   },
 ];
@@ -81,7 +178,10 @@ const MainFooter: React.FC = () => {
 
   return (
     <div className='bg-black px-[3%] py-6 lg:py-10 lg:pb-8'>
-      <Newsletter />
+      <div id='#newsletter'>
+        <Newsletter />
+      </div>
+
       <footer className='mt-6 bg-white px-[3%] py-10'>
         <div className='flex flex-col lg:flex-row'>
           <div className='flex basis-[10%] items-center justify-center lg:block'>
@@ -98,7 +198,7 @@ const MainFooter: React.FC = () => {
                 <ul className='mt-3'>
                   {content.items.map((item, i) => (
                     <li className='mb-1 text-sm' key={i}>
-                      {item}
+                      <Link href={item.link}>{item.title}</Link>
                     </li>
                   ))}
                 </ul>

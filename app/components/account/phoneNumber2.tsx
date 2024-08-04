@@ -27,7 +27,7 @@ const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({
           placeholder='Enter phone number'
           value={value}
           onChange={onChange}
-          className='phone-input'
+          className='phone-input2'
           defaultCountry='NG'
           disabled={disabled}
         />
@@ -38,7 +38,7 @@ const PhoneInputComponent: React.FC<PhoneInputComponentProps> = ({
           placeholder='Enter phone number'
           value={value}
           onChange={onChange}
-          className='phone-input-mobile'
+          className='phone-input2-mobile'
           defaultCountry='NG'
           disabled={disabled}
         />

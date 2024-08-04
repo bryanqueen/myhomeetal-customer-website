@@ -1,10 +1,9 @@
 'use client';
 import Input from '@/app/components/Input';
-import PhoneInputComponent from '@/app/components/account/phoneNumber';
 import productService from '@/app/services/productService';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/16/solid';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import PhoneInputComponent from './phoneNumber2';
 
 interface UserInfo {
   firstname: string;
@@ -168,8 +167,6 @@ export default function PersonalInformationForm({
             </div>
             <div className='grid gap-2'>
               <PhoneInputComponent
-                mobileInputStyle={customMobileInputStyle}
-                mobileButtonStyle={customMobileButtonStyle}
                 value={phone}
                 onChange={handlePhoneChange}
                 disabled={!editMode}
@@ -248,17 +245,18 @@ export default function PersonalInformationForm({
                 onChange={(e) => setEmail(e.target.value)}
                 labelClassName='text-myGray font-clashmd text-base'
               />
-              <div className='grid gap-1'>
+              <div className='grid'>
                 <label className='font-clashmd text-[8px] text-black lg:text-base lg:text-myGray'>
                   Phone Number
                 </label>
+                <div className='mt-[-5px]'>
                 <PhoneInputComponent
-                  inputStyle={customInputStyle}
-                  buttonStyle={customButtonStyle}
                   value={phone}
                   onChange={handlePhoneChange}
                   disabled={!editMode}
                 />
+                </div>
+                
                 {error && <p style={{ color: 'red' }}>{error}</p>}
               </div>
             </div>

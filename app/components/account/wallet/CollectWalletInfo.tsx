@@ -17,7 +17,7 @@ import DatePickerModal from './DatePickerModal';
 
 const CollectWalletInfo = () => {
   const router = useRouter();
- 
+
   useEffect(() => {
     const fetchedUserInfo = authUtils.getUserInfo();
     if (fetchedUserInfo) {
@@ -65,17 +65,21 @@ const CollectWalletInfo = () => {
           email_alert: true,
           mobile_number: phoneNumber,
         };
-        const res = await productService.createWallet(payload);
+        const res: any = await productService.createWallet(payload);
         if (res.status === 200) {
           router.push(`/account/my-wallet/verification`);
           setLoading(false);
         } else {
-          console.error('Failed to create wallet. Status:', res.status);
           setLoading(false);
+          toast.error(res.data.error || 'An unexpected error occurred.');
+          //window.location.reload();
         }
       } catch (error) {
-        console.log(error);
         setLoading(false);
+        toast.error(
+          error.response?.data?.error || 'An unexpected error occurred.'
+        );
+        //window.location.reload();
       }
     } else {
       toast.error('Incomplete setup information.');
@@ -223,6 +227,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({
         <div className='grid gap-5'>
           <Input
             name='email'
+            type='email'
             labelKey='Email Address'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -240,7 +245,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({
               className='rounded-[10px] bg-[#F4F4F4] px-2 lg:border lg:border-[#D9D9D9] lg:bg-white lg:px-5'
             >
               {gender === 'Male' ? (
-                <div className='flex h-[60px] items-center justify-between px-3 text-xs lg:text-sm lg:h-[70px] lg:px-0'>
+                <div className='flex h-[60px] items-center justify-between px-3 text-xs lg:h-[70px] lg:px-0 lg:text-sm'>
                   Male
                   <Image
                     src='/Male.svg'
@@ -322,7 +327,6 @@ const PhoneBox: React.FC<PhoneBoxProps> = ({
   error,
   setError,
 }) => {
-
   const handlePhoneChange = (value: string) => {
     // Allow digits and the '+' character at the beginning
     const isNumber = /^[+]?\d*$/.test(value);
@@ -346,6 +350,7 @@ const PhoneBox: React.FC<PhoneBoxProps> = ({
           <label className='pl-5 font-clashmd text-[8px] text-black lg:text-xs'>
             Phone Number
           </label>
+
           <PhoneInputComponent
             value={phoneNumber}
             onChange={handlePhoneChange}

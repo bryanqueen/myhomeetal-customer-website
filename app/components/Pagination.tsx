@@ -1,7 +1,6 @@
 'use client';
 
 import cn from 'classnames';
-
 import Button from '@components/Button';
 import { getPageNumbers } from '@utils/helpers';
 

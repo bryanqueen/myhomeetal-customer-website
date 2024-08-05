@@ -52,7 +52,7 @@ const contents: Content[] = [
       },
       {
         title: 'Store Locator',
-        link: '/store-locator',
+        link: '/experience-center',
       },
       {
         title: 'Privacy Policy',

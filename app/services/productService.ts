@@ -28,16 +28,16 @@ const productService = {
     return await apiUtils.deleteRequest(`user/saved-item`, payload);
   },
   getProductsByCategory: async (id?: string) => {
-    return await apiUtils.getRequestWithCache(`${api.PRODUCTS}/category/${id}`);
+    return await apiUtils.getRequest(`${api.PRODUCTS}/category/${id}`);
   },
   getProductCategories: async () => {
-    return await apiUtils.getRequestWithCache(`${api.PRODUCT_CATEGORIES}`);
+    return await apiUtils.getRequest(`${api.PRODUCT_CATEGORIES}`);
   },
   getTopProductCategories: async () => {
-    return await apiUtils.getRequestWithCache(`${api.TOP_PRODUCT_CATEGORIES}`);
+    return await apiUtils.getRequest(`${api.TOP_PRODUCT_CATEGORIES}`);
   },
   getProductDetail: async (id: string) => {
-    return await apiUtils.getRequestWithCache(`${api.PRODUCTS}${id}`);
+    return await apiUtils.getRequest(`${api.PRODUCTS}${id}`);
   },
   getPaymentDetail: async (id: string) => {
     return await apiUtils.getRequest(`${api.ORDERS}${id}/get_payment_detail/`);

@@ -4,7 +4,7 @@ import { apiUtils } from "../utils/apiUtils";
 
 const productService = {
   getAllProducts: async (params?: string) => {
-    return await apiUtils.getRequestWithCache(`${api.PRODUCTS}?${params}`);
+    return await apiUtils.getRequest(`${api.PRODUCTS}?${params}`);
   },
   getUserDetails: async (id?: string) => {
     return await apiUtils.getRequest(`${api.GET_USER}${id}`);

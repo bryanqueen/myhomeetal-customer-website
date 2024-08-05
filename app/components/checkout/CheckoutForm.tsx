@@ -66,6 +66,56 @@ const CheckoutForm: React.FC = () => {
 
   useEffect(() => {
     const fetchedUserInfo = authUtils.getUserInfo();
+    console.log('Fetching user info...');
+    setUserInfo(fetchedUserInfo);
+  
+    const fetchData = async () => {
+      console.log('fetchData function called');
+      try {
+        const [addressRes, walletRes, referralRes] = await Promise.allSettled([
+          productService.getAddress(),
+          productService.getWallet(),
+          productService.getUserReferrals(),
+        ]);
+  
+        if (addressRes.status === 'fulfilled') {
+          console.log('Fetched address response:', addressRes.value);
+          setAddresses(addressRes.value.data);
+          console.log('Address data:', addressRes.value.data);
+        } else {
+          console.error('Address fetch failed:', addressRes.reason);
+        }
+  
+        if (walletRes.status === 'fulfilled') {
+          console.log('Fetched wallet response:', walletRes.value);
+          if (walletRes.value.data.account_no) {
+            setHasWallet(true);
+            setWallet(walletRes.value.data);
+            console.log('Wallet data set:', walletRes.value.data);
+          } else {
+            setHasWallet(false);
+            setWallet(null);
+            console.log('Wallet data not available');
+          }
+        } else {
+          console.error('Wallet fetch failed:', walletRes.reason);
+        }
+  
+        if (referralRes.status === 'fulfilled') {
+          console.log('Fetched referral response:', referralRes.value);
+          setPoint(referralRes.value.data.data.totalEarnings);
+          console.log('Point set:', referralRes.value.data.data.totalEarnings);
+        } else {
+          console.error('Referral fetch failed:', referralRes.reason);
+        }
+      } catch (error) {
+        console.error('Error in fetchData:', error);
+      } finally {
+        console.log('Setting isLoading to false');
+        setIsLoading(false);
+      }
+    };
+  
     const calculateDeliveryDates = () => {
       const today = new Date();
       const startDate = new Date();
@@ -90,6 +140,7 @@ const CheckoutForm: React.FC = () => {
       setSelectedDeliveryMethod(savedState.deliveryMethod || '');
       setSelectedPaymentMethod(savedState.selectedPayment || '');
     }
+    fetchData();
     calculateDeliveryDates();
     setUserInfo(fetchedUserInfo);
   }, []);
@@ -214,46 +265,6 @@ const CheckoutForm: React.FC = () => {
       setIsLoading(false);
     }
   };
-
-  //use efect actions
-  useEffect(() => {
-    const fetchedUserInfo = authUtils.getUserInfo();
-    setUserInfo(fetchedUserInfo);
-
-    const fetchData = async () => {
-      try {
-        const [addressRes, walletRes, referralRes] = await Promise.all([
-          productService.getAddress(),
-          productService.getWallet(),
-          productService.getUserReferrals(),
-        ]);
-
-        if (addressRes.status === 200) {
-          setAddresses(addressRes.data);
-        }
-
-        if (walletRes.status === 200) {
-          if (walletRes.data.account_no) {
-            setHasWallet(true);
-            setWallet(walletRes.data);
-          } else {
-            setHasWallet(false);
-            setWallet(null);
-          }
-        }
-
-        if (referralRes.status === 200) {
-          setPoint(referralRes.data.data.totalEarnings);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   if (isLoading) {
     return <HomeSkeleton />;

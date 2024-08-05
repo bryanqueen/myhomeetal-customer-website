@@ -61,8 +61,8 @@ const MobileNav = () => {
                 variant='Bulk'
                 className={
                   isNavActive('myAccount')
-                    ? 'icon-mobile text-primary'
-                    : 'icon-mobile'
+                    ? 'icon-mobile text-white'
+                    : 'icon-mobile text-white'
                 }
               />
             </Button>
@@ -98,8 +98,8 @@ const MobileNav = () => {
                 size={24}
                 className={
                   isNavActive('main')
-                    ? 'icon-mobile text-primary'
-                    : 'icon-mobile'
+                    ? 'icon-mobile text-white'
+                    : 'icon-mobile text-white'
                 }
               />
             </Button>

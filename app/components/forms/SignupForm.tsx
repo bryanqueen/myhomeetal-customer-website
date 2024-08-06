@@ -109,13 +109,12 @@ const SignupForm = () => {
               labelKey='Password'
               placeholder='Enter Password'
               {...register('password')}
-              errorKey={errors.password?.message}
               labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
               inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
             />
             <span
               onClick={() => setShowPassword(!showPassword)}
-              className='absolute bottom-[18px] right-5 cursor-pointer text-[#717171]'
+              className='absolute bottom-[14px] right-5 cursor-pointer text-[#717171]'
             >
               {showPassword ? (
                 <EyeSlashIcon width={20} />
@@ -124,6 +123,7 @@ const SignupForm = () => {
               )}
             </span>
           </div>
+          <p className='text-xs text-red-500 first-letter:capitalize'>{errors.password?.message}</p>
 
           <Button
             className='mt-2 w-full rounded-[10px] border-0 p-4 font-clashmd text-xs shadow-none lg:rounded-full lg:text-base'

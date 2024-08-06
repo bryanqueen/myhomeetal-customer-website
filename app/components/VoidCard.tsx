@@ -1,14 +1,14 @@
 import React from 'react';
 import Button from './Button';
 
-export default function VoidCard({ title, bodyText, btnText, link }) {
+export default function VoidCard({ title, bodyText, btnText, link, textColor }: { title: any; bodyText: any; btnText: any; link: any; textColor?: any }) {
   return (
     <div>
       <div className='flex flex-col items-center justify-center'>
-        <h1 className='mb-2 font-clashmd text-[20px] lg:mb-0 lg:text-[36px]'>
+        <h1 className={`${textColor} mb-2 font-clashmd text-[20px] lg:mb-0 lg:text-[36px]`}>
           {title}
         </h1>
-        <p className='mb-10 max-w-[70%] text-center text-xs lg:max-w-[589px] lg:text-[20px] lg:leading-[24.6px]'>
+        <p className={`${textColor} mb-10 max-w-[70%] text-center text-xs lg:max-w-[589px] lg:text-[20px] lg:leading-[24.6px]`}>
           {bodyText}
         </p>
         <Button

@@ -19,7 +19,27 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { jwtVerify } from 'jose';
 
-const ProductOverview = ({ data }: any) => {
+type UserType = {
+  _id: string;
+  firstname: string;
+};
+
+type ReviewType = {
+  _id: string;
+  user: UserType;
+  product: string;
+  rating: number;
+  comment: string;
+  date: string;
+  __v: number;
+};
+
+type Props = {
+  data: any;
+  reviewData: ReviewType[];
+};
+
+const ProductOverview = ({ data, reviewData }: Props) => {
   const [savedItems, setSavedItems] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -28,6 +48,14 @@ const ProductOverview = ({ data }: any) => {
   const handleBack = () => {
     router.back();
   };
+
+  const calculateAverageRating = (reviewData: ReviewType[]) => {
+    const total = reviewData.reduce((sum, rev) => sum + rev.rating, 0);
+    return reviewData.length ? total / reviewData.length : 0;
+  };
+
+  const averageRating = calculateAverageRating(reviewData);
+  const reviewCount = reviewData.length;
 
   //fetch all saved items
   const fetchSavedItems = async () => {
@@ -63,31 +91,31 @@ const ProductOverview = ({ data }: any) => {
 
   const savedItem = async () => {
     setLoading(true);
-  
+
     if (savedItems.includes(id)) {
       toast.error('Item already saved');
       setLoading(false);
       return;
     }
-  
+
     try {
       const token = document.cookie
         .split('; ')
         .find(row => row.startsWith('AUTH_TOKEN='))
         ?.split('=')[1];
-  
+
       if (!token || !(await verifyToken(token))) {
         toast.error('Session expired. Redirecting to login...');
-        
+
         // Redirect to login with callbackUrl parameter
         router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
         setLoading(false);
         return;
       }
-  
+
       const payload = { authMethod: data?._id };
       const res = await productService.saveProduct({ payload, id });
-  
+
       if (res.status === 200) {
         toast.success('Item Saved');
         setLoading(false);
@@ -101,7 +129,7 @@ const ProductOverview = ({ data }: any) => {
       toast.error('An error occurred while saving the item. Please try again.');
     }
   };
-  
+
 
   const breadCrumb = [
     {
@@ -119,8 +147,9 @@ const ProductOverview = ({ data }: any) => {
   const priceStyle = 'text-black text-[25px] lg:text-5xl font-clashmd';
   const { items } = useCart();
   const itemInCart = items.find((item) => item.id === data?._id);
-  const itemForCart = { ...data, id: data._id };
+  const itemForCart = { ...data, id: data?._id };
   const { region } = useRegion();
+
   return (
     <div>
       {data && (
@@ -173,32 +202,34 @@ const ProductOverview = ({ data }: any) => {
                     {data?.productTitle}
                   </p>
 
-                  <div className='flex items-center py-3 lg:hidden'>
+                  <div className='flex gap-3 items-center py-3 lg:hidden'>
                     <p className='mr-1 flex items-center gap-1 text-[10px] text-xs lg:text-sm lg:font-semibold'>
                       <StarIcon width={16} className='mt-[-3px] text-primary' />
-                      {data?.rating?.rate}
+                      {averageRating}
                     </p>
 
                     <span className='text-[10px]'>
-                      ({data?.rating?.count} Reviews)
+                      {reviewCount} <span className='ml-[2px]'>{reviewCount < 2 ? 'review' : 'reviews'}</span>
                     </span>
                   </div>
-                  <div className='hidden items-center py-3 lg:flex'>
+                  <div className='hidden gap-2 items-center py-3 lg:flex'>
                     <p className='text-sm text-black'>
-                      Ratings <span className='ml-1'>{data?.rating?.rate}</span>{' '}
+                      Ratings
                     </p>
-                    <Rating
-                      initialValue={data?.rating?.rate}
-                      readonly={true}
-                      allowFraction={true}
-                      size={16}
-                      fillColor=''
-                      className='ml-2 mt-[-7px] text-primary'
-                      SVGclassName='inline'
-                    />
-                    <span className='px-3' />
+                    <div>
+                      <span className='ml-1'>{averageRating}</span>{' '}
+                      <Rating
+                        initialValue={averageRating}
+                        readonly={true}
+                        allowFraction={true}
+                        size={16}
+                        fillColor=''
+                        className='mt-[-7px] text-primary'
+                        SVGclassName='inline'
+                      />
+                    </div>
                     <span className='text-sm text-black'>
-                      {data?.rating?.count} Reviews
+                      {reviewCount} {reviewCount < 2 ? 'review' : 'reviews'}
                     </span>
                   </div>
 

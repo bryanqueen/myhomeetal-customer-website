@@ -6,27 +6,35 @@ import Pagination from '@components/Pagination';
 import { ArrowRightIcon } from '@heroicons/react/16/solid';
 import MobileReviewCard from '../cards/MobileReviewCard';
 
-interface Review {
-  rating: number;
-  name: string;
-  date: string;
-  comment: string;
-}
+type UserType = {
+  _id: string;
+  firstname: string;
+};
 
-interface ProductReviewInfoProps {
-  reviews: Review[];
-}
+type ReviewType = {
+  _id: string;
+  user: UserType;
+  product: string;
+  rating: number;
+  comment: string;
+  date: string;
+  __v: number;
+};
+
+type Props = {
+  review: ReviewType[];
+};
 
 const REVIEWS_PER_PAGE = 5;
 
-const ProductReviews = ({ reviews }: ProductReviewInfoProps) => {
+const ProductReviews = ({ review }: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [shouldScroll, setShouldScroll] = useState(false);
   const reviewSectionRef = useRef<HTMLDivElement>(null);
 
-  const totalPages = Math.ceil(reviews.length / REVIEWS_PER_PAGE);
+  const totalPages = Math.ceil(review.length / REVIEWS_PER_PAGE);
   const startIndex = (currentPage - 1) * REVIEWS_PER_PAGE;
-  const selectedReviews = reviews.slice(
+  const selectedReviews = review.slice(
     startIndex,
     startIndex + REVIEWS_PER_PAGE
   );

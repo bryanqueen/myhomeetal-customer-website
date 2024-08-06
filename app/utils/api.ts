@@ -17,6 +17,7 @@ const api = {
   WALLET: 'wallet/create',
   GET_WALLET:'wallet',
   GET_ADDRESS:'address/',
+  REVIEW: 'review/'
 };
 
 export { api };

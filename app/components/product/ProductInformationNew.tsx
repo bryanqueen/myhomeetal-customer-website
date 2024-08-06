@@ -18,10 +18,11 @@ type DataProps = {
 
 type ProductInformationNewProps = {
   data: DataProps;
+  reviewData: any
 };
 
 export default function ProductInformationNew({
-  data,
+  data, reviewData
 }: ProductInformationNewProps) {
   return (
     <div>
@@ -31,7 +32,7 @@ export default function ProductInformationNew({
             <ProductDetails dataDesc={data?.description} />
             <KeyFeature dataFeature={data?.keyFeatures} />
             <Specification dataSpec={data?.Specification} />
-            <Review />
+            <Review review={reviewData} />
           </div>
           <div className='hidden lg:block lg:basis-[35%]'>
             <SelectLocation />

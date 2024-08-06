@@ -33,134 +33,47 @@ const RatingProgress = ({
   </div>
 );
 
-// Utility Functions
+type UserType = {
+  _id: string;
+  firstname: string;
+};
 
-interface Review {
+type ReviewType = {
+  _id: string;
+  user: UserType;
+  product: string;
   rating: number;
-}
-
-interface ProductReviewInfoProps {
-  reviews: Review[];
-}
-
-const calculateAverageRating = (reviews: Review[]) => {
-  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
-  return total / reviews.length;
+  comment: string;
+  date: string;
+  __v: number;
 };
 
-const calculateRatingDistribution = (reviews: Review[]) => {
-  const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-  reviews.forEach((review) => {
-    distribution[review.rating] += 1;
-  });
-
-  const reviewCount = reviews.length;
-  for (const star in distribution) {
-    distribution[star] = (distribution[star] / reviewCount) * 100;
-  }
-  return distribution;
+type Props = {
+  review: ReviewType[];
 };
 
-// Main Component
+export const Review = ({ review }: Props) => {
+  const calculateAverageRating = (review: ReviewType[]) => {
+    const total = review.reduce((sum, rev) => sum + rev.rating, 0);
+    return review.length ? total / review.length : 0;
+  };
 
-const reviews = [
-  {
-    name: 'Alice',
-    date: '2024-06-01',
-    rating: 5,
-    comment: 'Excellent product!',
-  },
-  {
-    name: 'Bob',
-    date: '2024-06-02',
-    rating: 4,
-    comment: 'Very satisfied with the quality.',
-  },
-  {
-    name: 'Charlie',
-    date: '2024-06-03',
-    rating: 3,
-    comment: 'Could be better.',
-  },
-  {
-    name: 'David',
-    date: '2024-06-04',
-    rating: 2,
-    comment: 'Not what I expected.',
-  },
-  {
-    name: 'Eve',
-    date: '2024-06-05',
-    rating: 4,
-    comment: 'Value for money.',
-  },
-  {
-    name: 'Fay',
-    date: '2024-06-06',
-    rating: 5,
-    comment: 'Highly recommend it.',
-  },
-  {
-    name: 'Grace',
-    date: '2024-06-07',
-    rating: 5,
-    comment: 'Will buy again.',
-  },
-  {
-    name: 'Heidi',
-    date: '2024-06-08',
-    rating: 3,
-    comment: 'Decent product for the price.',
-  },
-  {
-    name: 'Ivan',
-    date: '2024-06-09',
-    rating: 4,
-    comment: 'Great customer service.',
-  },
-  {
-    name: 'Judy',
-    date: '2024-06-10',
-    rating: 5,
-    comment: 'Fast delivery and good packaging.',
-  },
-  {
-    name: 'Alice',
-    date: '2024-06-11',
-    rating: 4,
-    comment: 'Very satisfied with the quality.',
-  },
-  {
-    name: 'Bob',
-    date: '2024-06-12',
-    rating: 3,
-    comment:
-      'Could be better.hdfdh af arw rewe awria weriwerf ar arwi qwerq qr rwf q quidqw  qvd qudqv   qqquwevwq qwwu   du qud   qudvw   qwewev duqevqw eueu',
-  },
-  {
-    name: 'Charlie',
-    date: '2024-06-13',
-    rating: 2,
-    comment: 'Not what I expected.',
-  },
-  {
-    name: 'David',
-    date: '2024-06-14',
-    rating: 5,
-    comment: 'Excellent product!',
-  },
-  {
-    name: 'Eve',
-    date: '2024-06-15',
-    rating: 4,
-    comment: 'Value for money.',
-  },
-];
+  const calculateRatingDistribution = (review: ReviewType[]) => {
+    const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    review.forEach((rev) => {
+      distribution[rev.rating] += 1;
+    });
 
-export const Review = () => {
-  const averageRating = calculateAverageRating(reviews);
-  const reviewCount = reviews.length;
-  const ratingDistribution = calculateRatingDistribution(reviews);
+    const reviewCount = review.length;
+    for (const star in distribution) {
+      distribution[star] = ((distribution[star] / reviewCount) * 100);
+    }
+    return distribution;
+  };
+
+  const averageRating = calculateAverageRating(review);
+  const reviewCount = review.length;
+  const ratingDistribution = calculateRatingDistribution(review);
 
   return (
     <div className='mb-5 py-[38px] lg:rounded-[20px] lg:border lg:border-[#E4E7EC] lg:px-10'>
@@ -196,7 +109,7 @@ export const Review = () => {
             </div>
 
             <span className='text-center text-[10px] text-myGray lg:text-start lg:text-base'>
-              {reviewCount} reviews
+              {reviewCount} {reviewCount < 2 ? 'review' : 'reviews' }
             </span>
           </div>
         </div>
@@ -208,13 +121,13 @@ export const Review = () => {
                 <RatingProgress
                   key={star}
                   star={Number(star)}
-                  percent={ratingDistribution[star].toFixed(1)}
+                  percent={ratingDistribution[star]}
                 />
               ))}
           </div>
         </div>
       </div>
-      <ProductReviews reviews={reviews} />
+      <ProductReviews review={review} />
     </div>
   );
 };

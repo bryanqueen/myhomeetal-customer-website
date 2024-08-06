@@ -31,11 +31,11 @@ export default function PurchasingHistory() {
           // Reverse the order to show latest orders first
           const reversedOrders = orders.reverse();
 
-          // Extract products with statuses of 'Pending' and 'Completed'
+          // Extract products with statuses of 'Pending' and 'Delivered'
           const extractedProducts = reversedOrders.flatMap((order) =>
             order.orderItems
               .filter((item) => 
-                order.status === 'Ongoing' || order.status === 'Completed'
+                order.status === 'Ongoing' || order.status === 'Delivered'
               )
               .map((item) => ({
                 productId: order.orderId,
@@ -97,7 +97,7 @@ export default function PurchasingHistory() {
                   <p
                     className={cn('w-fit rounded-full px-[10px] py-[5px]', {
                       'bg-[#F8BCBC] font-clashmd text-[8px] text-[#8B1A1A]':
-                        order.orderStatus === 'Completed',
+                        order.orderStatus === 'Delivered',
                       'bg-[#BAD9F7] font-clashmd text-[8px] text-[#1673CC]':
                         order.orderStatus === 'Pending',
 
@@ -121,7 +121,7 @@ export default function PurchasingHistory() {
                     <p
                       className={cn('w-fit rounded-full px-5 py-2', {
                         'bg-[#F8BCBC] text-[10px] text-[#8B1A1A] lg:text-sm':
-                          order.orderStatus === 'Completed',
+                          order.orderStatus === 'Delivered',
                         'bg-[#BAD9F7] text-[10px] text-[#1673CC] lg:text-sm':
                           order.orderStatus === 'Pending',
 

@@ -9,6 +9,9 @@ const productService = {
   getUserDetails: async (id?: string) => {
     return await apiUtils.getRequest(`${api.GET_USER}${id}`);
   },
+  getReview: async (id?: string) => {
+    return await apiUtils.getRequest(`${api.REVIEW}${id}`);
+  },
   getUserReferrals: async () => {
     return await apiUtils.getRequest(`${api.GET_REFERRALS}`);
   },
@@ -44,6 +47,9 @@ const productService = {
   },
   confirmPayment: async ({ payload, id }: { payload: any; id: string }) => {
     return await apiUtils.postRequest(`${api.ORDERS}${id}/confirm_payment/`, payload);
+  },
+  createReview: async ({ payload, id }: { payload: { rating: number; comment: string }; id: string }) => {
+    return await apiUtils.postRequest(`${api.REVIEW}${id}`, payload);
   },
   getAllOrders: async () => {
     return await apiUtils.getRequest(`${api.GET_ORDERS}`);

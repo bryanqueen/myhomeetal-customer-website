@@ -7,16 +7,20 @@ import { notFound } from 'next/navigation';
 import { HomeSkeleton } from '../loader';
 import StarRating from './starRating';
 import Button from '../Button';
+import toast from 'react-hot-toast';
 
 export default function Reviews() {
   const { region } = useRegion();
   const [loading, setLoading] = useState(true);
+  const [reviewLoading, setReviewLoading] = useState(false);
   const [isReview, setIsReview] = useState(false);
   const [isReviewSuccess, setIsReviewSuccess] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productsWithStatus, setProductsWithStatus] = useState([]);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+
+
   const handleRateProductClick = (product) => {
     setSelectedProduct(product);
     setIsReview(true);
@@ -36,14 +40,24 @@ export default function Reviews() {
 
         if (res.status === 200) {
           const orders = res.data;
-          // Extract products with their respective order statuses
-          const extractedProducts = orders.flatMap((order) =>
-            order.orderItems.map((item) => ({
-              productId: order.orderId,
-              qty: item.qty,
-              price: item.price,
-              orderStatus: order.status,
-            }))
+          // Reverse the order to show latest orders first
+          const reversedOrders = orders.reverse();
+
+          // Extract products with statuses of 'Pending' and 'Completed'
+          const extractedProducts = reversedOrders.flatMap((order) =>
+            order.orderItems
+              .filter((item) =>
+                order.status === 'Ongoing' || order.status === 'Completed'
+              )
+              .map((item) => ({
+                productId: order.orderId,
+                id: item.product._id,
+                qty: item.qty,
+                productName: item.product.productTitle,
+                productImage: item.product.images[0],
+                price: item.price,
+                orderStatus: order.status,
+              }))
           );
           setProductsWithStatus(extractedProducts);
           setLoading(false);
@@ -56,9 +70,36 @@ export default function Reviews() {
     fetchOrders();
   }, []);
 
-  const handleReviewSubmit = () => {
-    setIsReviewSuccess(true);
-    setIsReview(false);
+  const handleReviewSubmit = async (id: string) => {
+    if (!comment) {
+      toast.error('Please add a comment.');
+    } else {
+      setReviewLoading(true);
+      try {
+        const payload = {
+          rating: rating,
+          comment: comment
+        }
+        const res = await productService.createReview({ payload, id });
+
+        if (!res || !res.data) {
+          console.log('id not found');
+          return notFound();
+        }
+
+        if (res.status === 200) {
+          setIsReviewSuccess(true);
+          setIsReview(false);
+          setReviewLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
+        setReviewLoading(false);
+        toast.error('An error occured. Please try again');
+      }
+    }
+
+
   };
 
   if (loading) {
@@ -109,16 +150,16 @@ export default function Reviews() {
           {isReview ? (
             <div className='mt-10 w-full rounded-2xl lg:bg-[#F4F4F4] lg:px-6 py-8'>
               <div className='flex flex-col lg:flex-row items-center justify-between'>
-                <div>
+                <div className='flex flex-col lg:flex-row items-center gap-2'>
                   <Image
-                    className='h-[75px] w-[75px] rounded-[15px] object-contain lg:h-[95px] lg:w-[95px] lg:rounded-3xl'
-                    src='/images/product/save.png'
+                    className='h-[45px] w-[45px] rounded-[10px] object-contain lg:h-[67px] lg:w-[67px] lg:rounded-[10px]'
+                    src={selectedProduct.productImage}
                     alt=''
-                    width={95}
-                    height={95}
+                    width={67}
+                    height={67}
                   />
                   <p className='mb-1 max-w-[475px] text-xs text-black'>
-                    {selectedProduct.product}
+                    {selectedProduct.productName}
                   </p>
                 </div>
                 <div className='flex w-fit flex-col items-center justify-center gap-3 lg:pr-[4%]'>
@@ -140,7 +181,9 @@ export default function Reviews() {
               </div>
               <div className='mt-10 flex items-center justify-center mx-[5%] lg:mx-0'>
                 <Button
-                  onClick={handleReviewSubmit}
+                  loading={reviewLoading}
+                  disabled={reviewLoading}
+                  onClick={() => handleReviewSubmit(selectedProduct.id)}
                   className='h-[50px] w-full max-w-[391px] rounded-full border-0 font-clashmd text-base shadow-none'
                 >
                   Submit your review
@@ -156,14 +199,14 @@ export default function Reviews() {
                 >
                   <Image
                     className='h-[75px] w-[75px] rounded-[15px] object-contain lg:h-[95px] lg:w-[95px] lg:rounded-3xl'
-                    src='/images/product/save.png'
+                    src={order.productImage}
                     alt=''
                     width={95}
                     height={95}
                   />
                   <div className='grid w-full gap-1 lg:hidden'>
                     <p className='mb-1 max-w-[475px] text-xs text-black'>
-                      {order.product}
+                      {order.productName}
                     </p>
                     <div className='flex items-center justify-between'>
                       <p className='text-[10px] text-black'>
@@ -171,7 +214,7 @@ export default function Reviews() {
                       </p>
                       <button
                         onClick={() => handleRateProductClick(order)}
-                        className='font-clashmd text-xs text-primary'
+                        className='font-clashmd text-[8px] text-primary'
                       >
                         Rate this product
                       </button>
@@ -180,7 +223,7 @@ export default function Reviews() {
                   <div className='hidden w-full justify-between lg:flex'>
                     <div>
                       <p className='mb-1 max-w-[475px] text-base text-black'>
-                        {order.product}
+                        {order.productName}
                       </p>
                       <div className='flex items-center gap-5'>
                         <p className='text-sm text-black'>

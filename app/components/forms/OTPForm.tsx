@@ -20,11 +20,11 @@ const OTPForm: React.FC<OTPFormProps> = ({redirectTo}) => {
   const email = decodeURIComponent(searchParams.get('email') || '');
 
   const resendOtp = async () => {
-    const data: any = { email: 'efatomoye@gmail.com' };
+    const data: any = { email: email };
     setLoading(true);
     try {
-      const res = await axios.get(
-        'https://my-home-et-al-backend.onrender.com/api/v1/user/user/resend-otp',
+      const res = await axios.post(
+        'https://my-home-et-al.onrender.com/api/v1/user/resend-otp',
         data
       );
 
@@ -106,7 +106,7 @@ const OTPForm: React.FC<OTPFormProps> = ({redirectTo}) => {
             <span className='text-[#656565]'>
               Didn&apos;t receive the code?
             </span>{' '}
-            <button className='text-[#C70E10]'>Request a new code</button>
+            <button onClick={resendOtp} className='text-[#C70E10]'>Request a new code</button>
           </p>
         </div>
       )}

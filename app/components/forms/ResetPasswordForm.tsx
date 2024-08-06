@@ -8,6 +8,8 @@ import { useState } from 'react';
 import OtpInput from 'react-otp-input';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/16/solid';
 import { authService } from '@/app/services/authService';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 interface Inputs {
   password: string;
@@ -34,6 +36,22 @@ const ResetPasswordForm = () => {
   const [otp, setOtp] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+
+  const resendOtp = async () => {
+    const data: any = { email: email };
+    try {
+      const res = await axios.post(
+        'https://my-home-et-al.onrender.com/api/v1/user/resend-otp',
+        data
+      );
+
+      if (res.status === 200) {
+        toast.success('Code resent!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const {
     register,
@@ -85,7 +103,7 @@ const ResetPasswordForm = () => {
         )}
         <p className='pl-5 pt-3 text-[10px] lg:text-xs'>
           <span>Didn&apos;t receive the code?</span>{' '}
-          <button className='text-primary'>Request a new code</button>
+          <button onClick={resendOtp} className='text-primary'>Request a new code</button>
         </p>
         <div className='my-4'>
           <label htmlFor='password' className='pl-5 font-clashmd text-xs'>

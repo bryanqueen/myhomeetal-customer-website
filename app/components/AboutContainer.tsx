@@ -1,7 +1,6 @@
 'use client';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import AboutHeader from './AboutHeader';
 import VoidCard from './VoidCard';
 

@@ -35,7 +35,7 @@ export default function PurchasingHistory() {
           const extractedProducts = reversedOrders.flatMap((order) =>
             order.orderItems
               .filter((item) => 
-                order.status === 'Pending' || order.status === 'Completed'
+                order.status === 'Ongoing' || order.status === 'Completed'
               )
               .map((item) => ({
                 productId: order.orderId,
@@ -97,12 +97,12 @@ export default function PurchasingHistory() {
                   <p
                     className={cn('w-fit rounded-full px-[10px] py-[5px]', {
                       'bg-[#F8BCBC] font-clashmd text-[8px] text-[#8B1A1A]':
-                        order.status === 'Completed',
+                        order.orderStatus === 'Completed',
                       'bg-[#BAD9F7] font-clashmd text-[8px] text-[#1673CC]':
                         order.orderStatus === 'Pending',
 
                       'bg-[#BAF7BA] font-clashmd text-[8px] text-[#1B691B]':
-                        order.status === 'Ongoing',
+                        order.orderStatus === 'Ongoing',
                     })}
                   >
                     {order.orderStatus}
@@ -121,12 +121,12 @@ export default function PurchasingHistory() {
                     <p
                       className={cn('w-fit rounded-full px-5 py-2', {
                         'bg-[#F8BCBC] text-[10px] text-[#8B1A1A] lg:text-sm':
-                          order.status === 'Completed',
+                          order.orderStatus === 'Completed',
                         'bg-[#BAD9F7] text-[10px] text-[#1673CC] lg:text-sm':
                           order.orderStatus === 'Pending',
 
                         'bg-[#BAF7BA] text-[10px] text-[#1B691B] lg:text-sm':
-                          order.status === 'Ongoing',
+                          order.orderStatus === 'Ongoing',
                       })}
                     >
                       {order.orderStatus}

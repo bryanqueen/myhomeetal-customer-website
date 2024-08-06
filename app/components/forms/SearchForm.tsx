@@ -56,7 +56,7 @@ const SearchForm = () => {
 
     // Fetch data from API using POST request
     fetch(
-      `https://my-home-et-al-backend.onrender.com/api/v1/product/search?query=${query}`,
+      `https://my-home-et-al.onrender.com/api/v1/product/search?query=${query}`,
       {
         method: 'POST',
         headers: {

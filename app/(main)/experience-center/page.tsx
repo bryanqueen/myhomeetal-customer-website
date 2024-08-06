@@ -12,7 +12,7 @@ export default function page() {
   };
   return (
     <main className='pt-20 lg:pt-0'>
-      <div className='bg-black flex items-center justify-center py-5 w-full relative'>
+      <div className='bg-black mt-2 lg:mt-0 flex items-center justify-center py-5 w-full relative'>
         <button
           onClick={handleBack}
           className='items-center absolute left-4 lg:left-10 text-sm text-white lg:flex'

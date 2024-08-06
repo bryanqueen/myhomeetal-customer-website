@@ -64,7 +64,6 @@ export default function ReferralDashBoard({ userInfo }: AccountDashboardProps) {
             </button>
           </div>
         </ClientOnly>
-        <p className='hidden text-base text-[#525252] lg:block'>Share on:</p>
       </div>
       <Image
         src='/images/referralIcon5.svg'

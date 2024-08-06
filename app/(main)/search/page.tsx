@@ -25,7 +25,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
     };
 
     const response = await fetch(
-      `https://my-home-et-al-backend.onrender.com/api/v1/product/search?query=${query}`,
+      `https://my-home-et-al.onrender.com/api/v1/product/search?query=${query}`,
       {
         method: 'POST',
         headers: {

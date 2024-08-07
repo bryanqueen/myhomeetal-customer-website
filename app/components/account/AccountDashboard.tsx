@@ -40,7 +40,7 @@ export default function AccountDashboard({ userInfo }: AccountDashboardProps) {
                 </div>
               )}
 
-              <div className='max-w-[189px]'>
+              <div className='max-w-fit'>
                 <div className='rounded-[10px] border-[0.5px] border-dotted border-black px-4 py-3 text-[10px] text-[#525252]'>
                   <p className='mb-1'>Email address: {userInfo.email}</p>
                   {userInfo?.phone_number ? (

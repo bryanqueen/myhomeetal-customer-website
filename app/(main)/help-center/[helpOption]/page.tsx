@@ -15,7 +15,7 @@ export default function HelpOptionPage({ params }: { params: Params }) {
             <Shop variant='Bulk' size='24' color='white' />
           </div>
           <h3 className='text-base text-center font-clashmd lg:text-xl'>{params?.helpOption}</h3>
-          <p className='max-w-[90%] lg:max-w-[367px] text-center text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
+          <p className='max-w-[90%] mx-auto lg:max-w-[367px] text-center text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
         </div>
       </div>
 

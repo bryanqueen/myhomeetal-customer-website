@@ -43,7 +43,7 @@ const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
   const [vat, setVat] = useState(0);
   const [error, setError] = useState('');
   const [isPayMethodToggle, setIsPayMethodToggle] = useState(false);
-  const [isFundAccount, setIsFundAccount] = useState(false);
+  const [isFundAccount, setIsFundAccount] = useState(true);
   const [isFundSuccess, setIsFundSuccess] = useState(null); // null indicates no success or failure yet
 
   const handleFundAccount = () => {
@@ -189,23 +189,28 @@ const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
                 Copy the account details below and proceed to make the payment
                 using your preferred banking method.
               </p>
-              <div className='flex items-center gap-4'>
-                <p className='font-clashmd text-base capitalize text-myGray lg:text-[25px]'>
-                  {wallet.bank_name?.toLowerCase()}{' '}
-                  <span className='mx-1'>|</span>{' '}
-                  <span className='text-primary' id='accountNumber'>
-                    {accountNumber}
-                  </span>
-                </p>
-                <Image
-                  src='/images/clip.svg'
-                  width={24.5}
-                  height={32.67}
-                  alt='clipboard icon'
-                  className='cursor-pointer'
-                  onClick={copyToClipboard}
-                />
+              <div>
+                <div className='flex items-center gap-4'>
+                  <p className='font-clashmd text-base capitalize text-myGray lg:text-[25px]'>
+                    {wallet.bank_name?.toLowerCase()}{' '}
+                    <span className='mx-1'>|</span>{' '}
+                    <span className='text-primary' id='accountNumber'>
+                      {accountNumber}
+                    </span>
+                  </p>
+                  <Image
+                    src='/images/clip.svg'
+                    width={24.5}
+                    height={32.67}
+                    alt='clipboard icon'
+                    className='cursor-pointer'
+                    onClick={copyToClipboard}
+                  />
+                </div>
+                <p className='text-xs mt-1 text-myGray text-center'>0.6 % Fee on all transaction</p>
               </div>
+
+
               <Button
                 onClick={() => handleSentFund()} // Simulate a success case for testing
                 className='mb-2 mt-5 w-full gap-2 rounded-lg border-0 p-4 font-clashmd text-base shadow-none'

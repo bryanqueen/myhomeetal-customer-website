@@ -61,7 +61,7 @@ const NavDropdown = ({
   return (
     <div className=' flex items-center'>
       <button
-        className='flex w-full items-center justify-between gap-1 text-base hover:text-[#8B1A1A] font-clashmd text-myGray transition'
+        className='flex w-full items-center whitespace-nowrap justify-between gap-1 text-base hover:text-[#8B1A1A] font-clashmd text-myGray transition'
         aria-expanded={isOpen ? 'true' : 'false'}
         onClick={() => onToggle(!isOpen)}
         onMouseEnter={() => onToggle(true)}

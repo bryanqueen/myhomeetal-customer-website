@@ -95,15 +95,15 @@ const DesktopNav = () => {
         />
         <Link
           href='/deals'
-          className='font-clashmd text-base text-myGray hover:text-[#8B1A1A]'
+          className='font-clashmd whitespace-nowrap text-base text-myGray hover:text-[#8B1A1A]'
         >
-        My  Deals
+          My  Deals
         </Link>
         <Link
           href='/referral-page'
-          className='font-clashmd text-base text-myGray hover:text-[#8B1A1A]'
+          className='font-clashmd whitespace-nowrap text-base text-myGray hover:text-[#8B1A1A]'
         >
-        My  Referrals
+          My  Referrals
         </Link>
       </div>
 

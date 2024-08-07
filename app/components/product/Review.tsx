@@ -121,7 +121,7 @@ export const Review = ({ review }: Props) => {
                 <RatingProgress
                   key={star}
                   star={Number(star)}
-                  percent={ratingDistribution[star]}
+                  percent={ratingDistribution[star].toFixed(1)}
                 />
               ))}
           </div>

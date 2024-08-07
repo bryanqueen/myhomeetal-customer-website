@@ -205,7 +205,7 @@ const ProductOverview = ({ data, reviewData }: Props) => {
                   <div className='flex gap-3 items-center py-3 lg:hidden'>
                     <p className='mr-1 flex items-center gap-1 text-[10px] text-xs lg:text-sm lg:font-semibold'>
                       <StarIcon width={16} className='mt-[-3px] text-primary' />
-                      {averageRating}
+                      {averageRating.toFixed(1)}
                     </p>
 
                     <span className='text-[10px]'>
@@ -217,7 +217,7 @@ const ProductOverview = ({ data, reviewData }: Props) => {
                       Ratings
                     </p>
                     <div>
-                      <span className='ml-1'>{averageRating}</span>{' '}
+                      <span className='ml-1'>{averageRating.toFixed(1)}</span>{' '}
                       <Rating
                         initialValue={averageRating}
                         readonly={true}

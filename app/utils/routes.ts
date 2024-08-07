@@ -21,6 +21,7 @@ export const ROUTES = {
   NOTIFICATIONS: '/account/notifications',
   SAVED_ITEMS: '/account/saved-items',
   REFERRAL: '/account/my-referrals',
+  DEVS: '/account/meet-the-devs',
   REFERRAL2: '/referral-page',
   SECURITY: '/account/security',
   ADDRESS_BOOK: '/account/address-book',

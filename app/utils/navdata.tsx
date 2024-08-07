@@ -11,6 +11,7 @@ import {
   Bag,
   Profile2User,
   Messages3,
+  Cpu,
 } from 'iconsax-react';
 
 import { ROUTES } from './routes';
@@ -63,6 +64,11 @@ export const accountNav = [
     icon: <CloseSquare variant='Bulk' />,
     link: ROUTES.CLOSE_ACCOUNT,
   },
+  {
+    text: 'Meet the Devs',
+    icon: <Cpu variant='Outline' />,
+    link: ROUTES.DEVS,
+  },
 ];
 
 export const accountNav3 = [
@@ -111,6 +117,11 @@ export const accountNav3 = [
     text: 'Close Account',
     icon: <CloseSquare variant='Bulk' color='#292D32' />,
     link: ROUTES.CLOSE_ACCOUNT,
+  },
+  {
+    text: 'Meet the Devs',
+    icon: <Cpu variant='Bulk' color='#292D32' />,
+    link: ROUTES.DEVS,
   },
   {
     text: 'Logout',

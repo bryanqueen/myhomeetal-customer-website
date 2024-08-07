@@ -45,18 +45,19 @@ const WalletAccount: React.FC<WalletAccountProps> = ({ wallet }) => {
           My Wallet{' '}
         </p>
       </div>
-      <div className='mb-10 flex flex-col justify-center gap-5 lg:relative lg:pt-0 xl:flex-row'>
+      <div className='lg:mb-7 flex flex-col justify-center gap-5 lg:relative lg:pt-0 xl:flex-row'>
         <div className='absolute left-5 hidden shrink-0 gap-3 lg:grid'>
           <h1 className='font-clashmd text-3xl text-myGray'>My Wallet</h1>
         </div>
-        <div className='pt-5 lg:pt-0'>
-          {funds &&
-            (wallet.balance > 0 ? (
+        {funds && (
+          <div className='py-5 lg:pt-0'>
+            {wallet.balance > 0 ? (
               <StepsIndicator currentStep={4} />
             ) : (
               <StepsIndicator currentStep={3} />
-            ))}
-        </div>
+            )}
+          </div>
+        )}
       </div>
 
       <WalletBalanceCard wallet={wallet} />

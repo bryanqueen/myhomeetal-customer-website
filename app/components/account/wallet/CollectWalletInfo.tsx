@@ -298,7 +298,10 @@ const PersonalInfo: React.FC<PersonalProps> = ({
           <label className='font-clashmd text-[8px] text-black lg:text-xs'>
             Date of Birth
           </label>
-          <DatePickerModal onDateSelect={handleDateSelect} />
+          <div className='relative'>
+            <input name='dob' placeholder='YYYY-MM-DD' value={dob} onChange={(e) => setDob(e.target.value)} className='h-[60px] w-full rounded-[10px] placeholder:text-black bg-[#F4F4F4] px-5 text-xs lg:h-[70px] lg:border lg:border-[#D9D9D9] lg:bg-white lg:text-sm' />
+            <Image src='/Calendar.svg' width={15} height={15} alt='calendar icon' className='absolute top-[50%] translate-y-[-50%] right-5' />
+          </div>
         </div>
         <button
           onClick={submit}

@@ -75,10 +75,6 @@ const contents: Content[] = [
         title: 'Contact Us',
         link: '/contact',
       },
-      {
-        title: 'Newsletter Signup',
-        link: '#newsletter',
-      },
     ],
   },
   {
@@ -144,27 +140,27 @@ const contents: Content[] = [
     items: [
       {
         title: 'Everyday Use Notebooks',
-        link: '/blog',
+        link: '/blog/Everyday Use Notebooks',
       },
       {
-        title: 'Hisense',
-        link: '/blog',
+        title: 'Revolutionizing Online Shopping',
+        link: '/blog/Revolutionizing Online Shopping',
       },
       {
-        title: 'Lontor',
-        link: '/blog',
+        title: 'The Rise of Myhomeetal',
+        link: '/blog/The Rise of Myhomeetal',
       },
       {
-        title: 'Samsung',
-        link: '/blog',
+        title: "Exploring Myhomeetal's Impact ",
+        link: "/blog/Exploring Myhomeetal's Impact",
       },
       {
-        title: 'Hewellet Packard',
-        link: '/blog',
+        title: "MyHomeEtal's Vision for E-commerce",
+        link: "/blog/MyHomeEtal's Vision for E-commerce",
       },
       {
-        title: 'See All',
-        link: '/blog',
+        title: 'Why MyHomeetal is the Next Big Thing',
+        link: '/blog/Why MyHomeetal is the Next Big Thing',
       },
     ],
   },
@@ -175,10 +171,17 @@ const MainFooter: React.FC = () => {
     app_id: 'l4tx2a9y',
   });
   const currentYear = new Date().getFullYear();
+  const handleScroll = (event, targetId) => {
+    event.preventDefault();
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className='bg-black px-[3%] py-6 lg:py-10 lg:pb-8'>
-      <div id='#newsletter'>
+      <div id='newsletter'>
         <Newsletter />
       </div>
 
@@ -198,7 +201,13 @@ const MainFooter: React.FC = () => {
                 <ul className='mt-3'>
                   {content.items.map((item, i) => (
                     <li className='mb-2 text-sm' key={i}>
-                      <Link href={item.link}>{item.title}</Link>
+                      {item.title === "Newsletter Signup" ? (
+                        <a href="#newsletter" onClick={(e) => handleScroll(e, "newsletter")}>
+                          {item.title}
+                        </a>
+                      ) : (
+                        <Link href={item.link}>{item.title}</Link>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -231,15 +240,15 @@ const MainFooter: React.FC = () => {
               &copy; {currentYear} - MyHomeetal | All Rights Reserved
             </div>
             <div className='mx-auto flex min-w-[296px] items-center justify-between lg:mx-0 lg:min-w-0 lg:space-x-4'>
-              <Link href='#' className='text-xs'>
+              <Link href='/privacyPolicy' className='text-xs'>
                 Privacy Policy
               </Link>
-              <Link href='#' className='text-xs'>
+              <Link href='/termsOfUse' className='text-xs'>
                 Term Of Use
               </Link>
-              <Link href='#' className='text-xs'>
+              <p className='text-xs'>
                 Cookie Settings
-              </Link>
+              </p>
             </div>
           </div>
         </div>

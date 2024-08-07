@@ -5,7 +5,7 @@ import AboutHeader from './AboutHeader';
 import VoidCard from './VoidCard';
 import Image from 'next/image';
 
-export default function BlogContainer() {
+export default function BlogContainer({ title }) {
   const router = useRouter();
 
   const handleBack = () => {
@@ -22,7 +22,7 @@ export default function BlogContainer() {
           Back
         </button>
       </div>
-      <AboutHeader time='5 min article' page='Revamp Your Closet: Must-Have Fashion Pieces This Summer' />
+      <AboutHeader time='5 min article' page={title} />
       <section className='mt-20'>
         <div className='relative flex items-center justify-center'>
           <Image src='https://ik.imagekit.io/krr3p3joi/tr:w-1500,h-521/image%2033.png?updatedAt=1722961177785' width={1500} height={521} alt='experience center' className='h-[600px] lg:h-[572px] rounded-[20px] w-[97%] lg:w-[90%] object-cover' />

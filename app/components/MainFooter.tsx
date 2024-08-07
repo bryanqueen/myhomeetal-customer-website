@@ -180,8 +180,8 @@ const MainFooter: React.FC = () => {
   };
 
   return (
-    <div className='bg-black px-[3%] py-6 lg:py-10 lg:pb-8'>
-      <div id='newsletter'>
+    <div id='newsletter' className='bg-black px-[3%] py-6 lg:py-10 lg:pb-8'>
+      <div>
         <Newsletter />
       </div>
 

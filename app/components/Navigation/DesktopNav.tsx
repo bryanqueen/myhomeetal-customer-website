@@ -35,11 +35,6 @@ const myAccount = [
   { text: 'Create an account', link: ROUTES.SIGNUP },
   { text: 'Login now', link: ROUTES.LOGIN },
 ];
-const help = [
-  { text: 'Help & Support', link: ROUTES.HELP },
-  { text: 'Privacy Policy', link: ROUTES.HOME },
-  { text: 'Term of Use', link: ROUTES.HOME },
-];
 
 const DesktopNav = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -90,9 +85,9 @@ const DesktopNav = () => {
         </Link>
         <NavDropdown
           id='categories-dropdown'
-          target='Categories'
+          target='My Categories'
           items={categories.map((category) => ({
-            text: category.name,
+            text: `My ${category.name}`,
             link: `/category/${category.name}?categoryId=${category._id}`,
           }))}
           contentClassName='grid list-none gap-x-3 sm:grid-cols-[1fr_1fr_1fr] w-[50vw]'
@@ -102,13 +97,13 @@ const DesktopNav = () => {
           href='/deals'
           className='font-clashmd text-base text-myGray hover:text-[#8B1A1A]'
         >
-          Deals
+        My  Deals
         </Link>
         <Link
           href='/referral-page'
           className='font-clashmd text-base text-myGray hover:text-[#8B1A1A]'
         >
-          Referrals
+        My  Referrals
         </Link>
       </div>
 
@@ -146,33 +141,25 @@ const DesktopNav = () => {
             </NavDropdown>
           )}
         </ClientOnly>
-        <NavDropdown
-          id='help-dropdown'
-          target={
-            <>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={2}
-                stroke='#464646'
-                className='size-5'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z'
-                />
-              </svg>
-              <p className='font-clashmd text-base text-myGray hover:text-[#8B1A1A]'>
-                Help
-              </p>
-            </>
-          }
-          items={help}
-          contentClassName='w-[243px]'
-          position='right-[30px]'
-        ></NavDropdown>
+        <Link className='flex items-center gap-1' href={ROUTES.HELP_CENTER}>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={2}
+            stroke='#464646'
+            className='size-5'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z'
+            />
+          </svg>
+          <p className='font-clashmd text-base text-myGray hover:text-[#8B1A1A]'>
+            Help
+          </p>
+        </Link>
         <ClientOnly>
           <NavDropdown
             id='cart-dropdown'
@@ -186,7 +173,7 @@ const DesktopNav = () => {
                   )}
                   <ShoppingCart size={20} variant='Bulk' color='#464646' />
                 </div>
-                Cart
+                My Cart
               </>
             }
             contentClassName='right-0 p-2 w-[257px]'

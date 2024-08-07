@@ -10,6 +10,7 @@ export const ROUTES = {
   CHECKOUT: '/checkout',
   ONLINE: '/checkout/online-payment',
   HELP: 'https://intercom.help/myhomeetal/en?reload',
+  HELP_CENTER: '/help-center',
   SHOPS: '/shops',
   DEALS: '/deals',
   ORDER_CONFIRMED: '/order-confirmed',

@@ -24,3 +24,25 @@ export interface User {
   email_alert: boolean;
   mobile_number: string;
 }
+
+export interface CartIt {
+  _id: string;
+  productTitle: string;
+  price: string;
+  images: string[];
+  brand: string;
+  quantity: number;
+}
+
+export interface CartState {
+  cart: CartIt[];
+  loading: boolean;
+  error: string | null;
+  totalAmount: number;
+}
+
+export interface CartContextProps extends CartState {
+  addToCart: (item: CartIt) => void;
+  removeFromCart: (itemId: string) => void;
+  updateQuantity: (itemId: string, quantity: number) => void;
+}

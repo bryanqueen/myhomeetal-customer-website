@@ -1,3 +1,4 @@
+import Button from '@/app/components/Button';
 import Image from 'next/image';
 import React from 'react';
 
@@ -51,9 +52,9 @@ export default function MeetTheDevPage() {
           <div className='grid gap-1'>
             <a
               className='flex items-center gap-1 font-clashmd text-base text-black'
-              href='mailto:mails@championlogistics.org.ng'
+              href='mailto:Customercare@myhometal.com'
             >
-              mails@championlogistics.org.ng{' '}
+              Customercare@myhometal.com{' '}
               <Image src='/arrow.svg' width={20} height={20} alt='arrow' />
             </a>
 
@@ -77,24 +78,7 @@ export default function MeetTheDevPage() {
             </a>
           </div>
         </div>
-        <div className='grid gap-5'>
-          <div className='grid gap-2'>
-            <h3 className='bodyText font-clashmd text-primary'>Visit us</h3>
-            <p className='text-sm lg:text-base'>
-              Chat with us in person at out Lagos HQ
-            </p>
-          </div>
-          <div className='grid gap-1'>
-            <a
-              className='flex max-w-[280px] items-center gap-1 font-clashmd text-base text-black lg:max-w-[342px]'
-              href='https://www.google.com/maps/place/11B, Kaara Street, Off Osolo Way, Ajao Estate, Oshodi/Isolo LGA, Lagos'
-            >
-              11B, Kaara Street, Off Osolo Way, Ajao Estate, Oshodi/Isolo LGA,
-              Lagos
-              <Image src='/arrow.svg' width={20} height={20} alt='arrow' />
-            </a>
-          </div>
-        </div>
+        <Button linkType='rel' href='/' className='mt-10 shadow-none border-0 h-[50px] lg:h-[56px] font-clashmd text-white rounded-full max-w-[516px] w-full mx-auto'>Visit Our Website</Button>
       </section>
     </main>
   );

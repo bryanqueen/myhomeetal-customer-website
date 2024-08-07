@@ -6,6 +6,7 @@ import { RegionProvider } from './RegionProvider';
 import { UIProvider } from './providers';
 import { PopupProvider } from './PopupProvider';
 import { AddressBookProvider } from './addressBookProvider';
+import { CartProvider } from './CartProvider';
 
 export const metadata: Metadata = {
   title: 'MYHOMEETAL - Your one stop shop',
@@ -24,7 +25,11 @@ export default function RootLayout({
         <AddressBookProvider>
           <PopupProvider>
             <RegionProvider>
-              <UIProvider>{children}</UIProvider>
+              <UIProvider>
+              
+                  {children}
+                
+              </UIProvider>
             </RegionProvider>
           </PopupProvider>
         </AddressBookProvider>

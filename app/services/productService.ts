@@ -12,11 +12,17 @@ const productService = {
   getReview: async (id?: string) => {
     return await apiUtils.getRequest(`${api.REVIEW}${id}`);
   },
+  getCart: async () => {
+    return await apiUtils.getRequest(`${api.CART}`);
+  },
   getUserReferrals: async () => {
     return await apiUtils.getRequest(`${api.GET_REFERRALS}`);
   },
   saveProduct: async ({ payload, id }: { payload: any; id: string }) => {
     return await apiUtils.postRequest(`user/save-item/${id}`, payload);
+  },
+  addToCart: async (id: string ) => {
+    return await apiUtils.postRequest(`${api.CART}/${id}`);
   },
   payWithWallet: async (payload: { orderId: any; narration: string; amount: number; from_account_number: any }) => {
     return await apiUtils.postRequest(`payment/wallet`, payload);

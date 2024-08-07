@@ -51,7 +51,7 @@ const apiUtils = {
   getRequest: async (url: string): Promise<AxiosResponse> => {
     return await axios.get(`${constants.V1_BASE_API_URL}${url}`, axiosConfig);
   },
-  postRequest: async (url: string, payload: any): Promise<AxiosResponse> => {
+  postRequest: async (url: string, payload?: any): Promise<AxiosResponse> => {
     return await axios.post(`${constants.V1_BASE_API_URL}${url}`, payload, axiosConfig);
   },
   putRequest: async (url: string, payload: any): Promise<AxiosResponse> => {

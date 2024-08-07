@@ -60,7 +60,7 @@ export default function DesktopCategoryContainer({
         <div className='sticky z-20 top-[80px] mb-5 flex items-center justify-between bg-white'>
           {products && (
             <p className='text-xs md:text-sm'>
-              Showing over {products.length} results for &quot;{categoryName}
+              Showing over {products.length} results for &quot;My {categoryName}
               &quot;
             </p>
           )}

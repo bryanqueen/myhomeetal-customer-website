@@ -19,7 +19,7 @@ export default function AccountDashboard({ userInfo }: AccountDashboardProps) {
   return (
     <ClientOnly>
       <div>
-        <div className='rounded-[10px] bg-[#FFF1F1] px-4 py-5 lg:rounded-2xl lg:bg-[image:url(/images/account/info-bg-md.png)] lg:bg-[size:initial] lg:bg-[position:110%] lg:bg-no-repeat lg:px-5 lg:py-8'>
+        <div className='rounded-[10px] mt-5 lg:mt-0 bg-[#FFF1F1] px-4 py-5 lg:rounded-2xl lg:bg-[image:url(/images/account/info-bg-md.png)] lg:bg-[size:initial] lg:bg-[position:110%] lg:bg-no-repeat lg:px-5 lg:py-8'>
           <h1 className='text-sm text-black lg:font-clashmd lg:text-4xl lg:text-myGray'>
             Welcome, {userInfo.firstname}
           </h1>
@@ -41,10 +41,10 @@ export default function AccountDashboard({ userInfo }: AccountDashboardProps) {
               )}
 
               <div className='max-w-[189px]'>
-                <div className='rounded-[10px] border-[0.5px] border-dotted border-black px-4 py-3 text-[8px] text-[#525252]'>
+                <div className='rounded-[10px] border-[0.5px] border-dotted border-black px-4 py-3 text-[10px] text-[#525252]'>
                   <p className='mb-1'>Email address: {userInfo.email}</p>
                   {userInfo?.phone_number ? (
-                    <p className=''>Phone number: +{userInfo.phone_number}</p>
+                    <p className=''>Phone number: {userInfo.phone_number}</p>
                   ) : (
                     <p className=''>Add Phone Number</p>
                   )}
@@ -52,14 +52,14 @@ export default function AccountDashboard({ userInfo }: AccountDashboardProps) {
               </div>
             </div>
           </div>
-          <div className='mb-4 mt-1 hidden md:block'>
+          <div className='mb-4 mt-1 hidden lg:block'>
             <p className='text-base text-[#525252]'>
               Thanks for being a Myhomeetal customer 🌟
             </p>
             <div className='mt-5 flex max-w-fit gap-5 rounded-full border border-dotted border-[#BDBDBD] p-2 px-5 text-base text-[#525252]'>
               <span className='shrink-0'>Email address: {userInfo.email}</span>
               {userInfo?.phone_number ? (
-                <p className=''>Phone number: +{userInfo.phone_number}</p>
+                <p className=''>Phone number: {userInfo.phone_number}</p>
               ) : (
                 <p className=''>Add Phone Number</p>
               )}

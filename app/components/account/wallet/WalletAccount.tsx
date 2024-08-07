@@ -45,7 +45,7 @@ const WalletAccount: React.FC<WalletAccountProps> = ({ wallet }) => {
           My Wallet{' '}
         </p>
       </div>
-      <div className='lg:mb-7 flex flex-col justify-center gap-5 lg:relative lg:pt-0 xl:flex-row'>
+      <div className='lg:mb-7 pt-5 flex flex-col justify-center gap-5 lg:relative lg:pt-0 xl:flex-row'>
         <div className='absolute left-5 hidden shrink-0 gap-3 lg:grid'>
           <h1 className='font-clashmd text-3xl text-myGray'>My Wallet</h1>
         </div>

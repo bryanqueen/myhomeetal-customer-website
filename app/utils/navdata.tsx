@@ -153,7 +153,7 @@ export const hamburgerNav = [
   {
     text: 'Help Center',
     icon: <UserTick variant='Bulk' color='#292D32' />,
-    link: ROUTES.HELP,
+    link: ROUTES.HELP_CENTER,
   },
   {
     select: {

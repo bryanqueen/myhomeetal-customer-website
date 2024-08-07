@@ -9,7 +9,7 @@ export default function HelPage() {
       <section className='bg-primary py-14 px-[3%] grid gap-10'>
         <div>
           <h3 className='text-white mb-2 lg:text-[25px] font-clashmd text-xl'>Help Center</h3>
-          <p className='text-whitemax-w-[90%] lg:max-w-[762px] text-xs lg:text-base lg:leading-[19.68px]'>Find guides and find quick solutions to common questions across six categories. From payment to resolving account issues.  If you have any questions, our support team is just a click away. Let's make your experience exceptional!</p>
+          <p className='text-white max-w-[90%] lg:max-w-[762px] text-xs lg:text-base lg:leading-[19.68px]'>Find guides and find quick solutions to common questions across six categories. From payment to resolving account issues.  If you have any questions, our support team is just a click away. Let's make your experience exceptional!</p>
         </div>
 
         <div className='flex flex-col lg:flex-row lg:items-center gap-5'>
@@ -57,7 +57,7 @@ export default function HelPage() {
                   <h3 className='text-base font-clashmd lg:text-xl'>Payments</h3>
                   <Image src='/arrow2.svg' width={20} height={20} alt='arrow' />
                 </div>
-                <p className='lg:max-w-[299px] text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
+                <p className='lg:max-w-[299px] max-w-[80%] text-xs lg:text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
               </div>
             </div>
           </Link>
@@ -71,7 +71,7 @@ export default function HelPage() {
                   <h3 className='text-base font-clashmd lg:text-xl'>Delivery</h3>
                   <Image src='/arrow2.svg' width={20} height={20} alt='arrow' />
                 </div>
-                <p className='lg:max-w-[299px] text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
+                <p className='lg:max-w-[299px] max-w-[80%] text-xs lg:text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
               </div>
             </div>
           </Link>
@@ -85,7 +85,7 @@ export default function HelPage() {
                   <h3 className='text-base font-clashmd lg:text-xl'>Orders</h3>
                   <Image src='/arrow2.svg' width={20} height={20} alt='arrow' />
                 </div>
-                <p className='lg:max-w-[299px] text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
+                <p className='lg:max-w-[299px] max-w-[80%] text-xs lg:text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
               </div>
             </div>
           </Link>
@@ -99,7 +99,7 @@ export default function HelPage() {
                   <h3 className='text-base font-clashmd lg:text-xl'>Referrals</h3>
                   <Image src='/arrow2.svg' width={20} height={20} alt='arrow' />
                 </div>
-                <p className='lg:max-w-[299px] text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
+                <p className='lg:max-w-[299px] max-w-[80%] text-xs lg:text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
               </div>
             </div>
           </Link>
@@ -113,7 +113,7 @@ export default function HelPage() {
                   <h3 className='text-base font-clashmd lg:text-xl'>Account</h3>
                   <Image src='/arrow2.svg' width={20} height={20} alt='arrow' />
                 </div>
-                <p className='lg:max-w-[299px] text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
+                <p className='lg:max-w-[299px] max-w-[80%] text-xs lg:text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
               </div>
             </div>
           </Link>
@@ -127,7 +127,7 @@ export default function HelPage() {
                   <h3 className='text-base font-clashmd lg:text-xl'>Stores</h3>
                   <Image src='/arrow2.svg' width={20} height={20} alt='arrow' />
                 </div>
-                <p className='lg:max-w-[299px] text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
+                <p className='lg:max-w-[299px] max-w-[80%] text-xs lg:text-sm leading-[17.22px]'>Comprehensive guide to payment processes in the help centre.</p>
               </div>
             </div>
           </Link>

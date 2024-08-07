@@ -67,7 +67,7 @@ const SearchForm = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setSuggestedProducts(data.slice(0, 5));
+        setSuggestedProducts(data.slice(0, 5).reverse());
       })
       .catch((error) => {
         console.error('Error fetching data:', error);

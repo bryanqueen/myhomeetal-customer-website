@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function CategoriesContainer({ categories }: any) {
   return (
-    <div className='min-h-[100vh]'>
+    <div>
       <div className='grid grid-cols-3 px-[2%] gap-y-7 pt-7'>
         {categories &&
           categories.map((category) => {

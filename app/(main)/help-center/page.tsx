@@ -25,7 +25,7 @@ export default function HelPage() {
           <div>
             <a
               className='font-clashmd flex items-center gap-1 text-base text-white'
-              href='tel:+2348033204203'
+              href='tel:+234907549201'
             >
               <CallCalling variant='Bulk' color='white' size='24' />
               <p>0907549201</p>
@@ -35,7 +35,7 @@ export default function HelPage() {
           <div>
             <a
               className='font-clashmd flex items-center gap-1 text-base text-white'
-              href='tel:+2348033204203'
+              href='tel:+234907549201'
             >
               <CallCalling variant='Bulk' color='white' size='24' />
               <p>0907549201</p>

@@ -7,6 +7,7 @@ export const ROUTES = {
   NEWSLETTER: '/newsletter',
   PRODUCT: (id: string) => `/item/${id}`,
   CART: '/cart',
+  CARTEGORIES: '/categories',
   CHECKOUT: '/checkout',
   ONLINE: '/checkout/online-payment',
   HELP: 'https://intercom.help/myhomeetal/en?reload',

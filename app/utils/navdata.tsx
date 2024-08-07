@@ -12,6 +12,7 @@ import {
   Profile2User,
   Messages3,
   Cpu,
+  Category2,
 } from 'iconsax-react';
 
 import { ROUTES } from './routes';
@@ -130,6 +131,11 @@ export const accountNav3 = [
   },
 ];
 export const hamburgerNav = [
+  {
+    text: 'My Categories',
+    icon: <Category2 variant='Bulk' color='#292D32' />,
+    link: ROUTES.CARTEGORIES,
+  },
   {
     text: 'My Deals',
     icon: <Bag variant='Bulk' color='#292D32' />,

@@ -1,5 +1,8 @@
 'use client';
 
+import { useRegion } from "@/app/RegionProvider";
+import ProductPrice from "../../product/ProductPrice";
+
 interface WalletTrans {
   _id: string;
   amount: number;
@@ -12,6 +15,7 @@ interface WalletAccountProps {
 }
 
 const RecentTransactions: React.FC<WalletAccountProps> = ({ walletTrans }) => {
+  const { region } = useRegion();
   function formatDate(dateString) {
     const date = new Date(dateString);
 
@@ -49,11 +53,19 @@ const RecentTransactions: React.FC<WalletAccountProps> = ({ walletTrans }) => {
                 className='flex justify-between gap-3 rounded-[10px] border border-[#F4F4F4] p-5'
               >
                 <p className='max-w-[206px] text-xs text-black'>
-                  {tran._id}
+                  {tran.type === 'Purchase' ? <span>Order ID: <br />#{tran._id}</span> : 'Funds Deposited'}
                 </p>
                 <div className='grid min-w-fit justify-items-end'>
-                  <span className='font-clashmd text-xs text-[#B22222]'>
-                    {tran.amount}
+                  <span className={`font-clashmd text-xs ${tran.type === 'Purchase' ? 'text-[#B22222]' : 'text-[#1B691B]'}`}>
+                    {tran.type === 'Purchase' ? (
+                      <>
+                        - <ProductPrice priceInNGN={tran.amount} region={region} />
+                      </>
+                    ) : (
+                      <>
+                        + <ProductPrice priceInNGN={tran.amount} region={region} />
+                      </>
+                    )}
                   </span>
                   <span className='text-[10px] text-black'>{formatDate(tran.date)}</span>
                 </div>
@@ -76,11 +88,20 @@ const RecentTransactions: React.FC<WalletAccountProps> = ({ walletTrans }) => {
             {walletTrans.map((tran, i) => (
               <div key={i} className='flex justify-between gap-3 py-4'>
                 <p className='max-w-[475px] text-base text-myGray'>
-                  {tran._id}
+                  {tran.type === 'Purchase' ? `Order ID:#${tran._id}` : 'Funds Deposited'}
                 </p>
                 <div className='grid min-w-fit justify-items-end'>
-                  <span className='font-clashmd text-xl text-[#B22222]'>
-                    {tran.amount}
+                  <span className={`font-clashmd text-xl ${tran.type === 'Purchase' ? 'text-[#B22222]' : 'text-[#1B691B]'} `}>
+                    {tran.type === 'Purchase' ? (
+                      <>
+                        - <ProductPrice priceInNGN={tran.amount} region={region} />
+                      </>
+                    ) : (
+                      <>
+                        + <ProductPrice priceInNGN={tran.amount} region={region} />
+                      </>
+                    )}
+
                   </span>
                   <span className='text-sm text-[#989898]'>{formatDate(tran.date)}</span>
                 </div>

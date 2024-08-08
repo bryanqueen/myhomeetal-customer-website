@@ -68,7 +68,7 @@ const WalletAccount: React.FC<WalletAccountProps> = ({ wallet, walletTrans }) =>
         )}
       </div>
 
-      <div className='mt-10'>
+      <div className='lg:mt-10'>
         <WalletBalanceCard wallet={wallet} walletTrans={walletTrans} />
       </div>
 

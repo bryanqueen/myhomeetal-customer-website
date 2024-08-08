@@ -22,6 +22,7 @@ interface WalletTrans {
   amount: number;
   type: string;
   date: string;
+  order: string;
 }
 
 interface WalletAccountProps {

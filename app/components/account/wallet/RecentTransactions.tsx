@@ -8,6 +8,7 @@ interface WalletTrans {
   amount: number;
   type: string;
   date: string;
+  order: string;
 }
 
 interface WalletAccountProps {
@@ -53,7 +54,7 @@ const RecentTransactions: React.FC<WalletAccountProps> = ({ walletTrans }) => {
                 className='flex justify-between gap-3 rounded-[10px] border border-[#F4F4F4] p-5'
               >
                 <p className='max-w-[206px] text-xs text-black'>
-                  {tran.type === 'Purchase' ? <span>Order ID: <br />#{tran._id}</span> : 'Funds Deposited'}
+                  {tran.type === 'Purchase' ? <span>Order ID: <br />#{tran?.order}</span> : 'Funds Deposited'}
                 </p>
                 <div className='grid min-w-fit justify-items-end'>
                   <span className={`font-clashmd text-xs ${tran.type === 'Purchase' ? 'text-[#B22222]' : 'text-[#1B691B]'}`}>
@@ -88,7 +89,7 @@ const RecentTransactions: React.FC<WalletAccountProps> = ({ walletTrans }) => {
             {walletTrans.map((tran, i) => (
               <div key={i} className='flex justify-between gap-3 py-4'>
                 <p className='max-w-[475px] text-base text-myGray'>
-                  {tran.type === 'Purchase' ? `Order ID:#${tran._id}` : 'Funds Deposited'}
+                  {tran.type === 'Purchase' ? `Order ID:#${tran?.order}` : 'Funds Deposited'}
                 </p>
                 <div className='grid min-w-fit justify-items-end'>
                   <span className={`font-clashmd text-xl ${tran.type === 'Purchase' ? 'text-[#B22222]' : 'text-[#1B691B]'} `}>

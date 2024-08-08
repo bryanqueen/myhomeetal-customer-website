@@ -36,7 +36,7 @@ const AdBanner2 = () => {
           style={{ zIndex: currentSlide === index ? 1 : 0 }}
           src={src}
           alt={`Advert ${currentSlide + 1}`}
-          width={1360}
+          width={1440}
           height={274}
           loading='lazy'
         />

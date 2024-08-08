@@ -65,7 +65,7 @@ export default async function Home() {
 
     // Fetch products for each top category
     await Promise.all(
-      topCategories.map(async (category) => {
+      topCategories?.map(async (category) => {
         const productsRes = await productService.getProductsByCategory(
           category?._id
         );

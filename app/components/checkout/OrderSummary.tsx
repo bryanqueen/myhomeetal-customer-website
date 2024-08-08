@@ -97,7 +97,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
         brand: item.brand,
       }));
       const payload = {
-        address: address.deliveryAddress,
+        address: address._id,
         orderPrice: cartTotal, // Use itemsAmount directly for orderPrice
         orderItems: orderItems, // Use the transformed items for orderItems
         deliveryMethod: deliveryMethod,
@@ -118,7 +118,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
         localStorage.setItem('phoneAmount', JSON.stringify(phoneAmount));
 
         if (selectedPayment === 'Online') {
-          router.push(`/checkout/online-payment?order=${orderId}`);
+          router.push(`/checkout/online-payment?order=${orderId}-${useMyPoints ? point : 0}`);
         } else {
           if (hasWallet) {
             if (wallet.balance >= totalAmount) {
@@ -128,6 +128,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
                   narration: 'Purchase',
                   amount: totalAmount,
                   from_account_number: wallet.account_no,
+                  points: useMyPoints === true ? point : 0,
                 };
 
                 const res = await productService.payWithWallet(payload);
@@ -261,7 +262,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
           </div>
         </div>
       )}
-      {point ? (
+      {point === 0 || point > 0 ? (
         <div className='h-fit rounded-[13.11px] bg-[#F4F4F4] lg:rounded-2xl'>
           <div className='relative m-4 mt-10 h-fit lg:mt-4'>
             <div className='hidden'>

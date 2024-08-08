@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCart } from 'react-use-cart';
 import { useAddressBook } from '@/app/addressBookProvider';
+import productService from '@/app/services/productService';
 
 interface UserInfo {
   firstname: string;
@@ -25,7 +26,10 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
   const router = useRouter();
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const searchParams = useSearchParams();
-  const orderId = decodeURIComponent(searchParams.get('order') || '');
+  const order = decodeURIComponent(searchParams.get('order') || '');
+  const orderCont = order.split('-');
+  const orderId = orderCont[0];
+  const points = Number(orderCont[1]);
   const { setFirstStageCompleted } = useAddressBook();
   const { emptyCart } = useCart();
 
@@ -33,6 +37,17 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
     setFirstStageCompleted(false);
     emptyCart();
   };
+
+  const updateOrder = async () => {
+    const payload = {
+      orderId: orderId,
+      points: points,
+    }
+    const res = await productService.updateOrder(payload);
+    if (res.status === 200) {
+      console.log(res.data);
+    }
+  }
 
   useEffect(() => {
     if (scriptLoaded && userInfo) {
@@ -55,6 +70,7 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
             } else if (response.status === 'SUCCESSFUL') {
               // Clear the cart storage from local storage
               clear();
+              updateOrder();
               router.push(
                 `/order-confirmed?id=${orderId}-${response.amount}-${response.paymentMethod}`
               );

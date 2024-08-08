@@ -66,32 +66,24 @@ const CheckoutForm: React.FC = () => {
 
   useEffect(() => {
     const fetchedUserInfo = authUtils.getUserInfo();
-    console.log('Fetching user info...');
     setUserInfo(fetchedUserInfo);
   
     const fetchData = async () => {
-      console.log('fetchData function called');
       try {
         const [addressRes, walletRes, referralRes] = await Promise.allSettled([
           productService.getAddress(),
           productService.getWallet(),
           productService.getUserReferrals(),
         ]);
-  
         if (addressRes.status === 'fulfilled') {
-          console.log('Fetched address response:', addressRes.value);
           setAddresses(addressRes.value.data);
-          console.log('Address data:', addressRes.value.data);
         } else {
           console.error('Address fetch failed:', addressRes.reason);
         }
-  
         if (walletRes.status === 'fulfilled') {
-          console.log('Fetched wallet response:', walletRes.value);
           if (walletRes.value.data.account_no) {
             setHasWallet(true);
             setWallet(walletRes.value.data);
-            console.log('Wallet data set:', walletRes.value.data);
           } else {
             setHasWallet(false);
             setWallet(null);
@@ -100,11 +92,8 @@ const CheckoutForm: React.FC = () => {
         } else {
           console.error('Wallet fetch failed:', walletRes.reason);
         }
-  
-        if (referralRes.status === 'fulfilled') {
-          console.log('Fetched referral response:', referralRes.value);
-          setPoint(referralRes.value.data.data.totalEarnings);
-          console.log('Point set:', referralRes.value.data.data.totalEarnings);
+        if (referralRes.status === 'fulfilled') {      
+          setPoint(referralRes.value.data.data.totalEarnings);       
         } else {
           console.error('Referral fetch failed:', referralRes.reason);
         }

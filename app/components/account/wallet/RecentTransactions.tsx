@@ -1,44 +1,61 @@
 'use client';
 
-interface Wallet {
+interface WalletTrans {
   _id: string;
-  user: string;
-  account_no: string;
-  bvn: string;
-  mobile_number: string;
-  bank_name: string;
-  balance: number;
-  transactions: string[];
-  __v: number;
+  amount: number;
+  type: string;
+  date: string;
 }
 
 interface WalletAccountProps {
-  wallet: Wallet;
+  walletTrans: WalletTrans[];
 }
 
-const RecentTransactions: React.FC<WalletAccountProps> = ({ wallet }) => {
+const RecentTransactions: React.FC<WalletAccountProps> = ({ walletTrans }) => {
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+
+    // Extract the day, month, and year
+    const day = date.getUTCDate();
+    const month = date.toLocaleString('default', { month: 'short' });
+    const year = date.getUTCFullYear();
+
+    // Function to get the ordinal suffix for the day
+    function getOrdinalSuffix(day) {
+      if (day > 3 && day < 21) return 'th';
+      switch (day % 10) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
+      }
+    }
+
+    // Combine the parts into the desired format
+    return `${day}${getOrdinalSuffix(day)} ${month} ${year}`;
+  }
+
   return (
     <div>
       <p className='mb-3 text-center font-clashmd text-xs text-black lg:text-start lg:text-base lg:text-myGray'>
         Recent transactions
       </p>
       <div className='lg:hidden'>
-        {wallet.transactions.length > 0 ? (
+        {walletTrans.length > 0 ? (
           <div className='grid max-w-full gap-5 px-3'>
-            {[0, 0, 0, 0, 0, 0].map((V, i) => (
+            {walletTrans.map((tran, i) => (
               <div
                 key={i}
                 className='flex justify-between gap-3 rounded-[10px] border border-[#F4F4F4] p-5'
               >
                 <p className='max-w-[206px] text-xs text-black'>
-                  Samsung Galaxy A14 6.6 4GB RAM/64GB ROM Android 13 - Light
-                  Green
+                  {tran._id}
                 </p>
                 <div className='grid min-w-fit justify-items-end'>
                   <span className='font-clashmd text-xs text-[#B22222]'>
-                    -₦ 3,850
+                    {tran.amount}
                   </span>
-                  <span className='text-[10px] text-black'>15th Nov 2023</span>
+                  <span className='text-[10px] text-black'>{formatDate(tran.date)}</span>
                 </div>
               </div>
             ))}
@@ -54,19 +71,18 @@ const RecentTransactions: React.FC<WalletAccountProps> = ({ wallet }) => {
           <p className='font-clashmd text-base text-myGray'>Items</p>
           <p className='font-clashmd text-base text-myGray'>Amount</p>
         </div>
-        {wallet.transactions.length > 0 ? (
+        {walletTrans.length > 0 ? (
           <div className='max-w-full'>
-            {[0, 0, 0, 0, 0, 0].map((V, i) => (
+            {walletTrans.map((tran, i) => (
               <div key={i} className='flex justify-between gap-3 py-4'>
                 <p className='max-w-[475px] text-base text-myGray'>
-                  Samsung Galaxy A14 6.6 4GB RAM/64GB ROM Android 13 - Light
-                  Green
+                  {tran._id}
                 </p>
                 <div className='grid min-w-fit justify-items-end'>
                   <span className='font-clashmd text-xl text-[#B22222]'>
-                    -₦ 3,850
+                    {tran.amount}
                   </span>
-                  <span className='text-sm text-[#989898]'>15th Nov 2023</span>
+                  <span className='text-sm text-[#989898]'>{formatDate(tran.date)}</span>
                 </div>
               </div>
             ))}

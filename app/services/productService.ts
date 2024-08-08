@@ -24,7 +24,7 @@ const productService = {
   addToCart: async (id: string ) => {
     return await apiUtils.postRequest(`${api.CART}/${id}`);
   },
-  payWithWallet: async (payload: { orderId: any; narration: string; amount: number; from_account_number: any }) => {
+  payWithWallet: async (payload: { orderId: any; narration: string; amount: number; from_account_number: any; points: number }) => {
     return await apiUtils.postRequest(`payment/wallet`, payload);
   },
   updateUser: async (payload: { firstName: string; lastName: string; phone_number: string; email: string }) => {
@@ -69,11 +69,17 @@ const productService = {
   getAddress: async () => {
     return await apiUtils.getRequest(`${api.GET_ADDRESS}`);
   },
+  getWalletTrans: async () => {
+    return await apiUtils.getRequest(`${api.GET_WALLET_TRANACTIONS}`);
+  },
   createAddress: async (payload: { deliveryAddress: string; phone_number: string; city: string }) => {
     return await apiUtils.postRequest(`${api.GET_ADDRESS}`, payload);
   },
   updateAddress: async (payload: { addressId: string; deliveryAddress: string; phone_number: string; city: string }) => {
     return await apiUtils.putRequest(`${api.GET_ADDRESS}`, payload);
+  },
+  updateOrder: async (payload: { orderId: string; points: number}) => {
+    return await apiUtils.putRequest(`payment/spay`, payload);
   },
   createOrder: async (payload: { address: string; orderPrice: number; orderItems: { product: string; qty: number; price: number }[]; deliveryMethod: string; paymentMethod: string }) => {
     return await apiUtils.postRequest(`${api.ORDERS}`, payload);

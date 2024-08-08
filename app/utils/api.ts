@@ -16,6 +16,7 @@ const api = {
   GET_ORDERS: 'order/purchase-history',
   WALLET: 'wallet/create',
   GET_WALLET:'wallet',
+  GET_WALLET_TRANACTIONS:'wallet/transactions',
   GET_ADDRESS:'address/',
   REVIEW: 'review/',
   CART: 'user/cart'

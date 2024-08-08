@@ -65,11 +65,21 @@ export const Review = ({ review }: Props) => {
     });
 
     const reviewCount = review.length;
-    for (const star in distribution) {
-      distribution[star] = ((distribution[star] / reviewCount) * 100);
+
+    if (reviewCount > 0) {
+      for (const star in distribution) {
+        distribution[star] = ((distribution[star] / reviewCount) * 100).toFixed(1);
+      }
+    } else {
+      // Ensure all percentages are 0.0% if there are no reviews
+      for (const star in distribution) {
+        distribution[star] = (0).toFixed(1);
+      }
     }
+
     return distribution;
   };
+
 
   const averageRating = calculateAverageRating(review);
   const reviewCount = review.length;
@@ -109,7 +119,7 @@ export const Review = ({ review }: Props) => {
             </div>
 
             <span className='text-center text-[10px] text-myGray lg:text-start lg:text-base'>
-              {reviewCount} {reviewCount < 2 ? 'review' : 'reviews' }
+              {reviewCount} {reviewCount < 2 ? 'review' : 'reviews'}
             </span>
           </div>
         </div>
@@ -121,7 +131,7 @@ export const Review = ({ review }: Props) => {
                 <RatingProgress
                   key={star}
                   star={Number(star)}
-                  percent={ratingDistribution[star].toFixed(1)}
+                  percent={Number(ratingDistribution[star])}
                 />
               ))}
           </div>

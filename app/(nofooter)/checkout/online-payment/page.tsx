@@ -36,7 +36,7 @@ export default function OnlinePaymentPage() {
   const [phoneAmount, setPhoneAmount] = useState<PhoneAmount | null>(null);
 
   useEffect(() => {
-    const fetchedUserInfo = authUtils.getUserInfo();
+    const fetchedUserInfo = authUtils?.getUserInfo();
     if (fetchedUserInfo) {
       setUserInfo(fetchedUserInfo);
     }

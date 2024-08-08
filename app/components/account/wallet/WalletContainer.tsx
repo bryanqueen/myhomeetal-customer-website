@@ -16,32 +16,53 @@ interface Wallet {
   transactions: string[];
   __v: number;
 }
+interface WalletTrans {
+  _id: string;
+  amount: number;
+  type: string;
+  date: string;
+}
 
 export default function WalletContainer() {
   const [hasWallet, setHasWallet] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [wallet, setWallet] = useState<Wallet | null>(null);
+  const [walletTrans, setWalletTrans] = useState<WalletTrans[]>([]);
 
-  const getWallet = async () => {
+  const getWalletTran = async () => {
     try {
-      const res = await productService.getWallet();
-      if (res.status === 200 && res.data.account_no) {
-        setHasWallet(true);
-        setWallet(res.data);
+      const [walletRes, walletTransRes] = await Promise.allSettled([
+        productService.getWallet(),
+        productService.getWalletTrans(),
+      ])
+
+      if (walletRes.status === 'fulfilled') {
+        if (walletRes.value.data.account_no) {
+          setHasWallet(true);
+          setWallet(walletRes.value.data);
+        } else {
+          setHasWallet(false);
+          setWallet(null);
+        }
       } else {
-        setHasWallet(false);
-        setWallet(null);
+        console.error('Wallet fetch failed:', walletRes.reason);
       }
+
+      if (walletTransRes.status === 'fulfilled') {
+        setWalletTrans(walletTransRes.value.data.reverse());
+      } else {
+        console.error('Wallet fetch failed:', walletTransRes.reason);
+      }
+
     } catch (error) {
       console.log(error);
-      setHasWallet(false); // Handle error by assuming no wallet
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    getWallet();
+    getWalletTran();
   }, []);
 
   return (
@@ -51,7 +72,7 @@ export default function WalletContainer() {
           <HomeSkeleton />
         </div> // You can replace this with a skeleton component if needed
       ) : hasWallet ? (
-        <WalletAccount wallet={wallet} />
+        <WalletAccount wallet={wallet} walletTrans={walletTrans} />
       ) : (
         <WalletCreation />
       )}

@@ -22,12 +22,24 @@ interface Wallet {
   __v: number;
 }
 
-interface WalletAccountProps {
-  wallet: Wallet;
+interface WalletTrans {
+  _id: string;
+  amount: number;
+  type: string;
+  date: string;
 }
 
-const WalletBalanceCard: React.FC<WalletAccountProps> = ({ wallet }) => {
+interface WalletAccountProps {
+  wallet: Wallet;
+  walletTrans: WalletTrans[];
+}
+
+const WalletBalanceCard: React.FC<WalletAccountProps> = ({ wallet, walletTrans }) => {
   const { region } = useRegion();
+  const totalSpent = walletTrans
+    .filter(transaction => transaction.type === "Purchase" && transaction.amount < 0)
+    .reduce((sum, transaction) => sum + Math.abs(transaction.amount), 0);
+
   return (
     <ClientOnly>
       <div className='flex flex-col items-center justify-center rounded-[10px] bg-[#FFE8E8] py-[38px] lg:hidden'>
@@ -37,7 +49,7 @@ const WalletBalanceCard: React.FC<WalletAccountProps> = ({ wallet }) => {
             {wallet.balance === 0 ? '0.00' : <ProductPrice priceInNGN={wallet.balance} region={region} />}
           </p>
           <p className='text-[10px] text-myGray'>
-            Total Spent: - <span className='text-black'>0.00</span>
+            Total Spent: - <span className='text-black'>{totalSpent === 0 ? '0.00' : <ProductPrice priceInNGN={totalSpent} region={region} />}</span>
           </p>
         </div>
 
@@ -61,7 +73,7 @@ const WalletBalanceCard: React.FC<WalletAccountProps> = ({ wallet }) => {
           <span> {wallet.balance === 0 ? '0.00' : <ProductPrice priceInNGN={wallet.balance} region={region} />}</span>
         </p>
         <div className='mb-3 mt-1 hidden text-gray-500 lg:block'>
-          <p className='text-base text-myGray'>Total spent - 0.00</p>
+          <p className='text-base text-myGray'>Total spent - {totalSpent === 0 ? '0.00' : <ProductPrice priceInNGN={totalSpent} region={region} />}</p>
           <div className='mt-5 flex min-w-fit gap-5 rounded-full p-2 text-sm'>
             <MyDialog
               trigger={

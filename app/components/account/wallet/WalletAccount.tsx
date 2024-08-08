@@ -17,11 +17,19 @@ interface Wallet {
   __v: number;
 }
 
-interface WalletAccountProps {
-  wallet: Wallet;
+interface WalletTrans {
+  _id: string;
+  amount: number;
+  type: string;
+  date: string;
 }
 
-const WalletAccount: React.FC<WalletAccountProps> = ({ wallet }) => {
+interface WalletAccountProps {
+  wallet: Wallet;
+  walletTrans: WalletTrans[];
+}
+
+const WalletAccount: React.FC<WalletAccountProps> = ({ wallet, walletTrans }) => {
   const searchParams = useSearchParams();
   const funds = decodeURIComponent(searchParams.get('fund') || '');
   const router = useRouter();
@@ -60,9 +68,12 @@ const WalletAccount: React.FC<WalletAccountProps> = ({ wallet }) => {
         )}
       </div>
 
-      <WalletBalanceCard wallet={wallet} />
+      <div className='mt-10'>
+        <WalletBalanceCard wallet={wallet} walletTrans={walletTrans} />
+      </div>
+
       <div className='my-10'>
-        <RecentTransactions wallet={wallet} />
+        <RecentTransactions walletTrans={walletTrans} />
       </div>
     </main>
   );

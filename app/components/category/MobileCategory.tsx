@@ -10,18 +10,18 @@ import Button from '../Button';
 const sortProducts = (products: Product[], sortOption: string) => {
   switch (sortOption) {
     case 'priceLowToHigh':
-      return products.sort((a, b) => a.price - b.price);
+      return products?.sort((a, b) => a.price - b.price);
     case 'priceHighToLow':
-      return products.sort((a, b) => b.price - a.price);
+      return products?.sort((a, b) => b.price - a.price);
     case 'newestArrivals':
-      return products.sort(
+      return products?.sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
     case 'bestSellers':
-      return products.sort((a, b) => b.reviewsCount - a.reviewsCount);
+      return products?.sort((a, b) => b.reviewsCount - a.reviewsCount);
     case 'AvgCustomerReview':
-      return products.sort((a, b) => b.rating - a.rating);
+      return products?.sort((a, b) => b.rating - a.rating);
     default:
       return products;
   }

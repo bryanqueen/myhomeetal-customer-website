@@ -1,42 +1,47 @@
 import CategoriesContainer from '@/app/components/category/CategoriesContainer';
 import SearchForm from '@/app/components/forms/SearchForm';
-import productService from '@/app/services/productService';
 import { notFound } from 'next/navigation';
 import React, { Suspense } from 'react'
+import Cookie from 'js-cookie';
 
 export default async function CategoriesPage() {
   let allCategories: any;
 
   try {
-    const productCategoriesRes = await productService.getProductCategories()
+    const token = Cookie.get('AUTH_TOKEN'); // Replace with your actual token
 
+    // Fetch product categories
+    const productCategoriesRes = await fetch("https://my-home-et-al.onrender.com/api/v1/user/product-categories", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }).then((res) => res.json())
+      .catch(err => console.error('Product Categories Fetch Error:', err));
 
-    if (!productCategoriesRes || !productCategoriesRes?.data) {
+    if (!productCategoriesRes) {
       console.log('Product categories not found');
       return notFound();
     }
 
-    allCategories = productCategoriesRes?.data;
+    allCategories = productCategoriesRes;
 
   } catch (error) {
     console.error('Error fetching products:', error);
 
-    // Check if the error is a network error or a timeout
     if (
       error instanceof Error &&
       (error.message.includes('Network Error') ||
         error.message.includes('timeout'))
     ) {
       console.error('Network error or timeout occurred:', error);
-      // Optionally, return a custom error page or message
-      return notFound(); // You might want to handle it differently based on your application's needs
+      return notFound();
     }
 
-    // Handle other types of errors
     console.error('An unexpected error occurred:', error);
-    // Optionally, return a custom error page or message
-    return notFound(); // Again, adjust based on your needs
+    return notFound();
   }
+
   return (
     <main className='pt-[165px] lg:pt-0 min-h-[100vh]'>
       <section>

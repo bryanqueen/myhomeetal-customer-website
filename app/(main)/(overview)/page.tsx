@@ -1,14 +1,14 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import productService from '../../services/productService';
 import AdBanner from '@components/banner/AdBanner';
 import AdBanner2 from '@components/banner/AdBanner2';
 import AdBanner3 from '@components/banner/AdBanner3';
 import TopCategories from '@/app/components/category/TopCategories';
 import Category from '@/app/components/category/CategoryGrid';
 import CategoryList from '@components/category/CategoryList';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import SearchForm from '../../components/forms/SearchForm';
+import Cookie from 'js-cookie';
 
 function shuffleArray(array: any[]) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -38,58 +38,81 @@ export const metadata: Metadata = {
 export default async function Home() {
   let allCategories: any;
   let topCategories: any;
-  const productsByCategory: any = {};
+  let productsByCategory: any = {};
 
   try {
+    const token = Cookie.get('AUTH_TOKEN'); // Replace with your actual token
+
     const [productCategoriesRes, topProductCategoriesRes] = await Promise.all([
-      productService.getProductCategories(),
-      productService.getTopProductCategories(),
+      fetch("https://my-home-et-al.onrender.com/api/v1/user/product-categories", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }).then((res) => res.json())
+        .catch(err => console.error('Product Categories Fetch Error:', err)),
+
+      fetch("https://my-home-et-al.onrender.com/api/v1/product-category/top-categories", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }).then((res) => res.json())
+        .catch(err => console.error('Top Product Categories Fetch Error:', err)),
     ]);
 
-    if (!productCategoriesRes || !productCategoriesRes?.data) {
-      console.log('Product categories not found');
-      return notFound();
-    }
+    console.log('Product Categories Response:', productCategoriesRes);
+    console.log('Top Product Categories Response:', topProductCategoriesRes);
 
-    if (!topProductCategoriesRes || !topProductCategoriesRes?.data) {
-      console.log('Top product categories not found');
-      return notFound();
-    }
+    allCategories = productCategoriesRes
+    topCategories = topProductCategoriesRes
 
-    allCategories = productCategoriesRes?.data;
-    topCategories = topProductCategoriesRes?.data;
-
-    // Shuffle the top categories before slicing
-    shuffleArray(topCategories);
-    shuffleArray(allCategories);
-
-    // Fetch products for each top category
-    await Promise.all(
+    // Return or process `productsByCategory` as needed
+    // Fetch products for each top category using fetch
+    topCategories = await Promise.all(
       topCategories?.map(async (category) => {
-        const productsRes = await productService.getProductsByCategory(
-          category?._id
-        );
-        productsByCategory[category?._id] = productsRes?.data;
+        try {
+          console.log(`Fetching products for category ID: ${category?._id}`);
+          const res = await fetch(`https://my-home-et-al.onrender.com/api/v1/product/category/${category?._id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            cache: "no-store",
+          });
+
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+
+          const productsData = await res.json();
+          console.log('Fetched Products:', productsData);
+          productsByCategory[category?._id] = productsData;
+
+          // Return the category with its products
+          return {
+            ...category,
+            products: productsData,
+          };
+        } catch (error) {
+          console.error(`Error fetching products for category ${category?._id}:`, error);
+          return category; // Return the category without products if there is an error
+        }
       })
     );
+
   } catch (error) {
     console.error('Error fetching products:', error);
 
-    // Check if the error is a network error or a timeout
     if (
       error instanceof Error &&
-      (error.message.includes('Network Error') ||
-        error.message.includes('timeout'))
+      (error.message.includes('Network Error') || error.message.includes('timeout'))
     ) {
       console.error('Network error or timeout occurred:', error);
-      // Optionally, return a custom error page or message
-      return notFound(); // You might want to handle it differently based on your application's needs
+      return notFound();
     }
 
-    // Handle other types of errors
     console.error('An unexpected error occurred:', error);
-    // Optionally, return a custom error page or message
-    return notFound(); // Again, adjust based on your needs
+    return notFound();
   }
 
   return (
@@ -111,22 +134,27 @@ export default async function Home() {
 
         {/* <Category title='Top Selling Items' color='bg-yellow-500'  /> */}
         <AdBanner2 />
-        {/* <Category title='New Products' /> */}
-        <AdBanner3 />
-        <>
-          {topCategories &&
-            topCategories.slice(0, 6).map((category) => {
-              return (
+        {topCategories &&
+          topCategories.slice(0, 6).map((category, index) => {
+            const products = category.products;
+            if (!products) {
+              console.warn(`No products found for category ID: ${category?._id}`);
+              return null;
+            }
+
+            return (
+              <React.Fragment key={category?._id}>
                 <Category
-                  key={category?._id}
                   title={category?.name}
                   id={category?._id}
-                  products={productsByCategory[category?._id]}
+                  products={products}
                 />
-              );
-            })}
-        </>
+                {index === 2 && <AdBanner3 />} {/* Insert AdBanner3 after the third category */}
+              </React.Fragment>
+            );
+          })}
+
       </div>
-    </main>
+    </main >
   );
 }

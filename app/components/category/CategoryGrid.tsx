@@ -14,8 +14,7 @@ interface Product {
   productTitle: string;
   price: number;
   images: string[];
-  reviewsCount: number;
-  rating: number;
+  review: any[];
   isProductNew: boolean;
 }
 

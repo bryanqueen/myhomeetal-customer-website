@@ -66,6 +66,9 @@ const productService = {
   getWallet: async () => {
     return await apiUtils.getRequest(`${api.GET_WALLET}`);
   },
+  getWalletTrans: async () => {
+    return await apiUtils.getRequest(`${api.GET_WALLET_TRANACTIONS}`);
+  },
   getAddress: async () => {
     return await apiUtils.getRequest(`${api.GET_ADDRESS}`);
   },

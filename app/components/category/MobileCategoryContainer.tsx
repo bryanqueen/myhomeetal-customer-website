@@ -67,7 +67,7 @@ export default function MobileCategoryContainer({
       {products && products.length > 0 ? (
         <MobileCategory products={products} />
       ) : products && products.length === 0 ? (
-        <div className='min-h-[90vh] flex items-center justify-center'>No products found</div>
+        <div className='min-h-[70vh] flex items-center justify-center text-sm'>No products found</div>
       ) : (
         <MobileCategorySkeleton />
       )}

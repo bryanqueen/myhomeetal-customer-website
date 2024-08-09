@@ -4,6 +4,7 @@ import Button from '@components/Button';
 import ListGridSwitch, {
   ListGridSwitchControls,
 } from '@components/category/ListGridSwitch';
+import { DesktopCategorySkeleton } from '../loader';
 
 interface Product {
   _id: string;
@@ -204,14 +205,18 @@ export default function DesktopCategoryContainer({
             </div>
           </div>
           {/** Products container */}
-          <div>
+          {products && products.length > 0 ? (
             <ListGridSwitch
               products={products}
               sortOption={sortOption}
               priceRange={priceRange}
               discountFilters={discountFilters}
             />
-          </div>
+          ) : products && products.length === 0 ? (
+            <div className='min-h-[70vh] flex items-center justify-center'>No products found</div>
+          ) : (
+            <DesktopCategorySkeleton />
+          )}
         </div>
       </div>
     </div>

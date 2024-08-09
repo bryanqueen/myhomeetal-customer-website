@@ -59,7 +59,7 @@ const DesktopNav = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await productService.getTopProductCategories();
+        const response = await productService.getProductCategories();
         const data: Category[] = response.data;
         setCategories(data);
       } catch (error) {

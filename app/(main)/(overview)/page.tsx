@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   let allCategories: any;
   let topCategories: any;
-  let productsByCategory: any = {};
+  const productsByCategory: any = {};
 
   try {
     const token = Cookie.get('AUTH_TOKEN'); // Replace with your actual token

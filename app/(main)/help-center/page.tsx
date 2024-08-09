@@ -9,7 +9,7 @@ export default function HelPage() {
       <section className='bg-primary py-14 px-[3%] grid gap-10'>
         <div>
           <h3 className='text-white mb-2 lg:text-[25px] font-clashmd text-xl'>Help Center</h3>
-          <p className='text-white max-w-[90%] lg:max-w-[762px] text-xs lg:text-base lg:leading-[19.68px]'>Find guides and find quick solutions to common questions across six categories. From payment to resolving account issues.  If you have any questions, our support team is just a click away. Let's make your experience exceptional!</p>
+          <p className='text-white max-w-[90%] lg:max-w-[762px] text-xs lg:text-base lg:leading-[19.68px]'>Find guides and find quick solutions to common questions across six categories. From payment to resolving account issues.  If you have any questions, our support team is just a click away. Let&lsquo;s make your experience exceptional!</p>
         </div>
 
         <div className='flex flex-col lg:flex-row lg:items-center gap-5'>

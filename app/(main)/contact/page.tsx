@@ -7,7 +7,7 @@ export default function ContactPage() {
     <main className='flex items-center lg:flex-row flex-col justify-between px-[3%] min-h-[100vh] pt-32 lg:pt-16 pb-20'>
       <div className='grid gap-5'>
         <h2 className='max-w-[599px] text-xl text-center lg:text-start lg:text-[36px] font-clashmd lg:leading-[44.28px]'>At <span className='text-primary'> Myhomeetal </span> We foster customer relationships.   ❤️</h2>
-        <p className='max-w-[589px] text-xs text-center lg:text-start lg:text-xl lg:leading-[24.6px]'>We prioritize building strong, lasting relationships with our customers. Reach out to us anytime we're here to help.</p>
+        <p className='max-w-[589px] text-xs text-center lg:text-start lg:text-xl lg:leading-[24.6px]'>We prioritize building strong, lasting relationships with our customers. Reach out to us anytime we&apos;re here to help.</p>
       </div>
       <div className='lg:pr-20 px-[2%]'>
         <div className='grid gap-10'>

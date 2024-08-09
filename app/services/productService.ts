@@ -99,8 +99,8 @@ const productService = {
   deleteAddress: async (payload: { addressId: string }) => {
     return await apiUtils.deleteRequest(`${api.GET_ADDRESS}`, payload);
   },
-  removeItemFromCart: async (payload: { item_id: string }) => {
-    return await apiUtils.postRequest(`${api.ORDERS}remove_from_cart/`, payload);
+  deleteCartItem: async (payload: { productId: string }) => {
+    return await apiUtils.deleteRequest(`${api.CART}`, payload);
   },
   getAllCartItems: async () => {
     return await apiUtils.getRequest(`${api.ORDERS}cart/`);

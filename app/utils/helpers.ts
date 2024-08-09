@@ -1,5 +1,54 @@
 import { twMerge } from 'tailwind-merge';
 import cn from 'classnames';
+import { useCart } from '../CartProvider';
+import productService from '../services/productService';
+import toast from 'react-hot-toast';
+
+export const useCartActions = () => {
+  const { dispatch } = useCart();
+
+  const addItemToCart = async (item) => {
+    try {
+      const res = await productService.addToCart(item.id);
+      if (res.status === 200){
+        dispatch({ type: 'ADD_ITEM', payload: res.data.cart });
+        console.log(res.data.cart);
+        toast.success('added to cart');
+      } else {
+        toast.error('adding failed');
+      }
+    
+    } catch (error) {   
+      console.log(error);
+    }  
+  };  
+
+  /*const updateCartItem = async (item) => {
+    const res = await
+    dispatch({ type: 'UPDATE_ITEM', payload: res.data });
+  }; */
+
+  const removeItemFromCart = async (itemId) => {
+    try {
+      const payload = {
+        productId: itemId
+      }
+      const res = await productService.deleteCartItem(payload);
+      if (res.status === 200) {
+        dispatch({ type: 'REMOVE_ITEM', payload: itemId });
+        toast.success('Item deleted');
+      } else {
+        toast.error('Failed to delete item');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to delete item');
+    } 
+  };
+
+  return { addItemToCart, removeItemFromCart };
+};
+
 
 export const cls = (...args: cn.ArgumentArray) => twMerge(cn(args));
 

@@ -40,37 +40,45 @@ export default async function Home() {
   let topCategories: any;
   const productsByCategory: any = {};
 
-  try {
-    const token = Cookie.get('AUTH_TOKEN'); // Replace with your actual token
+  const token = Cookie.get('AUTH_TOKEN'); // Replace with your actual token
 
-    const [productCategoriesRes, topProductCategoriesRes] = await Promise.all([
-      fetch("https://my-home-et-al.onrender.com/api/v1/user/product-categories", {
+  try {
+    const [productCategoriesRes, topProductCategoriesRes] = await Promise.allSettled([
+      fetch("https://my-home-et-al.onrender.com/api/v1/product-category/categories", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         cache: "no-store",
-      }).then((res) => res.json())
-        .catch(err => console.error('Product Categories Fetch Error:', err)),
-
+      }).then((res) => res.json()),
+  
       fetch("https://my-home-et-al.onrender.com/api/v1/product-category/top-categories", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         cache: "no-store",
-      }).then((res) => res.json())
-        .catch(err => console.error('Top Product Categories Fetch Error:', err)),
+      }).then((res) => res.json()),
     ]);
-
-    console.log('Product Categories Response:', productCategoriesRes);
-    console.log('Top Product Categories Response:', topProductCategoriesRes);
-
-    allCategories = productCategoriesRes
-    topCategories = topProductCategoriesRes
-
-    // Return or process `productsByCategory` as needed
-    // Fetch products for each top category using fetch
+  
+    if (productCategoriesRes.status === "fulfilled") {
+      console.log("Product Categories Response:", productCategoriesRes.value);
+      allCategories = productCategoriesRes.value;
+    } else {
+      console.error("Product Categories Fetch Error:", productCategoriesRes.reason);
+    }
+  
+    if (topProductCategoriesRes.status === "fulfilled") {
+      console.log("Top Product Categories Response:", topProductCategoriesRes.value);
+      topCategories = topProductCategoriesRes.value;
+    } else {
+      console.error("Top Product Categories Fetch Error:", topProductCategoriesRes.reason);
+      topCategories = []; // Fallback to empty array if fetch failed
+    }
+  
+    // Ensure topCategories is an array before mapping
+    topCategories = Array.isArray(topCategories) ? topCategories : [];
+  
     topCategories = await Promise.all(
-      topCategories?.map(async (category) => {
+      topCategories.map(async (category) => {
         try {
           console.log(`Fetching products for category ID: ${category?._id}`);
           const res = await fetch(`https://my-home-et-al.onrender.com/api/v1/product/category/${category?._id}`, {
@@ -79,15 +87,15 @@ export default async function Home() {
             },
             cache: "no-store",
           });
-
+  
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
-
+  
           const productsData = await res.json();
-          console.log('Fetched Products:', productsData);
+          console.log("Fetched Products:", productsData);
           productsByCategory[category?._id] = productsData;
-
+  
           // Return the category with its products
           return {
             ...category,
@@ -99,21 +107,19 @@ export default async function Home() {
         }
       })
     );
-
+  
   } catch (error) {
-    console.error('Error fetching products:', error);
-
-    if (
-      error instanceof Error &&
-      (error.message.includes('Network Error') || error.message.includes('timeout'))
-    ) {
-      console.error('Network error or timeout occurred:', error);
+    console.error("Error fetching products:", error);
+  
+    if (error instanceof Error && (error.message.includes("Network Error") || error.message.includes("timeout"))) {
+      console.error("Network error or timeout occurred:", error);
       return notFound();
     }
-
-    console.error('An unexpected error occurred:', error);
+  
+    console.error("An unexpected error occurred:", error);
     return notFound();
   }
+  
 
   return (
     <main className='pt-[165px] lg:pt-0'>

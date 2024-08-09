@@ -18,6 +18,7 @@ import ClientOnly from '../ClientOnly';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { jwtVerify } from 'jose';
+import { useCartActions } from '@/app/utils/helpers';
 
 type UserType = {
   _id: string;
@@ -150,6 +151,12 @@ const ProductOverview = ({ data, reviewData }: Props) => {
   const itemForCart = { ...data, id: data?._id };
   const { region } = useRegion();
 
+  const { addItemToCart } = useCartActions();
+
+  const handleAddToCart = () => {
+    addItemToCart({ id: data?._id, name: data.productTitle, price: data.price, quantity: 1 });
+  };
+
   return (
     <div>
       {data && (
@@ -241,30 +248,9 @@ const ProductOverview = ({ data, reviewData }: Props) => {
                 </div>
                 <ClientOnly>
                   <div className='mt-16 flex items-center justify-between gap-4 lg:mt-10 lg:w-[537px]'>
-                    {itemInCart ? (
-                      <div className='flex w-[206px] items-center justify-between'>
-                        <CartHandler
-                          cart
-                          item={itemInCart}
-                          variant='UPDATE_MINUS'
-                          className='h-[50px] w-[50px] rounded-lg border-0'
-                        >
-                          <Minus size={35} />
-                        </CartHandler>
-                        <span className='text-2xl text-myGray'>
-                          {itemInCart?.quantity}
-                        </span>
-                        <CartHandler
-                          item={itemInCart}
-                          variant='UPDATE_PLUS'
-                          className='h-[50px] w-[50px] rounded-lg border-0'
-                        >
-                          <Add size={35} />
-                        </CartHandler>
-                      </div>
-                    ) : (
-                      <AddToCartButton item={itemForCart} />
-                    )}
+                   <button onClick={handleAddToCart}>
+                      add to cart
+                   </button>
 
                     <button
                       onClick={savedItem}

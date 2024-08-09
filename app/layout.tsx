@@ -26,9 +26,9 @@ export default function RootLayout({
           <PopupProvider>
             <RegionProvider>
               <UIProvider>
-              
+                <CartProvider>
                   {children}
-                
+                </CartProvider>
               </UIProvider>
             </RegionProvider>
           </PopupProvider>

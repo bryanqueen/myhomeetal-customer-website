@@ -17,7 +17,7 @@ const CategoryList = ({ categories }: { categories: Category[] }) => {
       <p className='pr-2 text-sm font-clashmd'>Categories:</p>
       <ul className='flex overflow-hidden'>
         <Marquee pauseOnHover autoFill>
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <li
               key={category._id}
               className='p-3 text-sm text-myGray font-clash'

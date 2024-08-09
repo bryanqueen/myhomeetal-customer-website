@@ -4,13 +4,17 @@ import Cart from '@/app/components/cart/Cart';
 import CartSummary from '@/app/components/cart/CartSummary';
 import { useRouter } from 'next/navigation';
 import MobileCartSummary from '@/app/components/cart/MobileCartSummary';
-import { useCart } from 'react-use-cart';
+
 import NoHistory from '@/app/components/account/NoHistory';
 import ClientOnly from '@/app/components/ClientOnly';
+import { useCart } from '@/app/CartProvider';
+import { useCartActions } from '@/app/utils/helpers';
 
 export default function CartPage() {
   const router = useRouter();
-  const { isEmpty } = useCart();
+ // const { isEmpty } = useCart();
+
+  const { cartState } = useCart();
 
   const handleBack = () => {
     router.back();
@@ -32,7 +36,7 @@ export default function CartPage() {
           Shopping Cart
         </h1>
         <ClientOnly>
-          {!isEmpty ? (
+          {cartState?.items?.length > 0 ? (
             <>
               <div className='grid lg:min-h-[100vh] items-start gap-5 lg:grid-cols-[2fr_1fr]'>
                 <div>

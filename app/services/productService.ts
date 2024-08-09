@@ -31,7 +31,7 @@ const productService = {
     return await apiUtils.putRequest(`user/edit-profile`, payload);
   },
   updateOrder: async (payload: { orderId: string; points: number}) => {
-    return await apiUtils.putRequest(`order/update-status`, payload);
+    return await apiUtils.putRequest(`payment/spay`, payload);
   },
   getSavedProducts: async (id?: string) => {
     return await apiUtils.getRequest(`user/saved-items`);

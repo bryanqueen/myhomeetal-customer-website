@@ -20,14 +20,13 @@ import { constants } from '@/app/utils/constants';
 import Dialog from '@components/Dialog';
 import { XMarkIcon } from '@heroicons/react/16/solid';
 import { useRouter } from 'next/navigation';
-import { useCart } from 'react-use-cart';
 import CustomDropdown from '../SelectOption';
-import NavCart from './NavCart';
+import { useCart } from '@/app/CartProvider';
 
 const MobileNav = () => {
   const router = useRouter();
   const { state, setActiveNav } = useNav();
-  const { items } = useCart();
+  const { cartState } = useCart();
 
   const handleNavigation = (url: string) => {
     setActiveNav(null);
@@ -75,9 +74,9 @@ const MobileNav = () => {
                 href='/cart'
               >
                 <div className='relative'>
-                  {items?.length > 0 && (
+                  {cartState.items?.length > 0 && (
                     <div className='absolute right-[-6px] top-[-12px] flex h-[18px] w-[18px] items-center justify-center rounded-full bg-primary font-clashmd text-[10px] text-white'>
-                      {items?.length}
+                      {cartState.items?.length}
                     </div>
                   )}
                   <ShoppingCart
@@ -222,58 +221,6 @@ const MobileNav = () => {
               </div>
             )}
           </>
-        )}
-
-        {isNavActive('cart') && (
-          <ClientOnly>
-            <div
-              onClick={() => setActiveNav(null)}
-              className='fixed bottom-0 left-0 right-0 top-0 z-[2000] bg-black/50 lg:hidden'
-            >
-              <div
-                onClick={(e) => e.stopPropagation()}
-                className='relative mx-auto mt-[140px] h-fit w-[90%] rounded-2xl bg-white pt-[18px] '
-              >
-                <NavCart />
-
-                {items.length > 0 && (
-                  <div className='my-5 flex items-center justify-center'>
-                    <Link
-                      onClick={() => setActiveNav(null)}
-                      href='/cart'
-                      className='text-center text-xs text-[#656565] hover:text-[#8B1A1A]'
-                    >
-                      View all
-                    </Link>
-                  </div>
-                )}
-                <div className='flex flex-col items-center px-[3%] pb-2'>
-                  {items?.length > 0 && (
-                    <div className='w-full' onClick={() => setActiveNav(null)}>
-                      <Button
-                        className='flex h-[49px] w-full items-center justify-center rounded-full border-0 font-clashmd text-base text-white shadow-none lg:w-[159px] lg:text-sm'
-                        linkType='rel'
-                        href={ROUTES.CHECKOUT}
-                        disabled={items?.length < 1}
-                      >
-                        Checkout now
-                      </Button>
-                    </div>
-                  )}
-
-                  <div onClick={() => setActiveNav(null)}>
-                    <Button
-                      className='w-full rounded-full border-0 bg-white py-4 text-sm text-[#C70E10] hover:shadow-none'
-                      linkType='rel'
-                      href={ROUTES.CART}
-                    >
-                      Go to cart
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ClientOnly>
         )}
       </div>
     </>

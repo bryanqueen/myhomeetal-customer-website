@@ -81,6 +81,9 @@ const productService = {
   updateAddress: async (payload: { addressId: string; deliveryAddress: string; phone_number: string; city: string }) => {
     return await apiUtils.putRequest(`${api.GET_ADDRESS}`, payload);
   },
+  updateCartItem: async (payload: { productId: string }) => {
+    return await apiUtils.putRequest(`${api.CART}`, payload);
+  },
   createOrder: async (payload: { address: string; orderPrice: number; orderItems: { product: string; qty: number; price: number }[]; deliveryMethod: string; paymentMethod: string }) => {
     return await apiUtils.postRequest(`${api.ORDERS}`, payload);
   },

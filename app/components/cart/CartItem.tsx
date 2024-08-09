@@ -11,10 +11,13 @@ import { useCartActions } from '@/app/utils/helpers';
 
 const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
   const { region } = useRegion();
-  const { removeItemFromCart, addItemToCart } = useCartActions();
+  const { removeItemFromCart, addItemToCart, updateCartItem } = useCartActions();
 
   const handleAddToCart = () => {
-    addItemToCart({ id: item?._id, name: item.name, price:item.price, quantity: 1 });
+    addItemToCart({ id: item?.product._id, name: item.product.productTitle, price:item.product.price, quantity: item?.qty });
+  };
+  const handleUpdateCart = () => {
+    updateCartItem({ id: item?.product._id, name: item.product.productTitle, price:item.product.price, quantity: item?.qty });
   };
 
   return (
@@ -58,7 +61,7 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
         <div className='mt-1 flex items-center justify-between'>
           <div>
             <button
-              onClick={() => removeItemFromCart(item?._id)}
+              onClick={() => removeItemFromCart(item?.product._id)}
               className='flex p-2 w-auto border-0 bg-transparent text-sm text-myGray'
             >
               <span className='flex items-center gap-1'>
@@ -69,15 +72,13 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
             </button>
           </div>
           <div className='flex gap-3'>
-            <CartHandler
-              cart
-              item={item}
-              variant='UPDATE_MINUS'
-              className='w-auto rounded-lg border-0 p-[2px]'
+            <button
+              onClick={() => updateCartItem(item?.product._id)}
+              className='w-auto bg-primary text-white rounded-lg border-0 p-[2px]'
               disabled={item?.qty < 2}
             >
               <Minus size={23} />
-            </CartHandler>
+            </button>
             <span className='font-clashmd text-base text-myGray'>
               {item?.qty}
             </span>

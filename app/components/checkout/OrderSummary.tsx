@@ -1,6 +1,5 @@
 'use client';
 
-import { useCart } from 'react-use-cart';
 import Button from '@components/Button';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
@@ -13,6 +12,7 @@ import { locations } from '@/app/utils/constants';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CartSummarySkeleton } from '../loader';
+import { useCart } from '@/app/CartProvider';
 
 interface Address {
   _id: string;
@@ -49,14 +49,23 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   wallet,
   hasWallet,
 }) => {
-  const { cartTotal, totalItems, items } = useCart();
+  const { cartState } = useCart();
+  const total = cartState.items.reduce((total, item) => {
+    // Convert price from string to number and multiply by quantity
+    const price = parseFloat(item.product.price);
+    const quantity = item.qty;
+    return total + (price * quantity);
+  }, 0);
+  const totalItems = cartState.items.reduce((total, item) => {
+    return total + item.qty;
+  }, 0);
   const router = useRouter();
   const { region } = useRegion();
   const [loading, setLoading] = useState(false);
   const [useMyPoints, setUseMyPoints] = useState(false);
   const [deliveryFee, setDeliveryFee] = useState(0);
   const [orderId, setorderId] = useState('');
-  const [totalAmount, setTotalAmount] = useState(cartTotal + deliveryFee);
+  const [totalAmount, setTotalAmount] = useState(total + deliveryFee);
   const [walletNotFound, setWalletNotFound] = useState(false);
   const [insufficient, setInsufficient] = useState(false);
   const { emptyCart } = useCart();
@@ -88,7 +97,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
     setLoading(true);
 
     try {
-      const orderItems = items.map((item) => ({
+      const orderItems = cartState.items.map((item) => ({
         product: item.id,
         qty: item.quantity,
         price: item.price,
@@ -98,7 +107,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
       }));
       const payload = {
         address: address._id,
-        orderPrice: cartTotal, // Use itemsAmount directly for orderPrice
+        orderPrice: total, // Use itemsAmount directly for orderPrice
         orderItems: orderItems, // Use the transformed items for orderItems
         deliveryMethod: deliveryMethod,
         paymentMethod: selectedPayment,
@@ -161,10 +170,10 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   useEffect(() => {
     // Update total amount whenever cart total changes
     const newTotal = useMyPoints
-      ? cartTotal + deliveryFee - point
-      : cartTotal + deliveryFee;
+      ? total + deliveryFee - point
+      : total + deliveryFee;
     setTotalAmount(newTotal);
-  }, [cartTotal, deliveryFee, useMyPoints, point]);
+  }, [total, deliveryFee, useMyPoints, point]);
 
   useEffect(() => {
     if (deliveryMethod === 'Pickup delivery') {
@@ -302,7 +311,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
                 <span>Order total ({totalItems})</span>
                 <ProductPrice
                   className='font-clashmd '
-                  priceInNGN={cartTotal}
+                  priceInNGN={total}
                   region={region}
                 />
               </div>

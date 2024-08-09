@@ -1,6 +1,5 @@
 'use client';
 
-import { useCart } from 'react-use-cart';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import * as RadioGroup from '@radix-ui/react-radio-group';
@@ -18,6 +17,7 @@ import { locations } from '@/app/utils/constants';
 import productService from '@/app/services/productService';
 import Button from '../Button';
 import { HomeSkeleton } from '../loader';
+import { useCart } from '@/app/CartProvider';
 
 interface Address {
   _id: string;
@@ -43,7 +43,7 @@ const CheckoutForm: React.FC = () => {
     selectedPaymentMethod,
     setSelectedPaymentMethod,
   } = useAddressBook();
-  const { items } = useCart();
+  const { cartState } = useCart();
   const [isAddAddress, setIsAddAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(
     addresses.length > 0 ? addresses[0] : null
@@ -651,24 +651,24 @@ const CheckoutForm: React.FC = () => {
             {firstStageCompleted && (
               <div className='mt-10 rounded-[10px] bg-[#F4F4F4] px-3 py-7 lg:rounded-2xl lg:px-9'>
                 <p className='font-clashmd text-xs text-myGray lg:font-clash lg:text-base'>
-                  Shipment({items.length})
+                  Shipment({cartState.items.length})
                 </p>
                 <div className='mt-5 grid gap-5 lg:grid-cols-2'>
-                  {items &&
-                    items.map((item) => (
+                  {cartState.items &&
+                    cartState.items.map((item) => (
                       <div
-                        key={item.id}
+                        key={item.product.id}
                         className='flex max-w-[388px] items-center gap-5'
                       >
                         <Image
                           alt='tick icon'
-                          src={item?.images[0]}
+                          src={item?.product.images[0]}
                           width={56}
                           height={56}
                           className='h-10 w-10 rounded-[8px] lg:h-[56px] lg:w-[56px]'
                         />
                         <div className='text-xs text-myGray lg:text-base lg:leading-[19.68px]'>
-                          {item.productTitle}
+                          {item.product.productTitle}
                         </div>
                       </div>
                     ))}

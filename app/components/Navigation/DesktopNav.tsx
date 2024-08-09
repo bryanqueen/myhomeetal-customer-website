@@ -17,7 +17,7 @@ import authUtils from '@utils/authUtils';
 import productService from '@/app/services/productService';
 import { constants } from '@utils/constants';
 import { useRegion } from '@/app/RegionProvider';
-import { useCart } from 'react-use-cart';
+import { useCart } from '@/app/CartProvider';
 
 interface Category {
   _id: string;
@@ -41,7 +41,7 @@ const DesktopNav = () => {
   const [isDropdownvisible, setIsDropdownVisible] = useState(false);
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const { region, setRegion } = useRegion();
-  const { items } = useCart();
+  const { cartState } = useCart();
 
   const getFlagSrc = (region: string) => {
     switch (region) {
@@ -166,9 +166,9 @@ const DesktopNav = () => {
             target={
               <>
                 <div className='relative'>
-                  {items?.length > 0 && (
+                  {cartState.items?.length > 0 && (
                     <div className='absolute right-[-6px] top-[-12px] flex h-[18px] w-[18px] items-center justify-center rounded-full bg-primary font-clashmd text-[10px] text-white'>
-                      {items?.length}
+                      {cartState.items?.length}
                     </div>
                   )}
                   <ShoppingCart size={20} variant='Bulk' color='#464646' />
@@ -181,7 +181,7 @@ const DesktopNav = () => {
           >
             <NavCart />
 
-            {items?.length > 0 && (
+            {cartState.items?.length > 0 && (
               <div className='mt-1 flex items-center justify-center'>
                 <Link
                   href='/cart'
@@ -192,12 +192,12 @@ const DesktopNav = () => {
               </div>
             )}
             <div className='mt-5 flex flex-col items-center gap-2'>
-              {items?.length > 0 && (
+              {cartState.items?.length > 0 && (
                 <Button
                   className='flex h-[49px] border-0 shadow-none w-[159px] items-center justify-center rounded-full font-clashmd text-sm text-white'
                   linkType='rel'
                   href={ROUTES.CHECKOUT}
-                  disabled={items?.length < 1}
+                  disabled={cartState.items?.length < 1}
                 >
                   Checkout now
                 </Button>

@@ -34,5 +34,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/account/:path*', '/checkout', '/referral-page'], // Apply to specific routes
+  matcher: ['/account/:path*', '/checkout', '/referral-page', '/cart'], // Apply to specific routes
 };

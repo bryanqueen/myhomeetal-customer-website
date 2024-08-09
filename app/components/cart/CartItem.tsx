@@ -16,9 +16,6 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
   const handleAddToCart = () => {
     addItemToCart({ id: item?.product._id, name: item.product.productTitle, price:item.product.price, quantity: item?.qty });
   };
-  const handleUpdateCart = () => {
-    updateCartItem({ id: item?.product._id, name: item.product.productTitle, price:item.product.price, quantity: item?.qty });
-  };
 
   return (
     <ClientOnly>

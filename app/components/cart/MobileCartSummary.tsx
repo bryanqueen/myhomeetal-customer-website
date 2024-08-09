@@ -1,19 +1,26 @@
 import React from 'react';
-import { useCart } from 'react-use-cart';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import ClientOnly from '../ClientOnly';
 import Button from '../Button';
 import { useAddressBook } from '@/app/addressBookProvider';
+import { useCart } from '@/app/CartProvider';
 
 export default function MobileCartSummary() {
-  const { cartTotal, emptyCart } = useCart();
+  const {cartState} = useCart();
   const { region } = useRegion();
   const {setFirstStageCompleted} = useAddressBook();
 
+  const total = cartState.items.reduce((total, item) => {
+    // Convert price from string to number and multiply by quantity
+    const price = parseFloat(item.product.price);
+    const quantity = item.qty;
+    return total + (price * quantity);
+  }, 0);
+
   const clear = () => {
     setFirstStageCompleted(false);
-    emptyCart();
+    //emptyCart();
   }
   return (
     <ClientOnly>
@@ -24,7 +31,7 @@ export default function MobileCartSummary() {
           </div>
           <div className='w-fit'>
             <ProductPrice
-              priceInNGN={cartTotal}
+              priceInNGN={total}
               region={region}
               className='font-clashmd text-base text-myGray text-end'
             />
@@ -41,7 +48,7 @@ export default function MobileCartSummary() {
           >
             Checkout now
           </Button>
-          <div className='mt-4 flex items-center justify-center '>
+          <div className='mt-4 hidden items-center justify-center '>
             <button onClick={clear} className='text-xs text-[#5E5E5E]'>Remove all</button>
           </div>
         </div>

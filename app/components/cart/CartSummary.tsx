@@ -1,16 +1,24 @@
 'use client';
-import { useCart } from 'react-use-cart';
 import Button from '@components/Button';
 import { ROUTES } from '@utils/routes';
 import { useEffect, useState } from 'react';
 import ClientOnly from '../ClientOnly';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
+import { useCart } from '@/app/CartProvider';
 
 const CartSummary = () => {
-  const { cartTotal, items } = useCart();
+  const { cartState } = useCart();
   const { region } = useRegion();
   const [isClient, setIsClient] = useState(false);
+
+  const total = cartState.items.reduce((total, item) => {
+    // Convert price from string to number and multiply by quantity
+    const price = parseFloat(item.product.price);
+    const quantity = item.qty;
+    return total + (price * quantity);
+  }, 0);
+
 
   useEffect(() => {
     setIsClient(true);
@@ -19,7 +27,7 @@ const CartSummary = () => {
   return (
     <div className='hidden lg:block'>
       <ClientOnly>
-        {items?.length > 0 ? (
+        {cartState?.items?.length > 0 ? (
           <div className='rounded-2xl bg-[#F4F4F4] px-4'>
             <p className='border-b border-[#DCDCDC] py-4 font-clashmd text-base text-myGray'>
               Cart Summary
@@ -30,11 +38,11 @@ const CartSummary = () => {
                   Subtotal
                 </span>
                 <div className='text-right'>
-                  {cartTotal > 0 && (
+                  {total > 0 && (
                     <>
                       <ProductPrice
                         className='font-clashmd text-3xl text-myGray'
-                        priceInNGN={cartTotal}
+                        priceInNGN={total}
                         region={region}
                       />
                     </>
@@ -45,14 +53,14 @@ const CartSummary = () => {
                   </p>
                 </div>
               </div>
-              {isClient && cartTotal > 0 && (
+              {isClient && total > 0 && (
                 <Button
                   linkType='rel'
                   href={ROUTES.CHECKOUT}
                   className='mt-10 w-full border-0 shadow-none rounded-full p-4 font-clashmd text-base text-white'
                 >
                   Checkout{' '}
-                  <ProductPrice priceInNGN={cartTotal} region={region} />
+                  <ProductPrice priceInNGN={total} region={region} />
                 </Button>
               )}
             </div>

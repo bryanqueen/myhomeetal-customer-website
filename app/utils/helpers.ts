@@ -34,7 +34,7 @@ export const useCartActions = () => {
         // Refetch cart data to ensure state is up-to-date
         const updatedCart = await productService.getCart();
         dispatch({ type: 'SET_CART', payload: updatedCart.data.cart });
-        toast.success('Added to cart');
+        toast.success('Quantity Decreased');
       } else {
         toast.error('adding failed');
       }

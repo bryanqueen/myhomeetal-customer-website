@@ -16,13 +16,19 @@ function Cart() {
           <div className='hidden lg:block'>
             {cartState?.items?.map((item, index) => (
               <div key={item?.product?._id}>
-               {item?.product && (
+                {item?.product && (
                   <CartItem item={item} isLast={index === cartState.items?.length - 1} />
                 )}
               </div>
             ))}
           </div>
-          
+          <div className='grid gap-5 lg:hidden'>
+            {cartState.items?.map((item) => (
+              <div key={item?.product._id}>
+                <MobileCartItem item={item} />
+              </div>
+            ))}
+          </div>
         </div>
       </ClientOnly>
     </div>

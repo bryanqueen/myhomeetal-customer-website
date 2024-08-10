@@ -133,7 +133,7 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
             <button
               onClick={handleUpdateCartItem}
               className='min-w-[27px] flex items-center justify-center box-border bg-primary h-[27px] text-white rounded-lg border-0'
-              disabled={item?.qty < 2 || loading2.update}
+              disabled={loading2.update}
             >
               {loading2.update ? (
                 <svg

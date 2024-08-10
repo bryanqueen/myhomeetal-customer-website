@@ -112,7 +112,7 @@ export default function MobileCartItem({ item }: any) {
             <button
               onClick={handleUpdateCartItem}
               className='flex h-[17px] relative w-[17px] items-center text-white justify-center rounded-full bg-[#E1E1E1]'
-              disabled={item?.qty < 2 || loading2.update}
+              disabled={loading2.update}
             >
               <Minus size={15} />
               {loading2.update && (

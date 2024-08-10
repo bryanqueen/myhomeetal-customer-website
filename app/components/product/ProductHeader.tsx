@@ -3,10 +3,6 @@
 import Image from 'next/image';
 import { useRef, useEffect, useState } from 'react';
 
-import QuantityInput from '@components/cart/QuantityInput';
-// import Button from '@components/Button';
-import AddToCartButton from '@components/cart/AddToCartButton';
-
 const ProductHeader = ({ data }: any) => {
   const itemForCart = { ...data, id: data._id };
   const ref = useRef<HTMLDivElement | null>(null);
@@ -40,7 +36,7 @@ const ProductHeader = ({ data }: any) => {
           <p className='font-bold'>{data.productTitle}</p>
         </div>
         <div className='flex gap-5'>
-          <AddToCartButton item={itemForCart} />
+
         </div>
       </div>
     </div>

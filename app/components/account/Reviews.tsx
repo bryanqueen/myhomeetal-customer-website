@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useRegion } from '@/app/RegionProvider';
 import productService from '@/app/services/productService';
 import { notFound } from 'next/navigation';
 import { HomeSkeleton } from '../loader';
@@ -10,7 +9,6 @@ import Button from '../Button';
 import toast from 'react-hot-toast';
 
 export default function Reviews() {
-  const { region } = useRegion();
   const [loading, setLoading] = useState(true);
   const [reviewLoading, setReviewLoading] = useState(false);
   const [isReview, setIsReview] = useState(false);

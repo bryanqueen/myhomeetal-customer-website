@@ -47,28 +47,6 @@ export default function PersonalInformationForm({
     }
   }, [userInfo, editMode]);
 
-  const customInputStyle: React.CSSProperties = {
-    height: '50px',
-    border: '0px',
-    borderRadius: '16px',
-  };
-  const customMobileInputStyle: React.CSSProperties = {
-    height: '60px',
-    backgroundColor: 'white',
-    border: '0px',
-  };
-
-  const customButtonStyle: React.CSSProperties = {
-    border: '0px',
-    borderTopLeftRadius: '16px',
-    borderBottomLeftRadius: '16px',
-  };
-
-  const customMobileButtonStyle: React.CSSProperties = {
-    backgroundColor: 'white',
-    border: '0px',
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setloading(true);

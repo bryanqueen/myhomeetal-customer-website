@@ -6,10 +6,6 @@ import 'react-phone-number-input/style.css';
 interface PhoneInputComponentProps {
   value: string;
   onChange: (value: string) => void;
-  inputStyle?: React.CSSProperties;
-  buttonStyle?: React.CSSProperties;
-  mobileInputStyle?: React.CSSProperties;
-  mobileButtonStyle?: React.CSSProperties;
   disabled?: boolean;
 }
 

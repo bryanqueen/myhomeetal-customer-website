@@ -1,6 +1,4 @@
 import Image from 'next/image';
-
-import Button from './Button';
 import Input from './Input';
 
 const Newsletter = () => {

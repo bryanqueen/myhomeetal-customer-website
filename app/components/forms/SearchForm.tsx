@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import Link from 'next/link';
-import { ArrowRight, SearchNormal1 } from 'iconsax-react';
+import { ArrowRight } from 'iconsax-react';
 import { useRouter } from 'next/navigation';
 
 import Input from '@components/Input';
@@ -167,7 +167,7 @@ const SearchForm = () => {
             <div className='grid gap-3'>
               {suggestedProducts.map((product) => (
                 <Link
-                onClick={() => handleDropdownToggle(id, false)}
+                  onClick={() => handleDropdownToggle(id, false)}
                   href={`/item/${product?._id}`}
                   key={product._id}
                   className='flex items-center gap-3 text-sm text-[#656565] lg:text-base'

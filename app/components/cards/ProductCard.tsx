@@ -51,7 +51,7 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
       'md:w-full lg:font-medium': variant === 'top',
     }
   );
-
+/**
   useEffect(() => {
     const fetchReviewData = async () => {
       try {
@@ -67,7 +67,7 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
 
     fetchReviewData();
   }, [product._id]);
-
+ */
   const calculateAverageRating = (reviews: ReviewType[]) => {
     const total = reviews.reduce((sum, rev) => sum + rev.rating, 0);
     return reviews.length ? total / reviews.length : 0;

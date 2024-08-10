@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-const images = ['/images/newad2.svg', '/images/newad3.svg'];
+const images = ['/images/bb11.svg', '/images/bb12.svg'];
 
 const AdBanner3 = () => {
   return (

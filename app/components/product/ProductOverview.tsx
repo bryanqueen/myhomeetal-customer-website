@@ -41,6 +41,7 @@ type Props = {
 const ProductOverview = ({ data, reviewData }: Props) => {
   const [savedItems, setSavedItems] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState({ add: false, update: false });
   const router = useRouter();
   const id = data?._id;
 
@@ -151,20 +152,51 @@ const ProductOverview = ({ data, reviewData }: Props) => {
   const { removeItemFromCart, addItemToCart, updateCartItem } = useCartActions();
 
   const handleAddToCart = async () => {
-    const token = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('AUTH_TOKEN='))
-      ?.split('=')[1];
+    setLoading2(prev => ({ ...prev, add: true })); // Set loading state to true when starting the action
 
-    if (!token || !(await verifyToken(token))) {
-      toast.error('Session expired. Redirecting to login...');
+    try {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('AUTH_TOKEN='))
+        ?.split('=')[1];
 
-      // Redirect to login with callbackUrl parameter
-      router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
-      setLoading(false);
-      return;
+      if (!token || !(await verifyToken(token))) {
+        toast.error('Session expired. Redirecting to login...');
+        router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
+        return;
+      }
+
+      await addItemToCart({ id: data?._id, name: data.productTitle, price: data.price, quantity: 1 });
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred. Please try again.');
+    } finally {
+      setLoading2(prev => ({ ...prev, add: false })); // Reset loading state after the action completes
     }
-    addItemToCart({ id: data?._id, name: data.productTitle, price: data.price, quantity: 1 });
+  };
+
+  const handleUpdateCartItem = async () => {
+    setLoading2(prev => ({ ...prev, update: true })); // Set loading state to true when starting the action
+
+    try {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('AUTH_TOKEN='))
+        ?.split('=')[1];
+
+      if (!token || !(await verifyToken(token))) {
+        toast.error('Session expired. Redirecting to login...');
+        router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
+        return;
+      }
+
+      await updateCartItem(itemInCart?.product?._id);
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred. Please try again.');
+    } finally {
+      setLoading2(prev => ({ ...prev, update: false })); // Reset loading state after the action completes
+    }
   };
 
   return (
@@ -262,28 +294,106 @@ const ProductOverview = ({ data, reviewData }: Props) => {
                     {cartState && itemInCart ? (
                       <div className='flex w-[206px] items-center justify-between'>
                         <button
-                          onClick={() => updateCartItem(itemInCart?.product._id)}
+                          disabled={loading2.update}
+                          onClick={handleUpdateCartItem}
                           className='h-[50px] flex items-center justify-center w-[50px] bg-primary text-white rounded-lg border-0'
                         >
-                          <Minus size={35} />
+                          {loading2.update ? (
+                            <svg
+                              className='h-5 w-5 animate-spin'
+                              xmlns='http://www.w3.org/2000/svg'
+                              fill='none'
+                              viewBox='0 0 24 24'
+                            >
+                              <circle
+                                className='opacity-25'
+                                cx='12'
+                                cy='12'
+                                r='10'
+                                stroke='currentColor'
+                                strokeWidth='4'
+                              />
+                              <path
+                                className='opacity-75'
+                                fill='currentColor'
+                                d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                              />
+                            </svg>
+                          ) : (
+                            <Minus size={35} />
+                          )}
                         </button>
                         <span className='text-2xl text-myGray'>
                           {itemInCart?.qty}
                         </span>
                         <button
+                          disabled={loading2.add}
                           onClick={handleAddToCart}
                           className='h-[50px] flex items-center justify-center bg-primary text-white w-[50px] rounded-lg border-0'
                         >
-                          <Add size={35} />
+                          {loading2.add ? (
+                            <svg
+                              className='h-5 w-5 animate-spin'
+                              xmlns='http://www.w3.org/2000/svg'
+                              fill='none'
+                              viewBox='0 0 24 24'
+                            >
+                              <circle
+                                className='opacity-25'
+                                cx='12'
+                                cy='12'
+                                r='10'
+                                stroke='currentColor'
+                                strokeWidth='4'
+                              />
+                              <path
+                                className='opacity-75'
+                                fill='currentColor'
+                                d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                              />
+                            </svg>
+                          ) : (
+                            <Add size={35} />
+                          )}
                         </button>
                       </div>
                     ) : (
                       <button
+                        disabled={loading2.add}
                         className='w-full flex relative items-center justify-center shadow-none border-0 rounded-full px-10 py-5 text-base font-clashmd bg-primary text-white'
                         onClick={handleAddToCart}>
-                        <span className='absolute left-7'>
-                          <ShoppingCart size={24} variant='Bulk' color='white' />
-                        </span>
+
+                        {loading2.add ? (
+                          <span className='absolute left-7'>
+                            {/* You can use a spinner icon or text like "Loading..." here */}
+                            <span> <svg
+                              className='-me-1 ms-3 h-5 w-5 animate-spin'
+                              xmlns='http://www.w3.org/2000/svg'
+                              fill='none'
+                              viewBox='0 0 24 24'
+                            >
+                              <circle
+                                className='opacity-25'
+                                cx='12'
+                                cy='12'
+                                r='10'
+                                stroke='currentColor'
+                                strokeWidth='4'
+                              />
+                              <path
+                                className='opacity-75'
+                                fill='currentColor'
+                                d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                              />
+                            </svg></span>
+                          </span>
+                        ) : (
+                          <span className='absolute left-7'>
+                            <ShoppingCart size={24} variant='Bulk' color='white' />
+                          </span>
+                        )}
+
+
                         Add to cart
                       </button>
                     )}

@@ -49,10 +49,10 @@ export default function Reviews() {
               )
               .map((item) => ({
                 productId: order.orderId,
-                id: item.product._id,
+                id: item.product?._id,
                 qty: item.qty,
-                productName: item.product.productTitle,
-                productImage: item.product.images[0],
+                productName: item?.product?.productTitle,
+                productImage: item?.product?.images[0],
                 price: item.price,
                 orderStatus: order.status,
               }))

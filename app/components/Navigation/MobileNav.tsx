@@ -28,6 +28,10 @@ const MobileNav = () => {
   const { state, setActiveNav } = useNav();
   const { cartState } = useCart();
 
+  const validItems = cartState.items?.filter(item =>
+    item?.product && !isNaN(parseFloat(item.product.price))
+  ) || [];
+
   const handleNavigation = (url: string) => {
     setActiveNav(null);
     router.push(url);
@@ -74,9 +78,9 @@ const MobileNav = () => {
                 href='/cart'
               >
                 <div className='relative'>
-                  {cartState.items?.length > 0 && (
+                  {validItems.length > 0 && (
                     <div className='absolute right-[-6px] top-[-12px] flex h-[18px] w-[18px] items-center justify-center rounded-full bg-primary font-clashmd text-[10px] text-white'>
-                      {cartState.items?.length}
+                      {validItems.length}
                     </div>
                   )}
                   <ShoppingCart

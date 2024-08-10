@@ -15,9 +15,9 @@ const AdBanner = () => {
   };
 
   const images = [
-    '/images/Banner1.png',
-    '/images/Banner2.png',
-    '/images/Banner3.png',
+    '/images/Banner11.png',
+    '/images/Banner12.png',
+    '/images/Banner13.png',
   ];
   const mobileImages = [
     '/images/newad.svg',
@@ -33,7 +33,6 @@ const AdBanner = () => {
           infinite={true}
           arrows={false}
           autoPlay={true}
-          centerMode={true}
         >
           {images.map((src, index) => (
             <Image
@@ -41,9 +40,8 @@ const AdBanner = () => {
               className={imageClass}
               src={src}
               alt='Advert'
-              width={1000}
+              width={897}
               height={200}
-              loading='lazy'
             />
           ))}
         </Carousel>

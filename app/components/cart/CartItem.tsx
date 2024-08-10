@@ -12,7 +12,7 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
   const { removeItemFromCart, addItemToCart, updateCartItem } = useCartActions();
 
   const handleAddToCart = () => {
-    addItemToCart({ id: item?.product._id, name: item.product.productTitle, price:item.product.price, quantity: item?.qty });
+    addItemToCart({ id: item?.product?._id, name: item.product.productTitle, price:item.product.price, quantity: item?.qty });
   };
 
   return (
@@ -24,7 +24,7 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
           <div className='flex items-center gap-2'>
             <div className='h-[95px] w-[95px]'>
               <Image
-                src={item?.product.images[0]}
+                src={item?.product?.images[0]}
                 alt=''
                 width={100}
                 height={100}
@@ -34,12 +34,12 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
             <div className='h-[95px]'>
               <div className='pt-1'>
                 <p className='mb-3 max-w-[450px] text-base text-myGray'>
-                  {item?.product.productTitle}
+                  {item?.product?.productTitle}
                 </p>
                 <div className='flex items-center gap-2 text-sm text-myGray'>
                   <span>Brand: </span>
                   <span className='rounded-full bg-[#FFE0E0] px-6 py-2'>
-                    {item?.product.brand}
+                    {item?.product?.brand}
                   </span>
                 </div>
               </div>
@@ -48,7 +48,7 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
           <div className='flex items-center'>
             <ProductPrice
               className='font-clashmd text-xl text-myGray'
-              priceInNGN={item?.product.price}
+              priceInNGN={item?.product?.price}
               region={region}
             />
           </div>
@@ -56,7 +56,7 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
         <div className='mt-1 flex items-center justify-between'>
           <div>
             <button
-              onClick={() => removeItemFromCart(item?.product._id)}
+              onClick={() => removeItemFromCart(item?.product?._id)}
               className='flex p-2 w-auto border-0 bg-transparent text-sm text-myGray'
             >
               <span className='flex items-center gap-1'>
@@ -68,7 +68,7 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
           </div>
           <div className='flex gap-3'>
             <button
-              onClick={() => updateCartItem(item?.product._id)}
+              onClick={() => updateCartItem(item?.product?._id)}
               className='w-auto bg-primary text-white rounded-lg border-0 p-[2px]'
               disabled={item?.qty < 2}
             >

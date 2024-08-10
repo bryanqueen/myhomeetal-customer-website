@@ -13,11 +13,17 @@ const CartSummary = () => {
   const [isClient, setIsClient] = useState(false);
 
   const total = cartState.items.reduce((total, item) => {
-    // Convert price from string to number and multiply by quantity
-    const price = parseFloat(item.product.price);
-    const quantity = item.qty;
-    return total + (price * quantity);
+    // Check if item and product are valid
+    if (item?.product && !isNaN(parseFloat(item.product.price))) {
+      // Convert price from string to number
+      const price = parseFloat(item.product.price);
+      const quantity = item.qty;
+      return total + (price * quantity);
+    }
+    // If the item is invalid or price is not a number, skip this item
+    return total;
   }, 0);
+  
 
 
   useEffect(() => {

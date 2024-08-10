@@ -24,8 +24,10 @@ function Cart() {
           </div>
           <div className='grid gap-5 lg:hidden'>
             {cartState.items?.map((item) => (
-              <div key={item?.product._id}>
-                <MobileCartItem item={item} />
+              <div key={item?.product?._id}>
+                {item?.product && (
+                  <MobileCartItem item={item} />
+                )}
               </div>
             ))}
           </div>

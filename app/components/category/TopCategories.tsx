@@ -19,7 +19,7 @@ const TopCategories = ({ topCategories }: any) => {
                   key={category._id}
                 >
                   <div className='flex items-center justify-center lg:w-[132px] lg:h-[132px] rounded-full'>
-                    <img
+                    <Image
                       className='w-[78px] h-[78px] lg:h-[132px] lg:w-[132px] rounded-full object-cover p-2 transition'
                       src={category.product_category_image}
                       alt='Top product'

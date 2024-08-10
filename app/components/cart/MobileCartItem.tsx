@@ -20,7 +20,7 @@ export default function MobileCartItem({ item }: any) {
       <div className='relative flex h-[120px] w-full min-w-[300px] items-center rounded-[10px] bg-[#F4F4F4] px-2 py-5 lg:hidden'>
         <div className='flex h-[54px] max-w-[85%] items-center gap-4'>
           <Image
-            src={item?.product.images[0]}
+            src={item?.product?.images[0]}
             width={54}
             height={54}
             alt='product image'
@@ -28,10 +28,10 @@ export default function MobileCartItem({ item }: any) {
           />
           <div className='flex h-full flex-col justify-between'>
             <h2 className='three-line-clamp text-xs text-myGray'>
-              {item?.product.productTitle}
+              {item?.product?.productTitle}
             </h2>
             <ProductPrice
-              priceInNGN={item?.product.price}
+              priceInNGN={item?.product?.price}
               region={region}
               className='font-clashmd text-xs text-myGray'
             />
@@ -40,7 +40,7 @@ export default function MobileCartItem({ item }: any) {
         <div className=' absolute bottom-[20px] right-[20px] top-[20px] flex w-[74px] flex-col justify-between'>
           <div className='flex justify-end'>
             <button
-              onClick={() => removeItemFromCart(item?.product._id)}
+              onClick={() => removeItemFromCart(item?.product?._id)}
               className='flex h-[25px] w-[25px] items-center justify-center rounded-full bg-[#FF0003] text-white'
             >
               <TrashIcon width={13} />
@@ -48,7 +48,7 @@ export default function MobileCartItem({ item }: any) {
           </div>
           <div className='flex w-full justify-between'>
             <button
-              onClick={() => updateCartItem(item?.product._id)}
+              onClick={() => updateCartItem(item?.product?._id)}
               className='flex h-[17px] w-[17px] items-center text-white justify-center rounded-full bg-[#E1E1E1]'
               disabled={item?.qty < 2}
             >

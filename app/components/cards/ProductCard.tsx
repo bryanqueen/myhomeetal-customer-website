@@ -82,14 +82,13 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
       <div className={cls}>
         <Link href={href} className='transition-shadow duration-300'>
           <div className='relative mb-3 flex h-[172px] w-full flex-col items-center justify-between lg:h-[158px] lg:w-full lg:justify-center'>
-            <img
+            <Image
               className={`${variant === 'top' ? '' : 'h-[130px] w-[148px] object-contain lg:h-[158px] lg:w-[158px]'}`}
               src={product?.images[0]}
               alt='Product Card'
               width={200}
               height={200}
               style={{ transition: 'transform 0.3s' }}
-              loading='lazy'
             />
 
             {/*product?.isProductNew === true && <NewProductTag />*/}

@@ -131,7 +131,6 @@ export default async function Home() {
         <Suspense fallback='category is loading'>
           <CategoryList categories={allCategories} />
         </Suspense>
-
       </section>
 
       <AdBanner />

@@ -1,9 +1,5 @@
 'use client';
 import { ButtonHTMLAttributes, useEffect, useState } from 'react';
-import PersonalInfoDialog from './PersonalInfoDialog';
-import AddressDialog from './AddressDialog';
-import BVNDialog from './BVNDialog';
-
 import MyDialog from '@components/Dialog';
 import Button from '@components/Button';
 import { useRouter } from 'next/navigation';
@@ -13,7 +9,6 @@ import authUtils from '@/app/utils/authUtils';
 import productService from '@/app/services/productService';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
-import DatePickerModal from './DatePickerModal';
 
 const CollectWalletInfo = () => {
   const router = useRouter();

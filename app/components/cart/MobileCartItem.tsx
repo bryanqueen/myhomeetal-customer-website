@@ -2,7 +2,6 @@
 import { TrashIcon } from '@heroicons/react/16/solid';
 import Image from 'next/image';
 import React from 'react';
-import CartHandler from './CartHandler';
 import { Add, Minus } from 'iconsax-react';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';

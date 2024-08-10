@@ -2,8 +2,6 @@
 
 import { Trash, Minus, Add } from 'iconsax-react';
 import Image from 'next/image';
-
-import CartHandler from './CartHandler';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import ClientOnly from '../ClientOnly';

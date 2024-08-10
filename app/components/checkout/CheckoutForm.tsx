@@ -61,8 +61,11 @@ const CheckoutForm: React.FC = () => {
   const [wallet, setWallet] = useState(null);
   const [point, setPoint] = useState(null);
   const [deliveryFee, setDeliveryFee] = useState(0);
-
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+  const validItems = cartState.items?.filter(item =>
+    item?.product && !isNaN(parseFloat(item.product.price))
+  ) || [];
 
   useEffect(() => {
     const fetchedUserInfo = authUtils.getUserInfo();
@@ -651,24 +654,24 @@ const CheckoutForm: React.FC = () => {
             {firstStageCompleted && (
               <div className='mt-10 rounded-[10px] bg-[#F4F4F4] px-3 py-7 lg:rounded-2xl lg:px-9'>
                 <p className='font-clashmd text-xs text-myGray lg:font-clash lg:text-base'>
-                  Shipment({cartState.items.length})
+                  Shipment({validItems.length})
                 </p>
                 <div className='mt-5 grid gap-5 lg:grid-cols-2'>
-                  {cartState.items &&
-                    cartState.items.map((item) => (
+                  {validItems &&
+                    validItems.map((item) => (
                       <div
-                        key={item.product.id}
+                        key={item?.product?.id}
                         className='flex max-w-[388px] items-center gap-5'
                       >
                         <Image
                           alt='tick icon'
-                          src={item?.product.images[0]}
+                          src={item?.product?.images[0]}
                           width={56}
                           height={56}
                           className='h-10 w-10 rounded-[8px] lg:h-[56px] lg:w-[56px]'
                         />
                         <div className='text-xs text-myGray lg:text-base lg:leading-[19.68px]'>
-                          {item.product.productTitle}
+                          {item?.product?.productTitle}
                         </div>
                       </div>
                     ))}

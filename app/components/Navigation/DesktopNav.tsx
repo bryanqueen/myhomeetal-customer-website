@@ -185,7 +185,7 @@ const DesktopNav = () => {
           >
             <NavCart />
 
-            {cartState.items?.length > 0 && (
+            {validItems.length > 0 && (
               <div className='mt-1 flex items-center justify-center'>
                 <Link
                   href='/cart'
@@ -196,12 +196,12 @@ const DesktopNav = () => {
               </div>
             )}
             <div className='mt-5 flex flex-col items-center gap-2'>
-              {cartState.items?.length > 0 && (
+              {validItems?.length > 0 && (
                 <Button
                   className='flex h-[49px] border-0 shadow-none w-[159px] items-center justify-center rounded-full font-clashmd text-sm text-white'
                   linkType='rel'
                   href={ROUTES.CHECKOUT}
-                  disabled={cartState.items?.length < 1}
+                  disabled={validItems?.length < 1}
                 >
                   Checkout now
                 </Button>

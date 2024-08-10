@@ -7,8 +7,11 @@ import { useCart } from '@/app/CartProvider';
 const NavCart = () => {
   const { cartState } = useCart();
   const { region } = useRegion();
+  const validItems = cartState.items?.filter(item =>
+    item?.product && !isNaN(parseFloat(item.product.price))
+  ) || [];
 
-  if (cartState && cartState?.items?.length < 1)
+  if (validItems && validItems?.length < 1)
     return (
       <div className='py-3 text-center text-xs text-[#656565] lg:mb-7 lg:text-sm'>
         <p>Your cart is empty</p>
@@ -18,10 +21,10 @@ const NavCart = () => {
   return (
     <div className='rounded-md border-gray-100 px-[27px] lg:max-w-4xl lg:px-0'>
       <p className='mb-6 text-center text-xs text-[#656565] lg:mb-7 lg:text-start lg:text-sm'>
-        Items in cart: <span className='font-clashmd'>{cartState?.items?.length}</span>
+        Items in cart: <span className='font-clashmd'>{validItems?.length}</span>
       </p>
       <div className='no-scrollbar max-h-[230px] w-full overflow-scroll lg:max-h-[250px]'>
-        {cartState?.items.map((item) => (
+        {validItems.map((item) => (
           <div
             key={item?.product?._id}
             className='mb-2 flex h-[70px] w-full items-center gap-4 rounded-lg bg-[#f4f4f4] p-2 lg:h-[76px] lg:w-[211px] lg:gap-3'

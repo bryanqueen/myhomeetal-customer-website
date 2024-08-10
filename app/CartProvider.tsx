@@ -35,11 +35,11 @@ export const CartProvider = ({ children }) => {
         const res = await productService.getCart();
         if (res.status === 200) {
           dispatch({ type: 'SET_CART', payload: res.data.cart });
-          toast.success('Cart successful');
+          
         }
       } catch (error) {
         console.log(error);
-        toast.error('sorry an error occured.');
+       
       }
     }
 

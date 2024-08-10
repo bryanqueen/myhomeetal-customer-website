@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const images = [
-  '/images/newad4.svg',
-  '/images/newad4.svg',
-  '/images/newad4.svg',
+  '/images/bb2.svg',
+  '/images/bb1.svg',
+  '/images/bb3.svg',
 ];
 
 const AdBanner2 = () => {
@@ -41,7 +41,7 @@ const AdBanner2 = () => {
           loading='lazy'
         />
       ))}
-      <div className='absolute bottom-7 right-7 z-10 flex space-x-2 p-4'>
+      <div className='absolute bottom-10 right-7 z-10 flex space-x-2 p-4'>
         {images.map((_, index) => (
           <button
             key={index}

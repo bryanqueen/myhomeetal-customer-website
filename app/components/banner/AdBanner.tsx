@@ -5,7 +5,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 const AdBanner = () => {
-  const imageClass = 'w-full object-contain px-3 lg:px-1 lg:max-w-7xl';
+  const imageClass = 'w-full object-contain px-3 lg:px-1 lg:w-[897px]';
 
   const responsive = {
     sm: {
@@ -15,9 +15,9 @@ const AdBanner = () => {
   };
 
   const images = [
-    '/images/ad-banner-2.svg',
-    '/images/ad-banner.svg',
-    '/images/ad-banner-3.svg',
+    '/images/Banner1.png',
+    '/images/Banner2.png',
+    '/images/Banner3.png',
   ];
   const mobileImages = [
     '/images/newad.svg',

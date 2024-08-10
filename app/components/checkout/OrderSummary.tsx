@@ -79,11 +79,9 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   const [totalAmount, setTotalAmount] = useState(total + deliveryFee);
   const [walletNotFound, setWalletNotFound] = useState(false);
   const [insufficient, setInsufficient] = useState(false);
-  const { emptyCart } = useCart();
 
   const clear = () => {
     setFirstStageCompleted(false);
-    emptyCart();
   };
 
   const handleFirstStage = async () => {

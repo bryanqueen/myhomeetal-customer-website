@@ -5,7 +5,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 const AdBanner = () => {
-  const imageClass = 'w-full object-contain px-3 lg:px-1 lg:w-[897px]';
+  const imageClass = 'w-full rounded-3xl object-contain px-3 lg:px-1 lg:w-[897px]';
 
   const responsive = {
     sm: {
@@ -33,6 +33,7 @@ const AdBanner = () => {
           infinite={true}
           arrows={false}
           autoPlay={true}
+          centerMode={true}
         >
           {images.map((src, index) => (
             <Image

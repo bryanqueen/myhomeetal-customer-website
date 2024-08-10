@@ -21,9 +21,9 @@ export default function MobileReviewCard(
   { review }: { review: ReviewType }) {
   const formattedDate = review?.date ? format(parseISO(review.date), 'MMM dd') : 'Invalid date';
   return (
-    <div className='mb-5 flex h-[95.8px] flex-col justify-between rounded-[10px] bg-[#F4F4F4] px-[10px] py-[15px]'>
-      <div className='flex h-[39px] items-center gap-5'>
-        <div className='h-[39px] w-[39px] rounded-full bg-gray-300'></div>
+    <div className='mb-5 flex h-[95.8px] flex-col justify-between rounded-[10px] bg-[#F4F4F4] px-[12px] py-[15px]'>
+      <div className='flex min-h-[39px] flex-col gap-2'>
+        <p className='text-myGray font-clashmd text-xs'>{review.user.firstname}</p>
         <p className='w-[90%] truncate text-sm text-myGray'>
           {review?.comment}
         </p>

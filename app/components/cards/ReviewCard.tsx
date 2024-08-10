@@ -22,9 +22,9 @@ const ReviewCard = (
 ) => {
   const formattedDate = review?.date ? format(parseISO(review.date), 'MMM dd, yyyy') : 'Invalid date';
   return (
-    <div className='mb-5 flex flex-col lg:flex-row h-[200px] lg:w-[783px] items-center rounded-[20px] bg-[#f4f4f4] px-5'>
-      <div className='flex h-[69px] lg:w-[563px] items-center gap-7'>
-        <div className='h-[69px] w-[69px] rounded-full bg-gray-300'></div>
+    <div className='mb-5 flex flex-col lg:flex-row h-[200px] lg:w-[783px] justify-between items-center rounded-[20px] bg-[#f4f4f4] px-7'>
+      <div className='flex flex-col min-h-[69px] lg:w-[563px] gap-2'>
+        <p className='text-myGray font-clashmd text-sm'>{review.user.firstname}</p>
         <p className='text-sm truncate text-myGray'>{review?.comment}</p>
       </div>
 

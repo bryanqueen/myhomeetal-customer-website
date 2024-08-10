@@ -9,16 +9,38 @@ import NoHistory from '@/app/components/account/NoHistory';
 import ClientOnly from '@/app/components/ClientOnly';
 import { useCart } from '@/app/CartProvider';
 import { useCartActions } from '@/app/utils/helpers';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { HomeSkeleton } from '@/app/components/loader';
 
 export default function CartPage() {
   const router = useRouter();
- // const { isEmpty } = useCart();
+  const [loading, setLoading] = useState(true);
 
   const { cartState } = useCart();
+  const { fetchCart } = useCartActions();
 
+  const myFetch = async () => {
+    try {
+      await fetchCart();
+    } catch (error) {
+      console.log(error);
+      toast.error('An error occured. Please try again');
+    } finally {
+      setLoading(false)
+    }
+  }
   const handleBack = () => {
     router.back();
   };
+
+  useEffect(() => {
+    myFetch();
+  }, []);
+
+  if (loading) {
+    return <HomeSkeleton />
+  }
 
   return (
     <main className='min-h-[100vh] pb-20'>

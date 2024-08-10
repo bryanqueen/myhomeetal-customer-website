@@ -6,13 +6,76 @@ import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import ClientOnly from '../ClientOnly';
 import { useCartActions } from '@/app/utils/helpers';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { jwtVerify } from 'jose';
+import { useRouter } from 'next/navigation';
 
 const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
   const { region } = useRegion();
+  const router = useRouter();
+  const [loading2, setLoading2] = useState({ add: false, update: false });
+
+
+  // Function to verify JWT token
+  const verifyToken = async (token) => {
+    try {
+      const secret = new TextEncoder().encode(
+        process.env.NEXT_PUBLIC_JWT_SECRET
+      );
+      await jwtVerify(token, secret);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   const { removeItemFromCart, addItemToCart, updateCartItem } = useCartActions();
 
-  const handleAddToCart = () => {
-    addItemToCart({ id: item?.product?._id, name: item.product.productTitle, price:item.product.price, quantity: item?.qty });
+  const handleAddToCart = async () => {
+    setLoading2(prev => ({ ...prev, add: true })); // Set loading state to true when starting the action
+
+    try {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('AUTH_TOKEN='))
+        ?.split('=')[1];
+
+      if (!token || !(await verifyToken(token))) {
+        toast.error('Session expired. Redirecting to login...');
+        router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
+        return;
+      }
+      await addItemToCart({ id: item.product?._id, name: item.product.productTitle, price: item.product.price, quantity: 1 });
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred. Please try again.');
+    } finally {
+      setLoading2(prev => ({ ...prev, add: false })); // Reset loading state after the action completes
+    }
+  };
+
+  const handleUpdateCartItem = async () => {
+    setLoading2(prev => ({ ...prev, update: true })); // Set loading state to true when starting the action
+
+    try {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('AUTH_TOKEN='))
+        ?.split('=')[1];
+
+      if (!token || !(await verifyToken(token))) {
+        toast.error('Session expired. Redirecting to login...');
+        router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
+        return;
+      }
+      await updateCartItem(item?.product?._id);
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred. Please try again.');
+    } finally {
+      setLoading2(prev => ({ ...prev, update: false })); // Reset loading state after the action completes
+    }
   };
 
   return (
@@ -62,26 +125,74 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
               <span className='flex items-center gap-1'>
                 {' '}
                 <Trash size={24} variant='Bold' color='#B22222' />
-                  Remove
+                Remove
               </span>
             </button>
           </div>
           <div className='flex gap-3'>
             <button
-              onClick={() => updateCartItem(item?.product?._id)}
-              className='w-auto bg-primary text-white rounded-lg border-0 p-[2px]'
-              disabled={item?.qty < 2}
+              onClick={handleUpdateCartItem}
+              className='min-w-[27px] flex items-center justify-center box-border bg-primary h-[27px] text-white rounded-lg border-0'
+              disabled={item?.qty < 2 || loading2.update}
             >
-              <Minus size={23} />
+              {loading2.update ? (
+                <svg
+                  className='h-5 w-5 animate-spin'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                >
+                  <circle
+                    className='opacity-25'
+                    cx='12'
+                    cy='12'
+                    r='10'
+                    stroke='currentColor'
+                    strokeWidth='4'
+                  />
+                  <path
+                    className='opacity-75'
+                    fill='currentColor'
+                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                  />
+                </svg>
+              ) : (
+                <Minus size={23} />
+              )}
+
             </button>
             <span className='font-clashmd text-base text-myGray'>
               {item?.qty}
             </span>
             <button
               onClick={handleAddToCart}
-              className='w-auto bg-primary text-white rounded-lg border-0 p-[2px]'
+              disabled={loading2.add}
+              className='min-w-[27px] flex items-center justify-center bg-primary text-white h-[27px] rounded-lg border-0'
             >
-              <Add size={23} />
+              {loading2.add ? (
+                <svg
+                  className='h-5 w-5 animate-spin'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                >
+                  <circle
+                    className='opacity-25'
+                    cx='12'
+                    cy='12'
+                    r='10'
+                    stroke='currentColor'
+                    strokeWidth='4'
+                  />
+                  <path
+                    className='opacity-75'
+                    fill='currentColor'
+                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                  />
+                </svg>
+              ) : (
+                <Add size={23} />
+              )}
             </button>
           </div>
         </div>

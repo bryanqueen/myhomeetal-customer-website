@@ -7,6 +7,19 @@ import toast from 'react-hot-toast';
 export const useCartActions = () => {
   const { dispatch } = useCart();
 
+  const fetchCart = async () => {
+    try {
+      const res = await productService.getCart();
+      if (res.status === 200) {
+        dispatch({ type: 'SET_CART', payload: res.data.cart });
+      } else {
+        console.error('Failed to fetch cart data');
+      }
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
+  };
+
   const addItemToCart = async (item) => {
     try {
       const res = await productService.addToCart(item.id);
@@ -63,7 +76,7 @@ export const useCartActions = () => {
     } 
   };
 
-  return { addItemToCart, removeItemFromCart, updateCartItem };
+  return { addItemToCart, removeItemFromCart, updateCartItem, fetchCart };
 };
 
 

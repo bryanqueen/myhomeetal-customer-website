@@ -189,7 +189,6 @@ const ProductOverview = ({ data, reviewData }: Props) => {
         router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
         return;
       }
-
       await updateCartItem(itemInCart?.product?._id);
     } catch (error) {
       console.error(error);

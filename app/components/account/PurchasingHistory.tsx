@@ -34,15 +34,15 @@ export default function PurchasingHistory() {
           // Extract products with statuses of 'Pending' and 'Delivered'
           const extractedProducts = reversedOrders.flatMap((order) =>
             order.orderItems
-              .filter((item) => 
+              .filter((item) =>
                 order.status === 'Ongoing' || order.status === 'Delivered'
               )
               .map((item) => ({
                 productId: order.orderId,
-                qty: item.qty,
-                productName: item.product.productTitle,
-                productImage: item.product.images[0],
-                price: item.price,
+                qty: item?.qty,
+                productName: item?.product?.productTitle || 'Unknown Product',
+                productImage: item?.product?.images[0] || '/path/to/placeholder-image.jpg',
+                price: item?.price,
                 orderStatus: order.status,
               }))
           );
@@ -63,7 +63,7 @@ export default function PurchasingHistory() {
 
   return (
     <div>
-      {productsWithStatus.length < 1 ? (
+      {productsWithStatus?.length < 1 ? (
         <div className='flex min-h-[80vh] items-center justify-center'>
           <NoHistory title='No Purchase History Yet' />
         </div>
@@ -76,14 +76,14 @@ export default function PurchasingHistory() {
             >
               <Image
                 className='h-[75px] w-[75px] rounded-[15px] object-contain lg:h-[95px] lg:w-[95px] lg:rounded-3xl'
-                src={order.productImage}
+                src={order?.productImage || ''}
                 alt=''
                 width={95}
                 height={95}
               />
               <div className='grid w-full gap-1 lg:hidden'>
                 <p className='mb-1 max-w-[475px] text-xs text-black'>
-                  {order.productName}
+                  {order?.productName|| ''}
                 </p>
                 <ProductPrice
                   priceInNGN={order.price}
@@ -112,7 +112,7 @@ export default function PurchasingHistory() {
               <div className='hidden w-full justify-between lg:flex'>
                 <div>
                   <p className='mb-1 max-w-[475px] text-base text-black'>
-                    {order.productName}
+                    {order?.productName || ''}
                   </p>
                   <div className='flex items-center gap-5'>
                     <p className='text-sm text-black'>

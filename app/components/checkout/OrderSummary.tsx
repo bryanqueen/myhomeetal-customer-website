@@ -108,13 +108,13 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
     setLoading(true);
 
     try {
-      const orderItems = cartState.items.map((item) => ({
-        product: item.id,
-        qty: item.quantity,
-        price: item.price,
-        images: item.images,
-        name: item.productTitle,
-        brand: item.brand,
+      const orderItems = validItems.map((item) => ({
+        product: item.product._id,
+        qty: item.qty,
+        price: item.product.price,
+        images: item.product.images,
+        name: item.product.productTitle,
+        brand: item.product.brand,
       }));
       const payload = {
         address: address._id,
@@ -153,10 +153,10 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
 
                 const res = await productService.payWithWallet(payload);
                 if (res.status === 200) {
-                  clear();
                   router.push(
                     `/order-confirmed?id=${orderId}-${totalAmount}-${selectedPayment}`
                   );
+                  clear();
                 }
               } catch (error) {
                 console.log(error);

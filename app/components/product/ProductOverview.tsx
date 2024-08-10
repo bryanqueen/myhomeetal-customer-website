@@ -1,6 +1,6 @@
 'use client';
 
-import { Add, HeartAdd, Minus } from 'iconsax-react';
+import { Add, HeartAdd, Minus, ShoppingCart } from 'iconsax-react';
 import Link from 'next/link';
 import { Rating } from 'react-simple-star-rating';
 
@@ -10,7 +10,6 @@ import { ArrowLeftIcon, StarIcon } from '@heroicons/react/16/solid';
 import AddToCartButton from '../cart/AddToCartButton';
 import ProductPrice from './ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
-import { useCart } from 'react-use-cart';
 import CartHandler from '../cart/CartHandler';
 import { notFound, useRouter } from 'next/navigation';
 import productService from '@/app/services/productService';
@@ -19,6 +18,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { jwtVerify } from 'jose';
 import { useCartActions } from '@/app/utils/helpers';
+import { useCart } from '@/app/CartProvider';
 
 type UserType = {
   _id: string;
@@ -146,14 +146,26 @@ const ProductOverview = ({ data, reviewData }: Props) => {
     },
   ];
   const priceStyle = 'text-black text-[25px] lg:text-5xl font-clashmd';
-  const { items } = useCart();
-  const itemInCart = items.find((item) => item.id === data?._id);
-  const itemForCart = { ...data, id: data?._id };
+  const { cartState } = useCart();
+  const itemInCart = cartState.items.find((item) => item?.product?._id === data?._id);
   const { region } = useRegion();
 
-  const { addItemToCart } = useCartActions();
+  const { removeItemFromCart, addItemToCart, updateCartItem } = useCartActions();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('AUTH_TOKEN='))
+      ?.split('=')[1];
+
+    if (!token || !(await verifyToken(token))) {
+      toast.error('Session expired. Redirecting to login...');
+
+      // Redirect to login with callbackUrl parameter
+      router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
+      setLoading(false);
+      return;
+    }
     addItemToCart({ id: data?._id, name: data.productTitle, price: data.price, quantity: 1 });
   };
 
@@ -248,10 +260,35 @@ const ProductOverview = ({ data, reviewData }: Props) => {
                 </div>
                 <ClientOnly>
                   <div className='mt-16 flex items-center justify-between gap-4 lg:mt-10 lg:w-[537px]'>
-                   <button onClick={handleAddToCart}>
-                      add to cart
-                   </button>
 
+                    {cartState && itemInCart ? (
+                      <div className='flex w-[206px] items-center justify-between'>
+                        <button
+                          onClick={() => updateCartItem(itemInCart?.product._id)}
+                          className='h-[50px] flex items-center justify-center w-[50px] bg-primary text-white rounded-lg border-0'
+                        >
+                          <Minus size={35} />
+                        </button>
+                        <span className='text-2xl text-myGray'>
+                          {itemInCart?.qty}
+                        </span>
+                        <button
+                          onClick={handleAddToCart}
+                          className='h-[50px] flex items-center justify-center bg-primary text-white w-[50px] rounded-lg border-0'
+                        >
+                          <Add size={35} />
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        className='w-full flex relative items-center justify-center shadow-none border-0 rounded-full px-10 py-5 text-base font-clashmd bg-primary text-white'
+                        onClick={handleAddToCart}>
+                        <span className='absolute left-7'>
+                          <ShoppingCart size={24} variant='Bulk' color='white' />
+                        </span>
+                        Add to cart
+                      </button>
+                    )}
                     <button
                       onClick={savedItem}
                       className='relative flex h-[60px] min-w-[60px] items-center justify-center rounded-full bg-[#F68182]'

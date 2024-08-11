@@ -43,7 +43,7 @@ export default async function CategoriesPage() {
   }
 
   return (
-    <main className='pt-[165px] lg:pt-0 min-h-[100vh]'>
+    <main className='pt-[165px] pb-20 lg:pt-0 min-h-[100vh]'>
       <section>
         <Suspense>
           <div className='fixed left-0 right-0 top-[83px] z-20 bg-white px-[3%] py-4 lg:hidden'>

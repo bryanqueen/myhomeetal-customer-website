@@ -8,9 +8,12 @@ export default function KeyFeature({ dataFeature }: any) {
           KEY FEATURES
         </h2>
       </div>
-      <div className='py-[38px] px-7 lg:px-10 text-xs text-black lg:text-base'>
-        <ul className="list-disc">{dataFeature?.map(item => <li key={item}>{item}</li>)}</ul>
-      </div>
+      {dataFeature && (
+        <div className='py-[38px] px-7 lg:px-10 text-xs text-black lg:text-base'>
+          <ul className="list-disc">{dataFeature?.map(item => <li key={item}>{item}</li>)}</ul>
+        </div>
+      )}
+
     </div>
   );
 }

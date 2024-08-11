@@ -116,7 +116,7 @@ export default function MobileCartItem({ item }: any) {
             >
               <Minus size={15} />
               {loading2.update && (
-                <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E1E1E1] opacity-75'></span>
+                <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-[#707070]'></span>
               )}
             </button>
             <span className='font-clashmd text-xs text-[#656565]'>
@@ -129,7 +129,7 @@ export default function MobileCartItem({ item }: any) {
             >
               <Add size={15} />
               {loading2.add && (
-                <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-[#F8BCBC] opacity-75'></span>
+                <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff7474]'></span>
               )}
             </button>
           </div>

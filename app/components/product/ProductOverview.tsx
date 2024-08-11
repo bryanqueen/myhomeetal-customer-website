@@ -17,6 +17,7 @@ import toast from 'react-hot-toast';
 import { jwtVerify } from 'jose';
 import { useCartActions } from '@/app/utils/helpers';
 import { useCart } from '@/app/CartProvider';
+import { usePopup } from '@/app/PopupProvider';
 
 type UserType = {
   _id: string;
@@ -148,10 +149,35 @@ const ProductOverview = ({ data, reviewData }: Props) => {
   const { cartState } = useCart();
   const itemInCart = cartState.items.find((item) => item?.product?._id === data?._id);
   const { region } = useRegion();
-
-  const { removeItemFromCart, addItemToCart, updateCartItem } = useCartActions();
+  const { showPopup } = usePopup();
+  const { addItemToCart, updateCartItem } = useCartActions();
 
   const handleAddToCart = async () => {
+    setLoading2(prev => ({ ...prev, add: true })); // Set loading state to true when starting the action
+
+    try {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('AUTH_TOKEN='))
+        ?.split('=')[1];
+
+      if (!token || !(await verifyToken(token))) {
+        toast.error('Session expired. Redirecting to login...');
+        router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
+        return;
+      }
+
+      await addItemToCart({ id: data?._id, name: data.productTitle, price: data.price, quantity: 1 });
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred. Please try again.');
+    } finally {
+      showPopup();
+      setLoading2(prev => ({ ...prev, add: false })); // Reset loading state after the action completes
+    }
+  };
+
+  const handleAddToCart2 = async () => {
     setLoading2(prev => ({ ...prev, add: true })); // Set loading state to true when starting the action
 
     try {
@@ -327,7 +353,7 @@ const ProductOverview = ({ data, reviewData }: Props) => {
                         </span>
                         <button
                           disabled={loading2.add}
-                          onClick={handleAddToCart}
+                          onClick={handleAddToCart2}
                           className='h-[50px] flex items-center justify-center bg-primary text-white w-[50px] rounded-lg border-0'
                         >
                           {loading2.add ? (

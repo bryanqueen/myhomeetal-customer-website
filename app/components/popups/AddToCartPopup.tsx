@@ -1,5 +1,5 @@
 'use client';
-import { useCart } from 'react-use-cart';
+
 import CartItem from '../cart/CartItem';
 import Button from '../Button';
 import Image from 'next/image';
@@ -7,11 +7,12 @@ import ClientOnly from '../ClientOnly';
 import { usePopup } from '@/app/PopupProvider';
 import MobileCartItem from '../cart/MobileCartItem';
 import { useRouter } from 'next/navigation';
+import { useCart } from '@/app/CartProvider';
 
 export default function AddToCartPopup({ data }: { data: any }) {
   const { isPopupVisible, hidePopup } = usePopup();
-  const { items } = useCart();
-  const itemInCart = items.find((item) => item.id === data?._id);
+  const { cartState } = useCart();
+  const itemInCart = cartState.items.find((item) => item?.product?._id === data?._id);
   const router = useRouter();
 
   const handleGotoCheckout = () => {

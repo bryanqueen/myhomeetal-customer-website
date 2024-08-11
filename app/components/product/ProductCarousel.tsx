@@ -27,7 +27,12 @@ const ProductCarousel = ({ data }: any) => {
 
   return (
     <div className='my-5 mt-16 lg:hidden'>
-      <Carousel responsive={responsive} partialVisible={!isSingleImage}>
+      <Carousel
+        responsive={responsive}
+        partialVisible={!isSingleImage}
+        customRightArrow={<CustomRightArrow />}
+        customLeftArrow={<CustomLeftArrow />}
+      >
         {data?.images?.map((image: string, index: number) => (
           <div
             key={index}
@@ -44,6 +49,44 @@ const ProductCarousel = ({ data }: any) => {
         ))}
       </Carousel>
     </div>
+  );
+};
+
+const CustomRightArrow = ({ onClick }: any) => {
+  return (
+    <button
+      onClick={onClick}
+      className="react-multiple-carousel__arrow react-multiple-carousel__arrow--right"
+      style={{
+        zIndex: 1,
+        width: '40px',  // Adjust the width
+        height: '40px', // Adjust the height
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <span className='ml-[-12px]'>&#9654;</span>
+    </button>
+  );
+};
+
+const CustomLeftArrow = ({ onClick }: any) => {
+  return (
+    <button
+      onClick={onClick}
+      className="react-multiple-carousel__arrow react-multiple-carousel__arrow--left"
+      style={{
+        zIndex: 1,  // Set your desired z-index here
+        width: '40px',  // Adjust the width
+        height: '40px', // Adjust the height
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+     <span className='mr-[-12px]'>&#9664;</span>
+    </button>
   );
 };
 

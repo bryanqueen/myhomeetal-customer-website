@@ -91,7 +91,7 @@ export default async function Home() {
 
           const productsData = await res.json();
           productsByCategory[category?._id] = productsData;
-
+          console.log(productsData);
           // Return the category with its products
           return {
             ...category,

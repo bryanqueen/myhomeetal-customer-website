@@ -147,16 +147,6 @@ export const hamburgerNav = [
     link: ROUTES.REFERRAL2,
   },
   {
-    text: 'My Account',
-    icon: <UserTick variant='Bulk' />,
-    link: ROUTES.ACCOUNT,
-  },
-  {
-    text: 'My Cart',
-    icon: <ShoppingCart variant='Bulk' color='#292D32' />,
-    link: ROUTES.CART,
-  },
-  {
     text: 'Help Center',
     icon: <UserTick variant='Bulk' color='#292D32' />,
     link: ROUTES.HELP_CENTER,

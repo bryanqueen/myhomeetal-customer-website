@@ -9,29 +9,20 @@ import Button from '../Button';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import ClientOnly from '../ClientOnly';
-import { useEffect, useState } from 'react';
-import productService from '@/app/services/productService';
 
-type UserType = {
+interface Review {
   _id: string;
-  firstname: string;
-};
-
-type ReviewType = {
-  _id: string;
-  user: UserType;
-  product: string;
   rating: number;
   comment: string;
   date: string;
-  __v: number;
-};
+}
 
 interface Product {
   _id: string;
   productTitle: string;
   price: number;
   images: string[];
+  review: Review[];
   isProductNew: boolean;
 }
 
@@ -41,7 +32,6 @@ interface Props {
 }
 
 const ProductCard = ({ variant = 'default', product }: Props) => {
-  const [reviewData, setReviewData] = useState<ReviewType[]>([]);
   const { region } = useRegion();
 
   const priceStyle = 'text-base font-clashmd text-black';
@@ -51,30 +41,19 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
       'md:w-full lg:font-medium': variant === 'top',
     }
   );
-/**
-  useEffect(() => {
-    const fetchReviewData = async () => {
-      try {
-        const response = await productService.getReview(product._id);
-        if (response.status === 200) {
-          setReviewData(response.data);
-        }
 
-      } catch (error) {
-        console.error('Error fetching review data:', error);
-      }
-    };
+  const validRatings = product.review
+    .map(review => {
+      const rating = Number(review.rating);
+      return rating;
+    })
+    .filter(rating => Number.isFinite(rating));
 
-    fetchReviewData();
-  }, [product._id]);
- */
-  const calculateAverageRating = (reviews: ReviewType[]) => {
-    const total = reviews.reduce((sum, rev) => sum + rev.rating, 0);
-    return reviews.length ? total / reviews.length : 0;
-  };
+  const averageRating = validRatings.length
+    ? validRatings.reduce((acc, cur) => acc + cur, 0) / validRatings.length
+    : 0;
 
-  const averageRating = calculateAverageRating(reviewData);
-  const reviewCount = reviewData.length;
+  const reviewCount = product.review.length;
   const href = `/item/${product?._id}`;
 
   return (

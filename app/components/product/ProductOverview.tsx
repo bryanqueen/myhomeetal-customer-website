@@ -255,7 +255,7 @@ const ProductOverview = ({ data, reviewData }: Props) => {
             </ul>
           </div>
           <div className='mb-24 mt-16 flex w-full flex-col items-center justify-between lg:h-[500px] lg:flex-row'>
-            <div className='w-full lg:h-full lg:basis-[48%] lg:pl-10'>
+            <div className='w-full min-h-[360px] lg:h-full lg:basis-[48%] lg:pl-10'>
               <ProductCarousel data={data} />
               <ProductGallery images={data?.images} />
             </div>

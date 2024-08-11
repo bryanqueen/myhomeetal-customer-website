@@ -7,13 +7,20 @@ import Button from '@components/Button';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import ClientOnly from '../ClientOnly';
+
+interface Review {
+  _id: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
 interface Product {
   _id: string;
   productTitle: string;
   price: number;
   images: string[];
-  reviewsCount: number;
-  rating: number;
+  review: Review[];
   isProductNew: boolean;
 }
 
@@ -25,6 +32,20 @@ const ProductGridCard: React.FC<ProductCardProps> = ({
   product,
 }: ProductCardProps) => {
   const { region } = useRegion();
+
+  const validRatings = product.review
+  .map(review => {
+    const rating = Number(review.rating);
+    return rating;
+  })
+  .filter(rating => Number.isFinite(rating));
+
+const averageRating = validRatings.length
+  ? validRatings.reduce((acc, cur) => acc + cur, 0) / validRatings.length
+  : 0;
+
+const reviewCount = product.review.length;
+
   return (
     <div className='flex h-[418px] w-[279px] flex-col justify-between px-[30px] py-[20px] lg:rounded-[20px] lg:border lg:border-[#E4E7EC]'>
       <Image
@@ -38,9 +59,9 @@ const ProductGridCard: React.FC<ProductCardProps> = ({
       <div className='flex max-h-[117px] w-full flex-col gap-3'>
         <div className='hidden items-center justify-between gap-[19px] lg:flex'>
           <div className='flex items-center text-sm text-black'>
-            {product?.rating}
+            {averageRating}
             <Rating
-              initialValue={product?.rating}
+              initialValue={averageRating}
               readonly={true}
               allowFraction={true}
               size={16}
@@ -52,7 +73,7 @@ const ProductGridCard: React.FC<ProductCardProps> = ({
 
           <div>
             <p className='text-sm text-black'>
-              {product?.reviewsCount} Reviews
+              {reviewCount} Reviews
             </p>
           </div>
         </div>

@@ -7,13 +7,19 @@ import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import ClientOnly from '../ClientOnly';
 
+interface Review {
+  _id: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
 interface Product {
   _id: string;
   productTitle: string;
   price: number;
   images: string[];
-  reviewsCount: number;
-  rating: number;
+  review: Review[];
   isProductNew: boolean;
 }
 
@@ -23,6 +29,20 @@ interface ProductCardProps {
 
 const ProductListCard = ({ product }: ProductCardProps) => {
   const { region } = useRegion();
+
+  const validRatings = product.review
+    .map(review => {
+      const rating = Number(review.rating);
+      return rating;
+    })
+    .filter(rating => Number.isFinite(rating));
+
+  const averageRating = validRatings.length
+    ? validRatings.reduce((acc, cur) => acc + cur, 0) / validRatings.length
+    : 0;
+
+  const reviewCount = product.review.length;
+
   return (
     <div className='mb-5 flex h-[207px] w-[869px] items-center gap-[63px] rounded-[20px] border border-[#E4E7EC] px-[43px] py-5'>
       <div className='w-[134px]'>
@@ -41,9 +61,9 @@ const ProductListCard = ({ product }: ProductCardProps) => {
           <p className='text-base text-black'>{product?.productTitle}</p>
           <div className='flex items-center gap-3'>
             <p className='hidden text-sm text-black sm:block'>
-              {product?.rating}
+              {averageRating}
               <Rating
-                initialValue={product?.rating}
+                initialValue={averageRating}
                 readonly={true}
                 allowFraction={true}
                 size={16}
@@ -54,7 +74,7 @@ const ProductListCard = ({ product }: ProductCardProps) => {
             </p>
 
             <p className='ml-2 hidden text-sm text-black sm:block'>
-              {product?.reviewsCount} Reviews
+              {reviewCount} Reviews
             </p>
           </div>
           <div className='flex items-center justify-between'>

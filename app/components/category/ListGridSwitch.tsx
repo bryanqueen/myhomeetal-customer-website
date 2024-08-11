@@ -16,8 +16,7 @@ interface Product {
   productTitle: string;
   price: number;
   images: string[];
-  reviewsCount: number;
-  rating: number;
+  rating: any;
   isProductNew: boolean;
   discount: number;
   createdAt: string;
@@ -35,7 +34,7 @@ const sortProducts = (products: Product[], sortOption: string) => {
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
     case 'bestSellers':
-      return products.sort((a, b) => b.reviewsCount - a.reviewsCount);
+      return products.sort((a, b) => b.rating.length - a.rating.length);
     case 'AvgCustomerReview':
       return products.sort((a, b) => b.rating - a.rating);
     default:

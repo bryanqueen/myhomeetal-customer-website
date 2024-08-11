@@ -21,8 +21,6 @@ const AdBanner = () => {
   ];
   const mobileImages = [
     '/images/newad.svg',
-    '/images/newad.svg',
-    '/images/newad.svg',
   ];
 
   return (
@@ -47,7 +45,7 @@ const AdBanner = () => {
           ))}
         </Carousel>
       </div>
-      <div className='pt-3 min-h-[220px] lg:hidden'>
+      <div className='pt-3 min-h-[230px] lg:hidden'>
         <Carousel
           responsive={responsive}
           infinite={true}
@@ -62,7 +60,6 @@ const AdBanner = () => {
               alt='Advert'
               width={358}
               height={200}
-              loading='lazy'
             />
           ))}
         </Carousel>

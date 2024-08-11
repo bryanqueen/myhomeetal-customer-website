@@ -133,7 +133,7 @@ export default async function Home() {
       </section>
 
       <AdBanner />
-      <div className='md:my-5 lg:mx-5'>
+      <div className='lg:mx-5'>
         <TopCategories topCategories={topCategories} />
 
         {/* <Category title='Top Selling Items' color='bg-yellow-500'  /> */}

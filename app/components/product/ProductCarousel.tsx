@@ -66,7 +66,7 @@ const CustomRightArrow = ({ onClick }: any) => {
         justifyContent: 'center',
       }}
     >
-      <span className='ml-[-12px]'>&#9654;</span>
+
     </button>
   );
 };
@@ -85,7 +85,7 @@ const CustomLeftArrow = ({ onClick }: any) => {
         justifyContent: 'center',
       }}
     >
-     <span className='mr-[-12px]'>&#9664;</span>
+
     </button>
   );
 };

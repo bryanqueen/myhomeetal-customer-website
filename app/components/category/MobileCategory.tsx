@@ -139,7 +139,7 @@ export default function MobileCategory({ products }: { products: Product[] }) {
       {isNavActive('filter') && (
         <div
           onClick={() => setActiveNav(null)}
-          className='fixed bottom-0 left-0 right-0 top-0 z-[2000] flex justify-end bg-black/50 lg:hidden'
+          className='fixed min-h-[100vh] bottom-0 left-0 right-0 top-0 z-[2000] flex justify-end bg-black/50 lg:hidden'
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -249,7 +249,7 @@ export default function MobileCategory({ products }: { products: Product[] }) {
       {isNavActive('sort') && (
         <div
           onClick={() => setActiveNav(null)}
-          className='fixed bottom-0 left-0 right-0 top-0 z-[2000] flex flex-col justify-end bg-black/50 lg:hidden'
+          className='fixed min-h-[100vh] bottom-0 left-0 right-0 top-0 z-[2000] flex flex-col justify-end bg-black/50 lg:hidden'
         >
           <div
             onClick={(e) => e.stopPropagation()}

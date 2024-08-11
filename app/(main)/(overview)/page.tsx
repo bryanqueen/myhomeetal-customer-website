@@ -78,7 +78,6 @@ export default async function Home() {
     topCategories = await Promise.all(
       topCategories.map(async (category) => {
         try {
-          console.log(`Fetching products for category ID: ${category?._id}`);
           const res = await fetch(`https://my-home-et-al.onrender.com/api/v1/product/category/${category?._id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -138,7 +137,7 @@ export default async function Home() {
         <TopCategories topCategories={topCategories} />
 
         {/* <Category title='Top Selling Items' color='bg-yellow-500'  /> */}
-        <AdBanner2 />
+
         {topCategories &&
           topCategories.slice(0, 6).map((category, index) => {
             const products = category.products;
@@ -154,7 +153,8 @@ export default async function Home() {
                   id={category?._id}
                   products={products}
                 />
-                {index === 2 && <AdBanner3 />} {/* Insert AdBanner3 after the third category */}
+                {index === 0 && <AdBanner2 />}
+                {index === 1 && <AdBanner3 />}
               </React.Fragment>
             );
           })}

@@ -27,7 +27,7 @@ const AdBanner = () => {
 
   return (
     <>
-      <div className='hidden py-4 lg:block'>
+      <div className='hidden min-h-[280px] py-4 lg:block'>
         <Carousel
           responsive={responsive}
           infinite={true}
@@ -47,7 +47,7 @@ const AdBanner = () => {
           ))}
         </Carousel>
       </div>
-      <div className='pt-3 lg:hidden'>
+      <div className='pt-3 min-h-[220px] lg:hidden'>
         <Carousel
           responsive={responsive}
           infinite={true}

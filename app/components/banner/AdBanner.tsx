@@ -3,9 +3,10 @@
 import Image from 'next/image';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import { Banner1 } from './Banners';
 
 const AdBanner = () => {
-  const imageClass = 'w-full lg:rounded-3xl object-contain px-3 lg:px-1 lg:w-[897px]';
+  const imageClass = 'w-full lg:rounded-3xl object-contain px-3 lg:px-1 lg:min-w-[700px]';
 
   const responsive = {
     sm: {
@@ -14,18 +15,26 @@ const AdBanner = () => {
     },
   };
 
+  const banners = [
+    <Banner1 key="banner1" />,
+    <Banner1 key="banner2" />,
+    <Banner1 key="banner3" />,
+  ];
+
   const images = [
     '/images/Banner11.png',
     '/images/Banner12.png',
     '/images/Banner13.png',
   ];
   const mobileImages = [
-    '/images/newad.svg',
+    '/images/mobss1.svg',
+    '/images/mobss2.svg',
+    '/images/mobss3.svg',
   ];
 
   return (
     <>
-      <div className='hidden min-h-[280px] py-4 lg:block'>
+      <div className='hidden min-h-[250px] py-4 lg:block'>
         <Carousel
           responsive={responsive}
           infinite={true}
@@ -33,15 +42,10 @@ const AdBanner = () => {
           autoPlay={true}
           centerMode={true}
         >
-          {images.map((src, index) => (
-            <Image
-              key={index}
-              className={imageClass}
-              src={src}
-              alt='Advert'
-              width={897}
-              height={200}
-            />
+          {banners.map((banner, index) => (
+            <div key={index} className='mr-2'>
+              {banner}
+            </div>
           ))}
         </Carousel>
       </div>

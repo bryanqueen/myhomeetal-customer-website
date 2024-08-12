@@ -10,9 +10,9 @@ const images = [
 ];
 
 const Mobimages = [
-  '/images/mobileBan1.svg',
-  '/images/mobileBan2.svg',
-  '/images/mobileBan33.svg',
+  '/images/mobileban1.svg',
+  '/images/mobileban2.svg',
+  '/images/mobileban33.svg',
 ];
 
 const AdBanner2 = () => {

@@ -34,6 +34,8 @@ interface UserInfo {
 
 const CheckoutForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isAddLoading, setIsAddLoading] = useState<boolean>(false);
+  const [isUpdateLoading, setIsUpdateLoading] = useState<boolean>(false);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const {
     setFirstStageCompleted,
@@ -70,7 +72,7 @@ const CheckoutForm: React.FC = () => {
   useEffect(() => {
     const fetchedUserInfo = authUtils.getUserInfo();
     setUserInfo(fetchedUserInfo);
-  
+
     const fetchData = async () => {
       try {
         const [addressRes, walletRes, referralRes] = await Promise.allSettled([
@@ -95,8 +97,8 @@ const CheckoutForm: React.FC = () => {
         } else {
           console.error('Wallet fetch failed:', walletRes.reason);
         }
-        if (referralRes.status === 'fulfilled') {      
-          setPoint(referralRes.value.data.data.totalEarnings);       
+        if (referralRes.status === 'fulfilled') {
+          setPoint(referralRes.value.data.data.totalEarnings);
         } else {
           console.error('Referral fetch failed:', referralRes.reason);
         }
@@ -107,7 +109,7 @@ const CheckoutForm: React.FC = () => {
         setIsLoading(false);
       }
     };
-  
+
     const calculateDeliveryDates = () => {
       const today = new Date();
       const startDate = new Date();
@@ -185,7 +187,7 @@ const CheckoutForm: React.FC = () => {
 
   //create address
   const createMyAddress = async () => {
-    setIsLoading(true);
+    setIsAddLoading(true);
     if (myAddress && phoneNumber && selectedLocation) {
       try {
         const payload = {
@@ -206,9 +208,9 @@ const CheckoutForm: React.FC = () => {
       } catch (error) {
         console.log(error);
         toast.error('An error occured. Please try again!');
-        setIsLoading(false);
+        setIsAddLoading(false);
       } finally {
-        setIsLoading(false);
+        setIsAddLoading(false);
       }
     } else {
       toast.error('All fields are required');
@@ -232,7 +234,7 @@ const CheckoutForm: React.FC = () => {
   };
 
   const editMyAddress = async () => {
-    setIsLoading(true);
+    setIsUpdateLoading(true);
     try {
       const payload = {
         addressId: id,
@@ -246,15 +248,15 @@ const CheckoutForm: React.FC = () => {
         setPhoneNumber('');
         toast.success('Address updated successfully');
         setIsEdit(false);
-        setIsLoading(false);
+        setIsUpdateLoading(false);
         getAddress();
       }
     } catch (error) {
       console.log(error);
       toast.error('An error ocurred. Plese try again!');
-      setIsLoading(false);
+      setIsUpdateLoading(false);
     } finally {
-      setIsLoading(false);
+      setIsUpdateLoading(false);
     }
   };
 
@@ -349,8 +351,8 @@ const CheckoutForm: React.FC = () => {
                 >
                   <Button
                     onClick={editMyAddress}
-                    disabled={isLoading}
-                    loading={isLoading}
+                    disabled={isUpdateLoading}
+                    loading={isUpdateLoading}
                     className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-[10px] border-0 bg-primary text-center font-clashmd text-base text-white shadow-none lg:rounded-full'
                   >
                     Update Address
@@ -403,8 +405,8 @@ const CheckoutForm: React.FC = () => {
                   <div className='hidden items-center justify-center lg:flex'>
                     <Button
                       onClick={createMyAddress}
-                      loading={isLoading}
-                      disabled={isLoading}
+                      loading={isAddLoading}
+                      disabled={isAddLoading}
                       className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full border-0 bg-primary text-center font-clashmd text-base text-white shadow-none'
                     >
                       Create a New Address
@@ -417,8 +419,8 @@ const CheckoutForm: React.FC = () => {
                 >
                   <Button
                     onClick={createMyAddress}
-                    loading={isLoading}
-                    disabled={isLoading}
+                    loading={isAddLoading}
+                    disabled={isAddLoading}
                     className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] border-0 bg-primary text-center font-clashmd text-base text-white shadow-none'
                   >
                     Create a New Address
@@ -506,11 +508,10 @@ const CheckoutForm: React.FC = () => {
                       <div
                         key={address._id}
                         onClick={() => handleAddressClick(address)}
-                        className={`relative mt-3 rounded-[10px] lg:mt-10 ${
-                          address._id === selectedAddress._id
-                            ? 'bg-primary text-white'
-                            : 'bg-[#F4F4F4] text-black'
-                        } px-3 py-7 lg:rounded-2xl lg:px-9 lg:py-5`}
+                        className={`relative mt-3 rounded-[10px] lg:mt-10 ${address._id === selectedAddress._id
+                          ? 'bg-primary text-white'
+                          : 'bg-[#F4F4F4] text-black'
+                          } px-3 py-7 lg:rounded-2xl lg:px-9 lg:py-5`}
                       >
                         <p className='mb-2 text-xs lg:mb-1 lg:text-base'>
                           <span className='mr-2'>{userInfo?.firstname}</span>
@@ -537,11 +538,10 @@ const CheckoutForm: React.FC = () => {
                               address.city
                             )
                           }
-                          className={`${
-                            address._id === selectedAddress._id
-                              ? 'text-white'
-                              : 'text-[#8B1A1A]'
-                          } absolute right-2 top-[50%] h-20 w-20 translate-y-[-50%] text-sm lg:text-base`}
+                          className={`${address._id === selectedAddress._id
+                            ? 'text-white'
+                            : 'text-[#8B1A1A]'
+                            } absolute right-2 top-[50%] h-20 w-20 translate-y-[-50%] text-sm lg:text-base`}
                         >
                           Edit
                         </button>

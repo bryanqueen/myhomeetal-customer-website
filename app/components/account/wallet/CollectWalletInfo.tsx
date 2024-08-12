@@ -67,14 +67,14 @@ const CollectWalletInfo = () => {
         } else {
           setLoading(false);
           toast.error(res.data.error || 'An unexpected error occurred.');
-          //window.location.reload();
+          window.location.reload();
         }
       } catch (error) {
         setLoading(false);
         toast.error(
           error.response?.data?.error || 'An unexpected error occurred.'
         );
-        //window.location.reload();
+        window.location.reload();
       }
     } else {
       toast.error('Incomplete setup information.');
@@ -210,8 +210,25 @@ const PersonalInfo: React.FC<PersonalProps> = ({
   setDob,
 }) => {
   const [isGenderToggle, setIsGenderToggle] = useState(false);
-  const handleDateSelect = (date: string) => {
-    setDob(date);
+  const handleDateChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ""); // Remove all non-numeric characters
+
+    // Automatically insert the first hyphen after the fourth character (YYYY)
+    if (value.length >= 4) {
+      value =
+        value.slice(0, 4) + (value.length > 4 ? "-" : "") + value.slice(4);
+    }
+
+    // Automatically insert the second hyphen after the sixth character (YYYY-MM)
+    if (value.length >= 7) {
+      value =
+        value.slice(0, 7) + (value.length > 7 ? "-" : "") + value.slice(7);
+    }
+
+    // Limit the input to 10 characters (YYYY-MM-DD)
+    value = value.slice(0, 10);
+
+    setDob(value);
   };
   return (
     <div className='min-w-full rounded-[15px] bg-white px-[3%] lg:min-w-[626px] lg:rounded-[30px]'>
@@ -294,7 +311,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({
             Date of Birth
           </label>
           <div className='relative'>
-            <input name='dob' placeholder='YYYY-MM-DD' value={dob} onChange={(e) => setDob(e.target.value)} className='h-[60px] w-full rounded-[10px] placeholder:text-black bg-[#F4F4F4] px-5 text-xs lg:h-[70px] lg:border lg:border-[#D9D9D9] lg:bg-white lg:text-sm' />
+            <input name='dob' placeholder='YYYY-MM-DD' value={dob} onChange={handleDateChange} className='h-[60px] w-full rounded-[10px] placeholder:text-black bg-[#F4F4F4] px-5 text-xs lg:h-[70px] lg:border lg:border-[#D9D9D9] lg:bg-white lg:text-sm' />
             <Image src='/Calendar.svg' width={15} height={15} alt='calendar icon' className='absolute top-[50%] translate-y-[-50%] right-5' />
           </div>
         </div>

@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { Banner1 } from './Banners';
 
 const AdBanner = () => {
   const imageClass = 'w-full px-1 lg:rounded-[20px] h-full object-contain lg:min-w-[700px]';
@@ -14,12 +13,6 @@ const AdBanner = () => {
       items: 1,
     },
   };
-
-  const banners = [
-    <Banner1 key="banner1" />,
-    <Banner1 key="banner2" />,
-    <Banner1 key="banner3" />,
-  ];
 
   const images = [
     '/images/deskban1.svg',

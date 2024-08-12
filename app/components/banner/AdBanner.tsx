@@ -5,7 +5,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 const AdBanner = () => {
-  const imageClass = 'h-full lg:px-1 object-contain';
+  const imageClass = 'h-full w-full lg:px-1 object-contain';
 
   const responsive = {
     sm: {

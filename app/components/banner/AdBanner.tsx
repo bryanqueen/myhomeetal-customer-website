@@ -5,7 +5,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 const AdBanner = () => {
-  const imageClass = 'w-full px-1 lg:rounded-[20px] h-full object-contain lg:min-w-[700px]';
+  const imageClass = 'h-full lg:px-1 object-contain';
 
   const responsive = {
     sm: {
@@ -15,14 +15,14 @@ const AdBanner = () => {
   };
 
   const images = [
-    '/images/deskban1.svg',
-    '/images/deskban2.svg',
-    '/images/deskban3.svg',
+    '/images/deskban11.svg',
+    '/images/deskban22.svg',
+    '/images/deskban33.svg',
   ];
   const mobileImages = [
-    '/images/mobss4.svg',
-    '/images/mobss1.svg',
-    '/images/mobss22.svg',
+    '/images/mobss222.svg',
+    '/images/mobss111.svg',
+    '/images/mobss333.svg',
   ];
 
   return (
@@ -36,7 +36,7 @@ const AdBanner = () => {
           centerMode={true}
         >
           {images.map((src, index) => {
-            const targetLink = index === 0 ? '/page1' : index === 2 ? '/page2' : null;
+            const targetLink = index === 0 ? '/account/my-wallet' : index === 2 ? '/referral' : null;
 
             return (
               <div key={index} className=''>
@@ -72,7 +72,7 @@ const AdBanner = () => {
           autoPlay={true}
         >
           {mobileImages.map((src, index) => {
-            const targetLink = index === 0 ? '/page1' : index === 2 ? '/page2' : null;
+            const targetLink = index === 1 ? '/referral-page' : index === 2 ? '/account/my-wallet' : null;
 
             return (
               <div key={index} className=''>

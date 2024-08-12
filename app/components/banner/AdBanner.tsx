@@ -36,7 +36,7 @@ const AdBanner = () => {
           centerMode={true}
         >
           {images.map((src, index) => {
-            const targetLink = index === 0 ? '/account/my-wallet' : index === 2 ? '/referral' : null;
+            const targetLink = index === 0 ? '/account/my-wallet' : index === 2 ? '/referral-page' : null;
 
             return (
               <div key={index} className=''>

@@ -158,51 +158,55 @@ const SearchForm = () => {
       >
         <div
           onMouseDown={handleMouseDown}
-          className={`relative mx-auto mt-7 lg:mt-10 w-full max-w-[90%] rounded-2xl bg-white p-5 lg:max-w-[473px]`}
+          className={`relative pr-[0] lg:pl-[70px] mx-auto mt-7 lg:mt-10 w-full max-w-[90%] lg:max-w-[550px]`}
         >
-          <div className='mb-5'>
-            <p className='mb-6 font-clashmd text-xs text-myGray lg:text-sm'>
-              Suggested Products
-            </p>
-            <div className='grid gap-3'>
-              {suggestedProducts.map((product) => (
-                <Link
-                  onClick={() => handleDropdownToggle(id, false)}
-                  href={`/item/${product?._id}`}
-                  key={product._id}
-                  className='flex items-center gap-3 text-sm text-[#656565] lg:text-base'
-                >
-                  <Image
-                    className=''
-                    src='/icons/search.svg'
-                    alt='Search'
-                    width={15}
-                    height={20}
-                  />
-                  {product.productTitle}
-                </Link>
-              ))}
-            </div>
-          </div>
-          {recentSearches.length > 0 && (
+          <div className='border bg-white rounded-2xl p-5'>
             <div className='mb-5'>
-              <p className='mb-2 font-clashmd text-xs text-myGray lg:text-sm'>
-                Previous Search
+              <p className='mb-6 font-clashmd text-xs text-myGray lg:text-sm'>
+                Suggested Products
               </p>
-              <div className='grid grid-cols-2 gap-4 text-sm text-[#656565]'>
-                {recentSearches.map((search) => (
+              <div className='grid gap-3'>
+                {suggestedProducts.map((product) => (
                   <Link
-                    href='/'
-                    key={search}
-                    onClick={() => handleRecentSearchClick(search)}
-                    className='flex items-center justify-between'
+                    onClick={() => handleDropdownToggle(id, false)}
+                    href={`/item/${product?._id}`}
+                    key={product._id}
+                    className='flex items-center gap-3 text-sm text-[#656565] lg:text-base'
                   >
-                    {search} <ArrowRight size='15px' />
+                    <Image
+                      className=''
+                      src='/icons/search.svg'
+                      alt='Search'
+                      width={15}
+                      height={20}
+                    />
+                    {product.productTitle}
                   </Link>
                 ))}
               </div>
             </div>
-          )}
+            {recentSearches.length > 0 && (
+              <div className='mb-5'>
+                <p className='mb-2 font-clashmd text-xs text-myGray lg:text-sm'>
+                  Previous Search
+                </p>
+                <div className='grid grid-cols-2 gap-4 text-sm text-[#656565]'>
+                  {recentSearches.map((search) => (
+                    <Link
+                      href='/'
+                      key={search}
+                      onClick={() => handleRecentSearchClick(search)}
+                      className='flex items-center justify-between'
+                    >
+                      {search} <ArrowRight size='15px' />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+
         </div>
       </div>
     </div>

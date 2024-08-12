@@ -149,8 +149,8 @@ const ProductOverview = ({ data, reviewData }: Props) => {
   const { cartState } = useCart();
   const itemInCart = cartState.items.find((item) => item?.product?._id === data?._id);
   const { region } = useRegion();
-  const { showPopup } = usePopup();
-  const { addItemToCart, updateCartItem } = useCartActions();
+ 
+  const { addItemToCart, updateCartItem, addItemToCart1 } = useCartActions();
 
   const handleAddToCart = async () => {
     setLoading2(prev => ({ ...prev, add: true })); // Set loading state to true when starting the action
@@ -172,7 +172,6 @@ const ProductOverview = ({ data, reviewData }: Props) => {
       console.error(error);
       toast.error('An error occurred. Please try again.');
     } finally {
-      showPopup();
       setLoading2(prev => ({ ...prev, add: false })); // Reset loading state after the action completes
     }
   };
@@ -192,7 +191,7 @@ const ProductOverview = ({ data, reviewData }: Props) => {
         return;
       }
 
-      await addItemToCart({ id: data?._id, name: data.productTitle, price: data.price, quantity: 1 });
+      await addItemToCart1({ id: data?._id, name: data.productTitle, price: data.price, quantity: 1 });
     } catch (error) {
       console.error(error);
       toast.error('An error occurred. Please try again.');

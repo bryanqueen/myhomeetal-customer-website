@@ -6,7 +6,7 @@ import 'react-multi-carousel/lib/styles.css';
 import { Banner1 } from './Banners';
 
 const AdBanner = () => {
-  const imageClass = 'w-full lg:rounded-3xl object-contain px-3 lg:px-1 lg:min-w-[700px]';
+  const imageClass = 'w-full px-1 lg:rounded-[20px] h-full object-contain lg:min-w-[700px]';
 
   const responsive = {
     sm: {
@@ -22,19 +22,19 @@ const AdBanner = () => {
   ];
 
   const images = [
-    '/images/Banner11.png',
-    '/images/Banner12.png',
-    '/images/Banner13.png',
+    '/images/deskban1.svg',
+    '/images/deskban2.svg',
+    '/images/deskban3.svg',
   ];
   const mobileImages = [
+    '/images/mobss4.svg',
     '/images/mobss1.svg',
-    '/images/mobss2.svg',
-    '/images/mobss3.svg',
+    '/images/mobss22.svg',
   ];
 
   return (
     <>
-      <div className='hidden min-h-[250px] py-4 lg:block'>
+      <div className='hidden py-4 lg:block min-h-[270px]'>
         <Carousel
           responsive={responsive}
           infinite={true}
@@ -42,30 +42,69 @@ const AdBanner = () => {
           autoPlay={true}
           centerMode={true}
         >
-          {banners.map((banner, index) => (
-            <div key={index} className='mr-2'>
-              {banner}
-            </div>
-          ))}
+          {images.map((src, index) => {
+            const targetLink = index === 0 ? '/page1' : index === 2 ? '/page2' : null;
+
+            return (
+              <div key={index} className=''>
+                {targetLink ? (
+                  <a href={targetLink}>
+                    <Image
+                      className={imageClass}
+                      src={src}
+                      alt='Advert'
+                      width={900}
+                      height={500}
+                    />
+                  </a>
+                ) : (
+                  <Image
+                    className={imageClass}
+                    src={src}
+                    alt='Advert'
+                    width={900}
+                    height={500}
+                  />
+                )}
+              </div>
+            );
+          })}
         </Carousel>
       </div>
-      <div className='pt-3 min-h-[230px] lg:hidden'>
+      <div className='pt-3 px-[3%] min-h-[230px] lg:hidden'>
         <Carousel
           responsive={responsive}
           infinite={true}
           arrows={false}
           autoPlay={true}
         >
-          {mobileImages.map((src, index) => (
-            <Image
-              key={index}
-              className={imageClass}
-              src={src}
-              alt='Advert'
-              width={358}
-              height={200}
-            />
-          ))}
+          {mobileImages.map((src, index) => {
+            const targetLink = index === 0 ? '/page1' : index === 2 ? '/page2' : null;
+
+            return (
+              <div key={index} className=''>
+                {targetLink ? (
+                  <a href={targetLink}>
+                    <Image
+                      className={imageClass}
+                      src={src}
+                      alt='Advert'
+                      width={358}
+                      height={200}
+                    />
+                  </a>
+                ) : (
+                  <Image
+                    className={imageClass}
+                    src={src}
+                    alt='Advert'
+                    width={358}
+                    height={200}
+                  />
+                )}
+              </div>
+            );
+          })}
         </Carousel>
       </div>
     </>

@@ -29,7 +29,7 @@ export default function MobileCartItem({ item }: any) {
     }
   };
 
-  const { removeItemFromCart, addItemToCart, updateCartItem } = useCartActions();
+  const { removeItemFromCart, addItemToCart1, updateCartItem } = useCartActions();
 
   const handleAddToCart = async () => {
     setLoading2(prev => ({ ...prev, add: true })); // Set loading state to true when starting the action
@@ -45,7 +45,7 @@ export default function MobileCartItem({ item }: any) {
         router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
         return;
       }
-      await addItemToCart({ id: item.product?._id, name: item.product.productTitle, price: item.product.price, quantity: 1 });
+      await addItemToCart1({ id: item.product?._id, name: item.product.productTitle, price: item.product.price, quantity: 1 });
     } catch (error) {
       console.error(error);
       toast.error('An error occurred. Please try again.');

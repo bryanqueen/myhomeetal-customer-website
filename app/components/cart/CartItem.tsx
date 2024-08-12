@@ -30,9 +30,9 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
     }
   };
 
-  const { removeItemFromCart, addItemToCart, updateCartItem } = useCartActions();
+  const { removeItemFromCart, updateCartItem, addItemToCart1 } = useCartActions();
 
-  const handleAddToCart = async () => {
+  const handleAddToCart1 = async () => {
     setLoading2(prev => ({ ...prev, add: true })); // Set loading state to true when starting the action
 
     try {
@@ -46,7 +46,7 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
         router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
         return;
       }
-      await addItemToCart({ id: item.product?._id, name: item.product.productTitle, price: item.product.price, quantity: 1 });
+      await addItemToCart1({ id: item.product?._id, name: item.product.productTitle, price: item.product.price, quantity: 1 });
     } catch (error) {
       console.error(error);
       toast.error('An error occurred. Please try again.');
@@ -165,7 +165,7 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
               {item?.qty}
             </span>
             <button
-              onClick={handleAddToCart}
+              onClick={handleAddToCart1}
               disabled={loading2.add}
               className='min-w-[27px] flex items-center justify-center bg-primary text-white h-[27px] rounded-lg border-0'
             >

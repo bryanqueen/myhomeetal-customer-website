@@ -3,10 +3,11 @@ import cn from 'classnames';
 import { useCart } from '../CartProvider';
 import productService from '../services/productService';
 import toast from 'react-hot-toast';
+import { usePopup } from '../PopupProvider';
 
 export const useCartActions = () => {
   const { dispatch } = useCart();
-
+  const { showPopup } = usePopup();
   const fetchCart = async () => {
     try {
       const res = await productService.getCart();
@@ -28,14 +29,31 @@ export const useCartActions = () => {
         const updatedCart = await productService.getCart();
         dispatch({ type: 'SET_CART', payload: updatedCart.data.cart });
         toast.success('Added to cart');
+        showPopup();
       } else {
         toast.error('adding failed');
       }
-    
-    } catch (error) {   
+
+    } catch (error) {
       console.log(error);
-    }  
-  };  
+    }
+  };
+
+  const addItemToCart1 = async (item) => {
+    try {
+      const res = await productService.addToCart(item.id);
+      if (res.status === 200) {
+        // Refetch cart data to ensure state is up-to-date
+        const updatedCart = await productService.getCart();
+        dispatch({ type: 'SET_CART', payload: updatedCart.data.cart });
+      } else {
+        toast.error('adding failed');
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const updateCartItem = async (itemId) => {
     try {
@@ -47,15 +65,14 @@ export const useCartActions = () => {
         // Refetch cart data to ensure state is up-to-date
         const updatedCart = await productService.getCart();
         dispatch({ type: 'SET_CART', payload: updatedCart.data.cart });
-        toast.success('Quantity Decreased');
       } else {
         toast.error('adding failed');
       }
-    
-    } catch (error) {   
+
+    } catch (error) {
       console.log(error);
-    }  
-  }; 
+    }
+  };
 
   const removeItemFromCart = async (itemId) => {
     try {
@@ -73,10 +90,10 @@ export const useCartActions = () => {
     } catch (error) {
       console.log(error);
       toast.error('Failed to delete item');
-    } 
+    }
   };
 
-  return { addItemToCart, removeItemFromCart, updateCartItem, fetchCart };
+  return { addItemToCart, addItemToCart1, removeItemFromCart, updateCartItem, fetchCart };
 };
 
 

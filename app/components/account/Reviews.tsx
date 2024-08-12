@@ -45,7 +45,7 @@ export default function Reviews() {
           const extractedProducts = reversedOrders.flatMap((order) =>
             order.orderItems
               .filter((item) =>
-                order.status === 'Ongoing' || order.status === 'Completed'
+                order.status === 'Delivered'
               )
               .map((item) => ({
                 productId: order.orderId,

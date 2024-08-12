@@ -82,8 +82,8 @@ const DesktopNav = () => {
   }, []);
 
   return (
-    <div className='relative mb-3 hidden h-[90px] items-center justify-between gap-5 rounded-[6px] bg-white px-[3%] pt-3 text-sm lg:flex'>
-      <div className='flex items-center gap-5'>
+    <div className='relative mb-3 hidden h-[90px] items-center gap-5 rounded-[6px] bg-white px-[3%] pt-3 text-sm lg:flex'>
+      <div className='flex items-center gap-5 basis-[33.3%]'>
         <Link href='/'>
           <Logo variant={3} />
         </Link>
@@ -111,13 +111,13 @@ const DesktopNav = () => {
         </Link>
       </div>
 
-      <div className='w-[25rem] xl:w-[30rem]'>
+      <div className='w-[25rem] basis-[33.3%] xl:w-[30rem]'>
         <Suspense>
           <SearchForm />
         </Suspense>
       </div>
 
-      <div className='flex items-center gap-5'>
+      <div className='flex items-center justify-end gap-5 basis-[33.3%]'>
         <ClientOnly>
           {hasCookie(constants.AUTH_TOKEN) ? (
             <Link

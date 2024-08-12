@@ -51,7 +51,7 @@ export default function MobileCategory({ products }: { products: Product[] }) {
   const { state, setActiveNav } = useNav();
 
   const isNavActive = (key: 'sort' | 'filter') => state.activeNav === key;
-  const productsPerPage = 10;
+  const productsPerPage = 20;
 
   const reset = () => {
     setPriceRange({ min: 0, max: 1000000000 });

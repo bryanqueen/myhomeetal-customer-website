@@ -57,7 +57,7 @@ const ListGridSwitch = ({
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const productsPerPage = 9;
+  const productsPerPage = 21;
 
   useEffect(() => {
     const applyFilters = () => {

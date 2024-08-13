@@ -35,11 +35,11 @@ const AdBanner2 = () => {
 
   return (
     <div>
-      <div className='relative mx-[3%] my-5 mt-8 hidden min-h-[370px] 2xl:min-w-[400px] overflow-hidden rounded-2xl lg:block'>
+      <div className='relative mx-[3%] my-5 mt-8 hidden min-h-[370px] 2xl:min-h-[500px] 4xl overflow-hidden rounded-2xl lg:block'>
         {images.map((src, index) => (
           <Image
             key={index}
-            className={`absolute bottom-0 transition-opacity duration-700 ${currentSlide === index ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute w-full bottom-0 transition-opacity duration-700 ${currentSlide === index ? 'opacity-100' : 'opacity-0'}`}
             style={{ zIndex: currentSlide === index ? 1 : 0 }}
             src={src}
             alt={`Advert ${currentSlide + 1}`}

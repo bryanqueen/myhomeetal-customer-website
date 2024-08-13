@@ -35,7 +35,7 @@ const AdBanner2 = () => {
 
   return (
     <div>
-      <div className='relative mx-[3%] my-5 mt-8 hidden min-h-[350px] overflow-hidden rounded-2xl md:h-72 lg:block'>
+      <div className='relative mx-[3%] my-5 mt-8 hidden min-h-[350px] overflow-hidden rounded-2xl lg:block'>
         {images.map((src, index) => (
           <Image
             key={index}
@@ -58,7 +58,7 @@ const AdBanner2 = () => {
           ))}
         </div>
       </div>
-      <div className='relative mx-[3%] min-h-[200px] lg:hidden overflow-hidden'>
+      <div className='relative mx-[3%] min-h-[200px] md:min-h-[300px] lg:hidden overflow-hidden'>
         {Mobimages.map((src, index) => (
           <Image
             key={index}
@@ -67,7 +67,7 @@ const AdBanner2 = () => {
             src={src}
             alt={`Advert ${currentSlide + 1}`}
             width={500}
-            height={200}
+            height={400}
             loading='lazy'
           />
         ))}

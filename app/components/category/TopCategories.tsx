@@ -12,11 +12,12 @@ const TopCategories = ({ topCategories }: any) => {
             return (
               <div
                 key={category._id}
-                className='flex flex-col justify-between items-center h-[110px] w-[78px] last-of-type:hidden lg:last-of-type:grid lg:w-[132px] lg:h-[172px] xl:max-w-[240px] [&:nth-child(9)]:hidden lg:[&:nth-child(9)]:grid'
+                className='flex flex-col justify-between items-center h-[110px] w-full last-of-type:hidden lg:last-of-type:grid lg:w-[132px] lg:h-[172px] xl:max-w-[240px] [&:nth-child(9)]:hidden lg:[&:nth-child(9)]:grid'
               >
                 <Link
                   href={`/category/${category.name}?categoryId=${category._id}`}
                   key={category._id}
+                  className='w-fit'
                 >
                   <div className='flex items-center justify-center lg:w-[132px] lg:h-[132px] rounded-full'>
                     <Image

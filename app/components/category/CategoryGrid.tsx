@@ -52,7 +52,7 @@ const Category: React.FC<CategoryProps> = ({
       {(products && products.length > 0) ? (
         <>
           {/* Mobile view */}
-          <div className='mt-10 min-h-[564px] grid grid-cols-2 justify-center md:grid-cols-4  gap-x-3 gap-y-7 lg:hidden'>
+          <div className='mt-10 min-h-[564px] md:min-h-[240px] grid grid-cols-2 justify-center md:grid-cols-4  gap-x-3 gap-y-7 lg:hidden'>
             {mobileProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}

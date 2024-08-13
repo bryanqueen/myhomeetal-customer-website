@@ -39,12 +39,12 @@ const Accordion: React.FC = () => {
     {
       question: 'How much can I earn per referral?',
       answer:
-        'You earn [specific amount or percentage] for every referred friend who makes a purchase.',
+        'You earn 400 points for every referred friend who makes a purchase.',
     },
     {
       question: 'When will I receive my referral reward?',
       answer:
-        'Referral rewards are typically issued within X days after the referred friend makes a purchase.',
+        'Referral rewards are generally issued promptly following the completion of a purchase by the referrd friend',
     },
     {
       question: 'Is there a limit to how many friends I can refer?',

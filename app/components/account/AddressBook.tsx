@@ -59,6 +59,8 @@ export default function AddressBook() {
   //  useAddressBook();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isAddLoading, setIsAddLoading] = useState<boolean>(false);
+  const [isUpdateLoading, setIsUpdateLoading] = useState<boolean>(false);
 
   //get user address
   const getAddress = async () => {
@@ -76,7 +78,7 @@ export default function AddressBook() {
 
   //create address
   const createMyAddress = async () => {
-    setIsLoading(true);
+    setIsAddLoading(true);
     if (address && phoneNumber && selectedLocation) {
       try {
         const payload = {
@@ -91,18 +93,19 @@ export default function AddressBook() {
           setSelectedLocation('');
           toast.success('Address created successfully');
           setIsAddAddress(false);
-          setIsLoading(false);
+          setIsAddLoading(false);
           getAddress();
         }
       } catch (error) {
         console.log(error);
         toast.error('An error occured. Please try again!');
-        setIsLoading(false);
+        setIsAddLoading(false);
       } finally {
-        setIsLoading(false);
+        setIsAddLoading(false);
       }
     } else {
       toast.error('All fields are required');
+      setIsAddLoading(false);
     }
   };
 
@@ -122,7 +125,7 @@ export default function AddressBook() {
     setIsEdit(true);
   };
   const editMyAddress = async () => {
-    setIsLoading(true);
+    setIsUpdateLoading(true);
     try {
       const payload = {
         addressId: id,
@@ -136,15 +139,15 @@ export default function AddressBook() {
         setPhoneNumber('');
         toast.success('Address updated successfully');
         setIsEdit(false);
-        setIsLoading(false);
+        setIsUpdateLoading(false);
         getAddress();
       }
     } catch (error) {
       console.log(error);
       toast.error('An error ocurred. Plese try again!');
-      setIsLoading(false);
+      setIsUpdateLoading(false);
     } finally {
-      setIsLoading(false);
+      setIsUpdateLoading(false);
     }
   };
 
@@ -308,8 +311,8 @@ export default function AddressBook() {
               <div className='hidden items-center justify-center lg:flex'>
                 <Button
                   onClick={createMyAddress}
-                  loading={isLoading}
-                  disabled={isLoading}
+                  loading={isAddLoading}
+                  disabled={isAddLoading}
                   className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full border-0 bg-primary text-center font-clashmd text-base text-white shadow-none'
                 >
                   Create a New Address
@@ -319,8 +322,8 @@ export default function AddressBook() {
             <div className='flex items-center justify-center lg:hidden'>
               <Button
                 onClick={createMyAddress}
-                loading={isLoading}
-                disabled={isLoading}
+                loading={isAddLoading}
+                disabled={isAddLoading}
                 className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] border-0 bg-primary text-center font-clashmd text-base text-white shadow-none'
               >
                 Create a New Address
@@ -412,8 +415,8 @@ export default function AddressBook() {
             <div className='flex items-center justify-center'>
               <Button
                 onClick={editMyAddress}
-                disabled={isLoading}
-                loading={isLoading}
+                disabled={isUpdateLoading}
+                loading={isUpdateLoading}
                 className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-[10px] border-0 bg-primary text-center font-clashmd text-base text-white shadow-none lg:rounded-full'
               >
                 Update Address
@@ -447,16 +450,7 @@ const AddressCard: React.FC<AddressCardProps> = ({
       const res = await productService.deleteAddress(payload);
       if (res.status === 200) {
         toast.success('Address deleted successfully');
-        // Fetch remaining addresses to check if this was the last address
-        const remainingAddressesResponse = await productService.getAddress();
-        const remainingAddresses = remainingAddressesResponse.data;
-
-        if (remainingAddresses.length === 0) {
-          // Refresh the page if no addresses are left
-          window.location.reload();
-        } else {
-          refresh();
-        }
+        refresh();
       }
     } catch (error) {
       if (
@@ -465,8 +459,6 @@ const AddressCard: React.FC<AddressCardProps> = ({
         error.response.data.error === 'No address found for this user'
       ) {
         toast.error('No addresses found for this user.');
-        // Handle the case where no addresses are found
-        window.location.reload();
       } else {
         toast.error('An error occurred. Please try again!');
       }

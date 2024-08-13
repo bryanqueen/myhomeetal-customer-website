@@ -25,6 +25,7 @@ export const useLogout = () => {
     onSuccess: async () => {
       deleteCookie(constants.AUTH_TOKEN);
       deleteCookie(constants.USER_INFO);
+      localStorage.setItem('firstStageCompleted', 'false');
       router.push(ROUTES.HOME);
       toast.success('Logout Successful');
       setActiveNav(null);

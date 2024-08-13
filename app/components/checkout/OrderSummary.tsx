@@ -79,6 +79,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   const [totalAmount, setTotalAmount] = useState(total + deliveryFee);
   const [walletNotFound, setWalletNotFound] = useState(false);
   const [insufficient, setInsufficient] = useState(false);
+  const [pointsUsed, setPointsUsed] = useState(0); // Track points used
 
   const clear = () => {
     setFirstStageCompleted(false);
@@ -95,12 +96,21 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
 
   const handleMyPointsChange = () => {
     setUseMyPoints((prev) => !prev);
+
     if (!useMyPoints) {
-      setTotalAmount((prevTotal) => prevTotal - point);
+      // Calculate how many points can actually be used
+      const pointsToUse = Math.min(point, total + deliveryFee);
+
+      // Apply points
+      setTotalAmount((prevTotal) => Math.max(prevTotal - pointsToUse, 0));
+      setPointsUsed(pointsToUse); // Track points used
     } else {
-      setTotalAmount((prevTotal) => prevTotal + point);
+      // Remove points
+      setTotalAmount((prevTotal) => prevTotal + pointsUsed); // Add back the actual points used
+      setPointsUsed(0); // Reset points used
     }
   };
+
 
   const handleCheckout = async () => {
     setLoading(true);
@@ -136,7 +146,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
         localStorage.setItem('phoneAmount', JSON.stringify(phoneAmount));
 
         if (selectedPayment === 'Online') {
-          router.push(`/checkout/online-payment?order=${orderId}-${useMyPoints ? point : 0}`);
+          router.push(`/checkout/online-payment?order=${orderId}-${useMyPoints ? pointsUsed : 0}`);
         } else {
           if (hasWallet) {
             if (wallet.balance >= totalAmount) {
@@ -146,7 +156,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
                   narration: 'Purchase',
                   amount: totalAmount,
                   from_account_number: wallet.account_no,
-                  points: useMyPoints === true ? point : 0,
+                  points: useMyPoints === true ? pointsUsed : 0,
                 };
 
                 const res = await productService.payWithWallet(payload);
@@ -177,10 +187,11 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   };
 
   useEffect(() => {
-    // Update total amount whenever cart total changes
+    // Calculate the new total amount
     const newTotal = useMyPoints
-      ? total + deliveryFee - point
+      ? Math.max(total + deliveryFee - point, 0) // Ensure the total is not negative
       : total + deliveryFee;
+
     setTotalAmount(newTotal);
   }, [total, deliveryFee, useMyPoints, point]);
 

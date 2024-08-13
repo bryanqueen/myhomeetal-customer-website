@@ -94,7 +94,7 @@ export function HomeSkeleton() {
 
       <div className='shimmer-animation px-[3%] mt-5 h-[300px] rounded-2xl bg-gray-200'></div>
 
-      <div className='shimmer-animation h-[150px] rounded-2xl bg-gray-200'></div>
+      <div className='shimmer-animation h-[150px] mt-5 rounded-2xl bg-gray-200'></div>
 
       <div className='shimmer-animation mt-5 h-[300px] rounded-2xl bg-gray-200'></div>
 

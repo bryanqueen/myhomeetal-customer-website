@@ -14,27 +14,15 @@ const AdBanner = () => {
     },
   };
 
-  /**Fallback banner mobile
-   * '/images/mobss222.svg',
-    '/images/mobss111.svg',
-    '/images/mobss333.svg',
-   */
-
-  /**Fallback desktop banner
-   * '/images/mobss222.svg',
-    '/images/mobss111.svg',
-    '/images/mobss333.svg',
-   */
-
   const images = [
-    'https://ik.imagekit.io/krr3p3joi/tr:w-897,h-274/deskban11.svg?updatedAt=1723577887411',
-    'https://ik.imagekit.io/krr3p3joi/tr:w-897,h-274/deskban22.svg?updatedAt=1723577887491',
-    'https://ik.imagekit.io/krr3p3joi/tr:w-897,h-274/deskban33.svg?updatedAt=1723577887674',
+    '/images/deskban11.svg',
+    '/images/deskban22.svg',
+    '/images/deskban33.svg',
   ];
   const mobileImages = [
-    'https://ik.imagekit.io/krr3p3joi/tr:w-358,h-200/mobss111.svg?updatedAt=1723579147228',
-    'https://ik.imagekit.io/krr3p3joi/tr:w-358,h-200/mobss222.svg?updatedAt=1723579147365',
-    'https://ik.imagekit.io/krr3p3joi/tr:w-358,h-200/mobss333.svg?updatedAt=1723579259685',
+    '/images/mobss222.svg',
+    '/images/mobss111.svg',
+    '/images/mobss333.svg',
   ];
 
   return (
@@ -60,6 +48,7 @@ const AdBanner = () => {
                       alt='Advert'
                       width={900}
                       height={500}
+                      priority
                     />
                   </a>
                 ) : (
@@ -69,6 +58,7 @@ const AdBanner = () => {
                     alt='Advert'
                     width={900}
                     height={500}
+                    priority
                   />
                 )}
               </div>
@@ -96,6 +86,7 @@ const AdBanner = () => {
                       alt='Advert'
                       width={358}
                       height={200}
+                      priority
                     />
                   </a>
                 ) : (
@@ -105,6 +96,7 @@ const AdBanner = () => {
                     alt='Advert'
                     width={358}
                     height={200}
+                    priority
                   />
                 )}
               </div>

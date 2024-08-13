@@ -35,7 +35,7 @@ const AdBanner2 = () => {
 
   return (
     <div>
-      <div className='relative mx-[3%] my-5 mt-8 hidden min-h-[370px] overflow-hidden rounded-2xl lg:block'>
+      <div className='relative mx-[3%] my-5 mt-8 hidden min-h-[370px] 2xl:min-w-[400px] overflow-hidden rounded-2xl lg:block'>
         {images.map((src, index) => (
           <Image
             key={index}

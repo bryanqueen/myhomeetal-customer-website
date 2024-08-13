@@ -7,6 +7,7 @@ import ProductPrice from '@/app/components/product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useCartActions } from '@/app/utils/helpers';
 
 export default function OrderConfirm() {
   const searchParams = useSearchParams();
@@ -14,7 +15,18 @@ export default function OrderConfirm() {
   const orderInfo = decodeURIComponent(searchParams.get('id') || '');
   const order = orderInfo.split('-');
 
+  const { fetchCart } = useCartActions();
+
+  const myFetch = async () => {
+    try {
+      await fetchCart();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
+    myFetch();
     // Retrieve orderItems from local storage
     const storedOrderItems = localStorage.getItem('orderItems');
     if (storedOrderItems) {

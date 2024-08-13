@@ -8,9 +8,9 @@ interface ProductPriceProps {
 }
 
 const ProductPrice = ({ priceInNGN, region, className }: ProductPriceProps) => {
+ 
 
   const positivePriceInNGN = Math.abs(priceInNGN);
-
   const convertedPrice = convertPrice(positivePriceInNGN, region);
   const currencySymbol = currencySymbols[region] || '₦';
 

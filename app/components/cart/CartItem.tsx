@@ -17,6 +17,18 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
   const [loading2, setLoading2] = useState({ add: false, update: false, delete: false });
 
 
+  // Sanitize and convert price to number
+  const sanitizeAndConvertPrice = (price: any): number => {
+    if (typeof price === 'string') {
+      // Remove commas and parse to float
+      const sanitizedPrice = price.replace(/,/g, '');
+      const parsedPrice = parseFloat(sanitizedPrice);
+      return isNaN(parsedPrice) ? 0 : parsedPrice;
+    }
+    return typeof price === 'number' ? price : 0;
+  };
+
+  const priceInNGN = sanitizeAndConvertPrice(item?.product?.price);
   // Function to verify JWT token
   const verifyToken = async (token) => {
     try {
@@ -134,7 +146,7 @@ const CartItem = ({ item, isLast }: { item: any; isLast: boolean }) => {
           <div className='flex items-center'>
             <ProductPrice
               className='font-clashmd text-xl text-myGray'
-              priceInNGN={item?.product?.price}
+              priceInNGN={priceInNGN}
               region={region}
             />
           </div>

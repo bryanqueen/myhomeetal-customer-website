@@ -16,6 +16,18 @@ export default function MobileCartItem({ item }: any) {
   const router = useRouter();
   const [loading2, setLoading2] = useState({ add: false, update: false, delete: false });
 
+  // Sanitize and convert price to number
+  const sanitizeAndConvertPrice = (price: any): number => {
+    if (typeof price === 'string') {
+      // Remove commas and parse to float
+      const sanitizedPrice = price.replace(/,/g, '');
+      const parsedPrice = parseFloat(sanitizedPrice);
+      return isNaN(parsedPrice) ? 0 : parsedPrice;
+    }
+    return typeof price === 'number' ? price : 0;
+  };
+
+  const priceInNGN = sanitizeAndConvertPrice(item?.product?.price);
   // Function to verify JWT token
   const verifyToken = async (token) => {
     try {
@@ -116,7 +128,7 @@ export default function MobileCartItem({ item }: any) {
               {item?.product?.productTitle}
             </h2>
             <ProductPrice
-              priceInNGN={item?.product?.price}
+              priceInNGN={priceInNGN}
               region={region}
               className='font-clashmd text-xs text-myGray'
             />

@@ -13,6 +13,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { CartSummarySkeleton } from '../loader';
 import { useCart } from '@/app/CartProvider';
+import { useCartActions } from '@/app/utils/helpers';
 
 interface Address {
   _id: string;
@@ -51,15 +52,33 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
 }) => {
   const { cartState } = useCart();
 
-  const validItems = cartState.items?.filter(item =>
-    item?.product && !isNaN(parseFloat(item.product.price))
-  ) || [];
+  // Sanitize and convert price to number
+  const sanitizeAndConvertPrice = (price: any): number => {
+    if (typeof price === 'string') {
+      // Remove commas and parse to float
+      const sanitizedPrice = price.replace(/,/g, '');
+      const parsedPrice = parseFloat(sanitizedPrice);
+      return isNaN(parsedPrice) ? 0 : parsedPrice;
+    }
+    return typeof price === 'number' ? price : 0;
+  };
+
+  const validItems = cartState.items?.map(item => ({
+    ...item,
+    product: {
+      ...item.product,
+      price: sanitizeAndConvertPrice(item.product.price) // Convert price here
+    }
+  })).filter(item => {
+    // Ensure that the sanitized price is valid
+    return item?.product && !isNaN(item.product.price) && item.product.price > 0;
+  }) || [];
 
   const total = cartState.items.reduce((total, item) => {
     // Check if item and product are valid
-    if (item?.product && !isNaN(parseFloat(item.product.price))) {
+    if (item?.product && !isNaN(sanitizeAndConvertPrice(item.product.price))) {
       // Convert price from string to number
-      const price = parseFloat(item.product.price);
+      const price = sanitizeAndConvertPrice(item.product.price);
       const quantity = item.qty;
       return total + (price * quantity);
     }
@@ -70,6 +89,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   const totalItems = validItems.reduce((total, item) => {
     return total + item.qty;
   }, 0);
+
   const router = useRouter();
   const { region } = useRegion();
   const [loading, setLoading] = useState(false);

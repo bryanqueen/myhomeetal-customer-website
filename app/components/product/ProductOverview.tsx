@@ -49,6 +49,19 @@ const ProductOverview = ({ data, reviewData }: Props) => {
     router.back();
   };
 
+  // Sanitize and convert price to number
+  const sanitizeAndConvertPrice = (price: any): number => {
+    if (typeof price === 'string') {
+      // Remove commas and parse to float
+      const sanitizedPrice = price.replace(/,/g, '');
+      const parsedPrice = parseFloat(sanitizedPrice);
+      return isNaN(parsedPrice) ? 0 : parsedPrice;
+    }
+    return typeof price === 'number' ? price : 0;
+  };
+
+  const priceInNGN = sanitizeAndConvertPrice(data?.price);
+
   const calculateAverageRating = (reviewData: ReviewType[]) => {
     const total = reviewData.reduce((sum, rev) => sum + rev.rating, 0);
     return reviewData.length ? total / reviewData.length : 0;
@@ -306,7 +319,7 @@ const ProductOverview = ({ data, reviewData }: Props) => {
                   </div>
 
                   <ProductPrice
-                    priceInNGN={data?.price}
+                    priceInNGN={priceInNGN}
                     region={region}
                     className={priceStyle}
                   />

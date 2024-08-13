@@ -42,6 +42,19 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
     }
   );
 
+  // Sanitize and convert price to number
+  const sanitizeAndConvertPrice = (price: any): number => {
+    if (typeof price === 'string') {
+      // Remove commas and parse to float
+      const sanitizedPrice = price.replace(/,/g, '');
+      const parsedPrice = parseFloat(sanitizedPrice);
+      return isNaN(parsedPrice) ? 0 : parsedPrice;
+    }
+    return typeof price === 'number' ? price : 0;
+  };
+
+  const priceInNGN = sanitizeAndConvertPrice(product?.price);
+
   const validRatings = product.review
     .map(review => {
       const rating = Number(review.rating);
@@ -61,7 +74,9 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
       <div className={cls}>
         <Link href={href} className='transition-shadow duration-300'>
           <div className='relative mb-3 flex h-[172px] w-full flex-col items-center justify-between lg:h-[158px] lg:w-full lg:justify-center'>
-            <img
+            <Image
+              width={158}
+              height={158}
               className={`${variant === 'top' ? '' : 'h-[130px] w-[148px] object-contain lg:h-[158px] lg:w-[158px]'}`}
               src={product?.images[0]}
               alt='Product Card'
@@ -107,7 +122,7 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
               </p>
             </div>
             <ProductPrice
-              priceInNGN={product?.price}
+              priceInNGN={priceInNGN}
               region={region}
               className={priceStyle}
             />

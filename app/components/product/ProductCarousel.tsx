@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 const ProductCarousel = ({ data }: any) => {
+  const [fallbackImage] = useState('/images/confetti.png'); // Fallback image URL
+
   const responsive = {
     md: {
       breakpoint: { max: 3000, min: 768 },
@@ -33,20 +36,31 @@ const ProductCarousel = ({ data }: any) => {
         customRightArrow={<CustomRightArrow />}
         customLeftArrow={<CustomLeftArrow />}
       >
-        {data?.images?.map((image: string, index: number) => (
-          <div
-            key={index}
-            className={`pt-2 pb-5 ${isSingleImage ? 'flex items-center justify-center' : 'flex items-center justify-center'}`}
-          >
-            <Image
-              className='object-contain h-[331px]'
-              src={image}
-              alt={`Product Image ${index + 1}`}
-              width={331}
-              height={331}
-            />
-          </div>
-        ))}
+        {data?.images?.map((image: string, index: number) => {
+          // Use local state for handling image errors
+          const [imgSrc, setImgSrc] = useState(image);
+
+          const handleError = () => {
+            // Set the fallback image if there's an error loading the original image
+            setImgSrc(fallbackImage);
+          };
+
+          return (
+            <div
+              key={index}
+              className={`pt-2 pb-5 ${isSingleImage ? 'flex items-center justify-center' : 'flex items-center justify-center'}`}
+            >
+              <Image
+                className='object-contain h-[331px]'
+                src={imgSrc}
+                alt={`Product Image ${index + 1}`}
+                width={331}
+                height={331}
+                onError={handleError} // Handle image loading errors
+              />
+            </div>
+          );
+        })}
       </Carousel>
     </div>
   );
@@ -66,7 +80,7 @@ const CustomRightArrow = ({ onClick }: any) => {
         justifyContent: 'center',
       }}
     >
-
+      {/* You can add an icon or text here */}
     </button>
   );
 };
@@ -85,7 +99,7 @@ const CustomLeftArrow = ({ onClick }: any) => {
         justifyContent: 'center',
       }}
     >
-
+      {/* You can add an icon or text here */}
     </button>
   );
 };

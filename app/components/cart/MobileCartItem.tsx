@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 export default function MobileCartItem({ item }: any) {
   const { region } = useRegion();
   const router = useRouter();
-  const [loading2, setLoading2] = useState({ add: false, update: false });
+  const [loading2, setLoading2] = useState({ add: false, update: false, delete: false });
 
   // Function to verify JWT token
   const verifyToken = async (token) => {
@@ -51,6 +51,29 @@ export default function MobileCartItem({ item }: any) {
       toast.error('An error occurred. Please try again.');
     } finally {
       setLoading2(prev => ({ ...prev, add: false })); // Reset loading state after the action completes
+    }
+  };
+
+  const deleteCartItem = async (item: string) => {
+    setLoading2(prev => ({ ...prev, delete: true })); // Set loading state to true when starting the action
+
+    try {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('AUTH_TOKEN='))
+        ?.split('=')[1];
+
+      if (!token || !(await verifyToken(token))) {
+        toast.error('Session expired. Redirecting to login...');
+        router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
+        return;
+      }
+      await removeItemFromCart(item);
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred. Please try again.');
+    } finally {
+      setLoading2(prev => ({ ...prev, delete: false })); // Reset loading state after the action completes
     }
   };
 
@@ -102,10 +125,14 @@ export default function MobileCartItem({ item }: any) {
         <div className=' absolute bottom-[20px] right-[20px] top-[20px] flex w-[74px] flex-col justify-between'>
           <div className='flex justify-end'>
             <button
-              onClick={() => removeItemFromCart(item?.product?._id)}
-              className='flex h-[25px] w-[25px] items-center justify-center rounded-full bg-[#FF0003] text-white'
+              disabled={loading2.delete}
+              onClick={() => deleteCartItem(item?.product?._id)}
+              className='flex h-[25px] relative w-[25px] items-center justify-center rounded-full bg-[#FF0003] text-white'
             >
               <TrashIcon width={13} />
+              {loading2.delete && (
+                <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF0003]/70'></span>
+              )}
             </button>
           </div>
           <div className='flex w-full justify-between'>

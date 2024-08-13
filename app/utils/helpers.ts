@@ -7,7 +7,7 @@ import { usePopup } from '../PopupProvider';
 
 export const useCartActions = () => {
   const { dispatch } = useCart();
-  const { showPopup } = usePopup();
+  const { showPopup, hidePopup } = usePopup();
   const fetchCart = async () => {
     try {
       const res = await productService.getCart();
@@ -82,6 +82,10 @@ export const useCartActions = () => {
       const res = await productService.deleteCartItem(payload);
       if (res.status === 200) {
         const updatedCart = await productService.getCart();
+        // Check if showPopup is true before hiding the popup
+        if (showPopup) {
+          hidePopup();
+        }
         dispatch({ type: 'SET_CART', payload: updatedCart.data.cart });
         toast.success('Item deleted');
       } else {

@@ -60,13 +60,15 @@ export default async function Home() {
     ]);
 
     if (productCategoriesRes.status === "fulfilled") {
-      allCategories = productCategoriesRes.value;
+      allCategories = productCategoriesRes?.value;
+       // Shuffle all categories
+       shuffleArray(allCategories);
     } else {
       console.error("Product Categories Fetch Error:", productCategoriesRes.reason);
     }
 
     if (topProductCategoriesRes.status === "fulfilled") {
-      topCategories = topProductCategoriesRes.value;
+      topCategories = topProductCategoriesRes?.value;
     } else {
       console.error("Top Product Categories Fetch Error:", topProductCategoriesRes.reason);
       topCategories = []; // Fallback to empty array if fetch failed
@@ -86,7 +88,7 @@ export default async function Home() {
           });
 
           if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
+            throw new Error(`HTTP error! status: ${res?.status}`);
           }
 
           const productsData = await res.json();
@@ -103,6 +105,9 @@ export default async function Home() {
         }
       })
     );
+
+     // Shuffle the topCategories array
+     shuffleArray(topCategories);
 
   } catch (error) {
     console.error("Error fetching products:", error);

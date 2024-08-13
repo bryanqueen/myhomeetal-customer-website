@@ -17,7 +17,6 @@ import toast from 'react-hot-toast';
 import { jwtVerify } from 'jose';
 import { useCartActions } from '@/app/utils/helpers';
 import { useCart } from '@/app/CartProvider';
-import { usePopup } from '@/app/PopupProvider';
 
 type UserType = {
   _id: string;

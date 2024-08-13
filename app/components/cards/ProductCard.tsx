@@ -65,7 +65,6 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
               className={`${variant === 'top' ? '' : 'h-[130px] w-[148px] object-contain lg:h-[158px] lg:w-[158px]'}`}
               src={product?.images[0]}
               alt='Product Card'
-             
               style={{ transition: 'transform 0.3s' }}
             />
 

@@ -144,7 +144,7 @@ export default async function Home() {
         {/* <Category title='Top Selling Items' color='bg-yellow-500'  /> */}
 
         {topCategories &&
-          topCategories.slice(0, 6).map((category, index) => {
+          topCategories.slice(0, 8).map((category, index) => {
             const products = category.products;
             if (!products) {
               console.warn(`No products found for category ID: ${category?._id}`);

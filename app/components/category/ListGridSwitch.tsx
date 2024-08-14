@@ -130,7 +130,6 @@ const ListGridSwitch = ({
         )}
       </div>
       <div className='flex justify-center py-3 pt-10'>
-        {filteredProducts.length}
         <SearchPagination
           currentPage={currentPage}
           totalPages={totalPages}

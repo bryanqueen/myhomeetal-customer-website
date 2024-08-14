@@ -31,6 +31,17 @@ export default function SaveItems() {
   const [savedItems, setSavedItems] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Sanitize and convert price to number
+  const sanitizeAndConvertPrice = (price: any): number => {
+    if (typeof price === 'string') {
+      // Remove commas and parse to float
+      const sanitizedPrice = price.replace(/,/g, '');
+      const parsedPrice = parseFloat(sanitizedPrice);
+      return isNaN(parsedPrice) ? 0 : parsedPrice;
+    }
+    return typeof price === 'number' ? price : 0;
+  };
+
   const fetchSavedItems = async () => {
     try {
       const res = await productService.getSavedProducts();
@@ -89,7 +100,7 @@ export default function SaveItems() {
               a worry-free browsing and shopping experience.
             </p>
           </div>
-          <div className='grid gap-6 lg:my-10 lg:gap-9 lg:py-5'>
+          <div className='grid gap-6 lg:my-10 pt-8 lg:gap-9 lg:py-5'>
             {savedItems.map((item) => (
               <div
                 key={item._id}
@@ -109,7 +120,7 @@ export default function SaveItems() {
                         {item.productTitle}
                       </p>
                       <ProductPrice
-                        priceInNGN={item.price}
+                        priceInNGN={sanitizeAndConvertPrice(item.price)}
                         region={region}
                         className='ml-2 font-clashmd text-xs text-myGray'
                       />
@@ -148,7 +159,7 @@ export default function SaveItems() {
                     </div>
                     <div className='flex h-full w-fit flex-col justify-between'>
                       <ProductPrice
-                        priceInNGN={item.price}
+                        priceInNGN={sanitizeAndConvertPrice(item.price)}
                         region={region}
                         className='text-end font-clashmd text-xl text-myGray'
                       />

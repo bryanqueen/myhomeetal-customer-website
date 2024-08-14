@@ -14,6 +14,17 @@ export default function PurchasingHistory() {
   const [loading, setLoading] = useState(true);
   const [productsWithStatus, setProductsWithStatus] = useState([]);
 
+  // Sanitize and convert price to number
+  const sanitizeAndConvertPrice = (price: any): number => {
+    if (typeof price === 'string') {
+      // Remove commas and parse to float
+      const sanitizedPrice = price.replace(/,/g, '');
+      const parsedPrice = parseFloat(sanitizedPrice);
+      return isNaN(parsedPrice) ? 0 : parsedPrice;
+    }
+    return typeof price === 'number' ? price : 0;
+  };
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -86,7 +97,7 @@ export default function PurchasingHistory() {
                   {order?.productName|| ''}
                 </p>
                 <ProductPrice
-                  priceInNGN={order.price}
+                  priceInNGN={sanitizeAndConvertPrice(order.price)}
                   region={region}
                   className='font-clashmd text-xs text-black'
                 />
@@ -135,7 +146,7 @@ export default function PurchasingHistory() {
                 </div>
                 <div className='flex items-center'>
                   <ProductPrice
-                    priceInNGN={order.price}
+                     priceInNGN={sanitizeAndConvertPrice(order.price)}
                     region={region}
                     className='font-clashmd text-xl text-black'
                   />

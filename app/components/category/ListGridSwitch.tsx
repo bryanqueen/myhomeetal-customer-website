@@ -22,12 +22,17 @@ interface Product {
   createdAt: string;
 }
 
+const parsePrice = (priceString) => {
+  // Remove commas and convert to a number
+  return parseFloat(priceString.replace(/,/g, ''));
+};
+
 const sortProducts = (products: Product[], sortOption: string) => {
   switch (sortOption) {
     case 'priceLowToHigh':
-      return products.sort((a, b) => a.price - b.price);
+      return products.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
     case 'priceHighToLow':
-      return products.sort((a, b) => b.price - a.price);
+      return products.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
     case 'newestArrivals':
       return products.sort(
         (a, b) =>
@@ -61,25 +66,26 @@ const ListGridSwitch = ({
 
   useEffect(() => {
     const applyFilters = () => {
-      let filtered = products;
+      if (products) {
+        let filtered = products;
 
-      // Apply price filter
-      filtered = filtered?.filter(
-        (product) =>
-          product?.price >= priceRange?.min && product?.price <= priceRange?.max
-      );
-
-      // Apply discount filter
-      if (discountFilters?.length > 0) {
-        filtered = filtered?.filter((product) =>
-          discountFilters.some((discount) => product?.discount === discount)
+        // In the filter function
+        filtered = filtered.filter(
+          (product) => parsePrice(product.price) >= priceRange.min && parsePrice(product.price) <= priceRange.max
         );
+
+        // Apply discount filter
+        if (discountFilters?.length > 0) {
+          filtered = filtered?.filter((product) =>
+            discountFilters.some((discount) => product?.discount === discount)
+          );
+        }
+
+        // Apply sorting
+        filtered = sortProducts(filtered, sortOption);
+
+        setFilteredProducts(filtered);
       }
-
-      // Apply sorting
-      filtered = sortProducts(filtered, sortOption);
-
-      setFilteredProducts(filtered);
     };
 
     applyFilters();
@@ -124,6 +130,7 @@ const ListGridSwitch = ({
         )}
       </div>
       <div className='flex justify-center py-3 pt-10'>
+        {filteredProducts.length}
         <SearchPagination
           currentPage={currentPage}
           totalPages={totalPages}

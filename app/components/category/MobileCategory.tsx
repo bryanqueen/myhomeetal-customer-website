@@ -7,12 +7,17 @@ import { useNav } from '@/app/providers';
 import { XMarkIcon } from '@heroicons/react/16/solid';
 import Button from '../Button';
 
+const parsePrice = (priceString) => {
+  // Remove commas and convert to a number
+  return parseFloat(priceString.replace(/,/g, ''));
+};
+
 const sortProducts = (products: Product[], sortOption: string) => {
   switch (sortOption) {
     case 'priceLowToHigh':
-      return products?.sort((a, b) => a.price - b.price);
+      return products.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
     case 'priceHighToLow':
-      return products?.sort((a, b) => b.price - a.price);
+      return products.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
     case 'newestArrivals':
       return products?.sort(
         (a, b) =>
@@ -88,11 +93,11 @@ export default function MobileCategory({ products }: { products: Product[] }) {
     const applyFilters = () => {
       let filtered = products;
 
-      // Apply price filter
-      filtered = filtered?.filter(
-        (product) =>
-          product?.price >= priceRange.min && product?.price <= priceRange.max
+      // In the filter function
+      filtered = filtered.filter(
+        (product) => parsePrice(product.price) >= priceRange.min && parsePrice(product.price) <= priceRange.max
       );
+
 
       // Apply discount filter
       if (discountFilters.length > 0) {

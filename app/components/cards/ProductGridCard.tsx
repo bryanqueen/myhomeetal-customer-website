@@ -33,6 +33,19 @@ const ProductGridCard: React.FC<ProductCardProps> = ({
 }: ProductCardProps) => {
   const { region } = useRegion();
 
+  // Sanitize and convert price to number
+  const sanitizeAndConvertPrice = (price: any): number => {
+    if (typeof price === 'string') {
+      // Remove commas and parse to float
+      const sanitizedPrice = price.replace(/,/g, '');
+      const parsedPrice = parseFloat(sanitizedPrice);
+      return isNaN(parsedPrice) ? 0 : parsedPrice;
+    }
+    return typeof price === 'number' ? price : 0;
+  };
+
+  const priceInNGN = sanitizeAndConvertPrice(product?.price);
+
   const validRatings = product.review
   .map(review => {
     const rating = Number(review.rating);
@@ -85,7 +98,7 @@ const reviewCount = product.review.length;
         <ClientOnly>
           <ProductPrice
             region={region}
-            priceInNGN={product?.price}
+            priceInNGN={priceInNGN}
             className='font-clashmd text-[26.1px] text-black'
           />
         </ClientOnly>

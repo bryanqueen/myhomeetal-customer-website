@@ -21,7 +21,6 @@ const OTPForm: React.FC<OTPFormProps> = ({redirectTo}) => {
 
   const resendOtp = async () => {
     const data: any = { email: email };
-    setLoading(true);
     try {
       const res = await axios.post(
         'https://my-home-et-al.onrender.com/api/v1/user/resend-otp',
@@ -30,7 +29,6 @@ const OTPForm: React.FC<OTPFormProps> = ({redirectTo}) => {
 
       if (res.status === 200) {
         toast.success('Code resent!');
-        setLoading(false);
       }
     } catch (error) {
       console.log(error);

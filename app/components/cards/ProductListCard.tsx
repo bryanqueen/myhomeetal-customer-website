@@ -6,6 +6,7 @@ import Button from '@components/Button';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import ClientOnly from '../ClientOnly';
+import Link from 'next/link';
 
 interface Review {
   _id: string;
@@ -57,7 +58,7 @@ const ProductListCard = ({ product }: ProductCardProps) => {
   const reviewCount = product.review.length;
 
   return (
-    <div className='mb-5 flex h-[207px] w-[869px] items-center gap-[63px] rounded-[20px] border border-[#E4E7EC] px-[43px] py-5'>
+    <Link href={`/item/${product?._id}`} className='mb-5 flex h-[207px] w-[869px] items-center gap-[63px] rounded-[20px] border border-[#E4E7EC] px-[43px] py-5'>
       <div className='w-[134px]'>
         <Image
           className='h-[167px] object-contain'
@@ -99,8 +100,6 @@ const ProductListCard = ({ product }: ProductCardProps) => {
               />
             </ClientOnly>
             <Button
-              linkType='rel'
-              href={`/item/${product?._id}`}
               className='h-[50px] w-[205px] rounded-full border-0 font-clashmd text-base text-white shadow-none'
             >
               Buy now
@@ -108,7 +107,7 @@ const ProductListCard = ({ product }: ProductCardProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

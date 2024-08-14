@@ -7,6 +7,7 @@ import Button from '@components/Button';
 import ProductPrice from '../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import ClientOnly from '../ClientOnly';
+import Link from 'next/link';
 
 interface Review {
   _id: string;
@@ -47,20 +48,20 @@ const ProductGridCard: React.FC<ProductCardProps> = ({
   const priceInNGN = sanitizeAndConvertPrice(product?.price);
 
   const validRatings = product.review
-  .map(review => {
-    const rating = Number(review.rating);
-    return rating;
-  })
-  .filter(rating => Number.isFinite(rating));
+    .map(review => {
+      const rating = Number(review.rating);
+      return rating;
+    })
+    .filter(rating => Number.isFinite(rating));
 
-const averageRating = validRatings.length
-  ? validRatings.reduce((acc, cur) => acc + cur, 0) / validRatings.length
-  : 0;
+  const averageRating = validRatings.length
+    ? validRatings.reduce((acc, cur) => acc + cur, 0) / validRatings.length
+    : 0;
 
-const reviewCount = product.review.length;
+  const reviewCount = product.review.length;
 
   return (
-    <div className='flex h-[418px] w-[279px] flex-col justify-between px-[30px] py-[20px] lg:rounded-[20px] lg:border lg:border-[#E4E7EC]'>
+    <Link href={`/item/${product?._id}`} className='flex h-[418px] w-[279px] flex-col justify-between px-[30px] py-[20px] lg:rounded-[20px] lg:border lg:border-[#E4E7EC]'>
       <Image
         className='mx-auto h-[167px] object-contain'
         src={product?.images[0]}
@@ -106,13 +107,11 @@ const reviewCount = product.review.length;
       <div className='flex justify-center'>
         <Button
           className='h-[50px] w-[90%] rounded-full border-0 font-clashmd text-base text-white shadow-none'
-          linkType='rel'
-          href={`/item/${product?._id}`}
         >
           Buy now
         </Button>
       </div>
-    </div>
+    </Link>
   );
 };
 

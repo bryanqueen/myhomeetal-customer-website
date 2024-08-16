@@ -30,7 +30,7 @@ const AdBanner2 = () => {
 
     const interval = setInterval(() => {
       nextSlide();
-    }, 2000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);

@@ -7,12 +7,14 @@ const images = [
   '/images/bb2.svg',
   '/images/bb1.svg',
   '/images/bb33.svg',
+  '/images/bb4.svg',
 ];
 
 const Mobimages = [
   '/images/mobileban1.svg',
   '/images/mobileban2.svg',
   '/images/mobileban33.svg',
+  '/images/mobileban4.svg',
 ];
 
 const AdBanner2 = () => {

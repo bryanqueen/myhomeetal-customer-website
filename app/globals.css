@@ -245,6 +245,27 @@ input[type='checkbox']:checked::after {
   /* Firefox */
 }
 
+/* Custom Scrollbar for the dropdown */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f4f4f4;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  border-radius: 10px;
+  border: 2px solid #f4f4f4;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #a8a8a8;
+}
+
+
 .is-pinned {
   height: auto;
   box-shadow:

@@ -39,7 +39,11 @@ export default function CartPage() {
   }, []);
 
   if (loading) {
-    return <HomeSkeleton />
+    return (
+      <div className='px-[3%]'>
+        <HomeSkeleton />
+      </div>
+    )
   }
 
   return (

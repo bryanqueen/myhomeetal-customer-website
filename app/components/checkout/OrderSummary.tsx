@@ -90,13 +90,14 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
     return total + item.qty;
   }, 0);
 
+  const VAT = total * 0.025; // Calculate 2.5% VAT
   const router = useRouter();
   const { region } = useRegion();
   const [loading, setLoading] = useState(false);
   const [useMyPoints, setUseMyPoints] = useState(false);
   const [deliveryFee, setDeliveryFee] = useState(0);
   const [orderId, setorderId] = useState('');
-  const [totalAmount, setTotalAmount] = useState(total + deliveryFee);
+  const [totalAmount, setTotalAmount] = useState(total + deliveryFee + VAT);
   const [walletNotFound, setWalletNotFound] = useState(false);
   const [insufficient, setInsufficient] = useState(false);
   const [pointsUsed, setPointsUsed] = useState(0); // Track points used
@@ -207,13 +208,12 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   };
 
   useEffect(() => {
-    // Calculate the new total amount
     const newTotal = useMyPoints
-      ? Math.max(total + deliveryFee - point, 0) // Ensure the total is not negative
-      : total + deliveryFee;
-
+      ? Math.max(total + deliveryFee + VAT - point, 0)
+      : total + deliveryFee + VAT;
     setTotalAmount(newTotal);
-  }, [total, deliveryFee, useMyPoints, point]);
+  }, [total, deliveryFee, useMyPoints, point, VAT]);
+
 
   useEffect(() => {
     if (deliveryMethod === 'Pickup delivery') {
@@ -359,6 +359,14 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
                 <span>Delivery fee</span>
                 <ProductPrice
                   priceInNGN={deliveryFee}
+                  className='font-clashmd '
+                  region={region}
+                />
+              </div>
+              <div className='flex items-center justify-between text-xs text-myGray lg:text-base'>
+                <span>VAT</span>
+                <ProductPrice
+                  priceInNGN={VAT}
                   className='font-clashmd '
                   region={region}
                 />

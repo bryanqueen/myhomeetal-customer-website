@@ -355,7 +355,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
                   region={region}
                 />
               </div>
-              <div className='flex items-center justify-between text-xs text-myGray lg:text-base'>
+              <div className='flex mb-3 items-center justify-between text-xs text-myGray lg:text-base'>
                 <span>Delivery fee</span>
                 <ProductPrice
                   priceInNGN={deliveryFee}

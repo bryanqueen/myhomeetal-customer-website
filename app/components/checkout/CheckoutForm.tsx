@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useAddressBook } from '@/app/addressBookProvider';
 import authUtils from '@/app/utils/authUtils';
 import toast from 'react-hot-toast';
-import { numberToWords } from '@/app/utils/helpers';
+import { numberToWords, useCartActions } from '@/app/utils/helpers';
 import { locations } from '@/app/utils/constants';
 import productService from '@/app/services/productService';
 import Button from '../Button';
@@ -68,6 +68,16 @@ const CheckoutForm: React.FC = () => {
   const validItems = cartState.items?.filter(item =>
     item?.product && !isNaN(parseFloat(item.product.price))
   ) || [];
+
+  const { fetchCart } = useCartActions();
+
+  const myFetch = async () => {
+    try {
+      await fetchCart();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     const fetchedUserInfo = authUtils.getUserInfo();
@@ -134,6 +144,7 @@ const CheckoutForm: React.FC = () => {
       setSelectedDeliveryMethod(savedState.deliveryMethod || '');
       setSelectedPaymentMethod(savedState.selectedPayment || '');
     }
+    myFetch();
     fetchData();
     calculateDeliveryDates();
     setUserInfo(fetchedUserInfo);

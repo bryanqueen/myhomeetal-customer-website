@@ -61,6 +61,8 @@ export default function AddressBook() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isAddLoading, setIsAddLoading] = useState<boolean>(false);
   const [isUpdateLoading, setIsUpdateLoading] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   //get user address
   const getAddress = async () => {
@@ -171,9 +173,15 @@ export default function AddressBook() {
 
   const addressInWords = numberToWords(myindex + 1);
 
-  const handleSelectChange = (event) => {
-    setSelectedLocation(event.target.value);
+  const handleSelectChange = (location) => {
+    setSelectedLocation(location);
+    setSearchTerm('');
+    setDropdownOpen(false); // Close dropdown after selection
   };
+
+  const filteredLocations = locations.filter((location) =>
+    location.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (isLoading) {
     return <HomeSkeleton />;
@@ -295,17 +303,32 @@ export default function AddressBook() {
                   <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
                     City (only in Lagos*)
                   </label>
-                  <select
-                    className='h-[50px] rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-2xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black'
-                    value={selectedLocation}
-                    onChange={handleSelectChange}
-                  >
-                    {locations.map((lga, i) => (
-                      <option key={i} value={lga.name}>
-                        {lga.name}
-                      </option>
-                    ))}
-                  </select>
+                  <input
+                    type="text"
+                    placeholder={selectedLocation || 'Select your location...'}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="h-[50px] w-full rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black"
+                  />
+                  {dropdownOpen && (
+                    <div className="relative">
+                      <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
+                        {filteredLocations.map((lga, i) => (
+                          <div
+                            key={i}
+                            onClick={() => handleSelectChange(lga.name)}
+                            className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
+                              ? 'bg-gray-200'
+                              : 'hover:bg-gray-100'
+                              }`}
+                          >
+                            {lga.name}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className='hidden items-center justify-center lg:flex'>
@@ -361,17 +384,34 @@ export default function AddressBook() {
                   <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
                     City (only in Lagos*)
                   </label>
-                  <select
-                    className='h-[50px] rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black'
-                    value={selectedLocation}
-                    onChange={handleSelectChange}
-                  >
-                    {locations.map((lga, i) => (
-                      <option key={i} value={lga.name}>
-                        {lga.name}
-                      </option>
-                    ))}
-                  </select>
+                  <div className='grid gap-2'>
+                    <input
+                      type="text"
+                      placeholder={selectedLocation || 'Select your location...'}
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      onClick={() => setDropdownOpen(!dropdownOpen)}
+                      className="h-[50px] w-full rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black"
+                    />
+                    {dropdownOpen && (
+                      <div className="relative">
+                        <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
+                          {filteredLocations.map((lga, i) => (
+                            <div
+                              key={i}
+                              onClick={() => handleSelectChange(lga.name)}
+                              className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
+                                ? 'bg-gray-200'
+                                : 'hover:bg-gray-100'
+                                }`}
+                            >
+                              {lga.name}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -398,17 +438,34 @@ export default function AddressBook() {
                   <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
                     City (only in Lagos*)
                   </label>
-                  <select
-                    className='h-[50px] rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black'
-                    value={selectedLocation}
-                    onChange={handleSelectChange}
-                  >
-                    {locations.map((lga, i) => (
-                      <option key={i} value={lga.name}>
-                        {lga.name}
-                      </option>
-                    ))}
-                  </select>
+                  <div className='grid gap-2'>
+                    <input
+                      type="text"
+                      placeholder={selectedLocation || 'Select your location...'}
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      onClick={() => setDropdownOpen(!dropdownOpen)}
+                      className="h-[50px] w-full rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black"
+                    />
+                    {dropdownOpen && (
+                      <div className="relative">
+                        <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
+                          {filteredLocations.map((lga, i) => (
+                            <div
+                              key={i}
+                              onClick={() => handleSelectChange(lga.name)}
+                              className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
+                                ? 'bg-gray-200'
+                                : 'hover:bg-gray-100'
+                                }`}
+                            >
+                              {lga.name}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

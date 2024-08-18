@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link'; // Import Link for linking
 
-const images = ['/images/bb11.svg', '/images/bb12.svg'];
+const images = ['/images/bb11.svg', '/images/bb122.svg'];
 
 const AdBanner3 = () => {
   return (

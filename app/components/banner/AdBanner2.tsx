@@ -4,17 +4,18 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const images = [
-  '/images/bb22.svg',
+  '/images/bb44.svg',
   '/images/bb1.svg',
+  '/images/bb22.svg',
   '/images/bb33.svg',
-  '/images/bb4.svg',
+  
 ];
 
 const Mobimages = [
-  '/images/mobileban11.svg',
+  '/images/mobileban111.svg',
   '/images/mobileban2.svg',
+  '/images/mobileban44.svg',
   '/images/mobileban33.svg',
-  '/images/mobileban4.svg',
 ];
 
 const AdBanner2 = () => {

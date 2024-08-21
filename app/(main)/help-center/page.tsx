@@ -16,29 +16,29 @@ export default function HelPage() {
           <div>
             <a
               className='flex items-center gap-1 font-clashmd text-base text-white'
-              href='mailto:Customercare@myhometal.com'
+              href='mailto:support@homeetal.com'
             >
               <Messages1 variant='Bulk' color='white' size='24' />
-              <p>Customercare@myhometal.com</p>
+              <p>support@homeetal.com</p>
             </a>
           </div>
           <div>
             <a
               className='font-clashmd flex items-center gap-1 text-base text-white'
-              href='tel:+234907549201'
+              href='tel:+2349060002626'
             >
               <CallCalling variant='Bulk' color='white' size='24' />
-              <p>0907549201</p>
+              <p>09060002626</p>
             </a>
 
           </div>
           <div>
             <a
               className='font-clashmd flex items-center gap-1 text-base text-white'
-              href='tel:+234907549201'
+              href='tel:+2349037000057'
             >
               <CallCalling variant='Bulk' color='white' size='24' />
-              <p>0907549201</p>
+              <p>09037000057</p>
             </a>
 
           </div>
@@ -144,15 +144,15 @@ export default function HelPage() {
           <div className='grid gap-1'>
             <a
               className='font-clashmd text-base text-black'
-              href='tel:+2348186536416'
+              href='tel:+2349060002626'
             >
-              +234 (0)818 653 6416
+              +234 9060002626
             </a>
             <a
               className='font-clashmd text-base text-black'
-              href='tel:+2348033204203'
+              href='tel:+2349037000057'
             >
-              +234 (0)803 320 4203
+              +234 9037000057
             </a>
           </div>
         </div>
@@ -166,9 +166,9 @@ export default function HelPage() {
           <div className='grid gap-1'>
             <a
               className='flex items-center gap-1 font-clashmd text-base text-black'
-              href='mailto:Customercare@myhometal.com'
+              href='mailto:support@homeetal.com'
             >
-              Customercare@myhometal.com{' '}
+              support@homeetal.com{' '}
               <Image src='/arrow.svg' width={20} height={20} alt='arrow' />
             </a>
 
@@ -193,22 +193,22 @@ export default function HelPage() {
           </div>
         </div>
         <div className='grid gap-5'>
-            <div className='grid gap-2'>
-              <h3 className='bodyText font-clashmd text-primary'>Visit us</h3>
-              <p className='text-sm lg:text-base'>
-                Chat with us in person at out Lagos HQ
-              </p>
-            </div>
-            <div className='grid gap-1'>
-              <a
-                className='flex max-w-[280px] items-center gap-1 font-clashmd text-base text-black lg:max-w-[342px]'
-                href='https://www.google.com/maps/place/57, Adebayo Mokuolu Street, Anthony Village Lagos.'
-              >
-                57, Adebayo Mokuolu Street, Anthony Village Lagos.
-                <Image src='/arrow.svg' width={20} height={20} alt='arrow' />
-              </a>
-            </div>
+          <div className='grid gap-2'>
+            <h3 className='bodyText font-clashmd text-primary'>Visit us</h3>
+            <p className='text-sm lg:text-base'>
+              Chat with us in person at out Lagos HQ
+            </p>
           </div>
+          <div className='grid gap-1'>
+            <a
+              className='flex max-w-[280px] items-center gap-1 font-clashmd text-base text-black lg:max-w-[342px]'
+              href='https://www.google.com/maps/place/57, Adebayo Mokuolu Street, Anthony Village Lagos.'
+            >
+              57, Adebayo Mokuolu Street, Anthony Village Lagos.
+              <Image src='/arrow.svg' width={20} height={20} alt='arrow' />
+            </a>
+          </div>
+        </div>
       </section>
     </main>
   )

@@ -22,15 +22,15 @@ export default function ContactPage() {
               <div className='grid gap-1'>
                 <a
                   className='font-clashmd text-base text-black'
-                  href='tel:+2348186536416'
+                  href='tel:+2349060002626'
                 >
-                  +234 (0)818 653 6416
+                  +234 9060002626
                 </a>
                 <a
                   className='font-clashmd text-base text-black'
-                  href='tel:+2348033204203'
+                  href='tel:+2349037000057'
                 >
-                  +234 (0)803 320 4203
+                  +234 9037000057
                 </a>
               </div>
             </div>
@@ -54,9 +54,9 @@ export default function ContactPage() {
               <div className='grid gap-1'>
                 <a
                   className='flex items-center gap-1 font-clashmd text-base text-black'
-                  href='mailto:Customercare@myhometal.com'
+                  href='mailto:support@homeetal.com'
                 >
-                  Customercare@myhometal.com{' '}
+                  support@homeetal.com{' '}
                   <Image src='/arrow.svg' width={20} height={20} alt='arrow' />
                 </a>
 

@@ -49,7 +49,7 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
     }
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (scriptLoaded && userInfo) {
       window.payWithSpay = function () {
         const handler = {
@@ -89,10 +89,8 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
       };
     }
   }, [scriptLoaded, userInfo, phoneAmount?.totalAmount]);
-  //disabled={!userInfo}
-  return (
-    <>
-      <Script
+  
+  <Script
         src='https://testcheckout.spaybusiness.com/pay/static/js/spay_checkout.js'
         strategy='afterInteractive'
         onLoad={() => {
@@ -106,8 +104,15 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
         href='https://testcheckout.spaybusiness.com/pay/static/css/spay_checkout.css'
         rel='stylesheet'
       />
+    [#FFF1F1]
+  */
+
+  //disabled={!userInfo}
+  return (
+    <>
+
       <button
-        className='h-[60px] bg-[#FFF1F1] w-full rounded-full border-0 font-clashmd text-base shadow-none'
+        className='h-[60px] bg-primary text-white w-full rounded-full border-0 font-clashmd text-base shadow-none'
         id='payWithSpay'
         onClick={(e) => {
           e.stopPropagation();

@@ -310,7 +310,7 @@ const CheckoutForm: React.FC = () => {
                     </div>
                     <div className='hidden gap-2 lg:grid'>
                       <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
-                        City (only in Lagos*)
+                        City
                       </label>
                       <div className='grid gap-2'>
                         <input
@@ -365,7 +365,7 @@ const CheckoutForm: React.FC = () => {
                     />
                     <div className='grid gap-2 lg:hidden'>
                       <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
-                        City (only in Lagos*)
+                        City
                       </label>
                       <div className='grid gap-2'>
                         <input
@@ -440,7 +440,7 @@ const CheckoutForm: React.FC = () => {
                     />
                     <div className='grid gap-2'>
                       <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
-                        City (only in Lagos*)
+                        City
                       </label>
                       <div className='grid gap-2'>
                         <input

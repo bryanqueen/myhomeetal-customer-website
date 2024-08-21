@@ -86,11 +86,15 @@ export default function OnlinePaymentPage() {
                 encrypted and protected.
               </p>
             </div>
+            <div className='flex justify-center flex-col items-center gap-3'>
+              {userInfo && phoneAmount && (
+                <PayWithSpay userInfo={userInfo} phoneAmount={phoneAmount} />
+              )}
+              <Link href='/checkout/deposit' className='text-black text-base w-fit font-clashmd text-center'>
+                Use direct transfer
+              </Link>
+            </div>
 
-            {userInfo && phoneAmount && (
-              <PayWithSpay userInfo={userInfo} phoneAmount={phoneAmount} />
-            )}
-            <Link href='/checkout/deposit' className='text-black text-base font-clashmd text-center'>Use direct transfer</Link>
           </div>
         </div>
       </ClientOnly>

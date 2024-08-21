@@ -163,6 +163,8 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
         const phoneAmount = {
           phone: address.phone_number,
           totalAmount: totalAmount,
+          myAddress: address.deliveryAddress,
+          myOrder: orderId,
         };
         localStorage.setItem('phoneAmount', JSON.stringify(phoneAmount));
 

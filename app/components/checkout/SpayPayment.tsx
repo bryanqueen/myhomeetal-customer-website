@@ -89,7 +89,7 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
       };
     }
   }, [scriptLoaded, userInfo, phoneAmount?.totalAmount]);
-
+  //disabled={!userInfo}
   return (
     <>
       <Script
@@ -121,9 +121,9 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
             console.error('payWithSpay function is not defined');
           }
         }}
-        disabled={!userInfo}
+        disabled
       >
-        Make Payment
+        Make Payment (Spay Gateway)
       </button>
     </>
   );

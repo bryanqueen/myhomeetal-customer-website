@@ -7,6 +7,7 @@ import ClientOnly from '@/app/components/ClientOnly';
 import ProductPrice from '@/app/components/product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import authUtils from '@/app/utils/authUtils';
+import Link from 'next/link';
 
 const PayWithSpay = dynamic(
   () => import('@/app/components/checkout/SpayPayment'),
@@ -39,6 +40,13 @@ export default function OnlinePaymentPage() {
     const fetchedUserInfo = authUtils?.getUserInfo();
     if (fetchedUserInfo) {
       setUserInfo(fetchedUserInfo);
+
+      const myUser = {
+        fname: fetchedUserInfo?.firstname,
+        lname: fetchedUserInfo?.lastname,
+        email: fetchedUserInfo?.email,
+      }
+      localStorage.setItem('myUser', JSON.stringify(myUser));
     }
 
     const storedPhoneAmount = localStorage.getItem('phoneAmount');
@@ -82,6 +90,7 @@ export default function OnlinePaymentPage() {
             {userInfo && phoneAmount && (
               <PayWithSpay userInfo={userInfo} phoneAmount={phoneAmount} />
             )}
+            <Link href='/checkout/deposit' className='text-black text-base font-clashmd text-center'>Use direct transfer</Link>
           </div>
         </div>
       </ClientOnly>

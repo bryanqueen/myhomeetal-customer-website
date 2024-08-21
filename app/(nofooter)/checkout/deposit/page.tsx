@@ -60,6 +60,7 @@ export default function DepositPage() {
 
   const payload = {
     address: phoneMyAmount?.myAddress,
+    amountSent: phoneMyAmount?.totalAmount,
     fname: myUser?.fname,
     lname: myUser?.lname,
     email: myUser?.email,
@@ -105,6 +106,7 @@ export default function DepositPage() {
       quantity: payload.fname,
       weight: payload.lname,
       length: payload.email,
+      postalCodeTo: payload.amountSent,
       height: payload.orderId,
       countryFrom2: payload.orderItems.map(item => `
         Product: ${item.productName}

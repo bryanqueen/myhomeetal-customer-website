@@ -545,6 +545,7 @@ const locations = [
   { name: "Epe", fee: 5340 },
   { name: "Eti-Osa", fee: 5350 },
   { name: "Ibeju-Lekki", fee: 5360 },
+  { name: "Ifako-Ijaiye", fee: 5360 },
   { name: "Ikeja", fee: 5370 },
   { name: "Ikorodu", fee: 5380 },
   { name: "Kosofe", fee: 5390 },
@@ -556,8 +557,6 @@ const locations = [
   { name: "Oshodi-Isolo", fee: 5440 },
   { name: "Shomolu", fee: 5450 },
   { name: "Surulere", fee: 5460 },
-  { name: "Somolu", fee: 5470 },
-  { name: "Shomolu", fee: 5480 },
 
   // Nasarawa State (13 LGAs)
   { name: "Akwanga", fee: 5490 },

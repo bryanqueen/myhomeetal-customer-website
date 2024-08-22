@@ -45,7 +45,7 @@ const TopCategories = ({ topCategories }: any) => {
 
                   </div>
 
-                  <p className='text-black text-[10px] lg:text-base text-center hover:text-primary lg:text-[#222222]'>
+                  <p className='text-black text-xs lg:text-base text-center hover:text-primary lg:text-[#222222]'>
                     My {category.name}
                   </p>
                 </Link>

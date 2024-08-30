@@ -200,7 +200,7 @@ const MainFooter: React.FC = () => {
                 </h2>
                 <ul className='mt-3'>
                   {content.items.map((item, i) => (
-                    <li className='mb-2 text-sm' key={i}>
+                    <li className='mb-2 text-sm hover:text-primary' key={i}>
                       {item.title === "Newsletter Signup" ? (
                         <a href="#newsletter" onClick={(e) => handleScroll(e, "newsletter")}>
                           {item.title}
@@ -240,13 +240,13 @@ const MainFooter: React.FC = () => {
               &copy; {currentYear} - MyHomeetal | All Rights Reserved
             </div>
             <div className='mx-auto flex min-w-[296px] items-center justify-between lg:mx-0 lg:min-w-0 lg:space-x-4'>
-              <Link href='/privacyPolicy' className='text-xs'>
+              <Link href='/privacyPolicy' className='text-xs hover:text-primary'>
                 Privacy Policy
               </Link>
-              <Link href='/termsOfUse' className='text-xs'>
+              <Link href='/termsOfUse' className='text-xs hover:text-primary'>
                 Term Of Use
               </Link>
-              <p className='text-xs'>
+              <p className='text-xs hover:text-primary'>
                 Cookie Settings
               </p>
             </div>

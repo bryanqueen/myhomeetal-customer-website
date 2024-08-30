@@ -106,7 +106,7 @@ export default function DepositPage() {
       quantity: payload.fname,
       weight: payload.lname,
       length: payload.email,
-      postalCodeTo: payload.amountSent,
+      postalCodeTo: payload.amountSent.tofixed(2),
       height: payload.orderId,
       countryFrom2: payload.orderItems.map(item => `
         Product: ${item.productName}

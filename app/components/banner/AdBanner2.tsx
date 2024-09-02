@@ -7,14 +7,17 @@ const images = [
   '/images/bb44.svg',
   '/images/bb1.svg',
   '/images/bb22.svg',
+  '/images/mobileban5.png',
+  '/images/mobileban6.png',
   '/images/bb33.svg',
-  
 ];
 
 const Mobimages = [
   '/images/mobileban111.svg',
   '/images/mobileban2.svg',
   '/images/mobileban44.svg',
+  '/images/bb5.png',
+  '/images/bb6.png',
   '/images/mobileban33.svg',
 ];
 

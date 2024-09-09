@@ -44,14 +44,14 @@ export default async function Home() {
 
   try {
     const [productCategoriesRes, topProductCategoriesRes] = await Promise.allSettled([
-      fetch("https://my-home-et-al-backend-2.onrender.com/api/v1/product-category/categories", {
+      fetch(`${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product-category/categories`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         cache: "no-store",
       }).then((res) => res.json()),
 
-      fetch("https://my-home-et-al-backend-2.onrender.com/api/v1/product-category/top-categories", {
+      fetch(`${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product-category/top-categories`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -81,7 +81,7 @@ export default async function Home() {
     topCategories = await Promise.all(
       topCategories.map(async (category) => {
         try {
-          const res = await fetch(`https://my-home-et-al-backend-2.onrender.com/api/v1/product/category/${category?._id}`, {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product/category/${category?._id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

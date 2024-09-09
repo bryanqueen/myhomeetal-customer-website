@@ -41,7 +41,7 @@ const ResetPasswordForm = () => {
     const data: any = { email: email };
     try {
       const res = await axios.post(
-        'https://my-home-et-al.onrender.com/api/v1/user/resend-otp',
+        `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}user/resend-otp`,
         data
       );
 

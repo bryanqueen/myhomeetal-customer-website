@@ -23,7 +23,7 @@ const OTPForm: React.FC<OTPFormProps> = ({redirectTo}) => {
     const data: any = { email: email };
     try {
       const res = await axios.post(
-        'https://my-home-et-al.onrender.com/api/v1/user/resend-otp',
+       `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}user/resend-otp`,
         data
       );
 
@@ -41,7 +41,7 @@ const OTPForm: React.FC<OTPFormProps> = ({redirectTo}) => {
     const data = { email: email, otp: otp };
     try {
       const res = await axios.post(
-        'https://my-home-et-al.onrender.com/api/v1/user/verify-otp',
+        `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}user/verify-otp`,
         data
       );
       if (res.status === 200) {

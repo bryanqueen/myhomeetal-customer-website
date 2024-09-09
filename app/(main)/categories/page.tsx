@@ -11,7 +11,7 @@ export default async function CategoriesPage() {
     const token = Cookie.get('AUTH_TOKEN'); // Replace with your actual token
 
     // Fetch product categories
-    const productCategoriesRes = await fetch("https://my-home-et-al.onrender.com/api/v1/user/product-categories", {
+    const productCategoriesRes = await fetch(`${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}user/product-categories`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

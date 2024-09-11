@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react'
 import emailjs from "emailjs-com";
 import toast from 'react-hot-toast';
 import { useCart } from '@/app/CartProvider';
+import ProductPrice from '@/app/components/product/ProductPrice';
+import { useRegion } from '@/app/RegionProvider';
 
 export default function DepositPage() {
   const [loading, setloading] = useState(false);
@@ -14,6 +16,8 @@ export default function DepositPage() {
   const { cartState } = useCart();
   const router = useRouter();
   const accountNumber = '4010011734';
+
+  const region = useRegion();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(accountNumber).then(
@@ -53,10 +57,10 @@ export default function DepositPage() {
     ...item,
     product: {
       ...item.product,
-      price: sanitizeAndConvertPrice(item.product.price) // Convert price here
+      price: sanitizeAndConvertPrice(item?.product?.price) // Convert price here
     }
   }))
-    .filter(item => item?.product && !isNaN(item.product.price) && item.product.price > 0) || [];
+    .filter(item => item?.product && !isNaN(item?.product?.price) && item?.product?.price > 0) || [];
 
   const payload = {
     address: phoneMyAmount?.myAddress,
@@ -67,7 +71,7 @@ export default function DepositPage() {
     orderItems: validItems.map(item => ({
       productName: item.product?.productTitle,
       quantity: item.qty,
-      price: item.product?.price
+      price: item?.product?.price
     })),
     orderId: phoneMyAmount?.myOrder,
     //paymentMethod: selectedPayment,
@@ -126,6 +130,9 @@ export default function DepositPage() {
         </p>
         <p className='max-w-[80%] lg:max-w-[482px] mx-auto text-center text-xs lg:text-base'>
           Copy the account details below and proceed to make the payment using your preferred banking method.
+        </p>
+        <p className='font-clashmd text-base text-center capitalize text-myGray lg:text-[25px]'>
+        ₦{Number(payload?.amountSent).toFixed(2)}
         </p>
         <div>
           <div className='flex items-center gap-4 justify-center'>

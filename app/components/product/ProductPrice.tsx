@@ -3,7 +3,7 @@ import { convertPrice, currencySymbols, formatPrice } from "@/app/utils/helpers"
 
 interface ProductPriceProps {
   priceInNGN: number;
-  region: string;
+  region: any;
   className?: string;
 }
 

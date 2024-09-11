@@ -67,18 +67,18 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
     ...item,
     product: {
       ...item.product,
-      price: sanitizeAndConvertPrice(item.product.price) // Convert price here
+      price: sanitizeAndConvertPrice(item?.product?.price) // Convert price here
     }
   })).filter(item => {
     // Ensure that the sanitized price is valid
-    return item?.product && !isNaN(item.product.price) && item.product.price > 0;
+    return item?.product && !isNaN(item?.product?.price) && item?.product?.price > 0;
   }) || [];
 
   const total = cartState.items.reduce((total, item) => {
     // Check if item and product are valid
-    if (item?.product && !isNaN(sanitizeAndConvertPrice(item.product.price))) {
+    if (item?.product && !isNaN(sanitizeAndConvertPrice(item?.product?.price))) {
       // Convert price from string to number
-      const price = sanitizeAndConvertPrice(item.product.price);
+      const price = sanitizeAndConvertPrice(item?.product?.price);
       const quantity = item.qty;
       return total + (price * quantity);
     }
@@ -140,7 +140,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
       const orderItems = validItems.map((item) => ({
         product: item.product._id,
         qty: item.qty,
-        price: item.product.price,
+        price: item?.product?.price,
         images: item.product.images,
         name: item.product.productTitle,
         brand: item.product.brand,

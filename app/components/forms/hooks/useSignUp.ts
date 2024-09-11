@@ -25,11 +25,10 @@ export const useSignup = () => {
       if (response?.status === 400) {
         // Handle 400 Bad Request error and use the email for redirection
         router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
-        setError('There was an issue with your request. Please check your input.');
-      }
-  
-      setError(apiUtils.getAPIErrorMessage(response?.data.message || 'An error occurred'));
-      toast.error('Something went wrong during signup.');
+      } else {
+        setError(apiUtils.getAPIErrorMessage(response?.data.message || 'An error occurred'));
+        toast.error('Something went wrong during signup.');
+      }  
     },
   });
 

@@ -11,27 +11,31 @@ interface OTPFormProps {
   redirectTo: string; // Route to redirect after successful verification
 }
 
-const OTPForm: React.FC<OTPFormProps> = ({redirectTo}) => {
+const OTPForm: React.FC<OTPFormProps> = ({ redirectTo }) => {
   const router = useRouter();
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isEmail, setIsEmail] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
   const email = decodeURIComponent(searchParams.get('email') || '');
 
   const resendOtp = async () => {
+    setIsLoading(true);
     const data: any = { email: email };
     try {
       const res = await axios.post(
-       `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}user/resend-otp`,
+        `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}user/resend-otp`,
         data
       );
 
       if (res.status === 200) {
+        setIsLoading(false);
         toast.success('Code resent!');
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,7 +108,7 @@ const OTPForm: React.FC<OTPFormProps> = ({redirectTo}) => {
             <span className='text-[#656565]'>
               Didn&apos;t receive the code?
             </span>{' '}
-            <button onClick={resendOtp} className='text-[#C70E10]'>Request a new code</button>
+            <button disabled={isloading} onClick={resendOtp} className='text-[#C70E10]'>{isloading ? "Requesting..." : "Request a new code"}</button>
           </p>
         </div>
       )}

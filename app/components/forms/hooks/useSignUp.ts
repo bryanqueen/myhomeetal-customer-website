@@ -14,13 +14,22 @@ export const useSignup = () => {
   const signupMutate = useMutation(authService.signup, {
     onSuccess: async (res, variables) => {
       console.log(res);
-      const email = variables.email;
+      const email = variables.email;  // Accessing email from variables
       router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
-      toast.success('Created an account');
+      toast.success('Account created successfully!');
     },
-    onError: (error: AxiosError<any>) => {
+    onError: (error: AxiosError<any>, variables) => {  // Adding variables to onError callback
       const { response } = error;
-      setError(apiUtils.getAPIErrorMessage(response?.data.message));
+      const email = variables?.email;  // Accessing email from variables in onError
+  
+      if (response?.status === 400) {
+        // Handle 400 Bad Request error and use the email for redirection
+        router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
+        setError('There was an issue with your request. Please check your input.');
+      }
+  
+      setError(apiUtils.getAPIErrorMessage(response?.data.message || 'An error occurred'));
+      toast.error('Something went wrong during signup.');
     },
   });
 

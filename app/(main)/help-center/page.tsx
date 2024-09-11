@@ -174,7 +174,7 @@ export default function HelPage() {
 
             <a
               className='flex items-center gap-1 font-clashmd text-base text-black'
-              href='https://twitter.com/yourprofile'
+              href='https://www.instagram.com/myhomeetal?igsh=MTJmaGh4OHBvaHdOaw=='
               target='_blank'
               rel='noopener noreferrer'
             >
@@ -182,7 +182,7 @@ export default function HelPage() {
               <Image src='/arrow.svg' width={20} height={20} alt='arrow' />
             </a>
             <a
-              className='flex items-center gap-1 font-clashmd text-base text-black'
+              className='hidden items-center gap-1 font-clashmd text-base text-black'
               href='https://twitter.com/yourprofile'
               target='_blank'
               rel='noopener noreferrer'

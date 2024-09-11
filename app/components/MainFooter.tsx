@@ -223,7 +223,9 @@ const MainFooter: React.FC = () => {
             <a href='#' aria-label='Facebook'>
               <FaFacebook size={20} />
             </a>
-            <a href='#' aria-label='Instagram'>
+            <a href='https://www.instagram.com/myhomeetal?igsh=MTJmaGh4OHBvaHdOaw=='
+             target='_blank'
+              rel='noopener noreferrer' aria-label='Instagram'>
               <FaInstagram size={20} />
             </a>
             <a href='#' aria-label='YouTube'>

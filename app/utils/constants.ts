@@ -553,7 +553,7 @@ const locations = [
   { name: "Lagos Island", fee: 5400 },
   { name: "Lagos Mainland", fee: 5410 },
   { name: "Mushin", fee: 5420 },
-  { name: "Magodo", fee: 2000 },
+  { name: "Magodo Phase 2", fee: 2000 },
   { name: "Magodo Phase 1", fee: 0 },
   { name: "Ojo", fee: 5430 },
   { name: "Oshodi-Isolo", fee: 5440 },

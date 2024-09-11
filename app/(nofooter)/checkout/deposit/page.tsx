@@ -6,8 +6,6 @@ import React, { useEffect, useState } from 'react'
 import emailjs from "emailjs-com";
 import toast from 'react-hot-toast';
 import { useCart } from '@/app/CartProvider';
-import ProductPrice from '@/app/components/product/ProductPrice';
-import { useRegion } from '@/app/RegionProvider';
 
 export default function DepositPage() {
   const [loading, setloading] = useState(false);
@@ -16,8 +14,6 @@ export default function DepositPage() {
   const { cartState } = useCart();
   const router = useRouter();
   const accountNumber = '4010011734';
-
-  const region = useRegion();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(accountNumber).then(

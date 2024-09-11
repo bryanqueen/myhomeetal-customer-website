@@ -30,12 +30,12 @@ export default function MeetTheDevPage() {
           <div className='grid gap-1'>
             <a
               className='font-clashmd text-base text-black'
-              href='tel:+2348186536416'
+              href='tel:+2347085695033'
             >
-              +234 (0)818 653 6416
+              +234 (0)7085695033
             </a>
             <a
-              className='font-clashmd text-base text-black'
+              className='font-clashmd hidden text-base text-black'
               href='tel:+2348033204203'
             >
               +234 (0)803 320 4203
@@ -52,15 +52,15 @@ export default function MeetTheDevPage() {
           <div className='grid gap-1'>
             <a
               className='flex items-center gap-1 font-clashmd text-base text-black'
-              href='mailto:Customercare@myhometal.com'
+              href='mailto:info.zumboxtechnologies@gmail.com'
             >
-              Customercare@myhometal.com{' '}
+              info.zumboxtechnologies@gmail.com{' '}
               <Image src='/arrow.svg' width={20} height={20} alt='arrow' />
             </a>
 
             <a
               className='flex items-center gap-1 font-clashmd text-base text-black'
-              href='https://twitter.com/yourprofile'
+              href='https://www.instagram.com/zumboxtechnologies?igsh=OWlybzF4M3g3cmVh'
               target='_blank'
               rel='noopener noreferrer'
             >
@@ -68,7 +68,7 @@ export default function MeetTheDevPage() {
               <Image src='/arrow.svg' width={20} height={20} alt='arrow' />
             </a>
             <a
-              className='flex items-center gap-1 font-clashmd text-base text-black'
+              className='hidden items-center gap-1 font-clashmd text-base text-black'
               href='https://twitter.com/yourprofile'
               target='_blank'
               rel='noopener noreferrer'

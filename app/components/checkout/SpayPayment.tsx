@@ -49,11 +49,11 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
     }
   }
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (scriptLoaded && userInfo) {
       window.payWithSpay = function () {
         const handler = {
-          amount: phoneAmount.totalAmount,
+          amount: phoneAmount.totalAmount.toFixed(2),
           currency: 'NGN',
           reference: `myhomeetal-${orderId}`,
           merchantCode: 'MCH_la8whiqumgh489i',
@@ -89,8 +89,15 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
       };
     }
   }, [scriptLoaded, userInfo, phoneAmount?.totalAmount]);
-  
-  <Script
+
+
+
+
+  //disabled={!userInfo}
+  return (
+    <>
+      {/* Load the SpayCheckout script */}
+      <Script
         src='https://testcheckout.spaybusiness.com/pay/static/js/spay_checkout.js'
         strategy='afterInteractive'
         onLoad={() => {
@@ -100,19 +107,16 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
           console.error('Error loading SpayCheckout script:', e);
         }}
       />
+
+      {/* Load the SpayCheckout stylesheet */}
       <link
         href='https://testcheckout.spaybusiness.com/pay/static/css/spay_checkout.css'
         rel='stylesheet'
       />
-    [#FFF1F1]
-  */
 
-  //disabled={!userInfo}
-  return (
-    <>
-
+      {/* Payment button */}
       <button
-        className='h-[60px] bg-primary text-white w-full rounded-full border-0 font-clashmd text-base shadow-none'
+        className='h-[60px] bg-[#ffd4d4] text-black w-full rounded-full border-0 font-clashmd text-base shadow-none'
         id='payWithSpay'
         onClick={(e) => {
           e.stopPropagation();
@@ -126,7 +130,7 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
             console.error('payWithSpay function is not defined');
           }
         }}
-        disabled
+        disabled={!userInfo}
       >
         Make Payment (Spay Gateway)
       </button>

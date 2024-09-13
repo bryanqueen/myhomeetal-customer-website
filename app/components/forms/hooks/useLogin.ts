@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { setCookie } from 'cookies-next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-hot-toast';
@@ -33,9 +33,33 @@ export const useLogin = () => {
       // Retrieve and use the callbackUrl to redirect after login
       router.push(callbackUrl || ROUTES.HOME);
     },
-    onError: (error: AxiosError<any>) => {
+    onError: (error: AxiosError<any>, variables) => {
       const { response } = error;
-      setError(apiUtils.getAPIErrorMessage(response?.data.error));
+      const email = variables?.email;
+
+      const resendOtp = async () => {
+        const data: any = { email: email };
+        try {
+          const res = await axios.post(
+            `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}user/resend-otp`,
+            data
+          );
+
+          if (res.status === 200) {
+            toast.success('Code sent!');
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      if (response?.data.error === "User email has not been verified") {
+        router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
+        resendOtp();
+
+      } else {
+        setError(apiUtils.getAPIErrorMessage(response?.data.error));
+      }
     },
   });
 

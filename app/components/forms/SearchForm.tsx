@@ -71,6 +71,9 @@ const SearchForm = () => {
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
+        if (error) {
+          setSuggestedProducts([]);
+        }
         // Handle errors appropriately (e.g., display error message)
       });
   };
@@ -107,10 +110,15 @@ const SearchForm = () => {
         'recentSearches',
         JSON.stringify(updatedRecentSearches)
       );
+
+      router.push(`${ROUTES.SEARCH}?q=${searchQuery}`);
     }
 
-    router.push(`${ROUTES.SEARCH}?q=${searchQuery}`);
+    if (searchQuery) {
+      setSuggestedProducts([]);
+    }
     handleDropdownToggle(id, false);
+
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -139,9 +147,10 @@ const SearchForm = () => {
           ref={inputRef}
         />
         <Button
-          className='absolute right-5 top-1/2 -translate-y-1/2'
+          className='absolute disabled:bg-transparent right-5 top-1/2 -translate-y-1/2'
           fit
           variant='ghost'
+          disabled={suggestedProducts.length < 1}
         >
           <Image
             className=''
@@ -165,7 +174,7 @@ const SearchForm = () => {
               Suggested Products
             </p>
             <div className='grid gap-3'>
-              {suggestedProducts.map((product) => (
+              {suggestedProducts.length > 0 ? suggestedProducts.map((product) => (
                 <Link
                   onClick={() => handleDropdownToggle(id, false)}
                   href={`/item/${product?._id}`}
@@ -181,7 +190,11 @@ const SearchForm = () => {
                   />
                   {product.productTitle}
                 </Link>
-              ))}
+              )) : (
+                <div>
+                  No product found
+                </div>
+              )}
             </div>
           </div>
           {recentSearches.length > 0 && (

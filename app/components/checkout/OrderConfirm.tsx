@@ -14,7 +14,6 @@ export default function OrderConfirm() {
   const [orderItems, setOrderItems] = useState([]);
   const orderInfo = decodeURIComponent(searchParams.get('id') || '');
   const order = orderInfo.split('-');
-
   const { fetchCart } = useCartActions();
 
   const myFetch = async () => {

@@ -191,7 +191,7 @@ const SearchForm = () => {
                   {product.productTitle}
                 </Link>
               )) : (
-                <div>
+                <div className='text-sm'>
                   No product found
                 </div>
               )}

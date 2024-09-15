@@ -14,6 +14,11 @@ const PayWithSpay = dynamic(
   { ssr: false }
 );
 
+const PayWithRexpay = dynamic(
+  () => import('@/app/components/checkout/RexPay'),
+  { ssr: false }
+);
+
 interface UserInfo {
   firstname: string;
   lastname: string;
@@ -90,6 +95,7 @@ export default function OnlinePaymentPage() {
               {userInfo && phoneAmount && (
                 <PayWithSpay userInfo={userInfo} phoneAmount={phoneAmount} />
               )}
+              <PayWithRexpay userInfo={userInfo} phoneAmount={phoneAmount} />
               <Link href='/checkout/deposit' className='text-black text-base w-fit font-clashmd text-center'>
                 Use direct transfer
               </Link>

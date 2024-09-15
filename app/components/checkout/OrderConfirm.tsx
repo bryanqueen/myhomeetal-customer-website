@@ -112,7 +112,7 @@ const OrderSummary = ({ amount, paymentMethod, orderItems }) => {
           <span className='font-clashmd'>
             {paymentMethod === 'wallet'
               ? 'Wallet payment'
-              : ` Online payment - spay ${paymentMethod} payment`}
+              : ` Online payment`}
           </span>
         </div>
       </div>

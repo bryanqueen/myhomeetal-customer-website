@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from "../Button"
 import { useSearchParams } from 'next/navigation';
-import { rexPay } from '@/libs/Powerhouse';
+import { rexPay } from '@/app/lib/Powerhouse';
 
 interface UserInfo {
   firstname: string;

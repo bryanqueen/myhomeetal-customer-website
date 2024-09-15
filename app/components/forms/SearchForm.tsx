@@ -143,7 +143,7 @@ const SearchForm = () => {
           value={searchQuery}
           onChange={handleSearchChange}
           variant='outline'
-          inputClassName='rounded-full border-[#BDBDBD] py-4 lg:py-3 placeholder:text-[#BDBDBD] placeholder:text-sm px-5'
+          inputClassName='rounded-full border-[#BDBDBD] focus:border-gray-300 focus:outline-0 py-4 lg:py-3 placeholder:text-[#BDBDBD] placeholder:text-sm px-5'
           onFocus={() => handleDropdownToggle(id, true)}
           onBlur={(e) => {
             // Check if the related target (element that receives focus next) is within the dropdown
@@ -154,7 +154,7 @@ const SearchForm = () => {
           ref={inputRef}
         />
         {searchQuery ? (
-          <Button className='rounded-full max-w-[80px] font-clashmd absolute right-[6px] hover:bg-white hover:border border-primary hover:text-primary top-1/2 border-0 -translate-y-1/2'>
+          <Button className='rounded-full max-sm:h-[80%] max-w-[80px] font-clashmd absolute max-sm:right-[5px] right-[6px] hover:bg-white hover:border border-primary hover:text-primary top-1/2 border-0 -translate-y-1/2'>
             Search
           </Button>
         ) : (

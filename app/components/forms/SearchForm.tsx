@@ -46,7 +46,7 @@ const SearchForm = () => {
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
   // Debounce function to limit the frequency of API calls
-  const debounce = (func: Function, delay: number) => {
+  const debounce = (func: any, delay: number) => {
     let timeoutId: NodeJS.Timeout;
     return (...args: any[]) => {
       if (timeoutId) clearTimeout(timeoutId);

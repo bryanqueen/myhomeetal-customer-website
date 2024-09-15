@@ -192,16 +192,17 @@ const SearchForm = () => {
                   onClick={() => handleDropdownToggle(id, false)}
                   href={`/item/${product?._id}`}
                   key={product._id}
-                  className='flex items-center gap-3 text-sm text-[#656565] lg:text-base'
+                  className='flex truncate text-ellipsis overflow-hidden whitespace-nowrap items-center gap-3 text-sm text-[#656565] lg:text-base'
                 >
                   <Image
-                    className=''
+                    className='min-w-[15px]'
                     src='/icons/search.svg'
                     alt='Search'
                     width={15}
                     height={20}
                   />
-                  {product.productTitle}
+                  <span className='truncate text-ellipsis'>{product.productTitle}</span>
+
                 </Link>
               )) : (
                 <div className='text-sm'>

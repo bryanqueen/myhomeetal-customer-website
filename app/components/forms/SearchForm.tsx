@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import Link from 'next/link';
 import { ArrowRight } from 'iconsax-react';
@@ -45,49 +45,62 @@ const SearchForm = () => {
   const [suggestedProducts, setSuggestedProducts] = useState<Product[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
+  // Debounce function to limit the frequency of API calls
+  const debounce = (func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  // Function to handle API search with debounce
+  const fetchSuggestions = useCallback(
+    debounce((query: string) => {
+      if (query) {
+        const requestBody = { query };
+
+        fetch(
+          `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product/search?query=${query}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            setSuggestedProducts(data.slice(0, 5).reverse());
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+            setSuggestedProducts([]);
+          });
+      } else {
+        setSuggestedProducts([]);
+      }
+    }, 500), // Adjust debounce delay as needed
+    []
+  );
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
-
-    // Construct a POST request body
-    const requestBody = {
-      query: query, // Or other search parameters if needed
-    };
-
-    // Fetch data from API using POST request
-    fetch(
-      `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product/search?query=${query}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Indicate JSON data
-        },
-        body: JSON.stringify(requestBody), // Stringify the request body
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setSuggestedProducts(data.slice(0, 5).reverse());
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        if (error) {
-          setSuggestedProducts([]);
-        }
-        // Handle errors appropriately (e.g., display error message)
-      });
+    fetchSuggestions(query); // Call debounced function
   };
 
   const handleRecentSearchClick = (search: string) => {
     setSearchQuery(search);
-    // Trigger data fetching with the clicked search term
     handleSearchChange({
       target: { value: search },
     } as React.ChangeEvent<HTMLInputElement>);
   };
 
   useEffect(() => {
-    // Fetch recent searches from local storage or API
     const storedSearches = localStorage.getItem('recentSearches');
     if (storedSearches) {
       setRecentSearches(JSON.parse(storedSearches));
@@ -99,7 +112,6 @@ const SearchForm = () => {
     const formData = new FormData(e.currentTarget);
     const searchQuery = formData.get('search') as string;
 
-    // Update recent searches
     if (searchQuery) {
       const updatedRecentSearches = [
         searchQuery,
@@ -112,17 +124,12 @@ const SearchForm = () => {
       );
 
       router.push(`${ROUTES.SEARCH}?q=${searchQuery}`);
-    }
-
-    if (searchQuery) {
       setSuggestedProducts([]);
     }
     handleDropdownToggle(id, false);
-
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    // Prevent the dropdown from closing when clicking inside it
     e.preventDefault();
   };
 
@@ -146,20 +153,26 @@ const SearchForm = () => {
           }}
           ref={inputRef}
         />
-        <Button
-          className='absolute disabled:bg-transparent right-5 top-1/2 -translate-y-1/2'
-          fit
-          variant='ghost'
-          disabled={suggestedProducts.length < 1}
-        >
-          <Image
-            className=''
-            src='/icons/search.svg'
-            alt='Search'
-            width={18}
-            height={20}
-          />
-        </Button>
+        {searchQuery ? (
+          <Button className='rounded-full max-w-[80px] font-clashmd absolute right-[6px] hover:bg-white hover:border border-primary hover:text-primary top-1/2 border-0 -translate-y-1/2'>
+            Search
+          </Button>
+        ) : (
+          <Button
+            className='absolute disabled:bg-transparent right-5 top-1/2 -translate-y-1/2'
+            fit
+            variant='ghost'
+            disabled={suggestedProducts.length < 1}
+          >
+            <Image
+              className=''
+              src='/icons/search.svg'
+              alt='Search'
+              width={18}
+              height={20}
+            />
+          </Button>
+        )}
       </form>
       <div
         ref={dropdownRef}

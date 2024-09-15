@@ -72,7 +72,7 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
               clear();
               updateOrder();
               router.push(
-                `/order-confirmed?id=${orderId}-${response.amount}-${response.paymentMethod}`
+                `/order-confirmed?id=${orderId}-${response.amount}`
               );
             }
           },
@@ -93,7 +93,7 @@ const PayWithSpay = ({ userInfo, phoneAmount }: PayWithSpayProps) => {
 
 
 
-  //disabled={!userInfo}
+  //
   return (
     <>
       {/* Load the SpayCheckout script */}

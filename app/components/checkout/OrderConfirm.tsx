@@ -14,6 +14,8 @@ export default function OrderConfirm() {
   const [orderItems, setOrderItems] = useState([]);
   const orderInfo = decodeURIComponent(searchParams.get('id') || '');
   const order = orderInfo.split('-');
+  const amount = order[1] || '0'; // Default value if undefined
+  const paymentMethod = order[2] ? order[2].toLowerCase() : '';
   const { fetchCart } = useCartActions();
 
   const myFetch = async () => {
@@ -54,8 +56,8 @@ export default function OrderConfirm() {
         </div>
         <div className='min-w-full lg:mb-10 lg:mt-10'>
           <OrderSummary
-            amount={order[1]}
-            paymentMethod={order[2].toLowerCase()}
+            amount={amount}
+            paymentMethod={paymentMethod}
             orderItems={orderItems}
           />
         </div>

@@ -26,8 +26,15 @@ interface ReferralsInfo {
   totalReferrals: number;
 }
 
+interface UserInfo {
+  id: string;
+  points: number;
+  referralCode: string;
+  referrals: [];
+}
+
 export default function ReferralPage() {
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [referralsInfo, setReferralsInfo] = useState<ReferralsInfo>({
     referrals: [],
     totalEarnings: 0,
@@ -47,10 +54,10 @@ export default function ReferralPage() {
         return;
       }
 
-      let parsedUserInfo = null;
+      let parsedUserInfo: UserInfo | null = null;
 
       try {
-        parsedUserInfo = JSON.parse(decodeURIComponent(userCookie as string));
+        parsedUserInfo = JSON.parse(decodeURIComponent(userCookie as string)) as UserInfo;
       } catch (error) {
         console.error('Failed to parse user info from cookies:', error);
         setLoading(false);
@@ -111,13 +118,13 @@ export default function ReferralPage() {
           variant='ghost'
         >
           <span className='flex items-center'>
-          <ArrowLeftIcon
-            width={17}
-            className=' mr-[2px] mt-[-1px] lg:mr-1 lg:mt-[-3px]'
-          />
-          Back
+            <ArrowLeftIcon
+              width={17}
+              className=' mr-[2px] mt-[-1px] lg:mr-1 lg:mt-[-3px]'
+            />
+            Back
           </span>
-         
+
         </Button>
         <p className='text-center font-clashmd text-xs text-myGray lg:hidden'>
           My Referrals

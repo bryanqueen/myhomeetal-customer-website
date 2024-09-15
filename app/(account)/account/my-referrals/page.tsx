@@ -64,7 +64,7 @@ export default function ReferralPage() {
         return;
       }
 
-      if (parsedUserInfo && parsedUserInfo.id) {
+      if (parsedUserInfo && parsedUserInfo?.id) {
         try {
           const [userDetails, referrals] = await Promise.all([
             productService.getUserDetails(parsedUserInfo.id),

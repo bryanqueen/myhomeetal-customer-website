@@ -69,7 +69,6 @@ export default async function Home() {
 
     if (topProductCategoriesRes.status === "fulfilled") {
       topCategories = topProductCategoriesRes?.value;
-      console.log(topCategories);
     } else {
       console.error("Top Product Categories Fetch Error:", topProductCategoriesRes.reason);
       topCategories = []; // Fallback to empty array if fetch failed

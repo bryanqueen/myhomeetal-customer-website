@@ -45,7 +45,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/(main)/(overview)/page.tsx",
+    "app/(main)/(overview)/Home/page.tsx",
     "app/components/DesktopNav2.tsx"
 , "next-sitemap.config.js"  ],
   "exclude": [

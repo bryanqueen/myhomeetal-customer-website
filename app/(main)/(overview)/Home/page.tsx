@@ -7,7 +7,7 @@ import TopCategories from '@/app/components/category/TopCategories';
 import Category from '@/app/components/category/CategoryGrid';
 import CategoryList from '@components/category/CategoryList';
 import React, { Suspense } from 'react';
-import SearchForm from '../../components/forms/SearchForm';
+import SearchForm from '../../../components/forms/SearchForm';
 import Cookie from 'js-cookie';
 
 function shuffleArray(array: any[]) {
@@ -61,8 +61,8 @@ export default async function Home() {
 
     if (productCategoriesRes.status === "fulfilled") {
       allCategories = productCategoriesRes?.value;
-       // Shuffle all categories
-       shuffleArray(allCategories);
+      // Shuffle all categories
+      shuffleArray(allCategories);
     } else {
       console.error("Product Categories Fetch Error:", productCategoriesRes.reason);
     }
@@ -105,8 +105,8 @@ export default async function Home() {
       })
     );
 
-     // Shuffle the topCategories array
-     shuffleArray(topCategories);
+    // Shuffle the topCategories array
+    shuffleArray(topCategories);
 
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -122,6 +122,7 @@ export default async function Home() {
 
 
   return (
+
     <main className='pt-[165px] lg:pt-0'>
       <section>
         <Suspense>

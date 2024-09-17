@@ -7,7 +7,7 @@ import TopCategories from '@/app/components/category/TopCategories';
 import Category from '@/app/components/category/CategoryGrid';
 import CategoryList from '@components/category/CategoryList';
 import React, { Suspense } from 'react';
-import SearchForm from '../../../components/forms/SearchForm';
+import SearchForm from '../../components/forms/SearchForm';
 import Cookie from 'js-cookie';
 
 function shuffleArray(array: any[]) {

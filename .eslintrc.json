@@ -23,7 +23,7 @@
   },
   "rules": {
     "import/order": "off", // Disable the import/order rule
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": 0,
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off", // Disable the react/prop-types rule
     "@typescript-eslint/no-explicit-any": "off",

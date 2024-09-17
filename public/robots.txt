@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.myhomeetal.com
+
+# Sitemaps
+Sitemap: https://www.myhomeetal.com/sitemap.xml

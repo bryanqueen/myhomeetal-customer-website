@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+body {
+  @apply font-clash;
+}
+
 a:not(.btn):hover {
   /* text-decoration: underline; */
 }

@@ -1,7 +1,7 @@
-'use client';
 import Link from 'next/link';
 import ProductCard from '@components/cards/ProductCard';
 import { MobileCategorySkeleton } from '../loader';
+import { memo } from 'react';
 
 interface Props {
   title: string;
@@ -71,4 +71,4 @@ const Category: React.FC<CategoryProps> = ({
   );
 };
 
-export default Category;
+export default memo(Category);

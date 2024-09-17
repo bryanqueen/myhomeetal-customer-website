@@ -1,18 +1,33 @@
-// pages/index.tsx
 import { GetStaticProps } from 'next';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import AdBanner from '@components/banner/AdBanner';
-import AdBanner2 from '@components/banner/AdBanner2';
-import AdBanner3 from '@components/banner/AdBanner3';
-import Category from '@components/category/CategoryGrid';
-import CategoryList from '@components/category/CategoryList';
-
-import React from 'react';
 import SearchForm from '@/app/components/forms/SearchForm';
 import TopCategories from '@/app/components/category/TopCategories';
 import productService from '@/app/services/productService';
 import TopBanner from '@/app/components/banner/TopBanner';
 import Navigation from '@/app/components/Navigation';
 import MainFooter from '@/app/components/MainFooter';
+import CategoryList from '@/app/components/category/CategoryList';
+
+// Lazy load components
+const AdBanner2 = lazy(() => import('@components/banner/AdBanner2'));
+const AdBanner3 = lazy(() => import('@components/banner/AdBanner3'));
+const Category = lazy(() => import('@components/category/CategoryGrid'));
+
+// ClientOnly component to ensure client-side rendering
+const ClientOnly = ({ children }: { children: React.ReactNode }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  return <>{children}</>;
+};
 
 interface CategoryProps {
   topCategories: any[];
@@ -48,13 +63,29 @@ const Home: React.FC<CategoryProps> = ({ topCategories, allCategories }) => {
 
               return (
                 <React.Fragment key={category?._id}>
-                  <Category
-                    title={category?.name}
-                    id={category?._id}
-                    products={products}
-                  />
-                  {index === 0 && <AdBanner2 />}
-                  {index === 1 && <AdBanner3 />}
+                  <Suspense fallback={<div>Loading Category...</div>}>
+                    <ClientOnly>
+                      <Category
+                        title={category?.name}
+                        id={category?._id}
+                        products={products}
+                      />
+                    </ClientOnly>
+                  </Suspense>
+                  {index === 0 && (
+                    <Suspense fallback={<div>Loading Ad Banner 2...</div>}>
+                      <ClientOnly>
+                        <AdBanner2 />
+                      </ClientOnly>
+                    </Suspense>
+                  )}
+                  {index === 1 && (
+                    <Suspense fallback={<div>Loading Ad Banner 3...</div>}>
+                      <ClientOnly>
+                        <AdBanner3 />
+                      </ClientOnly>
+                    </Suspense>
+                  )}
                 </React.Fragment>
               );
             })}
@@ -62,7 +93,6 @@ const Home: React.FC<CategoryProps> = ({ topCategories, allCategories }) => {
       </main>
       <MainFooter />
     </>
-
   );
 };
 
@@ -129,7 +159,6 @@ export const getStaticProps: GetStaticProps = async () => {
     };
   }
 };
-
 
 function shuffleArray(array: any[]) {
   for (let i = array.length - 1; i > 0; i--) {

@@ -1,10 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Marquee from 'react-fast-marquee';
-
-import productService from '@/app/services/productService';
 
 interface Category {
   name: string;

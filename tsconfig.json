@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -19,18 +25,30 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
-      "@components/*": ["./app/components/*"],
-      "@utils/*": ["./app/utils/*"],
-      "@services/*": ["./app/services/*"],
-    }
+      "@/*": [
+        "./*"
+      ],
+      "@components/*": [
+        "./app/components/*"
+      ],
+      "@utils/*": [
+        "./app/utils/*"
+      ],
+      "@services/*": [
+        "./app/services/*"
+      ]
+    },
+    "strictNullChecks": false
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/(main)/(overview)/page.tsx"
-, "app/components/DesktopNav2.tsx"  ],
-  "exclude": ["node_modules"]
+    "app/(main)/(overview)/page.tsx",
+    "app/components/DesktopNav2.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -47,15 +47,15 @@ export default function ReferralPage() {
     const fetchUserInfo = async () => {
       const userCookie = getCookie('USER_INFO');
       const authToken = getCookie(constants.AUTH_TOKEN);
-
+  
       if (!userCookie || !authToken) {
         console.log('User info or authorization token is missing');
         setLoading(false);
         return;
       }
-
+  
       let parsedUserInfo: UserInfo | null = null;
-
+  
       try {
         parsedUserInfo = JSON.parse(decodeURIComponent(userCookie as string)) as UserInfo;
       } catch (error) {
@@ -63,21 +63,22 @@ export default function ReferralPage() {
         setLoading(false);
         return;
       }
-
-      if (parsedUserInfo && parsedUserInfo?.id) {
+  
+      // Type guard to ensure parsedUserInfo has a valid 'id'
+      if (parsedUserInfo && typeof parsedUserInfo.id === 'string') {
         try {
           const [userDetails, referrals] = await Promise.all([
             productService.getUserDetails(parsedUserInfo.id),
             productService.getUserReferrals(),
           ]);
-
+  
           if (userDetails.status === 200) {
             setUserInfo(userDetails.data);
           } else {
             console.log('Failed to fetch user details:', userDetails);
             toast.error('Failed to fetch user details');
           }
-
+  
           if (referrals.status === 200) {
             setReferralsInfo({
               referrals: referrals.data.data.referrals,
@@ -95,12 +96,12 @@ export default function ReferralPage() {
       } else {
         console.log('User info is undefined or missing ID');
       }
-
+  
       setLoading(false);
     };
-
+  
     fetchUserInfo();
-  }, []);
+  }, []);  
 
   if (loading) {
     return <HomeSkeleton />;

@@ -72,7 +72,7 @@ const SignupForm = () => {
             {...register('firstname')}
             errorKey={errors.firstname?.message}
             labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-            inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+            inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
           />
           <Input
             labelKey='Last Name'
@@ -80,7 +80,7 @@ const SignupForm = () => {
             {...register('lastname')}
             errorKey={errors.lastname?.message}
             labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-            inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+            inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
           />
           <Input
             type='email'
@@ -89,7 +89,7 @@ const SignupForm = () => {
             {...register('email')}
             errorKey={errors.email?.message}
             labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-            inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+            inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
           />
           <div className='hidden'>
             <Input
@@ -99,7 +99,7 @@ const SignupForm = () => {
               placeholder='Enter Referral Code'
               {...register('referralCode')}
               labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-              inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+              inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
             />
           </div>
 
@@ -110,7 +110,7 @@ const SignupForm = () => {
               placeholder='Enter Password'
               {...register('password')}
               labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-              inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+              inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
             />
             <span
               onClick={() => setShowPassword(!showPassword)}

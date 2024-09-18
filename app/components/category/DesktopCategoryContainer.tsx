@@ -193,13 +193,13 @@ export default function DesktopCategoryContainer({
                 <input
                   value={tempMinPrice}
                   onChange={(e) => handleTempPriceChange(e, 'min')}
-                  className='h-[37px] w-[110px] rounded-full border border-[#E4E7EC] px-7 py-2 text-center text-sm text-black'
+                  className='h-[37px] w-[110px] rounded-full border border-[#E4E7EC] px-7 py-2 text-center text-black'
                 />
                 <div className='h-[1.5px] w-3 bg-black'></div>
                 <input
                   value={tempMaxPrice}
                   onChange={(e) => handleTempPriceChange(e, 'max')}
-                  className='h-[37px] w-[110px] rounded-full border border-[#E4E7EC] px-7 py-2 text-center text-sm text-black'
+                  className='h-[37px] w-[110px] rounded-full border border-[#E4E7EC] px-7 py-2 text-center text-black'
                 />
               </div>
             </div>

@@ -7,6 +7,11 @@ body {
   @apply font-clash;
 }
 
+input {
+  font-size: 16px; /* Prevent zoom on iPhone */
+  box-sizing: border-box;
+}
+
 a:not(.btn):hover {
   /* text-decoration: underline; */
 }

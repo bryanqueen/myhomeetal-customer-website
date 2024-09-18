@@ -54,7 +54,7 @@ export default function SelectLocation() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="h-[50px] w-full rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black"
+          className="h-[50px] w-full rounded-[10px] bg-white px-4 placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:placeholder:text-sm lg:placeholder:text-black"
         />
         {dropdownOpen && (
           <div className="relative">

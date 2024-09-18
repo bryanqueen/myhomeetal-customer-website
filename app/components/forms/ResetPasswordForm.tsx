@@ -114,7 +114,7 @@ const ResetPasswordForm = () => {
               id='password'
               type={showPassword ? 'text' : 'password'}
               {...register('password')}
-              className='block h-[60px] w-full appearance-none rounded-[10px] border-[#F4F4F4] bg-[#F4F4F4] px-3 text-sm placeholder-[#5E5E5E] placeholder:text-xs focus:border-primary focus:outline-none lg:border lg:bg-white'
+              className='block h-[60px] w-full appearance-none rounded-[10px] border-[#F4F4F4] bg-[#F4F4F4] px-3 placeholder-[#5E5E5E] placeholder:text-xs focus:border-primary focus:outline-none lg:border lg:bg-white'
             />
             <span
               className='absolute inset-y-0 right-2 flex cursor-pointer items-center pr-3 text-sm leading-5'

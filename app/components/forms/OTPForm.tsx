@@ -90,7 +90,7 @@ const OTPForm: React.FC<OTPFormProps> = ({ redirectTo }) => {
               onChange={setOtp}
               numInputs={5}
               renderInput={(props) => <input {...props} />}
-              inputStyle='w-[60px] bg-[#F4F4F4] lg:bg-white h-[60px] lg:max-w-[71px] lg:h-[71px] rounded-[10px] mx-1 lg:mx-auto lg:border lg:border-[#E4E7EC] focus:bg-white focus:outline-[#FF0003] text-sm lg:text-base text-black flex-1'
+              inputStyle='w-[60px] bg-[#F4F4F4] lg:bg-white h-[60px] lg:max-w-[71px] lg:h-[71px] rounded-[10px] mx-1 lg:mx-auto lg:border lg:border-[#E4E7EC] focus:bg-white focus:outline-[#FF0003] text-black flex-1'
               containerStyle='justify-center lg:mb-16 lg:px-10'
             />
             <div className='mt-3 lg:hidden'>

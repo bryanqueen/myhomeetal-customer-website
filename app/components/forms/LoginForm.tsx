@@ -69,7 +69,7 @@ const LoginForm = () => {
           errorKey={errors.email?.message}
           labelKey='Email Address'
           labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-          inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+          inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
         />
         <div className='relative'>
           <Input
@@ -79,7 +79,7 @@ const LoginForm = () => {
             {...register('password')}
             errorKey={errors.password?.message}
             labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
-            inputClassName='rounded-[16px] text-sm bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
+            inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
           />
 
           <span

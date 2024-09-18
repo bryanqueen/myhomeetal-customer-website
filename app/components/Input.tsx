@@ -51,7 +51,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 
     const inputClass = twMerge(
       cn(
-        'w-full rounded-xl bg-gray-100 text-xs lg:text-sm p-4 px-6 text-black focus:outline-primary',
+        'w-full rounded-xl bg-gray-100 p-4 px-6 text-black focus:outline-primary',
         {
           'border border-gray-300 bg-white focus:border-primary':
             variant === 'outline',

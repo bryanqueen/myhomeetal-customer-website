@@ -556,9 +556,11 @@ const CheckoutForm: React.FC = () => {
                           labelKey='Pickup Delivery'
                         />
                       </RadioGroup.Root>
-                      <button onClick={() => setIsPickup(true)} className='absolute top-0 text-[#8B1A1A] font-clashmd text-xs lg:text-sm lg:top-[-50%] lg:translate-y-[50%] right-3'>
-                        Change Station
-                      </button>
+                      {selectedDeliveryMethod === 'Pickup delivery' && (
+                        <button onClick={() => setIsPickup(true)} className='absolute top-0 text-[#8B1A1A] font-clashmd text-xs lg:text-sm lg:top-[-50%] lg:translate-y-[50%] right-3'>
+                          Change Station
+                        </button>
+                      )}
                     </div>
                   )}
 

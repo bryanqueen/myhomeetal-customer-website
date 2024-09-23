@@ -73,7 +73,7 @@ const IsPickUp = () => {
     <div className='absolute top-[50%] min-w-full translate-y-[-50%] px-[3%]'>
       <div
         onClick={(e) => e.stopPropagation()}
-        className='mt-10 rounded-xl bg-[#f4f4f4] px-5 pt-10 pb-5 lg:py-10 lg:mx-auto lg:mt-24 lg:block lg:max-w-4xl lg:rounded-2xl'
+        className='mt-10 rounded-xl bg-[#f4f4f4] px-5 pt-7 pb-5 lg:py-10 lg:mx-auto lg:mt-24 lg:block lg:max-w-4xl lg:rounded-2xl'
       >
         <h2 className="lg:text-2xl font-clashmd">Select a Pick-up station</h2>
         <div className="grid text-sm lg:text-base md:grid-cols-2 gap-3 lg:gap-5 mt-6">
@@ -92,7 +92,7 @@ const IsPickUp = () => {
             isMulti={false}
           />
         </div>
-        <div className="h-[250px] md:h-[200px] mt-3 overflow-y-scroll custom-scrollbar">
+        <div className="h-[220px] md:h-[200px] mt-3 overflow-y-scroll custom-scrollbar">
           <RadioGroup.Root
             className="flex flex-col"
             defaultValue=""

@@ -69,6 +69,15 @@ const CheckoutForm: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  // Disable body scroll when menu is open
+  useEffect(() => {
+    if (isPickup || isEdit || isAddAddress) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isPickup, isEdit, isAddAddress]);
+
   const validItems = cartState.items?.filter(item =>
     item?.product && !isNaN(parseFloat(item.product.price))
   ) || [];
@@ -547,7 +556,7 @@ const CheckoutForm: React.FC = () => {
                           labelKey='Pickup Delivery'
                         />
                       </RadioGroup.Root>
-                      <button onClick={() => setIsPickup(true)} className='absolute text-[#8B1A1A] font-clashmd text-xs lg:text-sm top-[-50%] translate-y-[50%] right-3'>
+                      <button onClick={() => setIsPickup(true)} className='absolute top-0 text-[#8B1A1A] font-clashmd text-xs lg:text-sm lg:top-[-50%] lg:translate-y-[50%] right-3'>
                         Change Station
                       </button>
                     </div>

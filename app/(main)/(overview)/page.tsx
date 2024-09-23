@@ -146,7 +146,8 @@ export default async function Home() {
         {topCategories &&
           topCategories.slice(0, 8).map((category, index) => {
             const products = category?.products;
-            if (!products) {
+            // Check if the products array exists and is not empty
+            if (!products || products.length === 0) {
               console.warn(`No products found for category ID: ${category?._id}`);
               return null;
             }

@@ -18,6 +18,9 @@ import productService from '@/app/services/productService';
 import Button from '../Button';
 import { HomeSkeleton } from '../loader';
 import { useCart } from '@/app/CartProvider';
+import AddAddressModal from './AddAddressModal';
+import EditAddressModal from './EditAddressModal';
+import IsPickUp from './IsPickUp';
 
 interface Address {
   _id: string;
@@ -53,6 +56,7 @@ const CheckoutForm: React.FC = () => {
   const [isChange, setIsChange] = useState(false);
   const [deliveryDates, setDeliveryDates] = useState({ start: '', end: '' });
   const [isEdit, setIsEdit] = useState(false);
+  const [isPickup, setIsPickup] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [myAddress, setMyAddress] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
@@ -286,217 +290,59 @@ const CheckoutForm: React.FC = () => {
   return (
     <ClientOnly>
       <div className='grid gap-5 lg:grid-cols-[2fr_1fr]'>
-        {(isEdit || isAddAddress) && (
+        {(isEdit || isAddAddress || isPickup) && (
           <div
-            onClick={() => (isEdit ? setIsEdit(false) : setIsAddAddress(false))}
+            onClick={() => {
+              if (isEdit) {
+                setIsEdit(false);
+              } else {
+                setIsAddAddress(false);
+                setIsPickup(false);
+              }
+            }}
             className='fixed bottom-0 left-0 right-0 top-0 z-50 items-center justify-center bg-[#292929]/50 lg:flex'
           >
             {/**Edit container */}
             {isEdit && (
-              <div className='absolute top-[40%] mt-20 min-w-full translate-y-[-50%] px-[3%] lg:min-w-[1115px] lg:px-0'>
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  className='mx-auto rounded-2xl bg-[#f4f4f4] px-5 py-10 lg:mt-24 lg:block lg:min-w-[1115px]'
-                >
-                  <div className='grid-cols-2 gap-5 lg:grid'>
-                    <div>
-                      <p className='font-clashmd text-xs lg:text-base'>
-                        Address {addressInWords}
-                      </p>
-                      <p className='max-w-[243px] text-[10px] lg:max-w-[497px] lg:text-sm'>
-                        Ensure the details entered are accurate to avoid issues
-                        during product delivery
-                      </p>
-                    </div>
-                    <div className='hidden gap-2 lg:grid'>
-                      <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
-                        City
-                      </label>
-                      <div className='grid gap-2'>
-                        <input
-                          type="text"
-                          placeholder={selectedLocation || 'Select your location...'}
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          onClick={() => setDropdownOpen(!dropdownOpen)}
-                          className="h-[50px] w-full rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black"
-                        />
-                        {dropdownOpen && (
-                          <div className="relative">
-                            <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
-                              {filteredLocations.map((lga, i) => (
-                                <div
-                                  key={i}
-                                  onClick={() => handleSelectChange(lga.name)}
-                                  className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
-                                    ? 'bg-gray-200'
-                                    : 'hover:bg-gray-100'
-                                    }`}
-                                >
-                                  {lga.name}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className='mt-5 grid gap-5 lg:grid-cols-2'>
-                    <Input
-                      name='address'
-                      value={myAddress}
-                      onChange={(e) => setMyAddress(e.target.value)}
-                      labelKey='Delevery Address'
-                      placeholder='Enter a Valid address'
-                      labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
-                      inputClassName='h-[56px] text-xs bg-white placeholder:text-sm placeholder:text-black'
-                    />
-                    <Input
-                      name='phoneNumber'
-                      value={phoneNumber}
-                      onChange={handlePhoneChange}
-                      errorKey={error}
-                      labelKey='Phone Number'
-                      placeholder='Enter your Phone Number'
-                      labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
-                      inputClassName='h-[56px] text-xs bg-white placeholder:text-sm placeholder:text-black'
-                    />
-                    <div className='grid gap-2 lg:hidden'>
-                      <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
-                        City
-                      </label>
-                      <div className='grid gap-2'>
-                        <input
-                          type="text"
-                          placeholder={selectedLocation || 'Select your location...'}
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          onClick={() => setDropdownOpen(!dropdownOpen)}
-                          className="h-[50px] w-full rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black"
-                        />
-                        {dropdownOpen && (
-                          <div className="relative">
-                            <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
-                              {filteredLocations.map((lga, i) => (
-                                <div
-                                  key={i}
-                                  onClick={() => handleSelectChange(lga.name)}
-                                  className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
-                                    ? 'bg-gray-200'
-                                    : 'hover:bg-gray-100'
-                                    }`}
-                                >
-                                  {lga.name}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  className='flex items-center justify-center'
-                >
-                  <Button
-                    onClick={editMyAddress}
-                    disabled={isUpdateLoading}
-                    loading={isUpdateLoading}
-                    className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-[10px] border-0 bg-primary text-center font-clashmd text-base text-white shadow-none lg:rounded-full'
-                  >
-                    Update Address
-                  </Button>
-                </div>
-              </div>
+              <EditAddressModal
+                addressInWords={addressInWords}
+                setMyAddress={setMyAddress}
+                handlePhoneChange={handlePhoneChange}
+                error={error}
+                selectedLocation={selectedLocation}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                setDropdownOpen={setDropdownOpen}
+                dropdownOpen={dropdownOpen}
+                filteredLocations={filteredLocations}
+                handleSelectChange={handleSelectChange}
+                editMyAddress={editMyAddress}
+                isUpdateLoading={isUpdateLoading}
+                myAddress={myAddress}
+                phoneNumber={phoneNumber}
+              />
             )}
             {/**Add container */}
             {isAddAddress && (
-              <div className='absolute top-[50%] min-w-full translate-y-[-50%] px-[3%]'>
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  className='mt-10 rounded-xl bg-[#f4f4f4] px-5 py-10 lg:mx-auto lg:mt-24 lg:block lg:max-w-[582px] lg:rounded-2xl'
-                >
-                  <div className='mx-auto grid gap-5 lg:max-w-[503px]'>
-                    <Input
-                      name='address'
-                      onChange={(e) => setMyAddress(e.target.value)}
-                      labelKey='Delevery Address'
-                      placeholder='Enter a Valid address'
-                      labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
-                      inputClassName='h-[50px] w-full lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
-                    />
-                    <Input
-                      name='phoneNumber'
-                      onChange={handlePhoneChange}
-                      errorKey={error}
-                      labelKey='Phone Number'
-                      placeholder='Enter your Phone Number'
-                      labelClassName='text-[10px] font-clashmd lg:font-clash lg:text-xs text-black'
-                      inputClassName='h-[50px] lg:text-sm text-xs rounded-[10px] lg:rounded-2xl lg:h-[56px] bg-white placeholder:text-xs placeholder:text-[#989898] lg:placeholder:text-sm lg:placeholder:text-black'
-                    />
-                    <div className='grid gap-2'>
-                      <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
-                        City
-                      </label>
-                      <div className='grid gap-2'>
-                        <input
-                          type="text"
-                          placeholder={selectedLocation || 'Select your location...'}
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          onClick={() => setDropdownOpen(!dropdownOpen)}
-                          className="h-[50px] w-full rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black"
-                        />
-                        {dropdownOpen && (
-                          <div className="relative">
-                            <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
-                              {filteredLocations.map((lga, i) => (
-                                <div
-                                  key={i}
-                                  onClick={() => handleSelectChange(lga.name)}
-                                  className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
-                                    ? 'bg-gray-200'
-                                    : 'hover:bg-gray-100'
-                                    }`}
-                                >
-                                  {lga.name}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className='hidden items-center justify-center lg:flex'>
-                    <Button
-                      onClick={createMyAddress}
-                      loading={isAddLoading}
-                      disabled={isAddLoading}
-                      className='mx-auto mt-10 h-[50px] w-full max-w-[391px] rounded-full border-0 bg-primary text-center font-clashmd text-base text-white shadow-none'
-                    >
-                      Create a New Address
-                    </Button>
-                  </div>
-                </div>
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  className='flex items-center justify-center lg:hidden'
-                >
-                  <Button
-                    onClick={createMyAddress}
-                    loading={isAddLoading}
-                    disabled={isAddLoading}
-                    className='mx-auto mt-14 h-[50px] min-w-full rounded-[10px] border-0 bg-primary text-center font-clashmd text-base text-white shadow-none'
-                  >
-                    Create a New Address
-                  </Button>
-                </div>
-              </div>
+              <AddAddressModal
+                setMyAddress={setMyAddress}
+                handlePhoneChange={handlePhoneChange}
+                error={error}
+                selectedLocation={selectedLocation}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                setDropdownOpen={setDropdownOpen}
+                dropdownOpen={dropdownOpen}
+                filteredLocations={filteredLocations}
+                handleSelectChange={handleSelectChange}
+                createMyAddress={createMyAddress}
+                isAddLoading={isAddLoading}
+              />
+            )}
+            {/**Pickup container */}
+            {isPickup && (
+              <IsPickUp
+              />
             )}
           </div>
         )}
@@ -685,23 +531,28 @@ const CheckoutForm: React.FC = () => {
                       {selectedDeliveryMethod}
                     </p>
                   ) : (
-                    <RadioGroup.Root
-                      className='flex flex-col gap-5 font-clashmd text-xs text-myGray lg:flex-row lg:items-center lg:gap-60 lg:font-clash lg:text-base'
-                      defaultValue={selectedDeliveryMethod}
-                      aria-label='Delivery Method'
-                      onValueChange={setSelectedDeliveryMethod}
-                    >
-                      <RadioItem
-                        id='r1'
-                        value='Door delivery'
-                        labelKey='Door Delivery'
-                      />
-                      <RadioItem
-                        id='r2'
-                        value='Pickup delivery'
-                        labelKey='Pickup Delivery'
-                      />
-                    </RadioGroup.Root>
+                    <div className='relative'>
+                      <RadioGroup.Root
+                        className='flex flex-col gap-5 font-clashmd text-xs text-myGray lg:flex-row lg:items-center lg:gap-60 lg:font-clash lg:text-base'
+                        defaultValue={selectedDeliveryMethod}
+                        aria-label='Delivery Method'
+                        onValueChange={setSelectedDeliveryMethod}
+                      >
+                        <RadioItem
+                          id='r1'
+                          value='Door delivery'
+                          labelKey='Door Delivery'
+                        />
+                        <RadioItem
+                          id='r2'
+                          value='Pickup delivery'
+                          labelKey='Pickup Delivery'
+                        />
+                      </RadioGroup.Root>
+                      <button onClick={() => setIsPickup(true)} className='absolute text-[#8B1A1A] font-clashmd text-xs lg:text-sm top-[-50%] translate-y-[50%] right-3'>
+                        Change Station
+                      </button>
+                    </div>
                   )}
 
                   <div className='mt-5 lg:mt-8'>

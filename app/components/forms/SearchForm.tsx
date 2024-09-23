@@ -88,29 +88,30 @@ const SearchForm = () => {
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
+    const query = e.target.value.toLowerCase();
     setSearchQuery(query);
     fetchSuggestions(query); // Call debounced function
   };
 
   const handleRecentSearchClick = (search: string) => {
-    setSearchQuery(search);
+    const lowerCaseSearch = search.toLowerCase();
+    setSearchQuery(lowerCaseSearch);
     handleSearchChange({
-      target: { value: search },
+      target: { value: lowerCaseSearch },
     } as React.ChangeEvent<HTMLInputElement>);
   };
 
   useEffect(() => {
     const storedSearches = localStorage.getItem('recentSearches');
     if (storedSearches) {
-      setRecentSearches(JSON.parse(storedSearches));
+      setRecentSearches(JSON.parse(storedSearches).map((s: string) => s.toLowerCase()));
     }
   }, []);
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const searchQuery = formData.get('search') as string;
+    const searchQuery = (formData.get('search') as string).toLowerCase(); // Convert to lowercase
 
     if (searchQuery) {
       const updatedRecentSearches = [

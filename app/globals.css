@@ -275,7 +275,6 @@ input[type='checkbox']:checked::after {
   background-color: #a8a8a8;
 }
 
-
 .is-pinned {
   height: auto;
   box-shadow:

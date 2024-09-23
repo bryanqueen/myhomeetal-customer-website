@@ -33,7 +33,7 @@ export interface SelectInputProps {
 }
 
 const controlStyles = {
-  base: 'border border-[#D9D9D9] md:h-[70px] rounded-2xl bg-white hover:cursor-pointer mt-2 px-4 py-2.5',
+  base: 'border border-[#D9D9D9] h-[50px] md:h-[70px] rounded-2xl bg-white hover:cursor-pointer mt-2 px-4 py-2.5',
   focus: 'border-primary ring-1 ring-primary',
   nonFocus: 'border-gray-400/50',
 };

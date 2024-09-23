@@ -111,7 +111,15 @@ const IsPickUp = () => {
               id="station2"
               value="station2"
               labelKey="My Homeetal Anthony Pickup Station"
-              address="57, Adebayo Mokolu Street, Anthony village, Ikeja Lagos State."
+              address="5,Anthony village Road, Ikeja Lagos State."
+              hours="Mon-Fri 8am - 5pm, Sat 9am - 5pm"
+              contact="MyHome etal 08160016673"
+            />
+            <RadioItem
+              id="station3"
+              value="station3"
+              labelKey="My Homeetal Ijebu Pickup Station"
+              address="16, Eroko Street Ijebuode, Ogun State"
               hours="Mon-Fri 8am - 5pm, Sat 9am - 5pm"
               contact="MyHome etal 08160016673"
             />

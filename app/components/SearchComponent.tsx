@@ -7,10 +7,10 @@ function SearchComponent() {
   return (
     <InstantSearch searchClient={index} indexName="products">
       <SearchBox
-      translations={{ placeholder: "What can we help you find?" }}
-      submitIconComponent={<SearchNormal className="text-2xl size-20" />}
-      className="custom-search" // Optional: to apply any outer container styling
-    />
+        translations={{ placeholder: "What can we help you find?" }}
+        submitIconComponent={<SearchNormal className="text-2xl size-20" />}
+        className="custom-search" // Optional: to apply any outer container styling
+      />
       <Hits hitComponent={Product} />
       <Pagination />
     </InstantSearch>

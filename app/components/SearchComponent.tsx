@@ -1,7 +1,6 @@
 'use client';
 import { index } from '@/algoliaClient';
 import { SearchNormal } from 'iconsax-react';
-import { FaSearchengin } from 'react-icons/fa6';
 import { InstantSearch, SearchBox, Hits, Pagination } from 'react-instantsearch-dom';
 
 function SearchComponent() {

@@ -312,6 +312,29 @@ input[type='checkbox']:checked::after {
   animation: shimmer 2s infinite;
 }
 
+/* Custom CSS for SearchBox */
+.ais-SearchBox-input {
+  padding: 10px 16px;
+  border: 1px solid #BDBDBD;
+  border-radius: 100px;
+  width: 100%;
+  font-size: 16px;
+}
+
+.ais-SearchBox-submit {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.custom-search {
+  position: relative;
+  min-width: 288px;
+  width: 100%;
+}
+
+
 @media (max-width: 768px) {
   /* For mobile screens */
   .icon-mobile {

@@ -1,5 +1,4 @@
 'use client';
-import { index } from '@/algoliaClient';
 import algoliasearch from 'algoliasearch';
 import { SearchNormal } from 'iconsax-react';
 import { InstantSearch, SearchBox, Hits, Pagination } from 'react-instantsearch-dom';

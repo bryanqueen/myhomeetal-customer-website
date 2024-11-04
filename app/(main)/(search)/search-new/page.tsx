@@ -3,7 +3,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <main className='min-h-screen px-[3%]'>
+    <main className='min-h-screen px-[3%] max-lg:pt-28'>
       <SearchComponent />
     </main>
   )

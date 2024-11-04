@@ -1,11 +1,17 @@
 'use client';
 import { index } from '@/algoliaClient';
+import algoliasearch from 'algoliasearch';
 import { SearchNormal } from 'iconsax-react';
 import { InstantSearch, SearchBox, Hits, Pagination } from 'react-instantsearch-dom';
 
+const searchClient = algoliasearch(
+  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
+  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY
+)
+
 function SearchComponent() {
   return (
-    <InstantSearch searchClient={index} indexName="products">
+    <InstantSearch searchClient={searchClient} indexName="products">
       <SearchBox
         translations={{ placeholder: "What can we help you find?" }}
         submitIconComponent={<SearchNormal className="text-2xl size-20" />}

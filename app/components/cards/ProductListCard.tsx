@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+// import Image from 'next/image';
 import { Rating } from 'react-simple-star-rating';
 import Button from '@components/Button';
 import ProductPrice from '../product/ProductPrice';
@@ -60,13 +60,14 @@ const ProductListCard = ({ product }: ProductCardProps) => {
   return (
     <Link href={`/item/${product?._id}`} className='mb-5 flex h-[207px] w-[869px] items-center gap-[63px] rounded-[20px] border border-[#E4E7EC] px-[43px] py-5'>
       <div className='w-[134px]'>
-        <Image
+        <img
           className='h-[167px] object-contain'
           src={product?.images[0]}
           alt='Product'
-          width={200}
-          height={200}
+          width="200"
+          height="200"
           loading='lazy'
+          decoding="async"
         />
       </div>
 

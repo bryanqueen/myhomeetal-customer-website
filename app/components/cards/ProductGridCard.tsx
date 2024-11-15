@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+// import Image from 'next/image';
 import { Rating } from 'react-simple-star-rating';
 
 import Button from '@components/Button';
@@ -62,13 +62,14 @@ const ProductGridCard: React.FC<ProductCardProps> = ({
 
   return (
     <Link href={`/item/${product?._id}`} className='flex h-[418px] w-[279px] flex-col justify-between px-[30px] py-[20px] lg:rounded-[20px] lg:border lg:border-[#E4E7EC]'>
-      <Image
+      <img
         className='mx-auto h-[167px] object-contain'
         src={product?.images[0]}
         alt='Product'
-        width={200}
-        height={167}
+        width="200"
+        height="167"
         loading='lazy'
+        decoding="async"
       />
       <div className='flex max-h-[117px] w-full flex-col gap-3'>
         <div className='hidden items-center justify-between gap-[19px] lg:flex'>

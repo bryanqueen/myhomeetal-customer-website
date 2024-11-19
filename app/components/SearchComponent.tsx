@@ -12,26 +12,25 @@ interface Product {
   category: {
     name: string
   }
-  description: string
+  subCategories: string[]
   brand: string
   mainMaterial: string
   color: string
+  searchData: string
 }
 
 interface SearchSuggestion {
   text: string
-  type: 'product' | 'brand' | 'category'
-  highlighted?: string
+  type: 'brand' | 'category' | 'subcategory' | 'product' | 'popular'
 }
 
-// Initialize the client outside of the component
 const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APP_ID ?? '',
   process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY ?? ''
 )
 
-// Initialize the index outside of the component
 const searchIndex = searchClient.initIndex('products')
+const querySuggestionsIndex = searchClient.initIndex('products_query_suggestions')
 
 export default function SearchComponent() {
   const [query, setQuery] = useState('')
@@ -52,6 +51,66 @@ export default function SearchComponent() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  const processSearchResults = (
+    productHits: Product[], 
+    querySuggestions: any[] | undefined, 
+    searchQuery: string
+  ): SearchSuggestion[] => {
+    const suggestions: SearchSuggestion[] = []
+    const addedSuggestions = new Set<string>()
+
+    const addSuggestion = (text: string, type: SearchSuggestion['type']) => {
+      const lowerText = text.toLowerCase()
+      if (!addedSuggestions.has(lowerText)) {
+        suggestions.push({ text, type })
+        addedSuggestions.add(lowerText)
+      }
+    }
+
+    // Add query suggestions first
+    if (querySuggestions && Array.isArray(querySuggestions)) {
+      querySuggestions.forEach(suggestion => {
+        if (suggestion && suggestion.query) {
+          addSuggestion(suggestion.query, 'popular')
+        }
+      })
+    }
+
+    // Add brand as the first suggestion if it matches the query
+    const brandHit = productHits.find(hit => hit.brand.toLowerCase().startsWith(searchQuery.toLowerCase()))
+    if (brandHit) {
+      addSuggestion(brandHit.brand, 'brand')
+    }
+
+    // Add subcategory suggestions
+    productHits.forEach(hit => {
+      if (hit.subCategories && Array.isArray(hit.subCategories)) {
+        hit.subCategories.forEach(subCategory => {
+          if (subCategory.toLowerCase().includes(searchQuery.toLowerCase())) {
+            addSuggestion(`${hit.brand} ${subCategory}`.toLowerCase(), 'subcategory')
+          }
+        })
+      }
+    })
+
+    // Add category suggestions
+    productHits.forEach(hit => {
+      if (hit.category?.name) {
+        addSuggestion(`${hit.brand} ${hit.category.name}`.toLowerCase(), 'category')
+      }
+    })
+
+    // Add product suggestions
+    productHits.forEach(hit => {
+      const words = hit.productTitle.split(' ')
+      const shortTitle = words.slice(0, 6).join(' ') // Limit to first 6 words
+      addSuggestion(shortTitle.toLowerCase(), 'product')
+    })
+
+    // Limit to 8 suggestions like Jumia
+    return suggestions.slice(0, 8)
+  }
+
   const handleSearch = async (searchQuery: string) => {
     if (!searchQuery.trim()) {
       setSuggestions([])
@@ -62,13 +121,19 @@ export default function SearchComponent() {
     setIsLoading(true)
 
     try {
-      const { hits } = await searchIndex.search<Product>(searchQuery, {
-        attributesToRetrieve: ['objectID', 'productTitle', 'category', 'brand', 'mainMaterial', 'color'],
-        attributesToHighlight: ['productTitle', 'brand', 'category.name'],
-        hitsPerPage: 10
-      })
+      const [productResults, querySuggestions] = await Promise.all([
+        searchIndex.search<Product>(searchQuery, {
+          attributesToRetrieve: ['objectID', 'productTitle', 'category', 'brand', 'subCategories', 'searchData'],
+          attributesToHighlight: ['productTitle', 'brand', 'category.name', 'subCategories'],
+          hitsPerPage: 20,
+          distinct: true
+        }),
+        querySuggestionsIndex.search(searchQuery, {
+          hitsPerPage: 5
+        })
+      ])
 
-      const processedSuggestions = processSearchResults(hits, searchQuery)
+      const processedSuggestions = processSearchResults(productResults.hits, querySuggestions.hits, searchQuery)
       setSuggestions(processedSuggestions)
       setIsOpen(true)
     } catch (error) {
@@ -77,44 +142,6 @@ export default function SearchComponent() {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const processSearchResults = (hits: Product[], searchQuery: string): SearchSuggestion[] => {
-    const suggestions: SearchSuggestion[] = []
-    const addedTexts = new Set<string>()
-
-    const addSuggestion = (text: string, type: SearchSuggestion['type']) => {
-      const normalizedText = text.toLowerCase()
-      if (!addedTexts.has(normalizedText)) {
-        suggestions.push({ text, type })
-        addedTexts.add(normalizedText)
-      }
-    }
-
-    hits.forEach(hit => {
-      if (hit.productTitle) {
-        addSuggestion(hit.productTitle, 'product')
-      }
-
-      if (hit.brand) {
-        addSuggestion(hit.brand, 'brand')
-      }
-
-      if (hit.category?.name) {
-        addSuggestion(hit.category.name, 'category')
-      }
-    })
-
-    return suggestions
-      .sort((a, b) => {
-        const aStartsWithQuery = a.text.toLowerCase().startsWith(searchQuery.toLowerCase())
-        const bStartsWithQuery = b.text.toLowerCase().startsWith(searchQuery.toLowerCase())
-        
-        if (aStartsWithQuery && !bStartsWithQuery) return -1
-        if (!aStartsWithQuery && bStartsWithQuery) return 1
-        return 0
-      })
-      .slice(0, 10)
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -171,9 +198,9 @@ export default function SearchComponent() {
                 className="w-full px-4 py-2 text-left hover:bg-muted focus:outline-none focus:bg-muted flex items-center"
               >
                 <span className="text-foreground">{suggestion.text}</span>
-                {suggestion.type !== 'product' && (
+                {suggestion.type === 'popular' && (
                   <span className="ml-2 text-xs text-muted-foreground">
-                    in {suggestion.type}
+                    Popular search
                   </span>
                 )}
               </button>

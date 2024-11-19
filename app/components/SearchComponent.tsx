@@ -103,7 +103,7 @@ export default function SearchComponent() {
     // Add product suggestions
     productHits.forEach(hit => {
       const words = hit.productTitle.split(' ')
-      const shortTitle = words.slice(0, 6).join(' ') // Limit to first 6 words
+      const shortTitle = words.slice(0, 5).join(' ') // Limit to first 6 words
       addSuggestion(shortTitle.toLowerCase(), 'product')
     })
 

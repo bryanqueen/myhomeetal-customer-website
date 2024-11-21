@@ -6,22 +6,9 @@ import algoliasearch from 'algoliasearch'
 import { IoIosSearch } from "react-icons/io"
 import { MdOutlineCancel } from "react-icons/md"
 
-interface Product {
-  objectID: string
-  productTitle: string
-  category: {
-    name: string
-  }
-  subCategories: string[]
-  brand: string
-  mainMaterial: string
-  color: string
-  searchData: string
-}
-
-interface SearchSuggestion {
-  text: string
-  type: 'brand' | 'category' | 'subcategory' | 'product' | 'popular'
+interface QuerySuggestion {
+  query: string
+  count: number
 }
 
 const searchClient = algoliasearch(
@@ -29,12 +16,11 @@ const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY ?? ''
 )
 
-const searchIndex = searchClient.initIndex('products')
-const querySuggestionsIndex = searchClient.initIndex('products_query_suggestions')
+const productsIndex = searchClient.initIndex('products')
 
 export default function SearchComponent() {
   const [query, setQuery] = useState('')
-  const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([])
+  const [suggestions, setSuggestions] = useState<QuerySuggestion[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -51,66 +37,6 @@ export default function SearchComponent() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const processSearchResults = (
-    productHits: Product[], 
-    querySuggestions: any[] | undefined, 
-    searchQuery: string
-  ): SearchSuggestion[] => {
-    const suggestions: SearchSuggestion[] = []
-    const addedSuggestions = new Set<string>()
-
-    const addSuggestion = (text: string, type: SearchSuggestion['type']) => {
-      const lowerText = text.toLowerCase()
-      if (!addedSuggestions.has(lowerText)) {
-        suggestions.push({ text, type })
-        addedSuggestions.add(lowerText)
-      }
-    }
-
-    // Add query suggestions first
-    if (querySuggestions && Array.isArray(querySuggestions)) {
-      querySuggestions.forEach(suggestion => {
-        if (suggestion && suggestion.query) {
-          addSuggestion(suggestion.query, 'popular')
-        }
-      })
-    }
-
-    // Add brand as the first suggestion if it matches the query
-    const brandHit = productHits.find(hit => hit.brand.toLowerCase().startsWith(searchQuery.toLowerCase()))
-    if (brandHit) {
-      addSuggestion(brandHit.brand, 'brand')
-    }
-
-    // Add subcategory suggestions
-    productHits.forEach(hit => {
-      if (hit.subCategories && Array.isArray(hit.subCategories)) {
-        hit.subCategories.forEach(subCategory => {
-          if (subCategory.toLowerCase().includes(searchQuery.toLowerCase())) {
-            addSuggestion(`${hit.brand} ${subCategory}`.toLowerCase(), 'subcategory')
-          }
-        })
-      }
-    })
-
-    // Add category suggestions
-    productHits.forEach(hit => {
-      if (hit.category?.name) {
-        addSuggestion(`${hit.brand} ${hit.category.name}`.toLowerCase(), 'category')
-      }
-    })
-
-    // Add product suggestions
-    productHits.forEach(hit => {
-      const words = hit.productTitle.split(' ')
-      const shortTitle = words.slice(0, 5).join(' ') // Limit to first 6 words
-      addSuggestion(shortTitle.toLowerCase(), 'product')
-    })
-
-    // Limit to 8 suggestions like Jumia
-    return suggestions.slice(0, 8)
-  }
-
   const handleSearch = async (searchQuery: string) => {
     if (!searchQuery.trim()) {
       setSuggestions([])
@@ -121,20 +47,12 @@ export default function SearchComponent() {
     setIsLoading(true)
 
     try {
-      const [productResults, querySuggestions] = await Promise.all([
-        searchIndex.search<Product>(searchQuery, {
-          attributesToRetrieve: ['objectID', 'productTitle', 'category', 'brand', 'subCategories', 'searchData'],
-          attributesToHighlight: ['productTitle', 'brand', 'category.name', 'subCategories'],
-          hitsPerPage: 20,
-          distinct: true
-        }),
-        querySuggestionsIndex.search(searchQuery, {
-          hitsPerPage: 5
-        })
-      ])
+      const result = await productsIndex.search<QuerySuggestion>(searchQuery, {
+        hitsPerPage: 8
+      })
 
-      const processedSuggestions = processSearchResults(productResults.hits, querySuggestions.hits, searchQuery)
-      setSuggestions(processedSuggestions)
+      const sortedSuggestions = result.hits.sort((a, b) => b.count - a.count)
+      setSuggestions(sortedSuggestions)
       setIsOpen(true)
     } catch (error) {
       console.error('Search error:', error)
@@ -156,8 +74,8 @@ export default function SearchComponent() {
     setIsOpen(false)
   }
 
-  const handleSuggestionClick = (suggestion: SearchSuggestion) => {
-    router.push(`/search?q=${encodeURIComponent(suggestion.text)}`)
+  const handleSuggestionClick = (suggestion: QuerySuggestion) => {
+    router.push(`/search?q=${encodeURIComponent(suggestion.query)}`)
     setIsOpen(false)
     setQuery('')
   }
@@ -195,14 +113,9 @@ export default function SearchComponent() {
               <button
                 key={index}
                 onClick={() => handleSuggestionClick(suggestion)}
-                className="w-full px-4 py-2 text-left hover:bg-muted focus:outline-none focus:bg-muted flex items-center"
+                className="w-full px-4 py-2 text-left hover:bg-muted focus:outline-none focus:bg-muted"
               >
-                <span className="text-foreground">{suggestion.text}</span>
-                {suggestion.type === 'popular' && (
-                  <span className="ml-2 text-xs text-muted-foreground">
-                    Popular search
-                  </span>
-                )}
+                <span className="text-foreground">{suggestion.query}</span>
               </button>
             ))
           ) : (

@@ -6,17 +6,24 @@ import cn from 'classnames';
 import Link from 'next/link';
 import { ArrowRight } from 'iconsax-react';
 import { useRouter } from 'next/navigation';
+import algoliasearch from 'algoliasearch/lite';
 
 import Input from '@components/Input';
 import Button from '@components/Button';
 import { ROUTES } from '@utils/routes';
 import { useDropdownContext } from '@/app/providers';
 
-interface Product {
-  _id: number;
-  productTitle: string;
-  // Add other product properties as needed
+interface QuerySuggestion {
+  query: string;
+  count: number;
 }
+
+const searchClient = algoliasearch(
+  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID ?? '',
+  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY ?? ''
+);
+
+const productsIndex = searchClient.initIndex('products');
 
 const SearchForm = () => {
   const id = 'search-dropdown';
@@ -42,76 +49,51 @@ const SearchForm = () => {
   }, [dropdown]);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [suggestedProducts, setSuggestedProducts] = useState<Product[]>([]);
+  const [suggestions, setSuggestions] = useState<QuerySuggestion[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
-  // Debounce function to limit the frequency of API calls
-  const debounce = (func: any, delay: number) => {
-    let timeoutId: NodeJS.Timeout;
-    return (...args: any[]) => {
-      if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func(...args);
-      }, delay);
-    };
-  };
-
-  // Function to handle API search with debounce
   const fetchSuggestions = useCallback(
-    debounce((query: string) => {
+    async (query: string) => {
       if (query) {
-        const requestBody = { query };
-
-        fetch(
-          `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product/search?query=${query}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody),
-          }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            setSuggestedProducts(data.slice(0, 5).reverse());
-          })
-          .catch((error) => {
-            console.error('Error fetching data:', error);
-            setSuggestedProducts([]);
+        try {
+          const result = await productsIndex.search<QuerySuggestion>(query, {
+            hitsPerPage: 8
           });
+          const sortedSuggestions = result.hits.sort((a, b) => b.count - a.count);
+          setSuggestions(sortedSuggestions);
+        } catch (error) {
+          console.error('Error fetching suggestions:', error);
+          setSuggestions([]);
+        }
       } else {
-        setSuggestedProducts([]);
+        setSuggestions([]);
       }
-    }, 500), // Adjust debounce delay as needed
+    },
     []
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value.toLowerCase();
+    const query = e.target.value;
     setSearchQuery(query);
-    fetchSuggestions(query); // Call debounced function
+    fetchSuggestions(query);
   };
 
   const handleRecentSearchClick = (search: string) => {
-    const lowerCaseSearch = search.toLowerCase();
-    setSearchQuery(lowerCaseSearch);
-    handleSearchChange({
-      target: { value: lowerCaseSearch },
-    } as React.ChangeEvent<HTMLInputElement>);
+    setSearchQuery(search);
+    fetchSuggestions(search);
   };
 
   useEffect(() => {
     const storedSearches = localStorage.getItem('recentSearches');
     if (storedSearches) {
-      setRecentSearches(JSON.parse(storedSearches).map((s: string) => s.toLowerCase()));
+      setRecentSearches(JSON.parse(storedSearches));
     }
   }, []);
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const searchQuery = (formData.get('search') as string).toLowerCase(); // Convert to lowercase
+    const searchQuery = formData.get('search') as string;
 
     if (searchQuery) {
       const updatedRecentSearches = [
@@ -124,8 +106,8 @@ const SearchForm = () => {
         JSON.stringify(updatedRecentSearches)
       );
 
-      router.push(`${ROUTES.SEARCH}?q=${searchQuery}`);
-      setSuggestedProducts([]);
+      router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(searchQuery)}`);
+      setSuggestions([]);
     }
     handleDropdownToggle(id, false);
   };
@@ -147,7 +129,6 @@ const SearchForm = () => {
           inputClassName='rounded-full border-[#BDBDBD] focus:border-gray-300 focus:outline-0 py-4 lg:py-3 placeholder:text-[#BDBDBD] placeholder:text-sm px-5'
           onFocus={() => handleDropdownToggle(id, true)}
           onBlur={(e) => {
-            // Check if the related target (element that receives focus next) is within the dropdown
             if (!dropdownRef.current?.contains(e.relatedTarget as Node)) {
               handleDropdownToggle(id, false);
             }
@@ -163,7 +144,7 @@ const SearchForm = () => {
             className='absolute disabled:bg-transparent right-5 top-1/2 -translate-y-1/2'
             fit
             variant='ghost'
-            disabled={suggestedProducts.length < 1}
+            disabled={suggestions.length < 1}
           >
             <Image
               className=''
@@ -188,11 +169,14 @@ const SearchForm = () => {
               Suggested Products
             </p>
             <div className='grid gap-3'>
-              {suggestedProducts.length > 0 ? suggestedProducts.map((product) => (
+              {suggestions.length > 0 ? suggestions.map((suggestion, index) => (
                 <Link
-                  onClick={() => handleDropdownToggle(id, false)}
-                  href={`/item/${product?._id}`}
-                  key={product._id}
+                  onClick={() => {
+                    handleDropdownToggle(id, false);
+                    router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(suggestion.query)}`);
+                  }}
+                  href={`${ROUTES.SEARCH}?q=${encodeURIComponent(suggestion.query)}`}
+                  key={index}
                   className='flex truncate text-ellipsis overflow-hidden whitespace-nowrap items-center gap-3 text-sm text-[#656565] lg:text-base'
                 >
                   <Image
@@ -202,12 +186,11 @@ const SearchForm = () => {
                     width={15}
                     height={20}
                   />
-                  <span className='truncate text-ellipsis'>{product.productTitle}</span>
-
+                  <span className='truncate text-ellipsis'>{suggestion.query}</span>
                 </Link>
               )) : (
                 <div className='text-sm'>
-                  No product found
+                  No suggestions found
                 </div>
               )}
             </div>
@@ -220,7 +203,7 @@ const SearchForm = () => {
               <div className='grid grid-cols-2 gap-4 text-sm text-[#656565]'>
                 {recentSearches.map((search) => (
                   <Link
-                    href='/'
+                    href={`${ROUTES.SEARCH}?q=${encodeURIComponent(search)}`}
                     key={search}
                     onClick={() => handleRecentSearchClick(search)}
                     className='flex items-center justify-between'

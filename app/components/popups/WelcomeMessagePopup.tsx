@@ -7,7 +7,15 @@ const WelcomeMessagePopup = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    setShowPopup(true);
+    // Check if the popup should be shown
+    const lastShown = localStorage.getItem('welcomePopupLastShown');
+    const now = Date.now();
+
+    // Show popup only if it hasn't been shown before or after 24 hours (86400000 ms)
+    if (!lastShown || now - Number(lastShown) > 3600000) {
+      setShowPopup(true);
+      localStorage.setItem('welcomePopupLastShown', now.toString()); // Update the last shown timestamp
+    }
   }, [])
   return (
     <>

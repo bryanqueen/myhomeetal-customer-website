@@ -9,6 +9,7 @@ import CategoryList from '@components/category/CategoryList';
 import React, { Suspense } from 'react';
 import SearchForm from '../../components/forms/SearchForm';
 import Cookie from 'js-cookie';
+import WelcomeMessagePopup from '@/app/components/popups/WelcomeMessagePopup';
 
 function shuffleArray(array: any[]) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -166,6 +167,10 @@ export default async function Home() {
           })}
 
       </div>
+      {/**Welcome Message Popup*/}
+      <section>
+        <WelcomeMessagePopup />
+      </section>
     </main >
   );
 }

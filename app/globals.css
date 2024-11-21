@@ -334,6 +334,10 @@ input[type='checkbox']:checked::after {
   width: 100%;
 }
 
+.myFlex {
+  @apply flex items-center justify-center;
+}
+
 
 @media (max-width: 768px) {
   /* For mobile screens */

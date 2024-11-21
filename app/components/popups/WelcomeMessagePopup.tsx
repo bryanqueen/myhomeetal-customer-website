@@ -24,6 +24,7 @@ const WelcomeMessagePopup = () => {
                 alt='X icon'
                 width={10}
                 height={10}
+                loading='eager'
               />
             </div>
             {/**Background rectanglular shape images */}
@@ -32,6 +33,7 @@ const WelcomeMessagePopup = () => {
               alt='icon'
               width={155}
               height={433.84}
+              loading='eager'
               className='absolute top-0 left-0'
             />
             <Image
@@ -39,6 +41,7 @@ const WelcomeMessagePopup = () => {
               alt='icon'
               width={140}
               height={433.84}
+              loading='eager'
               className='absolute right-0 top-0'
             />
             <div className="w-[70%] md:w-[317.39px] min-h-full bg-[url('/images/celebration.svg')] bg-cover bg-center bg-no-repeat myFlex flex-col gap-3">
@@ -47,6 +50,7 @@ const WelcomeMessagePopup = () => {
                   src="/images/confetti2.png"
                   width={53.35}
                   height={53.35}
+                  loading='eager'
                   alt='confetti'
                 />
                 <h1 className='text-center font-clashmd text-2xl'>

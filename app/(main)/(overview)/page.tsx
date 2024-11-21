@@ -4,9 +4,12 @@ import TopCategories from '@/app/components/category/TopCategories';
 import CategoryList from '@components/category/CategoryList';
 import { Suspense } from 'react';
 import SearchForm from '../../components/forms/SearchForm';
-import WelcomeMessagePopup from '@/app/components/popups/WelcomeMessagePopup';
 import HomeCategoryProductList from '@/app/components/HomeCategoryProductList';
-//import useMediaQuery from '@/app/hooks/useMediaQuery';
+import dynamic from 'next/dynamic';
+
+const WelcomeMessagePopup = dynamic(() => import('@/app/components/popups/WelcomeMessagePopup'), {
+  ssr: false
+});
 
 export const metadata: Metadata = {
   title: 'Home | Myhomeetal',
@@ -23,14 +26,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  // const isMobile = useMediaQuery('(max-width: 768px)');
   return (
     <main className='pt-[165px] lg:pt-0'>
       <section className="fixed left-0 right-0 top-[83px] z-20 bg-white px-[3%] py-4 lg:hidden">
         <SearchForm />
       </section>
       <section>
-        <Suspense fallback="Loading...">
+        <Suspense>
           <CategoryList />
         </Suspense>
       </section>
@@ -38,7 +40,7 @@ export default async function Home() {
         <AdBanner />
       </section>
       <section className='lg:mx-5'>
-        <Suspense fallback="Loading...">
+        <Suspense>
           <TopCategories />
         </Suspense>
       </section>

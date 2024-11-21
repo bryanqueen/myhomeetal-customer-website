@@ -17,6 +17,14 @@ const WelcomeMessagePopup = () => {
       localStorage.setItem('welcomePopupLastShown', now.toString()); // Update the last shown timestamp
     }
   }, [])
+
+  useEffect(() => {
+    if (showPopup) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+  }, [showPopup])
   return (
     <>
       {showPopup && (

@@ -15,6 +15,7 @@ export const metadata: Metadata = {
      // Add Google verification meta tag
   other: {
     'google-site-verification': 'xY6atIcfgkBRJeb0a4RqeJCghSo1oxL93JS1eV8GxKk',
+    // 'algolia-site-verification' : '3354A70611F0C153'
   },
 };
 

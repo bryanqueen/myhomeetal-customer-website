@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import cn from 'classnames';
 import Link from 'next/link';
 import { Rating } from 'react-simple-star-rating';
@@ -42,10 +41,8 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
     }
   );
 
-  // Sanitize and convert price to number
   const sanitizeAndConvertPrice = (price: any): number => {
     if (typeof price === 'string') {
-      // Remove commas and parse to float
       const sanitizedPrice = price.replace(/,/g, '');
       const parsedPrice = parseFloat(sanitizedPrice);
       return isNaN(parsedPrice) ? 0 : parsedPrice;
@@ -56,10 +53,7 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
   const priceInNGN = sanitizeAndConvertPrice(product?.price);
 
   const validRatings = product.review
-    .map(review => {
-      const rating = Number(review.rating);
-      return rating;
-    })
+    .map(review => Number(review.rating))
     .filter(rating => Number.isFinite(rating));
 
   const averageRating = validRatings.length
@@ -74,16 +68,17 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
       <div className={cls}>
         <Link href={href} className='transition-shadow duration-300'>
           <div className='relative mb-3 flex h-[172px] w-full flex-col items-center justify-between lg:h-[158px] lg:w-full lg:justify-center'>
-            <Image
-              width={158}
-              height={158}
+            <img
+              width="158"
+              height="158"
               className={`${variant === 'top' ? '' : 'h-[130px] w-[148px] object-contain lg:h-[158px] lg:w-[158px]'}`}
               src={product?.images[0]}
-              alt='Product Card'
+              alt={product?.productTitle}
+              loading="lazy"
+              decoding="async"
               style={{ transition: 'transform 0.3s' }}
             />
 
-            {/*product?.isProductNew === true && <NewProductTag />*/}
             <div className='flex w-full items-center gap-5 lg:hidden'>
               <Rating
                 initialValue={averageRating}
@@ -140,14 +135,6 @@ const ProductCard = ({ variant = 'default', product }: Props) => {
         )}
       </div>
     </ClientOnly>
-  );
-};
-
-const NewProductTag = () => {
-  return (
-    <span className='text-normal absolute right-0 top-5 select-none rounded-full bg-[rgb(255,197,198)] px-3 py-1 text-sm text-[rgba(136,20,21,1)]'>
-      New Product
-    </span>
   );
 };
 

@@ -19,19 +19,13 @@ export default async function SearchPage({ searchParams }: PageProps) {
   let productsByCategory: any = [];
 
   try {
-    // Construct a POST request body
-    const requestBody = {
-      query: query, // Or other search parameters if needed
-    };
-
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product/search?query=${query}`,
+      `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product/advanced-search?query=${encodeURIComponent(query)}`,
       {
-        method: 'POST',
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json', // Indicate JSON data
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestBody), // Stringify the request body
       }
     );
 
@@ -39,11 +33,9 @@ export default async function SearchPage({ searchParams }: PageProps) {
       throw new Error('Failed to fetch data');
     }
 
-    const data = await response.json();
-    productsByCategory = data;
+    productsByCategory = await response.json();
   } catch (error) {
     console.error('Error fetching data:', error);
-    // Handle errors appropriately (e.g., display error message)
     return notFound();
   }
 

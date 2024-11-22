@@ -23,7 +23,7 @@ const WelcomeMessagePopup = () => {
       document.body.style.overflow = "hidden"
       setTimeout(() => {
         setIsShowPopup(true);
-      }, 1500);
+      }, 500);
     }
   }, [showPopup]);
 

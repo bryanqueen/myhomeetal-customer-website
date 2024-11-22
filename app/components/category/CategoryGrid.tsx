@@ -21,7 +21,7 @@ const Category: React.FC<CategoryProps> = ({
     // Simulate a loading delay to ensure skeleton loader is shown properly
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 300); // Adjust the duration for the loader
+    }, 30); // Adjust the duration for the loader
 
     return () => clearTimeout(timeout);
   }, [products]);

@@ -5,34 +5,44 @@ import Image from 'next/image'
 
 const WelcomeMessagePopup = () => {
   const [showPopup, setShowPopup] = useState(false);
+  const [isShowPopup, setIsShowPopup] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
-    // Check if the popup should be shown
     const lastShown = localStorage.getItem('welcomePopupLastShown');
     const now = Date.now();
 
-    // Show popup only if it hasn't been shown before or after 24 hours (86400000 ms)
     if (!lastShown || now - Number(lastShown) > 3600000) {
       setShowPopup(true);
-      localStorage.setItem('welcomePopupLastShown', now.toString()); // Update the last shown timestamp
+      localStorage.setItem('welcomePopupLastShown', now.toString());
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (showPopup) {
       document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "auto"
+      setTimeout(() => {
+        setIsShowPopup(true);
+      }, 1500);
     }
-  }, [showPopup])
+  }, [showPopup]);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      document.body.style.overflow = "auto";
+      setShowPopup(false);
+    }, 300);
+  };
+
   return (
     <>
       {showPopup && (
-        <div className='fixed z-[1000] myFlex top-0 bottom-0 right-0 left-0 bg-black/65'>
-          <div className="bg-white relative myFlex rounded-[13.68px] w-[95vw] md:w-[456px] h-[420px]">
+        <div className={`fixed h-screen z-[1000] myFlex top-0 bottom-0 right-0 left-0 bg-black/65 ${isClosing && 'animate-zoom-out'}`}>
+          <div className={`bg-white relative myFlex rounded-[13.68px] w-[95vw] md:w-[456px] h-[420px] opacity-0 ${isShowPopup && 'animate-scale-up'}`}>
             {/**Close Button */}
             <div
-              onClick={() => setShowPopup(false)}
+              onClick={handleClose}
               className='myFlex absolute -top-12 md:-top-8 right-0 md:-right-8 size-[27px] rounded-full bg-white'
             >
               <Image

@@ -1,29 +1,9 @@
+'use client';
 import Link from 'next/link';
 import ProductCard from '@components/cards/ProductCard';
 import { MobileCategorySkeleton } from '../loader';
-import { memo } from 'react';
-
-interface Props {
-  title: string;
-  color?: string;
-  id?: string;
-}
-
-interface Product {
-  _id: string;
-  productTitle: string;
-  price: number;
-  images: string[];
-  review: any[];
-  isProductNew: boolean;
-}
-
-type CategoryProps = {
-  title: string;
-  id: string;
-  color?: string;
-  products: Product[];
-};
+import { memo, useEffect, useState } from 'react';
+import { CategoryProps } from '@/types';
 
 const Category: React.FC<CategoryProps> = ({
   title,
@@ -31,9 +11,20 @@ const Category: React.FC<CategoryProps> = ({
   id,
   products,
 }) => {
+
+  const [isLoading, setIsLoading] = useState(true);
   // Slice products for desktop and mobile
   const desktopProducts = products?.slice(0, 5);
   const mobileProducts = products?.slice(0, 4);
+
+  useEffect(() => {
+    // Simulate a loading delay to ensure skeleton loader is shown properly
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // Adjust the duration for the loader
+
+    return () => clearTimeout(timeout);
+  }, [products]);
 
   return (
     <div className='my-10 px-2 md:my-20 md:px-[2%]'>
@@ -49,7 +40,9 @@ const Category: React.FC<CategoryProps> = ({
           See All
         </Link>
       </div>
-      {(products && products.length > 0) ? (
+      {isLoading || (products && products.length === 0) ? (
+        <MobileCategorySkeleton />
+      ) : (
         <>
           {/* Mobile view */}
           <div className='mt-10 min-h-[240px] md:min-h-[240px] grid grid-cols-2 justify-center md:grid-cols-4  gap-x-3 gap-y-7 lg:hidden'>
@@ -64,8 +57,6 @@ const Category: React.FC<CategoryProps> = ({
             ))}
           </div>
         </>
-      ) : (
-        <MobileCategorySkeleton />
       )}
     </div>
   );

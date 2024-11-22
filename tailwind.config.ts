@@ -38,6 +38,22 @@ const config: Config = {
           from: { opacity: '0', transform: 'rotateX(-10deg) scale(0.9)' },
           to: { opacity: '1', transform: 'rotateX(0deg) scale(1)' },
         },
+        "scale-up": {
+          from: {
+            opacity: '0', transform:' scale(0.5)'
+          },
+          to: {
+            opacity: '1', transform:' scale(1)'
+          },
+        },
+        "zoom-out": {
+          from: {
+            opacity: '1', transform:' scale(1)'
+          },
+          to: {
+            opacity: '0', transform:' scale(1.5)'
+          },
+        },
         scaleOut: {
           from: { opacity: '1', transform: 'rotateX(0deg) scale(1)' },
           to: { opacity: '0', transform: 'rotateX(-10deg) scale(0.95)' },
@@ -71,6 +87,8 @@ const config: Config = {
         },
       },
       animation: {
+        "scale-up": 'scale-up 0.3s ease-out forwards',
+        "zoom-out": 'zoom-out 0.3s ease-in forwards',
         scaleIn: 'scaleIn 200ms ease',
         scaleOut: 'scaleOut 200ms ease',
         fadeIn: 'fadeIn 200ms ease',

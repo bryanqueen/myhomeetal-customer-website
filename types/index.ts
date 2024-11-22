@@ -48,6 +48,6 @@ export interface WalletTrans {
 }
 
 export interface WalletAccountProps {
-  wallet: Wallet;
+  wallet?: Wallet;
   walletTrans?: WalletTrans[];
 }

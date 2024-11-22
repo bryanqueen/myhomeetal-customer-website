@@ -3,31 +3,10 @@
 import { useRegion } from "@/app/RegionProvider";
 import ProductPrice from "../../product/ProductPrice";
 import { WalletAccountProps } from "@/types";
+import { formatDate } from "@/app/utils/helpers";
 
 const RecentTransactions: React.FC<WalletAccountProps> = ({ walletTrans }) => {
   const { region } = useRegion();
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-
-    // Extract the day, month, and year
-    const day = date.getUTCDate();
-    const month = date.toLocaleString('default', { month: 'short' });
-    const year = date.getUTCFullYear();
-
-    // Function to get the ordinal suffix for the day
-    function getOrdinalSuffix(day) {
-      if (day > 3 && day < 21) return 'th';
-      switch (day % 10) {
-        case 1: return 'st';
-        case 2: return 'nd';
-        case 3: return 'rd';
-        default: return 'th';
-      }
-    }
-
-    // Combine the parts into the desired format
-    return `${day}${getOrdinalSuffix(day)} ${month} ${year}`;
-  }
 
   return (
     <div>

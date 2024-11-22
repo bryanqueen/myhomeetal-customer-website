@@ -197,3 +197,12 @@ export function shuffleArray(array: any[]) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
+export const formatNumberWithCommas = (value: string): string => {
+  const number = parseFloat(value.replace(/,/g, ''));
+  if (isNaN(number)) return value;
+  return number.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};

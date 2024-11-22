@@ -8,31 +8,7 @@ import MyDialog from '@components/Dialog';
 import ProductPrice from '../../product/ProductPrice';
 import { useRegion } from '@/app/RegionProvider';
 import ClientOnly from '../../ClientOnly';
-import React from 'react';
-
-interface Wallet {
-  _id: string;
-  user: string;
-  account_no: string;
-  bvn: string;
-  mobile_number: string;
-  bank_name: string;
-  balance: number;
-  transactions: string[];
-  __v: number;
-}
-
-interface WalletTrans {
-  _id: string;
-  amount: number;
-  type: string;
-  date: string;
-}
-
-interface WalletAccountProps {
-  wallet: Wallet;
-  walletTrans: WalletTrans[];
-}
+import { WalletAccountProps } from '@/types';
 
 const WalletBalanceCard: React.FC<WalletAccountProps> = ({ wallet, walletTrans }) => {
   const { region } = useRegion();
@@ -46,7 +22,7 @@ const WalletBalanceCard: React.FC<WalletAccountProps> = ({ wallet, walletTrans }
         <div className='grid w-fit gap-3'>
           <p className='text-[10px]'>Available Balance:</p>
           <p className='text-end font-clashmd text-[25px]'>
-            {wallet.balance === 0 ? '0.00' : <ProductPrice priceInNGN={wallet.balance} region={region} />}
+            {wallet.balance.balance === 0 ? '0.00' : <ProductPrice priceInNGN={wallet.balance.balance} region={region} />}
           </p>
           <p className='text-[10px] text-myGray'>
             Total Spent: - <span className='text-black'>{totalSpent === 0 ? '0.00' : <ProductPrice priceInNGN={totalSpent} region={region} />}</span>
@@ -70,7 +46,7 @@ const WalletBalanceCard: React.FC<WalletAccountProps> = ({ wallet, walletTrans }
       <div className='my-5 hidden rounded-3xl bg-[#FFF1F1] bg-[image:url(/images/account/info-bg-sm.png)] bg-contain bg-[position:110%] bg-no-repeat px-5 py-8 md:rounded-2xl lg:block lg:bg-[image:url(/images/account/my-wallet-bg.png)] lg:bg-[size:initial]'>
         <p className='font-clashmd text-[39px] text-myGray'>
           <span className='mr-4 inline'>Balance:</span>
-          <span> {wallet.balance === 0 ? '0.00' : <ProductPrice priceInNGN={wallet.balance} region={region} />}</span>
+          <span> {wallet.balance.balance === 0 ? '0.00' : <ProductPrice priceInNGN={wallet.balance.balance} region={region} />}</span>
         </p>
         <div className='mb-3 mt-1 hidden text-gray-500 lg:block'>
           <p className='text-base text-myGray'>Total spent - {totalSpent === 0 ? '0.00' : <ProductPrice priceInNGN={totalSpent} region={region} />}</p>

@@ -2,18 +2,7 @@
 
 import { useRegion } from "@/app/RegionProvider";
 import ProductPrice from "../../product/ProductPrice";
-
-interface WalletTrans {
-  _id: string;
-  amount: number;
-  type: string;
-  date: string;
-  order: string;
-}
-
-interface WalletAccountProps {
-  walletTrans: WalletTrans[];
-}
+import { WalletAccountProps } from "@/types";
 
 const RecentTransactions: React.FC<WalletAccountProps> = ({ walletTrans }) => {
   const { region } = useRegion();

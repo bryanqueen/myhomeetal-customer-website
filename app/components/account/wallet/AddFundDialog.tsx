@@ -7,22 +7,8 @@ import Image from 'next/image';
 
 import Button from '@components/Button';
 import Input from '@components/Input';
-
-interface Wallet {
-  _id: string;
-  user: string;
-  account_no: string;
-  bvn: string;
-  mobile_number: string;
-  bank_name: string;
-  balance: number;
-  transactions: string[];
-  __v: number;
-}
-
-interface WalletAccountProps {
-  wallet: Wallet;
-}
+import { WalletAccountProps } from '@/types';
+import { formatNumberWithCommas } from '@/app/utils/helpers';
 
 const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
   const accountNumber = wallet.account_no;
@@ -52,15 +38,6 @@ const AddFundDialog: React.FC<WalletAccountProps> = ({ wallet }) => {
     } else {
       toast.error('All fields are required');
     }
-  };
-
-  const formatNumberWithCommas = (value: string): string => {
-    const number = parseFloat(value.replace(/,/g, ''));
-    if (isNaN(number)) return value;
-    return number.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
   };
 
   const handleAmountChange = (

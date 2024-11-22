@@ -4,31 +4,7 @@ import Button from '@/app/components/Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import { useRouter, useSearchParams } from 'next/navigation';
 import StepsIndicator from './StepIndicator';
-
-interface Wallet {
-  _id: string;
-  user: string;
-  account_no: string;
-  bvn: string;
-  mobile_number: string;
-  bank_name: string;
-  balance: number;
-  transactions: string[];
-  __v: number;
-}
-
-interface WalletTrans {
-  _id: string;
-  amount: number;
-  type: string;
-  date: string;
-  order: string;
-}
-
-interface WalletAccountProps {
-  wallet: Wallet;
-  walletTrans: WalletTrans[];
-}
+import { WalletAccountProps } from '@/types';
 
 const WalletAccount: React.FC<WalletAccountProps> = ({ wallet, walletTrans }) => {
   const searchParams = useSearchParams();
@@ -60,7 +36,7 @@ const WalletAccount: React.FC<WalletAccountProps> = ({ wallet, walletTrans }) =>
         </div>
         {funds && (
           <div className='py-5 lg:pt-0'>
-            {wallet.balance > 0 ? (
+            {wallet.balance.balance > 0 ? (
               <StepsIndicator currentStep={4} />
             ) : (
               <StepsIndicator currentStep={3} />

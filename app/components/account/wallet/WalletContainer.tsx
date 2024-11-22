@@ -4,25 +4,7 @@ import WalletCreation from '@components/account/wallet/WalletCreation';
 import WalletAccount from './WalletAccount';
 import productService from '@/app/services/productService';
 import { HomeSkeleton } from '../../loader';
-
-interface Wallet {
-  _id: string;
-  user: string;
-  account_no: string;
-  bvn: string;
-  mobile_number: string;
-  bank_name: string;
-  balance: number;
-  transactions: string[];
-  __v: number;
-}
-interface WalletTrans {
-  _id: string;
-  amount: number;
-  type: string;
-  date: string;
-  order: string;
-}
+import { Wallet, WalletTrans } from '@/types';
 
 export default function WalletContainer() {
   const [hasWallet, setHasWallet] = useState<boolean | null>(null);
@@ -38,9 +20,9 @@ export default function WalletContainer() {
       ])
 
       if (walletRes.status === 'fulfilled') {
-        if (walletRes.value.data.account_no) {
+        if (walletRes.value.data.wallet_details.account_no) {
           setHasWallet(true);
-          setWallet(walletRes.value.data);
+          setWallet(walletRes.value.data.wallet_details);
         } else {
           setHasWallet(false);
           setWallet(null);

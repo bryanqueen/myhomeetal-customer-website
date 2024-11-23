@@ -1,10 +1,6 @@
 import Button from "../Button"
 import Input from "../Input"
 
-interface lgaType {
-  name: string
-}
-
 const AddAddressModal = ({ setMyAddress,
   handlePhoneChange,
   error,
@@ -25,11 +21,53 @@ const AddAddressModal = ({ setMyAddress,
     setSearchTerm: (searchTerm: string) => void;
     setDropdownOpen: (dropdownOpen: boolean) => void;
     dropdownOpen: boolean;
-    filteredLocations: lgaType[];
+    filteredLocations;
     handleSelectChange: (location: string) => void;
     createMyAddress: () => void;
     isAddLoading: boolean;
   }) => {
+
+  const renderLocationDropdown = () => (
+    <div className="grid gap-2">
+      <input
+        type="text"
+        placeholder={selectedLocation || "Select your location..."}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        onClick={() => setDropdownOpen(!dropdownOpen)}
+        className="h-[50px] w-full rounded-[10px] bg-white px-4 text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm placeholder:lg:text-black"
+      />
+      {dropdownOpen && (
+        <div className="relative">
+          <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
+            {filteredLocations.map(
+              (state, index) =>
+                state.lga.length > 0 && (
+                  <div key={index} className="mb-2">
+                    <div className="bg-gray-100 px-4 py-2 text-sm font-clashmd text-gray-700">
+                      {state.state}
+                    </div>
+                    {state.lga.map((lga, i) => (
+                      <div
+                        key={i}
+                        onClick={() => handleSelectChange(lga.name)}
+                        className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
+                          ? 'bg-gray-200'
+                          : 'hover:bg-gray-100'
+                          }`}
+                      >
+                        {lga.name}
+                      </div>
+                    ))}
+                  </div>
+                )
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className='absolute top-[50%] min-w-full translate-y-[-50%] px-[3%]'>
       <div
@@ -58,34 +96,7 @@ const AddAddressModal = ({ setMyAddress,
             <label className='font-clashmd text-[10px] text-black lg:font-clash lg:text-xs'>
               City
             </label>
-            <div className='grid gap-2'>
-              <input
-                type="text"
-                placeholder={selectedLocation || 'Select your location...'}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="h-[50px] w-full rounded-[10px] bg-white px-4 text-xs placeholder:text-xs placeholder:text-[#989898] lg:h-[56px] lg:rounded-xl lg:text-sm lg:placeholder:text-sm lg:placeholder:text-black"
-              />
-              {dropdownOpen && (
-                <div className="relative">
-                  <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
-                    {filteredLocations.map((lga, i) => (
-                      <div
-                        key={i}
-                        onClick={() => handleSelectChange(lga.name)}
-                        className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
-                          ? 'bg-gray-200'
-                          : 'hover:bg-gray-100'
-                          }`}
-                      >
-                        {lga.name}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            {renderLocationDropdown()}
           </div>
         </div>
         <div className='hidden items-center justify-center lg:flex'>

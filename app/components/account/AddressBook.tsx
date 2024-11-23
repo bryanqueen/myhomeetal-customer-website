@@ -179,9 +179,12 @@ export default function AddressBook() {
     setDropdownOpen(false); // Close dropdown after selection
   };
 
-  const filteredLocations = locations.filter((location) =>
-    location.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredLocations = locations.map((state) => ({
+    ...state,
+    lga: state.lga.filter((lga) =>
+      lga.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ),
+  }));
 
   if (isLoading) {
     return <HomeSkeleton />;
@@ -314,18 +317,28 @@ export default function AddressBook() {
                   {dropdownOpen && (
                     <div className="relative">
                       <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
-                        {filteredLocations.map((lga, i) => (
-                          <div
-                            key={i}
-                            onClick={() => handleSelectChange(lga.name)}
-                            className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
-                              ? 'bg-gray-200'
-                              : 'hover:bg-gray-100'
-                              }`}
-                          >
-                            {lga.name}
-                          </div>
-                        ))}
+                        {filteredLocations.map(
+                          (state, index) =>
+                            state.lga.length > 0 && (
+                              <div key={index} className="mb-2">
+                                <div className="bg-gray-100 px-4 py-2 text-sm font-clashmd text-gray-700">
+                                  {state.state}
+                                </div>
+                                {state.lga.map((lga, i) => (
+                                  <div
+                                    key={i}
+                                    onClick={() => handleSelectChange(lga.name)}
+                                    className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
+                                      ? 'bg-gray-200'
+                                      : 'hover:bg-gray-100'
+                                      }`}
+                                  >
+                                    {lga.name}
+                                  </div>
+                                ))}
+                              </div>
+                            )
+                        )}
                       </div>
                     </div>
                   )}
@@ -396,18 +409,28 @@ export default function AddressBook() {
                     {dropdownOpen && (
                       <div className="relative">
                         <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
-                          {filteredLocations.map((lga, i) => (
-                            <div
-                              key={i}
-                              onClick={() => handleSelectChange(lga.name)}
-                              className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
-                                ? 'bg-gray-200'
-                                : 'hover:bg-gray-100'
-                                }`}
-                            >
-                              {lga.name}
-                            </div>
-                          ))}
+                          {filteredLocations.map(
+                            (state, index) =>
+                              state.lga.length > 0 && (
+                                <div key={index} className="mb-2">
+                                  <div className="bg-gray-100 px-4 py-2 text-sm font-clashmd text-gray-700">
+                                    {state.state}
+                                  </div>
+                                  {state.lga.map((lga, i) => (
+                                    <div
+                                      key={i}
+                                      onClick={() => handleSelectChange(lga.name)}
+                                      className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
+                                        ? 'bg-gray-200'
+                                        : 'hover:bg-gray-100'
+                                        }`}
+                                    >
+                                      {lga.name}
+                                    </div>
+                                  ))}
+                                </div>
+                              )
+                          )}
                         </div>
                       </div>
                     )}
@@ -450,18 +473,28 @@ export default function AddressBook() {
                     {dropdownOpen && (
                       <div className="relative">
                         <div className="absolute z-10 mt-2 h-[150px] custom-scrollbar w-full overflow-y-scroll rounded-[10px] bg-white shadow-lg">
-                          {filteredLocations.map((lga, i) => (
-                            <div
-                              key={i}
-                              onClick={() => handleSelectChange(lga.name)}
-                              className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
-                                ? 'bg-gray-200'
-                                : 'hover:bg-gray-100'
-                                }`}
-                            >
-                              {lga.name}
-                            </div>
-                          ))}
+                          {filteredLocations.map(
+                            (state, index) =>
+                              state.lga.length > 0 && (
+                                <div key={index} className="mb-2">
+                                  <div className="bg-gray-100 px-4 py-2 text-sm font-clashmd text-gray-700">
+                                    {state.state}
+                                  </div>
+                                  {state.lga.map((lga, i) => (
+                                    <div
+                                      key={i}
+                                      onClick={() => handleSelectChange(lga.name)}
+                                      className={`cursor-pointer px-4 py-2 text-xs ${selectedLocation === lga.name
+                                        ? 'bg-gray-200'
+                                        : 'hover:bg-gray-100'
+                                        }`}
+                                    >
+                                      {lga.name}
+                                    </div>
+                                  ))}
+                                </div>
+                              )
+                          )}
                         </div>
                       </div>
                     )}

@@ -222,13 +222,15 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
       setDeliveryFee(0);
     } else if (address) {
       // Recalculate delivery fee if deliveryMethod is not 'pickup'
-      const selectedLocation = locations.find(
-        (location) => location.name === address.city
-      );
-      const fee = selectedLocation ? selectedLocation?.fee : 0;
+      const selectedLga = locations
+        .flatMap((location) => location.lga) // Flatten all LGAs from all states
+        .find((lga) => lga.name === address.city); // Find the LGA matching the city (address.city)
+
+      const fee = selectedLga ? selectedLga.fee : 0; // If LGA is found, use the fee, otherwise default to 0
       setDeliveryFee(fee);
     }
-  }, [deliveryMethod, address]);
+  }, [deliveryMethod, address, locations]); // Ensure locations is also included in the dependency array
+
 
   return (
     <div>

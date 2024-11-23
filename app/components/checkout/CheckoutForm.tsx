@@ -170,12 +170,22 @@ const CheckoutForm: React.FC = () => {
 
   const handleAddressClick = (address) => {
     setSelectedAddress(address);
-    const selectedLocation = locations.find(
-      (location) => location.name === address.lga
-    );
 
-    setDeliveryFee(selectedLocation?.fee);
+    // Find the specific LGA within all locations (across states)
+    const selectedLga = locations
+      .flatMap((location) => location.lga) // Flatten the lga arrays from all states
+      .find((lga) => lga.name === address.city); // Find the LGA matching the city name
+
+    // Check if the LGA was found
+    if (!selectedLga) {
+      console.error("LGA not found for the given city:", address.city);
+      return;
+    }
+
+    // Set delivery fee (defaulting to 0 if no fee is found)
+    setDeliveryFee(selectedLga.fee || 0);
   };
+
 
   const handleSelectChange = (location) => {
     setSelectedLocation(location);
@@ -183,9 +193,12 @@ const CheckoutForm: React.FC = () => {
     setDropdownOpen(false); // Close dropdown after selection
   };
 
-  const filteredLocations = locations.filter((location) =>
-    location.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredLocations = locations.map((state) => ({
+    ...state,
+    lga: state.lga.filter((lga) =>
+      lga.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ),
+  }));
 
   const handlePhoneChange = (e) => {
     const inputValue = e.target.value;

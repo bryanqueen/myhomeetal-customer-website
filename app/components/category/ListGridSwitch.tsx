@@ -39,7 +39,7 @@ const sortProducts = (products: Product[], sortOption: string) => {
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
     case 'bestSellers':
-      return products.sort((a, b) => b.rating.length - a.rating.length);
+      return products.sort((a, b) => b?.rating?.length - a?.rating?.length);
     case 'AvgCustomerReview':
       return products.sort((a, b) => b.rating - a.rating);
     default:
@@ -98,7 +98,7 @@ const ListGridSwitch = ({
     if (currentPage > totalPages) {
       setCurrentPage(1);
     }
-  }, [filteredProducts.length, totalPages, currentPage]);
+  }, [filteredProducts?.length, totalPages, currentPage]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {

@@ -19,7 +19,6 @@ export interface PageProps {
 // Function to generate metadata dynamically
 export async function generateMetadata({
   params,
-  searchParams,
 }: PageProps): Promise<Metadata> {
   const categoryName = decodeURIComponent(params.categoryName);
   return {

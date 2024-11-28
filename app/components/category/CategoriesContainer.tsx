@@ -5,7 +5,7 @@ import React from 'react'
 export default function CategoriesContainer({ categories }: any) {
   return (
     <div>
-      <div className='grid grid-cols-3 px-[2%] gap-y-7 pt-7'>
+      <div className='grid grid-cols-3 lg:grid-cols-5 px-[2%] gap-y-7 lg:gap-y-12 pt-7 pb-20'>
         {categories &&
           categories.map((category) => {
             return (
@@ -29,7 +29,7 @@ export default function CategoriesContainer({ categories }: any) {
 
                   </div>
 
-                  <p className='text-black max-w-[70px] mx-auto md:max-w-[200px] text-[10px] lg:text-base text-center hover:text-primary lg:text-[#222222]'>
+                  <p className='text-black max-w-[70px] mx-auto md:max-w-[200px] text-[10px] lg:text-sm text-center hover:text-primary lg:text-[#222222]'>
                     My {category.name}
                   </p>
                 </Link>

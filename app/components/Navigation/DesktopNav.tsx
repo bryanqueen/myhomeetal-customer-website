@@ -87,7 +87,7 @@ const DesktopNav = () => {
         <Link href='/'>
           <Logo variant={3} />
         </Link>
-        <NavDropdown
+        {/*<NavDropdown
           id='categories-dropdown'
           target='My Categories'
           items={categories.map((category) => ({
@@ -96,12 +96,18 @@ const DesktopNav = () => {
           }))}
           contentClassName='grid list-none gap-x-3 sm:grid-cols-[1fr_1fr_1fr] w-[50vw]'
           position='left-20'
-        />
+        /> */}
+        <Link
+          href='/categories'
+          className='font-clashmd whitespace-nowrap text-base text-myGray hover:text-[#8B1A1A]'
+        >
+          My Categories
+        </Link>
         <Link
           href='/deals'
           className='font-clashmd whitespace-nowrap text-base text-myGray hover:text-[#8B1A1A]'
         >
-          My  Deals
+          My Deals
         </Link>
         <Link
           href='/referral-page'

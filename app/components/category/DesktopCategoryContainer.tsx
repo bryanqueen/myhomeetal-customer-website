@@ -61,7 +61,7 @@ export default function DesktopCategoryContainer({
         <div className='sticky z-20 top-[80px] mb-5 flex items-center justify-between bg-white'>
           {products && (
             <p className='text-xs md:text-sm'>
-              Showing over {products.length} results for &quot;My {categoryName}
+              Showing over {products?.length} results for &quot;My {categoryName}
               &quot;
             </p>
           )}
@@ -205,14 +205,14 @@ export default function DesktopCategoryContainer({
             </div>
           </div>
           {/** Products container */}
-          {products && products.length > 0 ? (
+          {products && products?.length > 0 ? (
             <ListGridSwitch
               products={products}
               sortOption={sortOption}
               priceRange={priceRange}
               discountFilters={discountFilters}
             />
-          ) : products && products.length === 0 ? (
+          ) : products && products?.length === 0 ? (
             <div className='min-h-[70vh] flex items-center justify-center'>No products found</div>
           ) : (
             <DesktopCategorySkeleton />

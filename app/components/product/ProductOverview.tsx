@@ -63,12 +63,12 @@ const ProductOverview = ({ data, reviewData }: Props) => {
   const priceInNGN = sanitizeAndConvertPrice(data?.price);
 
   const calculateAverageRating = (reviewData: ReviewType[]) => {
-    const total = reviewData.reduce((sum, rev) => sum + rev.rating, 0);
-    return reviewData.length ? total / reviewData.length : 0;
+    const total = reviewData?.reduce((sum, rev) => sum + rev?.rating, 0);
+    return reviewData?.length ? total / reviewData?.length : 0;
   };
 
   const averageRating = calculateAverageRating(reviewData);
-  const reviewCount = reviewData.length;
+  const reviewCount = reviewData?.length;
 
   //fetch all saved items
   const fetchSavedItems = async () => {

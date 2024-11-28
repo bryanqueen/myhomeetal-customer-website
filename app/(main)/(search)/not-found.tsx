@@ -1,15 +1,11 @@
-import TopBanner from "@/app/components/banner/TopBanner";
-import MainFooter from "@/app/components/MainFooter";
-import Navigation from "@/app/components/Navigation";
 import VoidCard from "@/app/components/VoidCard";
-
 
 const NotFound = () => {
   return (
     <main>
-      <div className='flex min-h-[100vh] items-center justify-center'>
+      <div className='flex min-h-[100vh] max-lg:items-center justify-center lg:pt-[10%]'>
         <VoidCard
-          title="Product Not Found Oops!"
+          title="Oops, This product is unavailable"
           bodyText="We're sorry, but the product you're looking for is currently unavailable at the moment."
           btnText='Return to Home'
           link='/'

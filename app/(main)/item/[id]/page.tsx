@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import ProductHeader from '@/app/components/product/ProductHeader';
+//import ProductHeader from '@/app/components/product/ProductHeader';
 import ProductOverview from '@/app/components/product/ProductOverview';
 import productService from '@/app/services/productService';
 import ProductInformationNew from '@/app/components/product/ProductInformationNew';
@@ -68,8 +68,8 @@ export default async function page({ params }: { params: Params }) {
       console.error('Review fetch failed:', reviewRes.reason);
     }
 
-    console.log(data);
-    console.log(reviewData);
+    //console.log(data);
+    //console.log(reviewData);
   } catch (error) {
     console.error('Error fetching products:', error);
 

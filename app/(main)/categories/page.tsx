@@ -3,6 +3,7 @@ import SearchForm from '@/app/components/forms/SearchForm';
 import { notFound } from 'next/navigation';
 import React, { Suspense } from 'react'
 import Cookie from 'js-cookie';
+import CategoryList from '@/app/components/category/CategoryList';
 
 export default async function CategoriesPage() {
   let allCategories: any;
@@ -44,11 +45,14 @@ export default async function CategoriesPage() {
 
   return (
     <main className='pt-[165px] pb-20 lg:pt-0 min-h-[100vh]'>
+      <section className='fixed left-0 right-0 top-[83px] z-20 bg-white px-[3%] py-4 lg:hidden'>
+        <Suspense>
+          <SearchForm />
+        </Suspense>
+      </section>
       <section>
         <Suspense>
-          <div className='fixed left-0 right-0 top-[83px] z-20 bg-white px-[3%] py-4 lg:hidden'>
-            <SearchForm />
-          </div>
+          <CategoryList />
         </Suspense>
       </section>
       <section>

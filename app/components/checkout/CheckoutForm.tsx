@@ -109,9 +109,9 @@ const CheckoutForm: React.FC = () => {
           console.error('Address fetch failed:', addressRes.reason);
         }
         if (walletRes.status === 'fulfilled') {
-          if (walletRes.value.data.account_no) {
+          if (walletRes.value.data.wallet_details.account_no) {
             setHasWallet(true);
-            setWallet(walletRes.value.data);
+            setWallet(walletRes.value.data.wallet_details);
           } else {
             setHasWallet(false);
             setWallet(null);

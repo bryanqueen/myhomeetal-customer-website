@@ -13,18 +13,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { CartSummarySkeleton } from '../loader';
 import { useCart } from '@/app/CartProvider';
-import { useCartActions } from '@/app/utils/helpers';
+import { Wallet } from '@/types';
+//import { useCartActions } from '@/app/utils/helpers';
 
 interface Address {
   _id: string;
   deliveryAddress: string;
   phone_number: string;
   city: string;
-}
-
-interface wallet {
-  balance: number;
-  account_no: number;
 }
 
 interface DeliveryMethodProps {
@@ -35,7 +31,7 @@ interface DeliveryMethodProps {
   address: Address;
   selectedPayment: string;
   point: number;
-  wallet: wallet;
+  wallet: Wallet;
   hasWallet: boolean;
 }
 
@@ -53,14 +49,13 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   const { cartState } = useCart();
 
   // Sanitize and convert price to number
-  const sanitizeAndConvertPrice = (price: any): number => {
+  const sanitizeAndConvertPrice = (price: string | number | undefined): number => {
     if (typeof price === 'string') {
-      // Remove commas and parse to float
       const sanitizedPrice = price.replace(/,/g, '');
       const parsedPrice = parseFloat(sanitizedPrice);
-      return isNaN(parsedPrice) ? 0 : parsedPrice;
+      return !isNaN(parsedPrice) ? parsedPrice : 0;
     }
-    return typeof price === 'number' ? price : 0;
+    return typeof price === 'number' && !isNaN(price) ? price : 0;
   };
 
   const validItems = cartState.items?.map(item => ({
@@ -75,14 +70,10 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   }) || [];
 
   const total = cartState.items.reduce((total, item) => {
-    // Check if item and product are valid
-    if (item?.product && !isNaN(sanitizeAndConvertPrice(item?.product?.price))) {
-      // Convert price from string to number
-      const price = sanitizeAndConvertPrice(item?.product?.price);
-      const quantity = item.qty;
-      return total + (price * quantity);
+    if (item?.product) {
+      const price = sanitizeAndConvertPrice(item.product.price);
+      return total + price * item.qty;
     }
-    // If the item is invalid or price is not a number, skip this item
     return total;
   }, 0);
 
@@ -90,14 +81,14 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
     return total + item.qty;
   }, 0);
 
-  const VAT = total * 0.025; // Calculate 2.5% VAT
+  //const VAT = total * 0.025; // Calculate 2.5% VAT
   const router = useRouter();
   const { region } = useRegion();
   const [loading, setLoading] = useState(false);
   const [useMyPoints, setUseMyPoints] = useState(false);
   const [deliveryFee, setDeliveryFee] = useState(0);
   const [orderId, setorderId] = useState('');
-  const [totalAmount, setTotalAmount] = useState(total + deliveryFee + VAT);
+  const [totalAmount, setTotalAmount] = useState(total + deliveryFee);
   const [walletNotFound, setWalletNotFound] = useState(false);
   const [insufficient, setInsufficient] = useState(false);
   const [pointsUsed, setPointsUsed] = useState(0); // Track points used
@@ -172,7 +163,7 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
           router.push(`/checkout/online-payment?order=${orderId}-${useMyPoints ? pointsUsed : 0}`);
         } else {
           if (hasWallet) {
-            if (wallet.balance >= totalAmount) {
+            if (wallet.balance.balance >= totalAmount) {
               try {
                 const payload = {
                   orderId: orderId,
@@ -211,10 +202,15 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
 
   useEffect(() => {
     const newTotal = useMyPoints
-      ? Math.max(total + deliveryFee + VAT - point, 0)
-      : total + deliveryFee + VAT;
+      ? Math.max(total + deliveryFee - point, 0)
+      : total + deliveryFee;
     setTotalAmount(newTotal);
-  }, [total, deliveryFee, useMyPoints, point, VAT]);
+  }, [total, deliveryFee, useMyPoints, point]);
+
+
+  useEffect(() => {
+    setTotalAmount(total + deliveryFee);
+  }, [total, deliveryFee]);
 
 
   useEffect(() => {
@@ -367,14 +363,14 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
                   region={region}
                 />
               </div>
-              <div className='flex items-center justify-between text-xs text-myGray lg:text-base'>
+              {/*<div className='flex items-center justify-between text-xs text-myGray lg:text-base'>
                 <span>VAT</span>
                 <ProductPrice
                   priceInNGN={VAT}
                   className='font-clashmd '
                   region={region}
                 />
-              </div>
+              </div> */}
               {useMyPoints && (
                 <div className='flex items-center justify-between pt-3 text-xs text-myGray lg:text-base'>
                   <span>Mypoints</span>

@@ -6,24 +6,17 @@ import cn from 'classnames';
 import Link from 'next/link';
 import { ArrowRight } from 'iconsax-react';
 import { useRouter } from 'next/navigation';
-import algoliasearch from 'algoliasearch/lite';
+import debounce from 'lodash/debounce';
 
 import Input from '@components/Input';
 import Button from '@components/Button';
 import { ROUTES } from '@utils/routes';
 import { useDropdownContext } from '@/app/providers';
 
-interface QuerySuggestion {
-  query: string;
-  count: number;
+interface Suggestion {
+  suggestionText: string;
+  type: string;
 }
-
-const searchClient = algoliasearch(
-  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID ?? '',
-  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY ?? ''
-);
-
-const productsIndex = searchClient.initIndex('products');
 
 const SearchForm = () => {
   const id = 'search-dropdown';
@@ -49,18 +42,19 @@ const SearchForm = () => {
   }, [dropdown]);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [suggestions, setSuggestions] = useState<QuerySuggestion[]>([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
   const fetchSuggestions = useCallback(
     async (query: string) => {
       if (query) {
         try {
-          const result = await productsIndex.search<QuerySuggestion>(query, {
-            hitsPerPage: 8
-          });
-          const sortedSuggestions = result.hits.sort((a, b) => b.count - a.count);
-          setSuggestions(sortedSuggestions);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product/suggestions?query=${encodeURIComponent(query)}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch suggestions');
+          }
+          const data = await response.json();
+          setSuggestions(data);
         } catch (error) {
           console.error('Error fetching suggestions:', error);
           setSuggestions([]);
@@ -72,15 +66,20 @@ const SearchForm = () => {
     []
   );
 
+  const debouncedFetchSuggestions = useCallback(
+    debounce((query: string) => fetchSuggestions(query), 300),
+    [fetchSuggestions]
+  );
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
-    fetchSuggestions(query);
+    debouncedFetchSuggestions(query);
   };
 
   const handleRecentSearchClick = (search: string) => {
     setSearchQuery(search);
-    fetchSuggestions(search);
+    debouncedFetchSuggestions(search);
   };
 
   useEffect(() => {
@@ -173,9 +172,9 @@ const SearchForm = () => {
                 <Link
                   onClick={() => {
                     handleDropdownToggle(id, false);
-                    router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(suggestion.query)}`);
+                    router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(suggestion.suggestionText)}`);
                   }}
-                  href={`${ROUTES.SEARCH}?q=${encodeURIComponent(suggestion.query)}`}
+                  href={`${ROUTES.SEARCH}?q=${encodeURIComponent(suggestion.suggestionText)}`}
                   key={index}
                   className='flex truncate text-ellipsis overflow-hidden whitespace-nowrap items-center gap-3 text-sm text-[#656565] lg:text-base'
                 >
@@ -186,7 +185,7 @@ const SearchForm = () => {
                     width={15}
                     height={20}
                   />
-                  <span className='truncate text-ellipsis'>{suggestion.query}</span>
+                  <span className='truncate text-ellipsis'>{suggestion.suggestionText}</span>
                 </Link>
               )) : (
                 <div className='text-sm'>
@@ -221,3 +220,4 @@ const SearchForm = () => {
 };
 
 export default SearchForm;
+

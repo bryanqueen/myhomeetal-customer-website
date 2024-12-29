@@ -26,13 +26,7 @@ export const useLogin = () => {
   const loginMutate = useMutation(authService.login, {
     onSuccess: async (res: AxiosResponse<any>) => {
       const { data } = res;
-      setCookie('AUTH_TOKEN', data.token, {
-        maxAge: 60 * 60 * 24,
-        // httpOnly: true,
-        secure: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development',
-        sameSite: 'none',
-        path: '/',
-      });
+      setCookie(constants.AUTH_TOKEN, data.token, { maxAge: 60 * 60 * 24 }); // 1 day
       setCookie(constants.USER_INFO, JSON.stringify(data.userProfile), { maxAge: 60 * 60 * 24 }); // 1 day
       toast.success('Login successful. Redirecting...');
 

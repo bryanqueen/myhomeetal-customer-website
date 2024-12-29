@@ -213,7 +213,7 @@ const MainFooter: React.FC = () => {
         </div>
         <div className='mx-auto mt-20 w-fit'>
           <p className='mb-3 text-center font-clashmd text-xs text-black/50 lg:text-sm'>
-            JOIN US
+            FOLLOW US
           </p>
           <div className='flex space-x-4'>
             <a href='#' aria-label='Facebook'>

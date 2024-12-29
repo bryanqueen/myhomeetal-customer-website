@@ -5,7 +5,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 const AdBanner = () => {
-  const imageClass = 'h-full w-full lg:px-1 object-contain';
+  const imageClass = 'lg:h-[210px] w-full lg:px-1 lg:object-cover rounded-3xl';
 
   const responsive = {
     sm: {
@@ -16,7 +16,8 @@ const AdBanner = () => {
 
   const images = [
     '/images/deskban11.svg',
-    '/images/deskban22.svg',
+    // '/images/deskban22.svg',
+    '/images/desktopban2211.png',
     '/images/deskban33.svg',
   ];
   const mobileImages = [
@@ -42,23 +43,22 @@ const AdBanner = () => {
               <div key={index} className=''>
                 {targetLink ? (
                   <a href={targetLink}>
-                    <Image
+                    <img
                       className={imageClass}
                       src={src}
                       alt='Advert'
                       width={900}
                       height={500}
-                      priority
+
                     />
                   </a>
                 ) : (
-                  <Image
+                  <img
                     className={imageClass}
                     src={src}
                     alt='Advert'
                     width={900}
                     height={500}
-                    priority
                   />
                 )}
               </div>
@@ -86,7 +86,7 @@ const AdBanner = () => {
                       alt='Advert'
                       width={358}
                       height={200}
-                      priority
+
                     />
                   </a>
                 ) : (
@@ -96,7 +96,7 @@ const AdBanner = () => {
                     alt='Advert'
                     width={358}
                     height={200}
-                    priority
+
                   />
                 )}
               </div>

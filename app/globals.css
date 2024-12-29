@@ -24,6 +24,24 @@ a:not(.btn):hover {
   border-radius: 10px;
 }
 
+.phone-input-updated {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: none;
+  background-color: #F4F4F4;
+  border-radius: 16px;
+}
+
+.phone-input-updated input {
+  background-color: #F4F4F4;
+}
+
+.phone-input-updated input::placeholder {
+  color: #5E5E5E;
+  font-size: 12px;
+}
+
 .phone-input2 {
   width: 100%;
   padding: 10px;
@@ -32,12 +50,16 @@ a:not(.btn):hover {
   border-radius: 16px;
 }
 
-.phone-input-mobile {
+.phone-input-mobile  {
   width: 100%;
   padding: 5px;
   font-size: 12px;
   background:#f4f4f4;
   border-radius: 10px;
+}
+
+.phone-input-mobile  .PhoneInputCountry{
+ padding: 0px 10px;
 }
 .phone-input2-mobile {
   width: 100%;
@@ -344,5 +366,10 @@ input[type='checkbox']:checked::after {
   .icon-mobile {
     color: white;
     /* Example mobile color */
+  }
+
+  .phone-input-updated {
+    padding: 10px 10px;
+    border-radius: 16px;
   }
 }

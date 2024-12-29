@@ -77,7 +77,7 @@ const OTPForm: React.FC<OTPFormProps> = ({ redirectTo }) => {
             Enter verification code
           </h1>
           <p className='mx-auto max-w-[275.54px] text-center text-[10px] leading-[12.3px] lg:text-sm lg:leading-[16.93px]'>
-            We have sent a verification code to {email}
+            We have sent a verification code to {email} or <button className='text-primary underline'>switch to phone</button>
           </p>
           {/* {error && <p className='mb-2 text-center text-red-500'>{error}</p>} */}
 

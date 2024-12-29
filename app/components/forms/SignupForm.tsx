@@ -16,11 +16,13 @@ import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/16/solid';
 import ClientOnly from '../ClientOnly';
 import { useSearchParams } from 'next/navigation';
+import PhoneInputComponent from '../account/phoneNumber';
 
 interface Inputs {
   firstname: string;
   lastname: string;
   email: string;
+  phone: string;
   password: string;
   referralCode: string;
 }
@@ -30,6 +32,7 @@ const schema = yup
     firstname: yup.string().required().label('First Name'),
     lastname: yup.string().required().label('Last Name'),
     email: yup.string().email().required('Enter a valid email address'),
+    phone: yup.string().required('+234').label('Phone'),
     password: yup
       .string()
       .required()
@@ -50,6 +53,7 @@ const SignupForm = () => {
     resolver: yupResolver(schema) as any,
   });
   const { handleSignup, loading, error } = useSignup();
+  const [phone, setPhone] = useState<string>(''); // Add phone state
   const [showPassword, setShowPassword] = useState(false);
   const searchParams = useSearchParams();
   const code = decodeURIComponent(searchParams.get('code') || '');
@@ -91,6 +95,14 @@ const SignupForm = () => {
             labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
             inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
           />
+          <div>
+            <label className='font-clashmd text-xs text-black pl-3 lg:pl-0'>Phone Number</label>
+            <PhoneInputComponent
+              value={phone}
+              onChange={(value: string) => setPhone(value || '')} // Update phone state
+              className='phone-input-updated'
+            />
+          </div>
           <div className='hidden'>
             <Input
               type='text'
@@ -148,7 +160,7 @@ const SignupForm = () => {
           >
             <Image src='/icons/facebook.svg' width='20' height='20' alt='' />
           </Button>
-          <Button onClick={() => {signIn('google')}}
+          <Button onClick={() => { signIn('google') }}
             className='rounded-lg border-0 bg-[#FFE0E0] p-3 text-black shadow-none'
             fit
           >

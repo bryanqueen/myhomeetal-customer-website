@@ -45,7 +45,6 @@ export default async function CategoryPage({
       }
 
       productsByCategory = res.data;
-      console.log(productsByCategory);
     }
   } catch (error) {
     console.error('Error fetching products:', error);

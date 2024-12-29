@@ -28,7 +28,7 @@ export const useLogin = () => {
       const { data } = res;
       setCookie('AUTH_TOKEN', data.token, {
         maxAge: 60 * 60 * 24,
-        httpOnly: true,
+        // httpOnly: true,
         secure: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development',
         sameSite: 'none',
         path: '/',

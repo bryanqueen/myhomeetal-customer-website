@@ -13,7 +13,7 @@ const AdBanner3 = () => {
             <img
               src={src}
               alt='Advert'
-              className='w-full rounded-3xl'
+              className='w-full rounded-xl lg:rounded-3xl'
               loading='lazy'
             />
           </div>

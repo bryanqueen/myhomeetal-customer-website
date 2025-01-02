@@ -5,6 +5,7 @@ import SearchForm from '@/app/components/forms/SearchForm';
 import { DesktopCategorySkeleton, MobileCategorySkeleton } from '@/app/components/loader';
 import MobileCategoryContainer from '@/app/components/category/MobileCategoryContainer';
 import DesktopCategoryContainer from '@/app/components/category/DesktopCategoryContainer';
+import VoidCard from '@/app/components/VoidCard';
 
 function SearchContent() {
   const searchParams = useSearchParams();
@@ -55,7 +56,14 @@ function SearchContent() {
         {loading ? (
           <MobileCategorySkeleton />
         ) : error ? (
-          <div>{error}</div>
+          <div className='flex min-h-[50vh] max-lg:items-center justify-center lg:pt-[10%]'>
+            <VoidCard
+              title="Oops, This product is unavailable"
+              bodyText="We're sorry, but the product you're looking for is currently unavailable at the moment."
+              btnText='Return to Home'
+              link='/'
+            />
+          </div>
         ) : (
           <MobileCategoryContainer categoryName={query} products={searchResult} />
         )}
@@ -64,7 +72,14 @@ function SearchContent() {
         {loading ? (
           <DesktopCategorySkeleton />
         ) : error ? (
-          <div>{error}</div>
+          <div className='flex min-h-[50vh] max-lg:items-center justify-center lg:pt-[10%]'>
+            <VoidCard
+              title="Oops, This product is unavailable"
+              bodyText="We're sorry, but the product you're looking for is currently unavailable at the moment."
+              btnText='Return to Home'
+              link='/'
+            />
+          </div>
         ) : (
           <DesktopCategoryContainer categoryName={query} products={searchResult} />
         )}

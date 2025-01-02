@@ -15,7 +15,7 @@ const images = [
 const Mobimages = [
   '/images/mobileban111.svg',
   '/images/mobileban2.svg',
-  '/images/mobileban44.svg',
+  '/images/mobileban44.png',
   '/images/bb5.png',
   '/images/bb6.png',
   '/images/mobileban33.svg',
@@ -68,7 +68,7 @@ const AdBanner2 = () => {
         {Mobimages.map((src, index) => (
           <Image
             key={index}
-            className={`absolute w-full object-cover bottom-0 transition-opacity duration-700 ${currentSlide === index ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute w-full rounded-2xl h-[150px] object-cover bottom-0 transition-opacity duration-700 ${currentSlide === index ? 'opacity-100' : 'opacity-0'}`}
             style={{ zIndex: currentSlide === index ? 1 : 0 }}
             src={src}
             alt={`Advert ${currentSlide + 1}`}

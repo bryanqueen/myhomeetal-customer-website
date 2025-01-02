@@ -21,7 +21,7 @@ const AdBanner = () => {
     '/images/deskban33.svg',
   ];
   const mobileImages = [
-    '/images/mobss222.svg',
+    '/images/mobss22222.png',
     '/images/mobss111.svg',
     '/images/mobss333.svg',
   ];
@@ -90,8 +90,8 @@ const AdBanner = () => {
                     />
                   </a>
                 ) : (
-                  <Image
-                    className={imageClass}
+                  <img
+                    className="h-[217px] rounded-3xl w-full object-cover object-right"
                     src={src}
                     alt='Advert'
                     width={358}

@@ -15,7 +15,7 @@ const fetchTopCategories = async (token: string): Promise<CategoryType[]> => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        next: { revalidate: 3600 }, // Revalidate every 1 hour
+        next: { revalidate: 300 },
       }
     );
 
@@ -39,7 +39,7 @@ const fetchProductsForCategory = async (category: CategoryType, token: string): 
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        next: { revalidate: 3600 }, // Revalidate every 1 hour
+        next: { revalidate: 300 },
       }
     );
 

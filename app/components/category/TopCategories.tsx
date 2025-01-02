@@ -17,7 +17,7 @@ const fetchTopCategories = async (): Promise<CategoryType[]> => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        next: { revalidate: 3600 }, // Revalidate every 1 hour
+        next: { revalidate: 3000 },
       }
     );
 

@@ -1,51 +1,39 @@
+'use client';
 import CategoriesContainer from '@/app/components/category/CategoriesContainer';
 import SearchForm from '@/app/components/forms/SearchForm';
-import { notFound } from 'next/navigation';
-import React, { Suspense } from 'react'
-import Cookie from 'js-cookie';
+import React, { Suspense, useEffect, useState } from 'react';
 import CategoryList from '@/app/components/category/CategoryList';
+import productService from '@/app/services/productService';
 
-export default async function CategoriesPage() {
-  let allCategories: any;
+export default function CategoriesPage() {
+  const [allCategories, setAllCategories] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  try {
-    const token = Cookie.get('AUTH_TOKEN'); // Replace with your actual token
-
-    // Fetch product categories
-    const productCategoriesRes = await fetch(`${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}user/product-categories`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      cache: "no-store",
-    }).then((res) => res.json())
-      .catch(err => console.error('Product Categories Fetch Error:', err));
-
-    if (!productCategoriesRes) {
-      console.log('Product categories not found');
-      return notFound();
+  const fetchCategory = async () => {
+    setError(null);
+    try {
+      const response = await productService.getProductCategories();
+      if (response.status !== 200) {
+        throw new Error('Failed to fetch data');
+      }
+      console.log(response.data);
+      setAllCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setError('Failed to fetch categories. Please try again.');
+    } finally {
+      setLoading(false);
     }
+  };
 
-    allCategories = productCategoriesRes;
-
-  } catch (error) {
-    console.error('Error fetching products:', error);
-
-    if (
-      error instanceof Error &&
-      (error.message.includes('Network Error') ||
-        error.message.includes('timeout'))
-    ) {
-      console.error('Network error or timeout occurred:', error);
-      return notFound();
-    }
-
-    console.error('An unexpected error occurred:', error);
-    return notFound();
-  }
+  useEffect(() => {
+    fetchCategory();
+  }, []);
 
   return (
-    <main className='pt-[165px] pb-20 lg:pt-0 min-h-[100vh]'>
-      <section className='fixed left-0 right-0 top-[83px] z-20 bg-white px-[3%] py-4 lg:hidden'>
+    <main className="pt-[165px] pb-20 lg:pt-0 min-h-[100vh]">
+      <section className="fixed left-0 right-0 top-[83px] z-20 bg-white px-[3%] py-4 lg:hidden">
         <Suspense>
           <SearchForm />
         </Suspense>
@@ -56,9 +44,22 @@ export default async function CategoriesPage() {
         </Suspense>
       </section>
       <section>
-        <CategoriesContainer categories={allCategories} />
+        {loading ? (
+          <div className="flex justify-center min-h-[60vh] items-center mt-10">
+            <Spinner />
+          </div>
+        ) : error ? (
+          <p className="text-center mt-10 text-red-500">{error}</p>
+        ) : (
+          <CategoriesContainer categories={allCategories} />
+        )}
       </section>
-
     </main>
-  )
+  );
+}
+
+function Spinner() {
+  return (
+    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+  );
 }

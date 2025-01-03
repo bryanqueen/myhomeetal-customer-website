@@ -47,9 +47,11 @@ const SearchForm = () => {
 
   const fetchSuggestions = useCallback(
     async (query: string) => {
-      if (query) {
+      if (query.length > 2) {
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product/suggestions?query=${encodeURIComponent(query)}`);
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}product/suggestions?query=${encodeURIComponent(query)}`
+          );
           if (!response.ok) {
             throw new Error('Failed to fetch suggestions');
           }

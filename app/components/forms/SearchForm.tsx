@@ -187,7 +187,7 @@ const SearchForm = () => {
                 </Link>
               )}
 
-              {suggestions.length > 0 ? suggestions.slice(0, 7).map((suggestion, index) => (
+              {suggestions.length > 0 && suggestions.slice(0, 7).map((suggestion, index) => (
                 <Link
                   onClick={() => {
                     handleDropdownToggle(id, false);
@@ -205,7 +205,9 @@ const SearchForm = () => {
                   />
                   <span className='truncate text-ellipsis'>{suggestion.suggestionText}</span>
                 </Link>
-              )) : (
+              ))}
+
+              {suggestions.length < 1 && searchQuery.length < 1 && (
                 <div className='text-sm'>
                   No suggestions found
                 </div>

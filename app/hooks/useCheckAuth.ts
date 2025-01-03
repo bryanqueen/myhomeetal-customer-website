@@ -10,11 +10,11 @@ export class AuthError extends Error {
 
 export async function verifyAuth(token: string) {
   try {
-    if (!process.env.JWT_SECRET) {
+    if (!process.env.NEXT_PUBLIC_JWT_SECRET) {
       throw new AuthError('JWT_SECRET is not defined');
     }
 
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
     const exp = payload.exp as number;
     const expBuffer = 5 * 60 * 1000;

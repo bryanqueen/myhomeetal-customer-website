@@ -168,11 +168,29 @@ const SearchForm = () => {
               Suggested Products
             </p>
             <div className='grid gap-3'>
-              {suggestions.length > 0 ? suggestions.map((suggestion, index) => (
+              {searchQuery.length > 0 && (
                 <Link
                   onClick={() => {
                     handleDropdownToggle(id, false);
-                    router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(suggestion.suggestionText)}`);
+                  }}
+                  href={`${ROUTES.SEARCH}?q=${encodeURIComponent(searchQuery)}`}
+                  className='flex truncate text-ellipsis overflow-hidden whitespace-nowrap items-center gap-3 text-sm text-[#656565] lg:text-base'
+                >
+                  <Image
+                    className='min-w-[15px]'
+                    src='/icons/search.svg'
+                    alt='Search'
+                    width={15}
+                    height={20}
+                  />
+                  <span className='truncate text-ellipsis'>{searchQuery}</span>
+                </Link>
+              )}
+
+              {suggestions.length > 0 ? suggestions.slice(0, 7).map((suggestion, index) => (
+                <Link
+                  onClick={() => {
+                    handleDropdownToggle(id, false);
                   }}
                   href={`${ROUTES.SEARCH}?q=${encodeURIComponent(suggestion.suggestionText)}`}
                   key={index}

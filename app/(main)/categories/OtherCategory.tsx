@@ -116,7 +116,7 @@ const OtherCategory:React.FC<OtherCategoryProps> = ({title}) => {
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 px-4 md:px-8 lg:px-0 mt-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 px-4 md:px-8 lg:px-0 mt-6">
         {allProducts.slice(0, visibleProducts).map((product) => (
           <div
             key={product.id}

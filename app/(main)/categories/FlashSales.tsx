@@ -115,7 +115,7 @@ const FlashSales:React.FC = () => {
         <div className="text-base font-medium text-white flex items-center gap-3">
          <Image src={flashSalesImg} alt='flashSales' className='object-contain' />  Flash Sales
         </div>
-        <p className='text-white'>Time Left: 23h : 08m : 17s</p>
+        <p className='text-white'>Time Left: 23h : 08m : 17s</p>
         <div
           onClick={handleSeeMore}
           className="text-base font-medium text-white hover:underline hover:cursor-pointer"

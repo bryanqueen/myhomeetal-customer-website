@@ -6,8 +6,8 @@ import PersonalInformationForm from '@/app/components/account/PersonalInformatio
 import productService from '@/app/services/productService';
 import { constants } from '@/app/utils/constants';
 import { useEffect, useState } from 'react';
-import { notFound, useRouter } from 'next/navigation';
-import { getCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 import { HomeSkeleton } from '@/app/components/loader';
 
@@ -18,8 +18,8 @@ export default function AccountPage() {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const userCookie = getCookie('USER_INFO');
-      const authToken = getCookie(constants.AUTH_TOKEN);
+      const userCookie = Cookies.get('USER_INFO');
+      const authToken = Cookies.get(constants.AUTH_TOKEN);
 
       if (!userCookie || !authToken) {
         console.log('User info or authorization token is missing');
@@ -64,9 +64,9 @@ export default function AccountPage() {
     return <HomeSkeleton />;
   }
 
-  if (!userInfo) {
-    return notFound();
-  }
+  // if (!userInfo) {
+  //   return notFound();
+  // }
 
   return (
     <main className='px-[3%] lg:px-0'>
@@ -77,13 +77,13 @@ export default function AccountPage() {
           variant='ghost'
         >
           <span className='flex items-center'>
-          <ArrowLeftIcon
-            width={17}
-            className=' mr-[2px] mt-[-1px] lg:mr-1 lg:mt-[-3px]'
-          />
-          Back
+            <ArrowLeftIcon
+              width={17}
+              className=' mr-[2px] mt-[-1px] lg:mr-1 lg:mt-[-3px]'
+            />
+            Back
           </span>
-          
+
         </Button>
         <p className='text-center font-clashmd text-xs text-myGray lg:hidden'>
           Personal Info

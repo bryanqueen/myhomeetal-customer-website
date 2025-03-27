@@ -1,15 +1,24 @@
-import React from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Button from '../Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
-import { headers } from 'next/headers';
 
 export default function Back() {
-  const headersList = headers();
-  const previousPath = headersList.get('referer') || '';
+  const searchParams = useSearchParams();
+  const [previousPath, setPreviousPath] = useState('');
+
+  useEffect(() => {
+    const referer = searchParams.get('referer');
+    if (referer) {
+      setPreviousPath(decodeURIComponent(referer));
+    }
+  }, [searchParams]);
   return (
     <div className='hidden sticky top-20 bg-white z-20 items-center pl-4 pt-5 lg:flex'>
       <Button
-        href={previousPath}
+        href={previousPath || '/'}
         className='justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
         linkType='rel'
         variant='ghost'

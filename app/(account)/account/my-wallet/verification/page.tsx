@@ -1,23 +1,27 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Verification from '@/app/components/account/verificationProcess';
 import StepsIndicator from '@/app/components/account/wallet/StepIndicator';
 import Button from '@/app/components/Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
-import { Metadata } from 'next';
-import { headers } from 'next/headers';
-import { Suspense } from 'react';
-
-export const metadata: Metadata = {
-  title: 'Verify OTP | Myhomeetal',
-};
 
 export default function VerificationPage() {
-  const headersList = headers();
-  const previousPath = headersList.get('referer') || '';
+  const searchParams = useSearchParams();
+  const [previousPath, setPreviousPath] = useState('');
+
+  useEffect(() => {
+    const referer = searchParams.get('referer');
+    if (referer) {
+      setPreviousPath(decodeURIComponent(referer));
+    }
+  }, [searchParams]);
   return (
     <main className='px-[3%] pb-20 lg:px-0'>
       <div className='sticky top-[83px] z-20 flex items-center justify-center bg-white py-5 pl-1 lg:hidden'>
         <Button
-          href={previousPath}
+          href={previousPath || '/'}
           className='absolute left-[2%] justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
           linkType='rel'
           variant='ghost'
@@ -41,9 +45,7 @@ export default function VerificationPage() {
         </div>
       </div>
       <div className='mt-20'>
-        <Suspense>
           <Verification />
-        </Suspense>
       </div>
     </main>
   );

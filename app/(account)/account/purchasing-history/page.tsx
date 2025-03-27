@@ -1,21 +1,28 @@
-import PurchasingHistory from '@/app/components/account/PurchasingHistory';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Button from '@/app/components/Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
-import { Metadata } from 'next';
-import { headers } from 'next/headers';
+import PurchasingHistory from '@/app/components/account/PurchasingHistory';
 
-export const metadata: Metadata = {
-  title: 'Purchasing History | Myhomeetal',
-};
 
 export default function PurchasingHistoryPage() {
-  const headersList = headers();
-  const previousPath = headersList.get('referer') || '';
+  const searchParams = useSearchParams();
+  const [previousPath, setPreviousPath] = useState('');
+
+  useEffect(() => {
+    const referer = searchParams.get('referer');
+    if (referer) {
+      setPreviousPath(decodeURIComponent(referer));
+    }
+  }, [searchParams]);
+
   return (
     <main className='px-[3%] pb-10 lg:px-0'>
       <div className='sticky top-[83px] z-20 flex items-center justify-center bg-white py-5 pl-1 lg:hidden'>
         <Button
-          href={previousPath}
+          href={previousPath || '/'}
           className='absolute left-[2%] justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
           linkType='rel'
           variant='ghost'

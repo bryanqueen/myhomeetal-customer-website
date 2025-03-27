@@ -6,6 +6,7 @@ import productService from '@/app/services/productService';
 import ProductInformationNew from '@/app/components/product/ProductInformationNew';
 import AddToCartPopup from '@/app/components/popups/AddToCartPopup';
 import toast from 'react-hot-toast';
+import { api } from '@/app/utils/api';
 
 type Params = {
   id: string;
@@ -47,8 +48,13 @@ export default async function page({ params }: { params: Params }) {
 
   try {
     const [res, reviewRes] = await Promise.allSettled([
-      productService.getProductDetail(params.id),
-      productService.getReview(params.id),
+      fetch(`${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}${api.PRODUCTS}${params.id}`, {
+        next: { revalidate: 60 },
+      }).then((response) => response.json()),
+
+      fetch(`${process.env.NEXT_PUBLIC_V1_BASE_API_URL as string}${api.REVIEW}${params.id}`, {
+        next: { revalidate: 60 },
+      }).then((response) => response.json()),
     ]);
 
     if (!res) {
@@ -57,13 +63,13 @@ export default async function page({ params }: { params: Params }) {
     }
 
     if (res.status === 'fulfilled') {
-      data = res?.value?.data;
+      data = res?.value;
     } else {
       console.error('Product detail fetch failed:', res.reason);
     }
 
     if (reviewRes.status === 'fulfilled') {
-      reviewData = reviewRes?.value?.data;
+      reviewData = reviewRes?.value;
     } else {
       console.error('Review fetch failed:', reviewRes.reason);
     }

@@ -1,22 +1,28 @@
-import SaveItems from '@/app/components/account/SaveItems';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Button from '@/app/components/Button';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
-import { Metadata } from 'next';
-import { headers } from 'next/headers';
+import SaveItems from '@/app/components/account/SaveItems';
 // import NoHistory from '@/app/components/account/NoHistory';
 
-export const metadata: Metadata = {
-  title: 'Saved Items | Myhomeetal',
-};
 
 function SavedItemsPage() {
-  const headersList = headers();
-  const previousPath = headersList.get('referer') || '';
+  const searchParams = useSearchParams();
+  const [previousPath, setPreviousPath] = useState('');
+
+  useEffect(() => {
+    const referer = searchParams.get('referer');
+    if (referer) {
+      setPreviousPath(decodeURIComponent(referer));
+    }
+  }, [searchParams]);
   return (
     <main className='mx-[3%] lg:mx-0 pb-20'>
       <div className='sticky top-[83px] z-20 flex items-center justify-center bg-white py-5 pl-1 lg:hidden'>
         <Button
-          href={previousPath}
+          href={previousPath || '/'}
           className='absolute left-[2%] justify-start font-clashmd text-xs text-myGray lg:justify-center lg:font-clash lg:text-sm'
           linkType='rel'
           variant='ghost'

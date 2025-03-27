@@ -22,7 +22,7 @@ interface Inputs {
   firstname: string;
   lastname: string;
   email: string;
-  phone: string;
+  //phone: string;
   password: string;
   referralCode: string;
 }
@@ -32,7 +32,7 @@ const schema = yup
     firstname: yup.string().required().label('First Name'),
     lastname: yup.string().required().label('Last Name'),
     email: yup.string().email().required('Enter a valid email address'),
-    phone: yup.string().required('+234').label('Phone'),
+    //phone: yup.string().required('+234').label('Phone'),
     password: yup
       .string()
       .required()
@@ -53,7 +53,7 @@ const SignupForm = () => {
     resolver: yupResolver(schema) as any,
   });
   const { handleSignup, loading, error } = useSignup();
-  const [phone, setPhone] = useState<string>(''); // Add phone state
+  //const [phone, setPhone] = useState<string>(''); // Add phone state
   const [showPassword, setShowPassword] = useState(false);
   const searchParams = useSearchParams();
   const code = decodeURIComponent(searchParams.get('code') || '');
@@ -95,14 +95,14 @@ const SignupForm = () => {
             labelClassName='font-clashmd text-xs text-black pl-3 lg:pl-0'
             inputClassName='rounded-[16px] bg-[#F4F4F4] placeholder:text-xs placeholder:text-[#5E5E5E]'
           />
-          <div>
+          {/* <div>
             <label className='font-clashmd text-xs text-black pl-3 lg:pl-0'>Phone Number</label>
             <PhoneInputComponent
               value={phone}
               onChange={(value: string) => setPhone(value || '')} // Update phone state
               className='phone-input-updated'
             />
-          </div>
+          </div> */}
           <div className='hidden'>
             <Input
               type='text'

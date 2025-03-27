@@ -93,6 +93,38 @@ const OrderSummary: React.FC<DeliveryMethodProps> = ({
   const [insufficient, setInsufficient] = useState(false);
   const [pointsUsed, setPointsUsed] = useState(0); // Track points used
 
+
+  const calculateDeliveryFee = async () => {
+    //setLoading(true);
+    try {
+      const response = await fetch('https://api.clicknship.com.ng/clicknship/Operations/DeliveryFee', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer YOUR_ACCESS_TOKEN`, // Replace with your actual token
+        },
+        body: JSON.stringify({
+          Origin: 'IBADAN',
+          Destination: 'ABUJA',
+          Weight: '1.5',
+          PickupType: '1', // or '2' for DropOff
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch delivery fee');
+      }
+
+      const data = await response.json();
+      setDeliveryFee(data.TotalAmount);
+    } catch (error) {
+      console.error('Error fetching delivery fee:', error);
+      toast.error('Sorry, an error occurred while calculating the delivery fee. Please try again!');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const clear = () => {
     setFirstStageCompleted(false);
   };

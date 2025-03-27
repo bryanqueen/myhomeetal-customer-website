@@ -37,7 +37,10 @@ function CheckoutPage() {
           Back
         </button>
       </div>
-      <CheckoutForm />
+      <div className='px-[3%]'>
+        <h1 className='mb-10 mt-5 font-clashmd text-3xl hidden lg:block'>Checkout process</h1>
+        <CheckoutForm />
+      </div>
     </main>
   );
 }

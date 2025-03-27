@@ -36,34 +36,34 @@ export const useLogin = () => {
       // Notify the user
       toast.success("Login successful. Redirecting...");
 
-      try {
-        // Authenticate with StarnetPro API
-        const starnetProResponse = await axios.post(
-          "https://api.clicknship.com.ng/Token",
-          {
-            username: "cnsdemoapiacct", // Replace with your merchant username
-            password: "ClickNShip$12345", // Replace with your merchant password
-            grant_type: "password",
-          },
-          {
-            headers: { "Content-Type": "application/x-www-form-urlencoded", 'Access-Control-Allow-Origin': '*' },
-          }
-        );
+      // try {
+      //   // Authenticate with StarnetPro API
+      //   const starnetProResponse = await axios.post(
+      //     "https://api.clicknship.com.ng/Token",
+      //     {
+      //       username: "cnsdemoapiacct", // Replace with your merchant username
+      //       password: "ClickNShip$12345", // Replace with your merchant password
+      //       grant_type: "password",
+      //     },
+      //     {
+      //       headers: { "Content-Type": "application/x-www-form-urlencoded", 'Access-Control-Allow-Origin': '*' },
+      //     }
+      //   );
 
-        // Save the StarnetPro token
-        console.log("starnetProResponse", starnetProResponse);
-        const starnetProToken = starnetProResponse.data.token;
-        setCookie("STARNETPRO_TOKEN", starnetProToken, {
-          maxAge: 60 * 60 * 24,
-        }); // 1 day
+      //   // Save the StarnetPro token
+      //   console.log("starnetProResponse", starnetProResponse);
+      //   const starnetProToken = starnetProResponse.data.token;
+      //   setCookie("STARNETPRO_TOKEN", starnetProToken, {
+      //     maxAge: 60 * 60 * 24,
+      //   }); // 1 day
 
-        console.log("StarnetPro token saved successfully");
-      } catch (error) {
-        console.error("Error authenticating with StarnetPro:", error);
-        toast.error(
-          "Failed to authenticate with StarnetPro. Please try again."
-        );
-      }
+      //   console.log("StarnetPro token saved successfully");
+      // } catch (error) {
+      //   console.error("Error authenticating with StarnetPro:", error);
+      //   toast.error(
+      //     "Failed to authenticate with StarnetPro. Please try again."
+      //   );
+      // }
 
       // Redirect the user
       router.push(callbackUrl || ROUTES.HOME);
